@@ -169,8 +169,9 @@ class Ridge(BaseEstimator, RegressorMixin):
                 raise ValueError('sigma must be positive or default (None)')
         if self.theta < 0:
             raise ValueError('theta must be positive')
-        if self.period < 0:  # This pass if self.period is a string
-            raise ValueError('period must be positive')
+        if self.period is not str:
+            if self.period < 0:  # This pass if self.period is a string
+                raise ValueError('period must be positive')
         # TODO, add supported solver check
 
     def _default_decomposable_op(self, y):

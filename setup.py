@@ -18,10 +18,10 @@ except ImportError:
     print('scipy is required during installation')
     sys.exit(1)
 
-setup(name='sklearn-template',
+setup(name='operalib',
       version='0.0.3',
-      description='A template for scikit-learn compatible packages',
-      author='Vighnesh Birodkar',
+      description='Learning with operator-valued kernels',
+      author='Romain Brault',
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
       author_email='vighneshbirodkar@nyu.edu',

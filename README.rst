@@ -1,9 +1,12 @@
 .. -*- mode: rst -*-
 
-|Travis|_ |Python27|_ |Python35|_
+|Travis|_ |Coveralls|_ |Python27|_ |Python35|_
 
 .. |Travis| image:: https://travis-ci.org/RomainBrault/operalib.svg?branch=master
-.. _Travis: https://travis-ci.org/scikit-learn/scikit-learn
+.. _Travis: https://travis-ci.org/RomainBrault/operalib
+
+.. |Coveralls| image:: https://coveralls.io/repos/github/RomainBrault/operalib/badge.svg?branch=master
+.. _Coveralls: https://coveralls.io/github/RomainBrault/operalib?branch=master
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
 .. _Python27: https://badge.fury.io/py/scikit-learn

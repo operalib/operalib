@@ -5,18 +5,42 @@ cache:
   # We use three different cache directory
   # to work around a Travis bug with multi-platform cache
   directories:
+  - $HOME/operalib_build_ubuntu
+  - $HOME/operalib_build_oldest
+  - $HOME/operalib_build_latest
+  - $HOME/operalib_build_numpy_dev
   - $HOME/.cache/pip
   - $HOME/download
 env:
   global:
     # Directory where tests are run from
     - TEST_DIR=/tmp/test_dir/
-    - MODULE=skltemplate
+    - MODULE=operalib
   matrix:
-    - DISTRIB="conda" PYTHON_VERSION="2.7"
+    - DISTRIB="ubuntu" PYTHON_VERSION="2.7" COVERAGE="true"
+      CYTHON_VERSION="0.23.4"
+      CACHED_BUILD_DIR="$HOME/operalib_build_ubuntu"
+    - DISTRIB="conda" PYTHON_VERSION="2.6" COVERAGE="true"
       NUMPY_VERSION="1.6.2" SCIPY_VERSION="0.11.0" CYTHON_VERSION="0.21"
+      CACHED_BUILD_DIR="$HOME/operalib_build_oldest"
     - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
-      NUMPY_VERSION="1.10.1" SCIPY_VERSION="0.16.0" CYTHON_VERSION="0.23.4"
+      NUMPY_VERSION="1.10.2" SCIPY_VERSION="0.16.1" CYTHON_VERSION="0.23.4"
+      CACHED_BUILD_DIR="$HOME/operalib_build_latest"
+
+matrix:
+  include:
+    # This environment tests scikit-learn against numpy and scipy master
+    # installed from their CI wheels in a virtualenv with the Python
+    # interpreter provided by travis.
+    # Note: libatlas3gf-base is not allowed yet so we need 'sudo':
+    # https://github.com/travis-ci/apt-package-whitelist/issues/2407
+    # Once libatlas3gf-base is on the whitelist it will be possible to replace
+    # the before_install step with and addons/apt/packages declaration.
+    -  python: 3.5
+       env: DISTRIB="scipy-dev-wheels"
+            CACHED_BUILD_DIR="$HOME/operalib_build_numpy_dev"
+       sudo: True
+       before_install: sudo apt-get install -yqq libatlas3gf-base libatlas-dev
 
 install: source ci_scripts/install.sh
 script: bash ci_scripts/test.sh

@@ -169,7 +169,7 @@ class Ridge(BaseEstimator, RegressorMixin):
                 raise ValueError('sigma must be positive or default (None)')
         if self.theta < 0:
             raise ValueError('theta must be positive')
-        if self.period is not str:
+        if isinstance(self.period, (int, long, float)):
             if self.period < 0:
                 raise ValueError('period must be positive')
         # TODO, add supported solver check
@@ -186,8 +186,11 @@ class Ridge(BaseEstimator, RegressorMixin):
         if self.period is 'autocorr':
             autocorr_params = self.autocorr_params or {}
             return _get_period(X, y, **autocorr_params)
-        else:
+        elif isinstance(self.period, (int, long, float)):
             return self.period
+        else:
+            raise ValueError('period must be a positive number or a valid \
+                string')
 
     def _get_kernel_map(self, X, y):
         # When adding a new kernel, update this table and the _get_kernel_map

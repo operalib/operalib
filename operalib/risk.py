@@ -9,7 +9,10 @@ Module :mod:`sklearn.ovk.risk` implements risk model and their gradients.
 from numpy.linalg import norm
 from numpy import inner
 
+
 class KernelRidgeRisk(object):
+    """Define Kernel ridge risk and its gradient.
+    """
 
     def __init__(self, lbda):
         self.lbda = lbda

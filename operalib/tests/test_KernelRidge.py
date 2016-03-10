@@ -59,14 +59,14 @@ def test_ridge_grad_cov():
 
 
 def test_learn_periodic_id():
-    """Test ovk estimator fit, predict. A=Id."""
+    """Test ovk periodic estimator fit, predict. A=Id."""
     regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=2 * pi, theta=.99)
     regr_1.fit(X, y)
     assert regr_1.score(X_test, y_t) > 0.9
 
 
 def test_learn_periodic_cov():
-    """Test ovk estimator fit, predict. A=cov(y.T)."""
+    """Test ovk periodic estimator fit, predict. A=cov(y.T)."""
     A = cov(y.T)
     regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=2 * pi, theta=.99, A=A)
     regr_1.fit(X, y)
@@ -74,7 +74,7 @@ def test_learn_periodic_cov():
 
 
 def test_learn_gauss_cov():
-    """Test ovk estimator fit, predict. A=cov(y.T)."""
+    """Test ovk gaussian estimator fit, predict. A=cov(y.T)."""
     A = cov(y.T)
     regr_1 = ovk.Ridge('DGauss', lbda=0.01, gamma=0.1, A=A)
     regr_1.fit(X, y)

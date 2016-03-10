@@ -2,7 +2,7 @@
 
 |Travis|_ |Python27|_ |Python35|_
 
-.. |Travis| image:: https://travis-ci.org/RomainBrault/scikit-learn.svg?branch=master
+.. |Travis| image:: https://travis-ci.org/RomainBrault/operalib.svg?branch=master
 .. _Travis: https://travis-ci.org/scikit-learn/scikit-learn
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg

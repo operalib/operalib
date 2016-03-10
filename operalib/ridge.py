@@ -13,8 +13,9 @@ from numpy import reshape, eye, zeros
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
 from sklearn.utils.validation import check_is_fitted
-from sklearn.metrics.pairwise import rbf_kernel, first_periodic_kernel
+from sklearn.metrics.pairwise import rbf_kernel
 
+from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel
 from .risk import KernelRidgeRisk
 from .optional import _get_period

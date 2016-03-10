@@ -25,14 +25,36 @@ kernel methods. Operalib is designed for compatilibity to
 It utilises [Numpy](http://www.numpy.org/), and
 [Scipy](http://www.scipy.org/) as underlying libraries.
 
-For structured learning using max-margin methods,
-conditional random fields or structured SVM's check the excellent
-[PyStruct](https://pystruct.github.io) library.
-
 The project is developed by the
 [AROBAS](https://www.ibisc.univ-evry.fr/arobas) group of the
 [IBISC laboratory](https://www.ibisc.univ-evry.fr/en/start) of the
 University of Evry, France.
+
+Install
+=======
+This package uses distutils, which is the default way of installing
+python modules. To install in your home directory, use::
+
+  python setup.py install --user
+
+To install for all users on Unix/Linux::
+
+  python setup.py build
+  sudo python setup.py install
+
+For more detailed installation instructions,
+see the web page http://scikit-learn.org/stable/install.html
+
+GIT
+~~~
+
+You can check the latest sources with the command::
+
+    git clone https://github.com/RomainBrault/operalib.git
+
+or if you have write privileges::
+
+    git clone git@github.com:RomainBrault/operalib.git
 
 References
 ========

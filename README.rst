@@ -9,10 +9,10 @@
 .. _Coveralls: https://coveralls.io/github/RomainBrault/operalib?branch=master
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/scikit-learn
+.. _Python27: https://github.com/RomainBrault/operalib
 
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
-.. _Python35: https://badge.fury.io/py/scikit-learn
+.. _Python35: https://github.com/RomainBrault/operalib
 
 operalib
 ========

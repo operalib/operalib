@@ -29,11 +29,13 @@ Cov = cholesky(Sigma)
 y += dot(randn(y.shape[0], y.shape[1]), Cov.T)
 
 
-def _test_valid_estimator():
+def test_valid_estimator():
+    """Test whether ovk.Ridge is a valid sklearn estimator."""
     check_estimator(ovk.Ridge)
 
 
-def _test_ridge_grad_id():
+def test_ridge_grad_id():
+    """Test ovk.KernelRidgeRisk gradient with finite differences."""
     K = ovk.DecomposableKernel(A=eye(2))
     risk = ovk.KernelRidgeRisk(0.01)
     check_grad(lambda *args: risk.functional_grad_val(*args)[0],
@@ -42,7 +44,8 @@ def _test_ridge_grad_id():
                y.ravel(), K(X, X))
 
 
-def _test_ridge_grad_cov():
+def test_ridge_grad_cov():
+    """Test ovk.KernelRidgeRisk gradient with finite differences."""
     K = ovk.DecomposableKernel(A=eye(2))
     risk = ovk.KernelRidgeRisk(0.01)
     check_grad(lambda *args: risk.functional_grad_val(*args)[0],

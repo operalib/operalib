@@ -245,10 +245,11 @@ class Ridge(BaseEstimator, RegressorMixin):
         solver_params = self.solver_params or {}
 
         self.linop_ = self._get_kernel_map(X, y)
+        Gram = self.linop_(X)
         risk = KernelRidgeRisk(self.lbda)
         self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
-                                         zeros(X.shape[0] * y.shape[1]),
-                                         args=(y.ravel(), self.linop_(X)),
+                                         zeros(Gram.shape[1]),
+                                         args=(y.ravel(), Gram),
                                          *solver_params)
         self.dual_coefs_ = self.solver_res_[0]
         return self

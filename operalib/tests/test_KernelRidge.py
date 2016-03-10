@@ -38,17 +38,17 @@ def test_ridge_grad_id():
     """Test ovk.KernelRidgeRisk gradient with finite differences."""
     K = ovk.DecomposableKernel(A=eye(2))
     risk = ovk.KernelRidgeRisk(0.01)
-    check_grad(lambda *args: risk.functional_grad_val(*args)[0],
-               lambda *args: risk.functional_grad_val(*args)[1],
-               rand(X.shape[0] * y.shape[1]),
-               y.ravel(), K(X, X))
+    assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
+                      lambda *args: risk.functional_grad_val(*args)[1],
+                      rand(X.shape[0] * y.shape[1]),
+                      y.ravel(), K(X, X)) < 1e-5
 
 
 def test_ridge_grad_cov():
     """Test ovk.KernelRidgeRisk gradient with finite differences."""
     K = ovk.DecomposableKernel(A=eye(2))
     risk = ovk.KernelRidgeRisk(0.01)
-    check_grad(lambda *args: risk.functional_grad_val(*args)[0],
-               lambda *args: risk.functional_grad_val(*args)[1],
-               rand(X.shape[0] * y.shape[1]),
-               y.ravel(), K(X, X))
+    assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
+                      lambda *args: risk.functional_grad_val(*args)[1],
+                      rand(X.shape[0] * y.shape[1]),
+                      y.ravel(), K(X, X)) < 1e-5

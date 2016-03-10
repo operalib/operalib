@@ -11,6 +11,8 @@
 # matrix entry) from which we pull from local Travis repository. This allows
 # us to keep build artefact for gcc + cython, and gain time
 
+set -e
+
 # Fix the compilers to workaround avoid having the Python 3.4 build
 # lookup for g++44 unexpectedly.
 export CC=gcc
@@ -19,10 +21,6 @@ export CXX=g++
 echo 'List files from cached directories'
 echo 'pip:'
 ls $HOME/.cache/pip
-
-# Deactivate the travis-provided virtual environment and setup a
-# conda-based environment instead
-deactivate
 
 if [[ "$DISTRIB" == "conda" ]]; then
     # Deactivate the travis-provided virtual environment and setup a

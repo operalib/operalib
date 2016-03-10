@@ -16,16 +16,16 @@
 
 operalib
 ========
-Operalib is a structured learning and prediction library for
-`python <https://www.python.org>`_ utilising operator-valued kernels (OVKs).
-OVKs are an extension of scalar kernels into matrix-valued kernels,
-allowing prediction of several targets simultaneously while, for instance,
+Operalib is a library for structured learning and prediction for
+`python <https://www.python.org>`_ based on operator-valued kernels (OVKs).
+OVKs are an extension of scalar kernels to matrix-valued kernels.
+The idea is to predict silmultaneously several targets while, for instance,
 encoding the output structure with the operator-valued kernel.
 
 We aim at providing an easy-to-use standard implementation of operator-valued
 kernel methods. Operalib is designed for compatilibity to
 `scikit-learn <http://scikit-learn.org>`_ interface and conventions.
-It utilises `numpy <http://www.numpy.org>`_, and
+It uses `numpy <http://www.numpy.org>`_, and
 `scipy <http://www.scipy.org>`_ as underlying libraries.
 
 The project is developed by the

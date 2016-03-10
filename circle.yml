@@ -8,7 +8,7 @@ machine:
     DOC_REPO: "operalib"
 
     # The base URL for the Github page where the documentation will be hosted
-    DOC_URL: ""
+    DOC_URL: "documentation"
 
     # The email is to be used for commits in the Github Page
     EMAIL: "ro.brault@gmail.com"

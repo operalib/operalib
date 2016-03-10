@@ -10,7 +10,7 @@ An example to illustrate multi-output regression with operator-valiued kernels.
 #         the scikit-learn community.
 # License: MIT
 
-from sklearn import ovk
+import operalib as ovk
 from sklearn.tree import DecisionTreeRegressor
 
 import numpy as np
@@ -21,10 +21,10 @@ print(__doc__)
 
 seed = np.random.randint(100000)
 np.random.seed(seed)
-print seed
+print(seed)
 
 # Create a random dataset
-print "Creating dataset..."
+print("Creating dataset...")
 X = 200 * np.random.rand(1000, 1) - 100
 y = np.array([np.pi * np.sin(X).ravel(), np.pi * np.cos(X).ravel()]).T
 Tr = 2 * np.random.rand(2, 2) - 1
@@ -43,51 +43,51 @@ y += np.dot(np.random.randn(y.shape[0], y.shape[1]), Cov.T)
 # Fit
 # real period is 2 * pi \approx 6.82, but we set the period to 6 for
 # demonstration purpose
-print "Fitting..."
+print("Fitting...")
 start = time.time()
 A = np.eye(2)
 regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
 regr_1.fit(X, y)
-print "LTime OVK ID: ", time.time() - start
+print("LTime OVK ID: ", time.time() - start)
 
 start = time.time()
 A = np.cov(y.T) / np.linalg.norm(np.cov(y.T))
 
 regr_2 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
 regr_2.fit(X, y)
-print "LTime OVK cov: ", time.time() - start
+print("LTime OVK cov: ", time.time() - start)
 
 start = time.time()
 regr_3 = DecisionTreeRegressor(max_depth=100)
 regr_3.fit(X, y)
-print "LTime OVK Trees: ", time.time() - start
+print("LTime OVK Trees: ", time.time() - start)
 
 
 # Predict
-print "Predicting..."
+print("Predicting...")
 X_test = np.arange(-100.0, 100.0, .5)[:, np.newaxis]
 start = time.time()
 y_1 = regr_1.predict(X_test)
-print "TTime OVK ID: ", time.time() - start
+print("TTime OVK ID: ", time.time() - start)
 start = time.time()
 y_2 = regr_2.predict(X_test)
-print "TTime OVK cov: ", time.time() - start
+print("TTime OVK cov: ", time.time() - start)
 start = time.time()
 y_3 = regr_3.predict(X_test)
-print "LTime OVK Trees: ", time.time() - start
+print("LTime OVK Trees: ", time.time() - start)
 
 # Ground truth
 y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
                        np.pi * np.cos(X_test).ravel()]).T, U)
 
 
-print "R2 OVK ID: ", regr_1.score(X_test, y_t)
-print "R2 OVK cov: ", regr_2.score(X_test, y_t)
-print "R2 Trees: ", regr_3.score(X_test, y_t)
+print("R2 OVK ID: ", regr_1.score(X_test, y_t))
+print("R2 OVK cov: ", regr_2.score(X_test, y_t))
+print("R2 Trees: ", regr_3.score(X_test, y_t))
 
 
 # Plot
-print "plotting"
+print("plotting")
 plt.figure()
 plt.scatter(y_1[::1, 0], y_1[::1, 1], c="g", label="OVK Id", s=5., lw=0)
 plt.scatter(y_2[::1, 0], y_2[::1, 1], c="b", label="OVK Cov", s=5., lw=0)
@@ -102,4 +102,4 @@ plt.title("Multi-output Decision Tree Regression")
 plt.legend()
 plt.show()
 
-print "Done"
+print("Done")

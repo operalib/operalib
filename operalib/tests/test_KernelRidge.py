@@ -41,7 +41,7 @@ def test_ridge_grad_id():
     assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
                       lambda *args: risk.functional_grad_val(*args)[1],
                       rand(X.shape[0] * y.shape[1]),
-                      y.ravel(), K(X, X)) < 1e-5
+                      y.ravel(), K(X, X)) < 1e-3
 
 
 def test_ridge_grad_cov():
@@ -51,4 +51,4 @@ def test_ridge_grad_cov():
     assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
                       lambda *args: risk.functional_grad_val(*args)[1],
                       rand(X.shape[0] * y.shape[1]),
-                      y.ravel(), K(X, X)) < 1e-5
+                      y.ravel(), K(X, X)) < 1e-3

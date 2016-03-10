@@ -2,7 +2,7 @@ language: python
 
 cache:
   apt: true
-  # We use three different cache directory
+  # We use four different cache directory
   # to work around a Travis bug with multi-platform cache
   directories:
   - $HOME/operalib_build_ubuntu

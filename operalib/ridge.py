@@ -170,7 +170,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         if self.theta < 0:
             raise ValueError('theta must be positive')
         if self.period is not str:
-            if self.period < 0:  # This pass if self.period is a string
+            if self.period < 0:
                 raise ValueError('period must be positive')
         # TODO, add supported solver check
 

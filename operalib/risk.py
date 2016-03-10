@@ -18,6 +18,20 @@ class KernelRidgeRisk(object):
         self.lbda = lbda
 
     def __call__(self, dual_coefs, ground_truth, Gram):
+        """Compute the Empirical OVK ridge risk.
+
+        Parameters
+        ----------
+        dual_coefs :
+
+        ground_truth :
+
+        Gram :
+
+        Returns
+        -------
+        float : Empirical OVK ridge risk
+        """
         pred = Gram * dual_coefs
         res = pred - ground_truth
         np = ground_truth.size

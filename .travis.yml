@@ -17,19 +17,22 @@ env:
     - TEST_DIR=/tmp/test_dir/
     - MODULE=operalib
   matrix:
-    - DISTRIB="ubuntu" PYTHON_VERSION="2.7" COVERAGE="true"
-      CYTHON_VERSION="0.23.4"
-      CACHED_BUILD_DIR="$HOME/operalib_build_ubuntu"
-    - DISTRIB="conda" PYTHON_VERSION="2.6" COVERAGE="true"
-      NUMPY_VERSION="1.6.2" SCIPY_VERSION="0.11.0" CYTHON_VERSION="0.21"
-      CACHED_BUILD_DIR="$HOME/operalib_build_oldest"
-    - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
-      NUMPY_VERSION="1.10.2" SCIPY_VERSION="0.16.1" CYTHON_VERSION="0.23.4"
-      CACHED_BUILD_DIR="$HOME/operalib_build_latest"
+    - python: 2.7
+      env: DISTRIB="ubuntu" PYTHON_VERSION="2.7" COVERAGE="true"
+           CYTHON_VERSION="0.23.4"
+           CACHED_BUILD_DIR="$HOME/operalib_build_ubuntu"
+    - python: 2.6
+      env: DISTRIB="conda" PYTHON_VERSION="2.6" COVERAGE="true"
+           NUMPY_VERSION="1.6.2" SCIPY_VERSION="0.11.0" CYTHON_VERSION="0.21"
+           CACHED_BUILD_DIR="$HOME/operalib_build_oldest"
+    - python: 3.5
+      env: DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
+           NUMPY_VERSION="1.10.2" SCIPY_VERSION="0.16.1" CYTHON_VERSION="0.23.4"
+           CACHED_BUILD_DIR="$HOME/operalib_build_latest"
 
 matrix:
   include:
-    # This environment tests scikit-learn against numpy and scipy master
+    # This environment tests operalib against numpy and scipy master
     # installed from their CI wheels in a virtualenv with the Python
     # interpreter provided by travis.
     # Note: libatlas3gf-base is not allowed yet so we need 'sudo':

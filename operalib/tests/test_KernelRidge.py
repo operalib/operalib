@@ -5,11 +5,12 @@ kernels.
 """
 
 from sklearn.utils.estimator_checks import check_estimator
-from sklearn import ovk
 from scipy.optimize import check_grad
 from numpy.random import RandomState, rand, randn
 from numpy import sort, pi, sin, cos, array, dot, eye
 from numpy.linalg import norm, cholesky
+
+import operalib as ovk
 
 seed = 0
 rng = RandomState(seed)

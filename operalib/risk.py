@@ -11,10 +11,19 @@ from numpy import inner
 
 
 class KernelRidgeRisk(object):
-    """Define Kernel ridge risk and its gradient.
-    """
+    """Define Kernel ridge risk and its gradient."""
 
     def __init__(self, lbda):
+        """Initialize Empirical kernel ridge risk.
+
+        Parameters
+        ----------
+        lbda : {float}
+            Small positive values of lbda improve the conditioning of the
+            problem and reduce the variance of the estimates.  Lbda corresponds
+            to ``(2*C)^-1`` in other linear models such as LogisticRegression
+            or LinearSVC.
+        """
         self.lbda = lbda
 
     def __call__(self, dual_coefs, ground_truth, Gram):
@@ -22,11 +31,14 @@ class KernelRidgeRisk(object):
 
         Parameters
         ----------
-        dual_coefs :
+        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
 
-        ground_truth :
+        ground_truth : {vector-like}
+            Targets samples
 
-        Gram :
+        Gram : {LinearOperator}
+            Gram matrix acting on the dual_coefs
 
         Returns
         -------
@@ -39,12 +51,47 @@ class KernelRidgeRisk(object):
         return norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np)
 
     def functional_grad(self, dual_coefs, ground_truth, Gram):
+        """Compute the gradient of the Empirical OVK ridge risk.
+
+        Parameters
+        ----------
+        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
+
+        ground_truth : {vector-like}
+            Targets samples
+
+        Gram : {LinearOperator}
+            Gram matrix acting on the dual_coefs
+
+        Returns
+        -------
+        {vector-like} : gradient of the Empirical OVK ridge risk
+        """
         pred = Gram * dual_coefs
         res = pred - ground_truth
         np = ground_truth.size
         return Gram * res / np + self.lbda * pred / np
 
     def functional_grad_val(self, dual_coefs, ground_truth, Gram):
+        """Compute the gradient of the Empirical OVK ridge risk.
+
+        Parameters
+        ----------
+        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
+
+        ground_truth : {vector-like}
+            Targets samples
+
+        Gram : {LinearOperator}
+            Gram matrix acting on the dual_coefs
+
+        Returns
+        -------
+        Tuple{float, vector-like} : Empirical OVK ridge risk and its gradient
+        returned as a tuple.
+        """
         pred = Gram * dual_coefs
         res = pred - ground_truth
         np = ground_truth.size

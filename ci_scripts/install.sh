@@ -11,8 +11,6 @@
 # matrix entry) from which we pull from local Travis repository. This allows
 # us to keep build artefact for gcc + cython, and gain time
 
-set -e
-
 # Fix the compilers to workaround avoid having the Python 3.4 build
 # lookup for g++44 unexpectedly.
 export CC=gcc

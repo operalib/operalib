@@ -20,19 +20,19 @@ An example to illustrate multi-output regression with operator-valiued kernels.
 
  Out::
 
-      78536
+      20309
     Creating dataset...
     Fitting...
-    LTime OVK ID:  0.687085866928
-    LTime OVK cov:  0.561466932297
-    LTime OVK Trees:  0.00263595581055
+    LTime OVK ID:  0.878332138062
+    LTime OVK cov:  0.952847003937
+    LTime OVK Trees:  0.0034019947052
     Predicting...
-    TTime OVK ID:  0.147552967072
-    TTime OVK cov:  0.148508787155
-    LTime OVK Trees:  0.000221967697144
-    R2 OVK ID:  0.993916986432
-    R2 OVK cov:  0.994312109919
-    R2 Trees:  0.844068374578
+    TTime OVK ID:  0.15077495575
+    TTime OVK cov:  0.153584003448
+    LTime OVK Trees:  0.000236988067627
+    R2 OVK ID:  0.992211602013
+    R2 OVK cov:  0.993024108322
+    R2 Trees:  0.729576099468
     plotting
     Done
 
@@ -143,7 +143,7 @@ An example to illustrate multi-output regression with operator-valiued kernels.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 2.295 seconds)
+(0 minutes 2.733 seconds)
 
 
 

@@ -53,7 +53,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         Callable which associate to the training points X the Gram matrix (the
         Gram matrix being a LinearOperator)
 
-    A_ : {array, shape = [n_targets, n_targets]
+    A_ : array, shape = [n_targets, n_targets]
         Set when Linear operator used by the decomposable kernel is default or
         None.
 

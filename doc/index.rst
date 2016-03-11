@@ -13,7 +13,7 @@ contains a single estimator with unit tests.
 
     .. toctree::
        :maxdepth: 2
-       
+
        api
        auto_examples/index
        ...

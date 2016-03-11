@@ -26,7 +26,6 @@ env:
     - MODULE=operalib
 
 matrix:
-  fast_finish: true
   include:
     # This environment tests that scikit-learn can be built against
     # versions of numpy, scipy with ATLAS that comes with Ubuntu Precise 12.04
@@ -46,17 +45,24 @@ matrix:
            NUMPY_VERSION="1.10.4" SCIPY_VERSION="0.17.0"
            CYTHON_VERSION="0.23.4"
            CACHED_BUILD_DIR="$HOME/operalib_build_latest"
-    # This environment tests operalib against numpy and scipy master
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    # allow failures for DISTRIB=scipy-dev-wheels
+    - python: 3.5
+
+  include:
+    # This environment tests scikit-learn against numpy and scipy master
     # installed from their CI wheels in a virtualenv with the Python
     # interpreter provided by travis.
     # Note: libatlas3gf-base is not allowed yet so we need 'sudo':
     # https://github.com/travis-ci/apt-package-whitelist/issues/2407
     # Once libatlas3gf-base is on the whitelist it will be possible to replace
     # the before_install step with and addons/apt/packages declaration.
-  allow_failures:
     -  python: "3.5"
        env: DISTRIB="scipy-dev-wheels"
-            CACHED_BUILD_DIR="$HOME/operalib_build_numpy_dev"
+            CACHED_BUILD_DIR="$HOME/sklearn_build_numpy_dev"
        sudo: True
        before_install: sudo apt-get install -yqq libatlas3gf-base libatlas-dev
 

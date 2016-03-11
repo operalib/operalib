@@ -132,7 +132,7 @@
   <div class="section" id="operalib">
 <h1>Operalib<a class="headerlink" href="#operalib" title="Permalink to this headline">¶</a></h1>
 <p>The documentation Operalib.</p>
-<span class="target" id="module-operalib.ridge"></span><p>The module <a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
+<span class="target" id="module-operalib.ridge"></span><p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
 regression.</p>
 <dl class="class">
 <dt id="operalib.ridge.Ridge">
@@ -278,7 +278,7 @@ chapter 14.4.3, pp. 492-493</li>
 
 </dd></dl>
 
-<span class="target" id="module-operalib.kernels"></span><p>Module <a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernels</span></code></a> implements some Operator-Valued Kernel
+<span class="target" id="module-operalib.kernels"></span><p><a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernels</span></code></a> implements some Operator-Valued Kernel
 models.</p>
 <dl class="class">
 <dt id="operalib.kernels.DecomposableKernel">
@@ -360,7 +360,8 @@ outputs.</p>
 
 </dd></dl>
 
-<span class="target" id="module-operalib.metrics"></span><p>Supplementary metrics not available in scikit-learn</p>
+<span class="target" id="module-operalib.metrics"></span><p><a class="reference internal" href="#module-operalib.metrics" title="operalib.metrics"><code class="xref py py-mod docutils literal"><span class="pre">operalib.metrics</span></code></a> define upplementary metrics not
+available in scikit-learn</p>
 <dl class="function">
 <dt id="operalib.metrics.first_periodic_kernel">
 <code class="descclassname">operalib.metrics.</code><code class="descname">first_periodic_kernel</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em>, <em>gamma=None</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/metrics.html#first_periodic_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.metrics.first_periodic_kernel" title="Permalink to this definition">¶</a></dt>
@@ -373,13 +374,13 @@ outputs.</p>
 <p><strong>Y</strong> : array of shape (n_samples_Y, n_features)</p>
 <p><strong>gamma</strong> : float, default None</p>
 <blockquote>
-<div><p>If None, defaults to 1.0 / n_samples_X</p>
+<div><p>If None, default to 1.0 / n_samples_X</p>
 </div></blockquote>
 <p><strong>period</strong> : float, default None</p>
 <blockquote>
-<div><p>If None, defaults to 2 * pi.</p>
+<div><p>If None, default to 2 * pi.</p>
 <p>This parameter should not be default as
-wrong estimation leads to poor learning score.</p>
+wrong estimation lead to poor learning score.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -390,7 +391,7 @@ wrong estimation leads to poor learning score.</p>
 </table>
 </dd></dl>
 
-<span class="target" id="module-operalib.risk"></span><p>Module <a class="reference internal" href="#module-operalib.risk" title="operalib.risk"><code class="xref py py-mod docutils literal"><span class="pre">operalib.risk</span></code></a> implements risk model and their gradients.</p>
+<span class="target" id="module-operalib.risk"></span><p><a class="reference internal" href="#module-operalib.risk" title="operalib.risk"><code class="xref py py-mod docutils literal"><span class="pre">operalib.risk</span></code></a> implements risk model and their gradients.</p>
 <dl class="class">
 <dt id="operalib.risk.KernelRidgeRisk">
 <em class="property">class </em><code class="descclassname">operalib.risk.</code><code class="descname">KernelRidgeRisk</code><span class="sig-paren">(</span><em>lbda</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/risk.html#KernelRidgeRisk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk" title="Permalink to this definition">¶</a></dt>

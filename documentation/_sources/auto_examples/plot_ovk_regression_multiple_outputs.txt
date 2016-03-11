@@ -20,19 +20,19 @@ An example to illustrate multi-output regression with operator-valiued kernels.
 
  Out::
 
-      36586
+      98311
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.513924837112
-    Leaning time DPeriodic covariance:  0.496143102646
-    Leaning time Trees:  0.00268816947937
+    Leaning time DPeriodic ID:  0.531970977783
+    Leaning time DPeriodic covariance:  0.443574905396
+    Leaning time Trees:  0.00268912315369
     Predicting...
-    Test time DPeriodic ID:  0.129411220551
-    Test time DPeriodic covariance:  0.128782987595
-    Test time Trees:  0.000204086303711
-    R2 OVK ID:  0.992172127704
-    R2 OVK covariance:  0.993745054443
-    R2 Trees:  0.764123372985
+    Test time DPeriodic ID:  0.129805088043
+    Test time DPeriodic covariance:  0.130085945129
+    Test time Trees:  0.000211954116821
+    R2 OVK ID:  0.994552379528
+    R2 OVK covariance:  0.994533146018
+    R2 Trees:  0.81258247307
     plotting
     Done
 
@@ -143,7 +143,7 @@ An example to illustrate multi-output regression with operator-valiued kernels.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 1.773 seconds)
+(0 minutes 1.736 seconds)
 
 
 

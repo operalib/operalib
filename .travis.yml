@@ -5,7 +5,7 @@ language: python
 
 cache:
   apt: true
-  # We use four different cache directory
+  # We use six different cache directory
   # to work around a Travis bug with multi-platform cache
   directories:
   - $HOME/operalib_build_ubuntu
@@ -54,7 +54,7 @@ matrix:
   fast_finish: true
   allow_failures:
     # allow failures for DISTRIB=scipy-dev-wheels
-    - python: 3.5
+    - python: "3.5"
 
   include:
     # This environment tests scikit-learn against numpy and scipy master

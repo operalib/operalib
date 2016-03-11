@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>operalib.ridge &mdash; sklearn-template 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="sklearn-template 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sklearn-template 0.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for operalib.ridge</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;OVK ridge regression.</span>
+
+<span class="sd">Module :mod:`sklearn.ovk.ridge` implements Operator-Valued Kernel ridge</span>
+<span class="sd">regression.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Author: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
+<span class="c1">#         the scikit-learn community.</span>
+<span class="c1"># License: MIT</span>
+
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin_l_bfgs_b</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">zeros</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_X_y</span><span class="p">,</span> <span class="n">check_array</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
+
+<span class="kn">from</span> <span class="nn">.metrics</span> <span class="kn">import</span> <span class="n">first_periodic_kernel</span>
+<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span>
+<span class="kn">from</span> <span class="nn">.risk</span> <span class="kn">import</span> <span class="n">KernelRidgeRisk</span>
+<span class="kn">from</span> <span class="nn">.optional</span> <span class="kn">import</span> <span class="n">_get_period</span>
+
+<span class="c1"># When adding a new kernel, update this table and the _get_kernel_map method</span>
+<span class="n">PAIRWISE_KERNEL_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;DGauss&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span>
+    <span class="s1">&#39;DPeriodic&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="p">}</span>
+
+
+<div class="viewcode-block" id="Ridge"><a class="viewcode-back" href="../../template.html#operalib.ridge.Ridge">[docs]</a><span class="k">class</span> <span class="nc">Ridge</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;OVK ridge regression.</span>
+
+<span class="sd">    Operator-Valued ridge regression (OVKRR) combines ridge regression (linear</span>
+<span class="sd">    least squares with l2-norm regularization) with the (OV)kernel trick. It</span>
+<span class="sd">    thus learns a linear function in the space induced by the respective kernel</span>
+<span class="sd">    and the data. For non-linear kernels, this corresponds to a non-linear</span>
+<span class="sd">    function in the original space.</span>
+
+<span class="sd">    The form of the model learned by OVKRR is identical to support vector</span>
+<span class="sd">    regression (SVR). However, different loss functions are used: OVKRR uses</span>
+<span class="sd">    squared error loss while support vector regression uses epsilon-insensitive</span>
+<span class="sd">    loss, both combined with l2 regularization. In contrast to SVR, fitting a</span>
+<span class="sd">    OVKRR model can be done in closed-form and is typically faster for</span>
+<span class="sd">    medium-sized datasets. On the other  hand, the learned model is non-sparse</span>
+<span class="sd">    and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at</span>
+<span class="sd">    prediction-time.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dual_coef_ : {array}, shape = [n_features] or [n_targets, n_features]</span>
+<span class="sd">        Weight vector(s) in kernel space</span>
+
+<span class="sd">    self.linop_ : {callable}</span>
+<span class="sd">        Callable which associate to the training points X the Gram matrix (the</span>
+<span class="sd">        Gram matrix being a LinearOperator)</span>
+
+<span class="sd">    A_ : {array}, shape = [n_targets, n_targets]</span>
+<span class="sd">        Set when Linear operator used by the decomposable kernel is default or</span>
+<span class="sd">        None.</span>
+
+<span class="sd">    period_ : {float}</span>
+<span class="sd">        Set when period used by the First periodic kernel is &#39;autocorr&#39;.</span>
+
+<span class="sd">    solver_res_ : {any}</span>
+<span class="sd">        Raw results returned by the solver.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    * Kevin P. Murphy</span>
+<span class="sd">      &quot;Machine Learning: A Probabilistic Perspective&quot;, The MIT Press</span>
+<span class="sd">      chapter 14.4.3, pp. 492-493</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Ridge</span>
+<span class="sd">        Linear ridge regression.</span>
+<span class="sd">    KernelRidge</span>
+<span class="sd">        Kernel ridge regression.</span>
+<span class="sd">    SVR</span>
+<span class="sd">        Support Vector Regression implemented using libsvm.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sklearn import ovk</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; n_samples, n_features, n_targets = 10, 5, 5</span>
+<span class="sd">    &gt;&gt;&gt; rng = np.random.RandomState(0)</span>
+<span class="sd">    &gt;&gt;&gt; y = rng.randn(n_samples, n_targets)</span>
+<span class="sd">    &gt;&gt;&gt; X = rng.randn(n_samples, n_features)</span>
+<span class="sd">    &gt;&gt;&gt; clf = ovk.Ridge(&#39;DGauss&#39;, lbda=1.0)</span>
+<span class="sd">    &gt;&gt;&gt; clf.fit(X, y)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+                 <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;autocorr&#39;</span><span class="p">,</span>
+                 <span class="n">autocorr_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">solver</span><span class="o">=</span><span class="n">fmin_l_bfgs_b</span><span class="p">,</span> <span class="n">solver_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kernel_params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize OVK ridge regression model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        lbda : {float}</span>
+<span class="sd">            Small positive values of lbda improve the conditioning of the</span>
+<span class="sd">            problem and reduce the variance of the estimates.  Lbda corresponds</span>
+<span class="sd">            to ``(2*C)^-1`` in other linear models such as LogisticRegression</span>
+<span class="sd">            or LinearSVC.</span>
+
+<span class="sd">        kernel : string or callable, default=&#39;DGauss&#39;</span>
+<span class="sd">            Kernel mapping used internally. A callable should accept two</span>
+<span class="sd">            arguments and the keyword arguments passed to this object as</span>
+<span class="sd">            kernel_params, and should return a LinearOperator.</span>
+
+<span class="sd">        A : {LinearOperator, array-like, sparse matrix}, default=None</span>
+<span class="sd">            Linear operator used by the decomposable kernel. If default is</span>
+<span class="sd">            None, wich is set to identity matrix of size y.shape[1] when</span>
+<span class="sd">            fitting.</span>
+
+<span class="sd">        sigma : float, default=1</span>
+<span class="sd">            Sigma parameter for the Decomposable Gaussian kernel.</span>
+<span class="sd">            Ignored by other kernels.</span>
+
+<span class="sd">        theta : float, default=1</span>
+<span class="sd">            Theta parameter for the Decomposable First Periodic kernel.</span>
+<span class="sd">            Ignored by other kernels.</span>
+
+<span class="sd">        period : float, default=default_period</span>
+<span class="sd">            Period parameter for the First periodic kernel. If optional modules</span>
+<span class="sd">            have been imported then default_period is 2 * pi. Otherwise it uses</span>
+<span class="sd">            autocorrelation methods to determine the period.</span>
+
+<span class="sd">        solver : callable, default=scipy.optimize.fmin_l_bfgs_b</span>
+<span class="sd">            Solver able to find the minimum of the ridge problem.</span>
+<span class="sd">            scipy.optimize.fmin_l_bfgs_b(*solver_params)[0] must return the</span>
+<span class="sd">            optimal solution.</span>
+
+<span class="sd">        autocorr_params : mapping of string to any</span>
+<span class="sd">            Additional parameters (keyword arguments) for the period detection</span>
+<span class="sd">            for periodic kernels. If None, parameter choice is left to the</span>
+<span class="sd">            period detection method.</span>
+
+<span class="sd">        solver_params : mapping of string to any, optional</span>
+<span class="sd">            Additional parameters (keyword arguments) for solver function</span>
+<span class="sd">            passed as callable object.</span>
+
+<span class="sd">        kernel_params : mapping of string to any, optional</span>
+<span class="sd">            Additional parameters (keyword arguments) for kernel function</span>
+<span class="sd">            passed as callable object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">=</span> <span class="n">lbda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">autocorr_params</span> <span class="o">=</span> <span class="n">autocorr_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver_params</span> <span class="o">=</span> <span class="n">solver_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_params</span> <span class="o">=</span> <span class="n">kernel_params</span>
+
+    <span class="k">def</span> <span class="nf">_validate_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># check on self.kernel is performed in method __get_kernel</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;lbda must be positive&#39;</span><span class="p">)</span>
+        <span class="c1"># if self.A &lt; 0: # Check whether A is S PD would be really expensive</span>
+        <span class="c1">#     raise ValueError(&#39;A must be a symmetric positive operator&#39;)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;sigma must be positive or default (None)&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;theta must be positive&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;period must be positive&#39;</span><span class="p">)</span>
+        <span class="c1"># TODO, add supported solver check</span>
+
+    <span class="k">def</span> <span class="nf">_default_decomposable_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_default_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="ow">is</span> <span class="s1">&#39;autocorr&#39;</span><span class="p">:</span>
+            <span class="n">autocorr_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">autocorr_params</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="k">return</span> <span class="n">_get_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">autocorr_params</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;period must be a positive number or a valid </span><span class="se">\</span>
+<span class="s1">                string&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># When adding a new kernel, update this table and the _get_kernel_map</span>
+        <span class="c1"># method</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">):</span>
+            <span class="n">kernel_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_params</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">ov_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="o">**</span><span class="n">kernel_params</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="c1"># 1) check string and assign the right parameters</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;DGauss&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_decomposable_op</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="n">kernel_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_</span><span class="p">,</span> <span class="s1">&#39;scalar_kernel&#39;</span><span class="p">:</span> <span class="n">rbf_kernel</span><span class="p">,</span>
+                                 <span class="s1">&#39;scalar_kernel_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">}}</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;DPeriodic&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_decomposable_op</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">period_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="n">kernel_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_</span><span class="p">,</span>
+                                 <span class="s1">&#39;scalar_kernel&#39;</span><span class="p">:</span> <span class="n">first_periodic_kernel</span><span class="p">,</span>
+                                 <span class="s1">&#39;scalar_kernel_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span>
+                                                          <span class="s1">&#39;period&#39;</span><span class="p">:</span>
+                                                          <span class="bp">self</span><span class="o">.</span><span class="n">period_</span><span class="p">},</span> <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;unsupported kernel&#39;</span><span class="p">)</span>
+            <span class="c1"># 2) Uses lookup table to select the right kernel from string</span>
+            <span class="n">ov_kernel</span> <span class="o">=</span> <span class="n">PAIRWISE_KERNEL_FUNCTIONS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">](</span><span class="o">**</span><span class="n">kernel_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;unsupported kernel&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ov_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_decision_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dual_coefs_</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reshape</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pred</span>
+
+<div class="viewcode-block" id="Ridge.fit"><a class="viewcode-back" href="../../template.html#operalib.ridge.Ridge.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit OVK ridge regression model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Training data</span>
+
+<span class="sd">        y : array-like, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">            Target values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;csr&#39;</span><span class="p">,</span> <span class="s1">&#39;csc&#39;</span><span class="p">,</span> <span class="s1">&#39;coo&#39;</span><span class="p">],</span>
+                         <span class="n">y_numeric</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">multi_output</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
+
+        <span class="n">solver_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver_params</span> <span class="ow">or</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_kernel_map</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">Gram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">risk</span> <span class="o">=</span> <span class="n">KernelRidgeRisk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lbda</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver_res_</span> <span class="o">=</span> <span class="n">fmin_l_bfgs_b</span><span class="p">(</span><span class="n">risk</span><span class="o">.</span><span class="n">functional_grad_val</span><span class="p">,</span>
+                                         <span class="n">zeros</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                         <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">Gram</span><span class="p">),</span>
+                                         <span class="o">*</span><span class="n">solver_params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dual_coefs_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver_res_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Ridge.predict"><a class="viewcode-back" href="../../template.html#operalib.ridge.Ridge.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predict using the OVK ridge model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        C : array, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">            Returns predicted values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;dual_coefs_&#39;</span><span class="p">,</span> <span class="s1">&#39;linop_&#39;</span><span class="p">],</span> <span class="n">all_or_any</span><span class="o">=</span><span class="nb">all</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decision_function</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sklearn-template 0.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Vighnesh Birodkar.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

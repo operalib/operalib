@@ -33,6 +33,10 @@ The project is developed by the
 `IBISC laboratory <https://www.ibisc.univ-evry.fr/en/start>`_ of the
 University of Evry, France.
 
+Documentation
+========
+Is available at: http://romainbrault.github.io/operalib/documentation.
+
 Install
 =======
 This package uses distutils, which is the default way of installing

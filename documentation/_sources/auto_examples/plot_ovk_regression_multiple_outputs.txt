@@ -9,6 +9,13 @@ Multi-output Operator-valued kernel Regression
 
 An example to illustrate multi-output regression with operator-valued kernels.
 
+We compare Operator-valued kernel (OVK) without prior (ID), with covariance
+constraint prior (covariance) and a multioutput decision tree.
+
+Setting the operator A as a good prior (here a covariance constrain) helps to
+achieve a better score on a noisy test dataset. OVK methods can generalise
+better than decision trees but are way slow to train.
+
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png
@@ -19,19 +26,19 @@ An example to illustrate multi-output regression with operator-valued kernels.
 
  Out::
 
-      11973
+      seed 0
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.496977806091
-    Leaning time DPeriodic covariance:  0.550951957703
-    Leaning time Trees:  0.00306296348572
+    Leaning time DPeriodic ID:  0.393481016159
+    Leaning time DPeriodic covariance:  2.38121199608
+    Leaning time Trees:  0.00361680984497
     Predicting...
-    Test time DPeriodic ID:  0.145175933838
-    Test time DPeriodic covariance:  0.146311998367
-    Test time Trees:  0.000223159790039
-    R2 OVK ID:  0.989137667118
-    R2 OVK covariance:  0.989452186543
-    R2 Trees:  0.705961778173
+    Test time DPeriodic ID:  0.145677804947
+    Test time DPeriodic covariance:  0.145345926285
+    Test time Trees:  0.000227928161621
+    R2 OVK ID:  0.989472132706
+    R2 OVK covariance:  0.991023917305
+    R2 Trees:  0.783008103817
     plotting
     Done
 
@@ -57,9 +64,9 @@ An example to illustrate multi-output regression with operator-valued kernels.
 
     print(__doc__)
 
-    seed = np.random.randint(100000)
+    seed = 0
     np.random.seed(seed)
-    print(seed)
+    print("seed", seed)
 
     # Create a random dataset
     print("Creating dataset...")
@@ -84,14 +91,13 @@ An example to illustrate multi-output regression with operator-valued kernels.
     print("Fitting...")
     start = time.time()
     A = np.eye(2)
-    regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
+    regr_1 = ovk.Ridge('DPeriodic', lbda=0.1, period=6, theta=.99, A=A)
     regr_1.fit(X, y)
     print("Leaning time DPeriodic ID: ", time.time() - start)
 
     start = time.time()
-    A = np.cov(y.T) / np.linalg.norm(np.cov(y.T))
-
-    regr_2 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
+    A = np.cov(y.T)
+    regr_2 = ovk.Ridge('DPeriodic', lbda=0.1, period=6, theta=.99, A=A)
     regr_2.fit(X, y)
     print("Leaning time DPeriodic covariance: ", time.time() - start)
 
@@ -143,7 +149,7 @@ An example to illustrate multi-output regression with operator-valued kernels.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 1.908 seconds)
+(0 minutes 3.625 seconds)
 
 
 

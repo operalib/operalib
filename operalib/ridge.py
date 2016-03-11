@@ -243,7 +243,8 @@ class Ridge(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, y_numeric=True, multi_output=True)
+        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
+                         y_numeric=True, multi_output=True)
         self._validate_params()
 
         solver_params = self.solver_params or {}

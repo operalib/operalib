@@ -1,7 +1,5 @@
 .. -*- mode: rst -*-
 
-|Travis|_ |Coveralls|_ |Python27|_ |Python35|_
-
 .. |Travis| image:: https://travis-ci.org/RomainBrault/operalib.svg?branch=master
 .. _Travis: https://travis-ci.org/RomainBrault/operalib
 
@@ -14,7 +12,7 @@
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _Python35: https://github.com/RomainBrault/operalib
 
-operalib
+operalib |Travis|_ |Coveralls|_ |Python27|_ |Python35|_
 ========
 Operalib is a library for structured learning and prediction for
 `python <https://www.python.org>`_ based on operator-valued kernels (OVKs).

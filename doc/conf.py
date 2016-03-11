@@ -223,8 +223,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'project-template.tex', u'project-template Documentation',
-   u'Vighnesh Birodkar', 'manual'),
+  ('index', 'Operalib.tex', u'Operalib Documentation',
+   u'Romain Brault', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

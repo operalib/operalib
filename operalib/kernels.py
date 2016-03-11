@@ -1,4 +1,7 @@
-"""OVK.
+"""
+******************************
+Module Operator-Valued kernels
+******************************
 
 Module :mod:`operalib.kernels` implements some Operator-Valued Kernel
 models.

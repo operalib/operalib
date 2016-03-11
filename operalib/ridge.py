@@ -1,4 +1,7 @@
-"""Module OVK ridge regression.
+"""
+***************************
+Module OVK ridge regression
+***************************
 
 The module :mod:`operalib.ridge` implements Operator-Valued Kernel ridge
 regression.

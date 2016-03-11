@@ -1,8 +1,11 @@
-"""OVK maps.
+"""
+***************
+Module OVK maps
+***************
 
-Module :mod:`sklearn.ovk.kernels` implements some Operator-Valued Kernel maps
+Module :mod:`operalib.kernel_maps` implements some Operator-Valued Kernel maps
 associated to the operator-valued kernel models defined in
-:mod:`sklearn.ovk.kernels`.
+:mod:`operalib.kernels`.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
 #         the scikit-learn community.

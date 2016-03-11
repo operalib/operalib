@@ -1,4 +1,7 @@
-"""Kernel metrics.
+"""
+**************
+Module metrics
+**************
 
 Supplementary metrics not available in scikit-learn
 

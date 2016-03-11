@@ -1,6 +1,9 @@
-"""OVK risk.
+"""
+***********
+Module risk
+***********
 
-Module :mod:`sklearn.ovk.risk` implements risk model and their gradients.
+Module :mod:`operalib.risk` implements risk model and their gradients.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
 #         the scikit-learn community.

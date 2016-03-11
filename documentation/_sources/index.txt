@@ -3,12 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sklearn-template's documentation!
+Welcome to Operalib's documentation!
 ============================================
 
-This project is a reference implementation to anyone who wishes to develop
-scikit-learn compatible classes. It comes with a `template` module which
-contains a single estimator with unit tests.
+Operalib is a library for structured learning and prediction for python based on
+operator-valued kernels (OVKs). OVKs are an extension of scalar kernels to
+operator-valued kernels. The idea is to predict silmultaneously several targets
+while, for instance, encoding the output structure with the operator-valued
+kernel.
+
+We aim at providing an easy-to-use standard implementation of operator-valued
+kernel methods. Operalib is designed for compatilibity to scikit-learn
+interface and conventions. It uses numpy, and scipy as underlying libraries.
+
+The project is developed by the AROBAS group of the IBISC laboratory of the
+University of Evry, France.
 
 
     .. toctree::
@@ -18,8 +27,8 @@ contains a single estimator with unit tests.
        auto_examples/index
        ...
 
-See the `README <https://github.com/vighneshbirodkar/project-template/blob/master/README.md>`_
-for more information.
+See the `README <https://github.com/RomainBrault/operalib/blob/master/README.rst>`_
+for additional information.
 
 
 Indices and tables

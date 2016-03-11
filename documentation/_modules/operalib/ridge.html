@@ -48,9 +48,9 @@
           <div class="body" role="main">
             
   <h1>Source code for operalib.ridge</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;OVK ridge regression.</span>
+<span></span><span class="sd">&quot;&quot;&quot;Module OVK ridge regression.</span>
 
-<span class="sd">Module :mod:`sklearn.ovk.ridge` implements Operator-Valued Kernel ridge</span>
+<span class="sd">The module :mod:`operalib.ridge` implements Operator-Valued Kernel ridge</span>
 <span class="sd">regression.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Author: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
@@ -77,13 +77,13 @@
 
 
 <div class="viewcode-block" id="Ridge"><a class="viewcode-back" href="../../template.html#operalib.ridge.Ridge">[docs]</a><span class="k">class</span> <span class="nc">Ridge</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;OVK ridge regression.</span>
+    <span class="sd">&quot;&quot;&quot;Operator-Valued kernel ridge regression.</span>
 
-<span class="sd">    Operator-Valued ridge regression (OVKRR) combines ridge regression (linear</span>
-<span class="sd">    least squares with l2-norm regularization) with the (OV)kernel trick. It</span>
-<span class="sd">    thus learns a linear function in the space induced by the respective kernel</span>
-<span class="sd">    and the data. For non-linear kernels, this corresponds to a non-linear</span>
-<span class="sd">    function in the original space.</span>
+<span class="sd">    Operator-Valued kernel ridge regression (OVKRR) combines ridge regression</span>
+<span class="sd">    (linear least squares with l2-norm regularization) with the (OV)kernel</span>
+<span class="sd">    trick. It thus learns a linear function in the space induced by the</span>
+<span class="sd">    respective kernel and the data. For non-linear kernels, this corresponds to</span>
+<span class="sd">    a non-linear function in the original space.</span>
 
 <span class="sd">    The form of the model learned by OVKRR is identical to support vector</span>
 <span class="sd">    regression (SVR). However, different loss functions are used: OVKRR uses</span>
@@ -96,21 +96,21 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    dual_coef_ : {array}, shape = [n_features] or [n_targets, n_features]</span>
+<span class="sd">    dual_coef_ : array, shape = [n_features] or [n_targets, n_features]</span>
 <span class="sd">        Weight vector(s) in kernel space</span>
 
-<span class="sd">    self.linop_ : {callable}</span>
+<span class="sd">    self.linop_ : callable</span>
 <span class="sd">        Callable which associate to the training points X the Gram matrix (the</span>
 <span class="sd">        Gram matrix being a LinearOperator)</span>
 
-<span class="sd">    A_ : {array}, shape = [n_targets, n_targets]</span>
+<span class="sd">    A_ : {array, shape = [n_targets, n_targets]</span>
 <span class="sd">        Set when Linear operator used by the decomposable kernel is default or</span>
 <span class="sd">        None.</span>
 
-<span class="sd">    period_ : {float}</span>
+<span class="sd">    period_ : float</span>
 <span class="sd">        Set when period used by the First periodic kernel is &#39;autocorr&#39;.</span>
 
-<span class="sd">    solver_res_ : {any}</span>
+<span class="sd">    solver_res_ : any</span>
 <span class="sd">        Raw results returned by the solver.</span>
 
 <span class="sd">    References</span>
@@ -121,11 +121,11 @@
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
-<span class="sd">    Ridge</span>
+<span class="sd">    sklearn.Ridge</span>
 <span class="sd">        Linear ridge regression.</span>
-<span class="sd">    KernelRidge</span>
+<span class="sd">    sklearn.KernelRidge</span>
 <span class="sd">        Kernel ridge regression.</span>
-<span class="sd">    SVR</span>
+<span class="sd">    sklearn.SVR</span>
 <span class="sd">        Support Vector Regression implemented using libsvm.</span>
 
 <span class="sd">    Examples</span>
@@ -284,10 +284,10 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
-<span class="sd">            Training data</span>
+<span class="sd">            Training data.</span>
 
-<span class="sd">        y : array-like, shape = [n_samples] or [n_samples, n_targets]</span>
-<span class="sd">            Target values</span>
+<span class="sd">        y : {array-like}, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">            Target values.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -319,7 +319,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        C : array, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">        C : {array}, shape = [n_samples] or [n_samples, n_targets]</span>
 <span class="sd">            Returns predicted values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;dual_coefs_&#39;</span><span class="p">,</span> <span class="s1">&#39;linop_&#39;</span><span class="p">],</span> <span class="n">all_or_any</span><span class="o">=</span><span class="nb">all</span><span class="p">)</span>

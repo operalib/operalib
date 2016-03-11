@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>operalib.risk &mdash; sklearn-template 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="sklearn-template 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sklearn-template 0.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for operalib.risk</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;OVK risk.</span>
+
+<span class="sd">Module :mod:`sklearn.ovk.risk` implements risk model and their gradients.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Author: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
+<span class="c1">#         the scikit-learn community.</span>
+<span class="c1"># License: MIT</span>
+
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">inner</span>
+
+
+<div class="viewcode-block" id="KernelRidgeRisk"><a class="viewcode-back" href="../../template.html#operalib.risk.KernelRidgeRisk">[docs]</a><span class="k">class</span> <span class="nc">KernelRidgeRisk</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Define Kernel ridge risk and its gradient.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lbda</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Empirical kernel ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lbda : {float}</span>
+<span class="sd">            Small positive values of lbda improve the conditioning of the</span>
+<span class="sd">            problem and reduce the variance of the estimates.  Lbda corresponds</span>
+<span class="sd">            to ``(2*C)^-1`` in other linear models such as LogisticRegression</span>
+<span class="sd">            or LinearSVC.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">=</span> <span class="n">lbda</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the Empirical OVK ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        Gram : {LinearOperator}</span>
+<span class="sd">            Gram matrix acting on the dual_coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float : Empirical OVK ridge risk</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">dual_coefs</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
+        <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">dual_coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>
+
+<div class="viewcode-block" id="KernelRidgeRisk.functional_grad"><a class="viewcode-back" href="../../template.html#operalib.risk.KernelRidgeRisk.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the gradient of the Empirical OVK ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        Gram : {LinearOperator}</span>
+<span class="sd">            Gram matrix acting on the dual_coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        {vector-like} : gradient of the Empirical OVK ridge risk</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">dual_coefs</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
+        <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span></div>
+
+<div class="viewcode-block" id="KernelRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../template.html#operalib.risk.KernelRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the gradient of the Empirical OVK ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        Gram : {LinearOperator}</span>
+<span class="sd">            Gram matrix acting on the dual_coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple{float, vector-like} : Empirical OVK ridge risk and its gradient</span>
+<span class="sd">        returned as a tuple.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">dual_coefs</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
+        <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">dual_coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">),</span> <span class="n">Gram</span> <span class="o">*</span>
+                <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sklearn-template 0.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Vighnesh Birodkar.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

@@ -8,6 +8,7 @@ from scipy.optimize import check_grad
 from numpy.random import RandomState, rand, randn
 from numpy import sort, pi, sin, cos, array, dot, eye, arange, newaxis, cov
 from numpy.linalg import norm, cholesky
+from distutils.version import LooseVersion
 
 import operalib as ovk
 
@@ -34,7 +35,11 @@ y_t = dot(array([pi * sin(X_test).ravel(),
 
 def test_valid_estimator():
     """Test whether ovk.Ridge is a valid sklearn estimator."""
-    check_estimator(ovk.Ridge)
+    from sklearn import __version__
+    if LooseVersion(__version__) >= LooseVersion('0.18.0'):
+        check_estimator(ovk.Ridge)
+    else:
+        check_estimator(ovk.Ridge())
 
 
 def test_ridge_grad_id():

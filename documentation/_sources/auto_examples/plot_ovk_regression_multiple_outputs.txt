@@ -26,19 +26,19 @@ better than decision trees but are way slow to train.
 
  Out::
 
-      seed 0
+      seed 123
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.393481016159
-    Leaning time DPeriodic covariance:  2.38121199608
-    Leaning time Trees:  0.00361680984497
+    Leaning time DPeriodic ID:  0.346925973892
+    Leaning time DPeriodic covariance:  1.63841199875
+    Leaning time Trees:  0.00333118438721
     Predicting...
-    Test time DPeriodic ID:  0.145677804947
-    Test time DPeriodic covariance:  0.145345926285
-    Test time Trees:  0.000227928161621
-    R2 OVK ID:  0.989472132706
-    R2 OVK covariance:  0.991023917305
-    R2 Trees:  0.783008103817
+    Test time DPeriodic ID:  0.147575139999
+    Test time DPeriodic covariance:  0.143822908401
+    Test time Trees:  0.000226020812988
+    R2 OVK ID:  0.991260281834
+    R2 OVK covariance:  0.993238210695
+    R2 Trees:  0.791446671336
     plotting
     Done
 
@@ -64,7 +64,7 @@ better than decision trees but are way slow to train.
 
     print(__doc__)
 
-    seed = 0
+    seed = 123
     np.random.seed(seed)
     print("seed", seed)
 
@@ -149,7 +149,7 @@ better than decision trees but are way slow to train.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 3.625 seconds)
+(0 minutes 2.832 seconds)
 
 
 

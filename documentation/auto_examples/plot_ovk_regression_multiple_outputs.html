@@ -147,19 +147,19 @@ achieve a better score on a noisy test dataset. OVK methods can generalise
 better than decision trees but are way slow to train.</p>
 <img alt="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  seed 0
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  seed 123
 Creating dataset...
 Fitting...
-Leaning time DPeriodic ID:  0.393481016159
-Leaning time DPeriodic covariance:  2.38121199608
-Leaning time Trees:  0.00361680984497
+Leaning time DPeriodic ID:  0.346925973892
+Leaning time DPeriodic covariance:  1.63841199875
+Leaning time Trees:  0.00333118438721
 Predicting...
-Test time DPeriodic ID:  0.145677804947
-Test time DPeriodic covariance:  0.145345926285
-Test time Trees:  0.000227928161621
-R2 OVK ID:  0.989472132706
-R2 OVK covariance:  0.991023917305
-R2 Trees:  0.783008103817
+Test time DPeriodic ID:  0.147575139999
+Test time DPeriodic covariance:  0.143822908401
+Test time Trees:  0.000226020812988
+R2 OVK ID:  0.991260281834
+R2 OVK covariance:  0.993238210695
+R2 Trees:  0.791446671336
 plotting
 Done
 </pre></div>
@@ -180,7 +180,7 @@ Done
 
 <span class="k">print</span><span class="p">(</span><span class="n">__doc__</span><span class="p">)</span>
 
-<span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">123</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
 
@@ -266,7 +266,7 @@ Done
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 3.625 seconds)</p>
+(0 minutes 2.832 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_multiple_outputs.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_multiple_outputs.py</span></code></a></div>
 <div class="sphx-glr-download container">

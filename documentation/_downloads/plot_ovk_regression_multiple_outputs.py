@@ -26,7 +26,7 @@ import time
 
 print(__doc__)
 
-seed = 0
+seed = 123
 np.random.seed(seed)
 print("seed", seed)
 

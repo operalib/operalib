@@ -40,8 +40,8 @@ def test_valid_estimator():
     if LooseVersion(__version__) >= LooseVersion('0.18.0'):
         check_estimator(ovk.Ridge)
     else:
-        warn('sklearn\'s check_estimator seems to be broken in __version__ <= \
-              0.17.x... skipping')
+        warn('sklearn\'s check_estimator seems to be broken in __version__ <='
+             ' 0.17.x... skipping')
 
 
 def test_ridge_grad_id():

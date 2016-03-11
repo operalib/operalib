@@ -47,7 +47,6 @@ def test_learn_periodic_autocorr_id():
     regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, theta=.99,
                        period='autocorr', autocorr_params={'min_dist': 20})
     regr_1.fit(X, y)
-    print regr_1.score(X_test, y_t)
     assert regr_1.score(X_test, y_t) > 0.8
 
 

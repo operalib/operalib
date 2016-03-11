@@ -64,6 +64,13 @@ def test_ridge_grad_cov():
                       y.ravel(), K(X, X)) < 1e-3
 
 
+def test_learn_periodic_autocorr_id():
+    """Test ovk periodic estimator fit, predict. A=Id, autocorrelation."""
+    regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period='autocorr', theta=.99)
+    regr_1.fit(X, y)
+    assert regr_1.score(X_test, y_t) > 0.7
+
+
 def test_learn_periodic_id():
     """Test ovk periodic estimator fit, predict. A=Id."""
     regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=2 * pi, theta=.99)

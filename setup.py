@@ -19,12 +19,6 @@ except ImportError:
     print('scipy is required during installation')
     sys.exit(1)
 
-try:
-    import sklearn
-except ImportError:
-    print('scikit-learn is required during installation')
-    sys.exit(1)
-
 setup(name='operalib',
       version='0.0.3',
       description='Learning with operator-valued kernels',

@@ -38,10 +38,10 @@ def test_valid_estimator():
     """Test whether ovk.Ridge is a valid sklearn estimator."""
     from sklearn import __version__
     if LooseVersion(__version__) >= LooseVersion('0.18.0'):
+        check_estimator(ovk.Ridge)
+    else:
         warn('sklearn\'s check_estimator seems to be broken in __version__ <= \
               0.17.x... skipping')
-    else:
-        check_estimator(ovk.Ridge())
 
 
 def test_ridge_grad_id():

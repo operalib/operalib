@@ -48,19 +48,19 @@ start = time.time()
 A = np.eye(2)
 regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
 regr_1.fit(X, y)
-print("LTime OVK ID: ", time.time() - start)
+print("Leaning time DPeriodic ID: ", time.time() - start)
 
 start = time.time()
 A = np.cov(y.T) / np.linalg.norm(np.cov(y.T))
 
 regr_2 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
 regr_2.fit(X, y)
-print("LTime OVK cov: ", time.time() - start)
+print("Leaning time DPeriodic covariance: ", time.time() - start)
 
 start = time.time()
 regr_3 = DecisionTreeRegressor(max_depth=100)
 regr_3.fit(X, y)
-print("LTime OVK Trees: ", time.time() - start)
+print("Leaning time Trees: ", time.time() - start)
 
 
 # Predict
@@ -68,13 +68,13 @@ print("Predicting...")
 X_test = np.arange(-100.0, 100.0, .5)[:, np.newaxis]
 start = time.time()
 y_1 = regr_1.predict(X_test)
-print("TTime OVK ID: ", time.time() - start)
+print("Test time DPeriodic ID: ", time.time() - start)
 start = time.time()
 y_2 = regr_2.predict(X_test)
-print("TTime OVK cov: ", time.time() - start)
+print("Test time DPeriodic covariance: ", time.time() - start)
 start = time.time()
 y_3 = regr_3.predict(X_test)
-print("LTime OVK Trees: ", time.time() - start)
+print("Test time Trees: ", time.time() - start)
 
 # Ground truth
 y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
@@ -82,7 +82,7 @@ y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
 
 
 print("R2 OVK ID: ", regr_1.score(X_test, y_t))
-print("R2 OVK cov: ", regr_2.score(X_test, y_t))
+print("R2 OVK covariance: ", regr_2.score(X_test, y_t))
 print("R2 Trees: ", regr_3.score(X_test, y_t))
 
 
@@ -98,7 +98,7 @@ plt.xlim([-4, 4])
 plt.ylim([-4, 4])
 plt.xlabel("data")
 plt.ylabel("target")
-plt.title("Multi-output Decision Tree Regression")
+plt.title("Multi-output OVK Regression")
 plt.legend()
 plt.show()
 

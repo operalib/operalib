@@ -77,7 +77,7 @@ class KernelRidgeRisk(object):
         return Gram * res / np + self.lbda * pred / np
 
     def functional_grad_val(self, dual_coefs, ground_truth, Gram):
-        """Compute the gradient of the Empirical OVK ridge risk.
+        """Compute the gradient and value of the Empirical OVK ridge risk.
 
         Parameters
         ----------

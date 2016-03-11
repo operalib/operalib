@@ -28,7 +28,9 @@ def first_periodic_kernel(X, Y=None, gamma=None, period=None):
         If None, defaults to 1.0 / n_samples_X
 
     period : float, default None
-        If None, defaults to 2 * pi. This parameter should not be default as
+        If None, defaults to 2 * pi.
+
+        This parameter should not be default as
         wrong estimation leads to poor learning score.
 
     Returns

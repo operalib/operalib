@@ -1,7 +1,7 @@
 """
-***************************
+===========================
 Module OVK ridge regression
-***************************
+===========================
 
 The module :mod:`operalib.ridge` implements Operator-Valued Kernel ridge
 regression.
@@ -83,7 +83,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     Examples
     --------
-    >>> from sklearn import ovk
+    >>> import operalib as ovk
     >>> import numpy as np
     >>> n_samples, n_features, n_targets = 10, 5, 5
     >>> rng = np.random.RandomState(0)

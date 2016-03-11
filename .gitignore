@@ -67,3 +67,6 @@ target/
 
 # Jupyter notebook
 *.ipynb
+
+# OSX
+.DS_Store

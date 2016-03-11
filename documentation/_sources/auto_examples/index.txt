@@ -7,7 +7,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example to illustrate multi-output regression with operator-valiued kernels. ">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example to illustrate multi-output regression with operator-valued kernels. ">
 
 .. only:: html
 

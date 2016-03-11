@@ -288,9 +288,9 @@ maps associated to the operator-valued kernel models defined in
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">DecomposableKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>A</em>, <em>scalar_kernel</em>, <em>scalar_kernel_params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposable Operator-Valued Kernel.</p>
 <p>Decomposable Operator-Valued Kernel map of the form:</p>
-<blockquote>
-<div>X -&gt; K_X(Y) = k_s(X, Y) * A</div></blockquote>
-<p>where A is a symmetric positive semidefinite operator acting on the
+<div class="math">
+<p><img src="../_images/math/57a405f319fcfab2ee403d3ef4c4c40a3b3ec529.png" alt="X       o K_X(Y) = k_s(X, Y) A"/></p>
+</div><p>where A is a symmetric positive semidefinite operator acting on the
 outputs. This class just fixes the support data X to the kernel. Hence it
 naturally inherit from Decomposable kernels</p>
 <div class="admonition seealso">
@@ -340,9 +340,9 @@ naturally inherit from Decomposable kernels</p>
 <dt id="operalib.kernel_maps.DecomposableKernelMap.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the Gram matrix associated with the data Y.</p>
-<blockquote>
-<div>K(X, Y)</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
+<div class="math">
+<p><img src="../_images/math/f59bbeb8d790b6a3c8a8794e06646761f726420d.png" alt="K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -399,9 +399,9 @@ passed as callable object.</p>
 <dd><p>Syntaxic sugar.</p>
 <blockquote>
 <div><p>If Kx is a compatible decomposable kernel, returns</p>
-<blockquote>
-<div>K(X, Y) = Kx.T * Ky</div></blockquote>
-</div></blockquote>
+<div class="math">
+<p><img src="../_images/math/524e251d74052ea71a9e45860ad66ec119a7614c.png" alt="K(X, Y) = K_X^T K_Y"/></p>
+</div></div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

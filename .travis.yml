@@ -5,6 +5,7 @@ language: python
 
 cache:
   apt: true
+  pip: true
   # We use six different cache directory
   # to work around a Travis bug with multi-platform cache
   directories:

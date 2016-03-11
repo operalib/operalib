@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; Operalib 0.1.0 documentation</title>
+  <title>Module optional &mdash; Operalib 0.1.0 documentation</title>
   
 
   
@@ -107,7 +107,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -115,9 +115,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>Overview: module code</li>
+    <li>Module optional</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+            <a href="../_sources/modules/optional.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -127,14 +129,51 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="operalib/kernel_maps.html">operalib.kernel_maps</a></li>
-<li><a href="operalib/kernels.html">operalib.kernels</a></li>
-<li><a href="operalib/metrics.html">operalib.metrics</a></li>
-<li><a href="operalib/optional.html">operalib.optional</a></li>
-<li><a href="operalib/ridge.html">operalib.ridge</a></li>
-<li><a href="operalib/risk.html">operalib.risk</a></li>
-</ul>
+  <div class="section" id="module-operalib.optional">
+<span id="module-optional"></span><h1>Module optional<a class="headerlink" href="#module-operalib.optional" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-operalib.optional" title="operalib.optional"><code class="xref py py-mod docutils literal"><span class="pre">operalib.optional</span></code></a> implements optinal features for OVK
+learning
+such as period detection for periodic kernels. It includes code relying on
+third-party library except scipy/numpy.</p>
+<dl class="function">
+<dt id="operalib.optional.indexes">
+<code class="descclassname">operalib.optional.</code><code class="descname">indexes</code><span class="sig-paren">(</span><em>y</em>, <em>thres=0.3</em>, <em>min_dist=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/optional.html#indexes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.optional.indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Peak detection routine.</p>
+<p>Finds the peaks in <em>y</em> by taking its first order difference. By using
+<em>thres</em> and <em>min_dist</em> parameters, it is possible to reduce the number of
+detected peaks. <em>y</em> must be signed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray (signed)</p>
+<blockquote>
+<div><p>1D amplitude data to search for peaks.</p>
+</div></blockquote>
+<p><strong>thres</strong> : float between [0., 1.]</p>
+<blockquote>
+<div><p>Normalized threshold. Only the peaks with amplitude higher than the
+threshold will be detected.</p>
+</div></blockquote>
+<p><strong>min_dist</strong> : int</p>
+<blockquote>
+<div><p>Minimum distance between each detected peak. The peak with the highest
+amplitude is preferred to satisfy this constraint.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
+<blockquote class="last">
+<div><p>Array containing the indexes of the peaks that were detected</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
            </div>
           </div>

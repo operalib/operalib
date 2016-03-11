@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; Operalib 0.1.0 documentation</title>
+  <title>Module metrics &mdash; Operalib 0.1.0 documentation</title>
   
 
   
@@ -107,7 +107,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -115,9 +115,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>Overview: module code</li>
+    <li>Module metrics</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+            <a href="../_sources/modules/metrics.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -127,14 +129,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="operalib/kernel_maps.html">operalib.kernel_maps</a></li>
-<li><a href="operalib/kernels.html">operalib.kernels</a></li>
-<li><a href="operalib/metrics.html">operalib.metrics</a></li>
-<li><a href="operalib/optional.html">operalib.optional</a></li>
-<li><a href="operalib/ridge.html">operalib.ridge</a></li>
-<li><a href="operalib/risk.html">operalib.risk</a></li>
-</ul>
+  <div class="section" id="module-operalib.metrics">
+<span id="module-metrics"></span><h1>Module metrics<a class="headerlink" href="#module-operalib.metrics" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-operalib.metrics" title="operalib.metrics"><code class="xref py py-mod docutils literal"><span class="pre">operalib.metrics</span></code></a> define upplementary metrics not
+available in scikit-learn</p>
+<dl class="function">
+<dt id="operalib.metrics.first_periodic_kernel">
+<code class="descclassname">operalib.metrics.</code><code class="descname">first_periodic_kernel</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em>, <em>gamma=None</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/metrics.html#first_periodic_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.metrics.first_periodic_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the first periodic kernel between X and Y.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array of shape (n_samples_X, n_features)</p>
+<p><strong>Y</strong> : array of shape (n_samples_Y, n_features)</p>
+<p><strong>gamma</strong> : float, default None</p>
+<blockquote>
+<div><p>If None, default to 1.0 / n_samples_X</p>
+</div></blockquote>
+<p><strong>period</strong> : float, default None</p>
+<blockquote>
+<div><p>If None, default to 2 * pi.</p>
+<p>This parameter should not be default as
+wrong estimation lead to poor learning score.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>kernel_matrix</strong> : array of shape (n_samples_X, n_samples_Y)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
            </div>
           </div>

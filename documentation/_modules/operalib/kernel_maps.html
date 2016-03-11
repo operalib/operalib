@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>operalib.kernel_maps &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>operalib.kernel_maps</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for operalib.kernel_maps</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`operalib.kernel_maps` implement some Operator-Valued Kernel</span>
+<span class="sd">maps associated to the operator-valued kernel models defined in</span>
+<span class="sd">:mod:`operalib.kernels`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Author: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
+<span class="c1">#         the scikit-learn community.</span>
+<span class="c1"># License: MIT</span>
+
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">reshape</span>
+
+<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span>
+
+
+<div class="viewcode-block" id="DecomposableKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap">[docs]</a><span class="k">class</span> <span class="nc">DecomposableKernelMap</span><span class="p">(</span><span class="n">DecomposableKernel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decomposable Operator-Valued Kernel.</span>
+
+<span class="sd">    Decomposable Operator-Valued Kernel map of the form:</span>
+
+<span class="sd">        X -&gt; K_X(Y) = k_s(X, Y) * A</span>
+
+<span class="sd">    where A is a symmetric positive semidefinite operator acting on the</span>
+<span class="sd">    outputs. This class just fixes the support data X to the kernel. Hence it</span>
+<span class="sd">    naturally inherit from Decomposable kernels</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    n: {Int}</span>
+<span class="sd">        Number of samples.</span>
+
+<span class="sd">    d: {Int}</span>
+<span class="sd">        Number of features</span>
+
+<span class="sd">    X: {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">        Support samples.</span>
+
+<span class="sd">    Gs: {array-like, sparse matrix}, shape = [n, n]</span>
+<span class="sd">        Gram matrix associated with the scalar kernel</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    DecomposableKernel</span>
+<span class="sd">        Decomposable Kernel</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DecomposableKernelMap.__init__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">scalar_kernel</span><span class="p">,</span> <span class="n">scalar_kernel_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Decomposable Operator-Valued Kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Support samples.</span>
+
+<span class="sd">        A : {array, LinearOperator}, shape = [n_targets, n_targets]</span>
+<span class="sd">            Linear operator acting on the outputs</span>
+
+<span class="sd">        scalar_kernel : {callable}</span>
+<span class="sd">            Callable which associate to the training points X the Gram matrix.</span>
+
+<span class="sd">        scalar_kernel_params : {mapping of string to any}, optional</span>
+<span class="sd">            Additional parameters (keyword arguments) for kernel function</span>
+<span class="sd">            passed as callable object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DecomposableKernelMap</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">scalar_kernel</span><span class="p">,</span>
+                                                    <span class="n">scalar_kernel_params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="bp">None</span></div>
+
+<div class="viewcode-block" id="DecomposableKernelMap.__mul__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap.__mul__">[docs]</a>    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Ky</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Syntaxic sugar.</span>
+
+<span class="sd">           If Kx is a compatible decomposable kernel, returns</span>
+
+<span class="sd">                K(X, Y) = Kx.T * Ky</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Ky : {DecomposableKernelMap}</span>
+<span class="sd">            Compatible kernel Map (e.g. same kernel but different support data</span>
+<span class="sd">            X).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : LinearOperator</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Check that Kx is compatible</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="n">Ky</span><span class="o">.</span><span class="n">X</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_Gram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">kernel_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel_params</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel_params</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel_params</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gs</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ravel</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">Gs</span><span class="p">,</span> <span class="n">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">))),</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">))</span>
+
+<div class="viewcode-block" id="DecomposableKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y.</span>
+
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : LinearOperator</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
+            <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

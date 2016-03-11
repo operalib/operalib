@@ -158,7 +158,7 @@
     <span class="s1">&#39;DPeriodic&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="p">}</span>
 
 
-<div class="viewcode-block" id="Ridge"><a class="viewcode-back" href="../../ridge.html#operalib.ridge.Ridge">[docs]</a><span class="k">class</span> <span class="nc">Ridge</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="Ridge"><a class="viewcode-back" href="../../modules/ridge.html#operalib.ridge.Ridge">[docs]</a><span class="k">class</span> <span class="nc">Ridge</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Operator-Valued kernel ridge regression.</span>
 
 <span class="sd">    Operator-Valued kernel ridge regression (OVKRR) combines ridge regression</span>
@@ -222,7 +222,7 @@
 <span class="sd">    &gt;&gt;&gt; clf.fit(X, y)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Ridge.__init__"><a class="viewcode-back" href="../../ridge.html#operalib.ridge.Ridge.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Ridge.__init__"><a class="viewcode-back" href="../../modules/ridge.html#operalib.ridge.Ridge.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
                  <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;autocorr&#39;</span><span class="p">,</span>
                  <span class="n">autocorr_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -360,7 +360,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pred</span>
 
-<div class="viewcode-block" id="Ridge.fit"><a class="viewcode-back" href="../../ridge.html#operalib.ridge.Ridge.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="Ridge.fit"><a class="viewcode-back" href="../../modules/ridge.html#operalib.ridge.Ridge.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit OVK ridge regression model.</span>
 
 <span class="sd">        Parameters</span>
@@ -391,7 +391,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dual_coefs_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver_res_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Ridge.predict"><a class="viewcode-back" href="../../ridge.html#operalib.ridge.Ridge.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="Ridge.predict"><a class="viewcode-back" href="../../modules/ridge.html#operalib.ridge.Ridge.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Predict using the OVK ridge model.</span>
 
 <span class="sd">        Parameters</span>

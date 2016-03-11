@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module Ridge &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Module Ridge</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/ridge.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-operalib.ridge">
+<span id="module-ridge"></span><h1>Module Ridge<a class="headerlink" href="#module-operalib.ridge" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
+regression.</p>
+<dl class="class">
+<dt id="operalib.ridge.Ridge">
+<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">Ridge</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Operator-Valued kernel ridge regression.</p>
+<p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
+(linear least squares with l2-norm regularization) with the (OV)kernel
+trick. It thus learns a linear function in the space induced by the
+respective kernel and the data. For non-linear kernels, this corresponds to
+a non-linear function in the original space.</p>
+<p>The form of the model learned by OVKRR is identical to support vector
+regression (SVR). However, different loss functions are used: OVKRR uses
+squared error loss while support vector regression uses epsilon-insensitive
+loss, both combined with l2 regularization. In contrast to SVR, fitting a
+OVKRR model can be done in closed-form and is typically faster for
+medium-sized datasets. On the other  hand, the learned model is non-sparse
+and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at
+prediction-time.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.Ridge</span></code></dt>
+<dd>Linear ridge regression.</dd>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.KernelRidge</span></code></dt>
+<dd>Kernel ridge regression.</dd>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.SVR</span></code></dt>
+<dd>Support Vector Regression implemented using libsvm.</dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li>Kevin P. Murphy
+&#8220;Machine Learning: A Probabilistic Perspective&#8221;, The MIT Press
+chapter 14.4.3, pp. 492-493</li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_targets</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a href="#id3"><span class="problematic" id="id4">dual_coef_</span></a></td>
+<td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
+</tr>
+<tr class="row-even"><td><a href="#id5"><span class="problematic" id="id6">self.linop_</span></a></td>
+<td>(callable) Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)</td>
+</tr>
+<tr class="row-odd"><td><a href="#id7"><span class="problematic" id="id8">A_</span></a></td>
+<td>(array, shape = [n_targets, n_targets]) Set when Linear operator used by the decomposable kernel is default or None.</td>
+</tr>
+<tr class="row-even"><td><a href="#id9"><span class="problematic" id="id10">period_</span></a></td>
+<td>(float) Set when period used by the First periodic kernel is &#8216;autocorr&#8217;.</td>
+</tr>
+<tr class="row-odd"><td><a href="#id11"><span class="problematic" id="id12">solver_res_</span></a></td>
+<td>(any) Raw results returned by the solver.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.fit" title="operalib.ridge.Ridge.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<td>Fit OVK ridge regression model.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.predict" title="operalib.ridge.Ridge.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
+<td>Predict using the OVK ridge model.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">score</span></code>(X,&nbsp;y[,&nbsp;sample_weight])</td>
+<td>Returns the coefficient of determination R^2 of the prediction.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code>(**params)</td>
+<td>Set the parameters of this estimator.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="operalib.ridge.Ridge.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize OVK ridge regression model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lbda</strong> : {float}</p>
+<blockquote>
+<div><p>Small positive values of lbda improve the conditioning of the
+problem and reduce the variance of the estimates.  Lbda corresponds
+to <code class="docutils literal"><span class="pre">(2*C)^-1</span></code> in other linear models such as LogisticRegression
+or LinearSVC.</p>
+</div></blockquote>
+<p><strong>kernel</strong> : string or callable, default=&#8217;DGauss&#8217;</p>
+<blockquote>
+<div><p>Kernel mapping used internally. A callable should accept two
+arguments and the keyword arguments passed to this object as
+kernel_params, and should return a LinearOperator.</p>
+</div></blockquote>
+<p><strong>A</strong> : {LinearOperator, array-like, sparse matrix}, default=None</p>
+<blockquote>
+<div><p>Linear operator used by the decomposable kernel. If default is
+None, wich is set to identity matrix of size y.shape[1] when
+fitting.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float, default=1</p>
+<blockquote>
+<div><p>Sigma parameter for the Decomposable Gaussian kernel.
+Ignored by other kernels.</p>
+</div></blockquote>
+<p><strong>theta</strong> : float, default=1</p>
+<blockquote>
+<div><p>Theta parameter for the Decomposable First Periodic kernel.
+Ignored by other kernels.</p>
+</div></blockquote>
+<p><strong>period</strong> : float, default=default_period</p>
+<blockquote>
+<div><p>Period parameter for the First periodic kernel. If optional modules
+have been imported then default_period is 2 * pi. Otherwise it uses
+autocorrelation methods to determine the period.</p>
+</div></blockquote>
+<p><strong>solver</strong> : callable, default=scipy.optimize.fmin_l_bfgs_b</p>
+<blockquote>
+<div><p>Solver able to find the minimum of the ridge problem.
+scipy.optimize.fmin_l_bfgs_b(<a href="#id1"><span class="problematic" id="id2">*</span></a>solver_params)[0] must return the
+optimal solution.</p>
+</div></blockquote>
+<p><strong>autocorr_params</strong> : mapping of string to any</p>
+<blockquote>
+<div><p>Additional parameters (keyword arguments) for the period detection
+for periodic kernels. If None, parameter choice is left to the
+period detection method.</p>
+</div></blockquote>
+<p><strong>solver_params</strong> : mapping of string to any, optional</p>
+<blockquote>
+<div><p>Additional parameters (keyword arguments) for solver function
+passed as callable object.</p>
+</div></blockquote>
+<p><strong>kernel_params</strong> : mapping of string to any, optional</p>
+<blockquote class="last">
+<div><p>Additional parameters (keyword arguments) for kernel function
+passed as callable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.ridge.Ridge.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit OVK ridge regression model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Training data.</p>
+</div></blockquote>
+<p><strong>y</strong> : {array-like}, shape = [n_samples] or [n_samples, n_targets]</p>
+<blockquote>
+<div><p>Target values.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>self</strong> : returns an instance of self.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.ridge.Ridge.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict using the OVK ridge model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>C</strong> : {array}, shape = [n_samples] or [n_samples, n_targets]</p>
+<blockquote class="last">
+<div><p>Returns predicted values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

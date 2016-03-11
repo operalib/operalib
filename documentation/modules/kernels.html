@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module kernels &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Module kernels</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/kernels.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-operalib.kernels">
+<span id="module-kernels"></span><h1>Module kernels<a class="headerlink" href="#module-operalib.kernels" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernels</span></code></a> implements some Operator-Valued Kernel
+models.</p>
+<dl class="class">
+<dt id="operalib.kernels.DecomposableKernel">
+<em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">DecomposableKernel</code><span class="sig-paren">(</span><em>A</em>, <em>scalar_kernel=&lt;function rbf_kernel&gt;</em>, <em>scalar_kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decomposable Operator-Valued Kernel.</p>
+<p>Decomposable Operator-Valued Kernel of the form:</p>
+<blockquote>
+<div>X, Y -&gt; K(X, Y) = k_s(X, Y) * A</div></blockquote>
+<p>where A is a symmetric positive semidefinite operator acting on the
+outputs.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">DecomposableKernelMap</span></code></dt>
+<dd>Decomposable Kernel map</dd>
+</dl>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>A</td>
+<td>({array, LinearOperator}, shape = [n_targets, n_targets]) Linear operator acting on the outputs</td>
+</tr>
+<tr class="row-even"><td>scalar_kernel</td>
+<td>({callable}) Callable which associate to the training points X the Gram matrix.</td>
+</tr>
+<tr class="row-odd"><td>scalar_kernel_params</td>
+<td>({mapping of string to any}) Additional parameters (keyword arguments) for kernel function passed as callable object.</td>
+</tr>
+<tr class="row-even"><td>p</td>
+<td>({Int}) dimension of the targets (n_targets).</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.__call__" title="operalib.kernels.DecomposableKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
+<td>Return the kernel map associated with the data X.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="operalib.kernels.DecomposableKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
+<td>Return the kernel map associated with the data X.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="operalib.kernels.DecomposableKernel.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the kernel map associated with the data X.</p>
+<blockquote>
+<div>K_x: Y -&gt; K(X, Y) if Y is None
+K(X, Y) otherwise</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
+<blockquote>
+<div><blockquote>
+<div><p>default = None</p>
+</div></blockquote>
+<p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
+<blockquote class="last">
+<div><p>Returns K_x: Y -&gt; K(X, Y) if Y is None; K(X, Y) otherwise.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernels.DecomposableKernel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>A</em>, <em>scalar_kernel=&lt;function rbf_kernel&gt;</em>, <em>scalar_kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Decomposable Operator-Valued Kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : {array, LinearOperator}, shape = [n_targets, n_targets]</p>
+<blockquote>
+<div><p>Linear operator acting on the outputs</p>
+</div></blockquote>
+<p><strong>scalar_kernel</strong> : {callable}</p>
+<blockquote>
+<div><p>Callable which associate to the training points X the Gram matrix.</p>
+</div></blockquote>
+<p><strong>scalar_kernel_params</strong> : {mapping of string to any}, optional</p>
+<blockquote class="last">
+<div><p>Additional parameters (keyword arguments) for kernel function
+passed as callable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="operalib.kernels.DecomposableKernel.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernels.DecomposableKernel.get_kernel_map">
+<code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the kernel map associated with the data X.</p>
+<blockquote>
+<div>K_x: Y -&gt; K(X, Y)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
+<blockquote class="last">
+<div><p>Returns K_x: Y -&gt; K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-operalib.kernel_maps"></span><p><a class="reference internal" href="#module-operalib.kernel_maps" title="operalib.kernel_maps"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernel_maps</span></code></a> implement some Operator-Valued Kernel
+maps associated to the operator-valued kernel models defined in
+<a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernels</span></code></a>.</p>
+<dl class="class">
+<dt id="operalib.kernel_maps.DecomposableKernelMap">
+<em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">DecomposableKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>A</em>, <em>scalar_kernel</em>, <em>scalar_kernel_params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decomposable Operator-Valued Kernel.</p>
+<p>Decomposable Operator-Valued Kernel map of the form:</p>
+<blockquote>
+<div>X -&gt; K_X(Y) = k_s(X, Y) * A</div></blockquote>
+<p>where A is a symmetric positive semidefinite operator acting on the
+outputs. This class just fixes the support data X to the kernel. Hence it
+naturally inherit from Decomposable kernels</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">DecomposableKernel</span></code></dt>
+<dd>Decomposable Kernel</dd>
+</dl>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>n: {Int}</td>
+<td>Number of samples.</td>
+</tr>
+<tr class="row-even"><td>d: {Int}</td>
+<td>Number of features</td>
+</tr>
+<tr class="row-odd"><td>X: {array-like, sparse matrix}, shape = [n_samples, n_features]</td>
+<td>Support samples.</td>
+</tr>
+<tr class="row-even"><td>Gs: {array-like, sparse matrix}, shape = [n, n]</td>
+<td>Gram matrix associated with the scalar kernel</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="operalib.kernel_maps.DecomposableKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<td>Return the Gram matrix associated with the data Y.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<td>Return the kernel map associated with the data X.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="operalib.kernel_maps.DecomposableKernelMap.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Gram matrix associated with the data Y.</p>
+<blockquote>
+<div>K(X, Y)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernel_maps.DecomposableKernelMap.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>X</em>, <em>A</em>, <em>scalar_kernel</em>, <em>scalar_kernel_params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Decomposable Operator-Valued Kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></p>
+<blockquote>
+<div><p>Support samples.</p>
+</div></blockquote>
+<p><strong>A</strong> : {array, LinearOperator}, shape = [n_targets, n_targets]</p>
+<blockquote>
+<div><p>Linear operator acting on the outputs</p>
+</div></blockquote>
+<p><strong>scalar_kernel</strong> : {callable}</p>
+<blockquote>
+<div><p>Callable which associate to the training points X the Gram matrix.</p>
+</div></blockquote>
+<p><strong>scalar_kernel_params</strong> : {mapping of string to any}, optional</p>
+<blockquote class="last">
+<div><p>Additional parameters (keyword arguments) for kernel function
+passed as callable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernel_maps.DecomposableKernelMap.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>Ky</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Syntaxic sugar.</p>
+<blockquote>
+<div><p>If Kx is a compatible decomposable kernel, returns</p>
+<blockquote>
+<div>K(X, Y) = Kx.T * Ky</div></blockquote>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ky</strong> : {DecomposableKernelMap}</p>
+<blockquote>
+<div><p>Compatible kernel Map (e.g. same kernel but different support data
+X).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -6,6 +6,9 @@
 .. |Coveralls| image:: https://coveralls.io/repos/github/RomainBrault/operalib/badge.svg?branch=master
 .. _Coveralls: https://coveralls.io/github/RomainBrault/operalib?branch=master
 
+.. |CircleCI| image:: https://circleci.com/gh/RomainBrault/operalib/tree/master.svg?style=shield&circle-token=:circle-token
+.. _CircleCI: https://circleci.com/gh/RomainBrault/operalib
+
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
 .. _Python27: https://github.com/RomainBrault/operalib
 

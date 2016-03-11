@@ -44,8 +44,8 @@ extensions = [
     'sphinx.ext.pngmath',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx_gallery.gen_gallery'
-
+    'sphinx.ext.autosummary',
+    'sphinx_gallery.gen_gallery',
 ]
 
 sphinx_gallery_conf = {

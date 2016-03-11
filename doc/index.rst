@@ -23,7 +23,6 @@ University of Evry, France.
     .. toctree::
        :maxdepth: 2
 
-       index
        api
        auto_examples/index
        contact

@@ -119,7 +119,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/template.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ridge.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -131,7 +131,7 @@
             
   <div class="section" id="operalib">
 <h1>Operalib<a class="headerlink" href="#operalib" title="Permalink to this headline">¶</a></h1>
-<p>The documentation Operalib.</p>
+<p>The documentation of Operalib.</p>
 <span class="target" id="module-operalib.ridge"></span><p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
 regression.</p>
 <dl class="class">
@@ -186,19 +186,19 @@ chapter 14.4.3, pp. 492-493</li>
 <col width="91%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">dual_coef_</span></a></td>
+<tr class="row-odd"><td><a href="#id3"><span class="problematic" id="id4">dual_coef_</span></a></td>
 <td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
 </tr>
-<tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">self.linop_</span></a></td>
+<tr class="row-even"><td><a href="#id5"><span class="problematic" id="id6">self.linop_</span></a></td>
 <td>(callable) Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)</td>
 </tr>
-<tr class="row-odd"><td><a href="#id5"><span class="problematic" id="id6">A_</span></a></td>
+<tr class="row-odd"><td><a href="#id7"><span class="problematic" id="id8">A_</span></a></td>
 <td>(array, shape = [n_targets, n_targets]) Set when Linear operator used by the decomposable kernel is default or None.</td>
 </tr>
-<tr class="row-even"><td><a href="#id7"><span class="problematic" id="id8">period_</span></a></td>
+<tr class="row-even"><td><a href="#id9"><span class="problematic" id="id10">period_</span></a></td>
 <td>(float) Set when period used by the First periodic kernel is &#8216;autocorr&#8217;.</td>
 </tr>
-<tr class="row-odd"><td><a href="#id9"><span class="problematic" id="id10">solver_res_</span></a></td>
+<tr class="row-odd"><td><a href="#id11"><span class="problematic" id="id12">solver_res_</span></a></td>
 <td>(any) Raw results returned by the solver.</td>
 </tr>
 </tbody>
@@ -227,6 +227,77 @@ chapter 14.4.3, pp. 492-493</li>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="operalib.ridge.Ridge.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/ridge.html#Ridge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize OVK ridge regression model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lbda</strong> : {float}</p>
+<blockquote>
+<div><p>Small positive values of lbda improve the conditioning of the
+problem and reduce the variance of the estimates.  Lbda corresponds
+to <code class="docutils literal"><span class="pre">(2*C)^-1</span></code> in other linear models such as LogisticRegression
+or LinearSVC.</p>
+</div></blockquote>
+<p><strong>kernel</strong> : string or callable, default=&#8217;DGauss&#8217;</p>
+<blockquote>
+<div><p>Kernel mapping used internally. A callable should accept two
+arguments and the keyword arguments passed to this object as
+kernel_params, and should return a LinearOperator.</p>
+</div></blockquote>
+<p><strong>A</strong> : {LinearOperator, array-like, sparse matrix}, default=None</p>
+<blockquote>
+<div><p>Linear operator used by the decomposable kernel. If default is
+None, wich is set to identity matrix of size y.shape[1] when
+fitting.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float, default=1</p>
+<blockquote>
+<div><p>Sigma parameter for the Decomposable Gaussian kernel.
+Ignored by other kernels.</p>
+</div></blockquote>
+<p><strong>theta</strong> : float, default=1</p>
+<blockquote>
+<div><p>Theta parameter for the Decomposable First Periodic kernel.
+Ignored by other kernels.</p>
+</div></blockquote>
+<p><strong>period</strong> : float, default=default_period</p>
+<blockquote>
+<div><p>Period parameter for the First periodic kernel. If optional modules
+have been imported then default_period is 2 * pi. Otherwise it uses
+autocorrelation methods to determine the period.</p>
+</div></blockquote>
+<p><strong>solver</strong> : callable, default=scipy.optimize.fmin_l_bfgs_b</p>
+<blockquote>
+<div><p>Solver able to find the minimum of the ridge problem.
+scipy.optimize.fmin_l_bfgs_b(<a href="#id1"><span class="problematic" id="id2">*</span></a>solver_params)[0] must return the
+optimal solution.</p>
+</div></blockquote>
+<p><strong>autocorr_params</strong> : mapping of string to any</p>
+<blockquote>
+<div><p>Additional parameters (keyword arguments) for the period detection
+for periodic kernels. If None, parameter choice is left to the
+period detection method.</p>
+</div></blockquote>
+<p><strong>solver_params</strong> : mapping of string to any, optional</p>
+<blockquote>
+<div><p>Additional parameters (keyword arguments) for solver function
+passed as callable object.</p>
+</div></blockquote>
+<p><strong>kernel_params</strong> : mapping of string to any, optional</p>
+<blockquote class="last">
+<div><p>Additional parameters (keyword arguments) for kernel function
+passed as callable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="operalib.ridge.Ridge.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/ridge.html#Ridge.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.fit" title="Permalink to this definition">¶</a></dt>
@@ -324,7 +395,7 @@ outputs.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(X[,&nbsp;Y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.__call__" title="operalib.kernels.DecomposableKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="operalib.kernels.DecomposableKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
@@ -332,6 +403,73 @@ outputs.</p>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="operalib.kernels.DecomposableKernel.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/kernels.html#DecomposableKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the kernel map associated with the data X.</p>
+<blockquote>
+<div>K_x: Y -&gt; K(X, Y) if Y is None
+K(X, Y) otherwise</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
+<blockquote>
+<div><blockquote>
+<div><p>default = None</p>
+</div></blockquote>
+<p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
+<blockquote class="last">
+<div><p>Returns K_x: Y -&gt; K(X, Y) if Y is None; K(X, Y) otherwise.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernels.DecomposableKernel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>A</em>, <em>scalar_kernel=&lt;function rbf_kernel&gt;</em>, <em>scalar_kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/kernels.html#DecomposableKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Decomposable Operator-Valued Kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : {array, LinearOperator}, shape = [n_targets, n_targets]</p>
+<blockquote>
+<div><p>Linear operator acting on the outputs</p>
+</div></blockquote>
+<p><strong>scalar_kernel</strong> : {callable}</p>
+<blockquote>
+<div><p>Callable which associate to the training points X the Gram matrix.</p>
+</div></blockquote>
+<p><strong>scalar_kernel_params</strong> : {mapping of string to any}, optional</p>
+<blockquote class="last">
+<div><p>Additional parameters (keyword arguments) for kernel function
+passed as callable object.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="operalib.kernels.DecomposableKernel.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="operalib.kernels.DecomposableKernel.get_kernel_map">
 <code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/kernels.html#DecomposableKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
@@ -403,7 +541,7 @@ wrong estimation lead to poor learning score.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(dual_coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.__call__" title="operalib.risk.KernelRidgeRisk.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(dual_coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
 <td>Compute the Empirical OVK ridge risk.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.functional_grad" title="operalib.risk.KernelRidgeRisk.functional_grad"><code class="xref py py-obj docutils literal"><span class="pre">functional_grad</span></code></a>(dual_coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
@@ -414,6 +552,62 @@ wrong estimation lead to poor learning score.</p>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="operalib.risk.KernelRidgeRisk.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>dual_coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/risk.html#KernelRidgeRisk.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Empirical OVK ridge risk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dual_coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
+<blockquote>
+<div><p>Coefficient to optimise</p>
+</div></blockquote>
+<p><strong>ground_truth</strong> : {vector-like}</p>
+<blockquote>
+<div><p>Targets samples</p>
+</div></blockquote>
+<p><strong>Gram</strong> : {LinearOperator}</p>
+<blockquote>
+<div><p>Gram matrix acting on the dual_coefs</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>float</strong> : Empirical OVK ridge risk</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.risk.KernelRidgeRisk.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>lbda</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/risk.html#KernelRidgeRisk.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Empirical kernel ridge risk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lbda</strong> : {float}</p>
+<blockquote class="last">
+<div><p>Small positive values of lbda improve the conditioning of the
+problem and reduce the variance of the estimates.  Lbda corresponds
+to <code class="docutils literal"><span class="pre">(2*C)^-1</span></code> in other linear models such as LogisticRegression
+or LinearSVC.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="operalib.risk.KernelRidgeRisk.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="operalib.risk.KernelRidgeRisk.functional_grad">
 <code class="descname">functional_grad</code><span class="sig-paren">(</span><em>dual_coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/risk.html#KernelRidgeRisk.functional_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.functional_grad" title="Permalink to this definition">¶</a></dt>

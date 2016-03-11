@@ -101,7 +101,7 @@ fi
 rsync -av --exclude '.git/' --exclude='testvenv/' \
       $TRAVIS_BUILD_DIR $CACHED_BUILD_DIR
 
-cd $CACHED_BUILD_DIR
+cd $CACHED_BUILD_DIR/operalib
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"

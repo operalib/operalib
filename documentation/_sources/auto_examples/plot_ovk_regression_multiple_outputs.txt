@@ -20,19 +20,19 @@ An example to illustrate multi-output regression with operator-valiued kernels.
 
  Out::
 
-      17725
+      84682
     Creating dataset...
     Fitting...
-    LTime OVK ID:  1.17048883438
-    LTime OVK cov:  0.857505083084
-    LTime OVK Trees:  0.00479197502136
+    Leaning time DPeriodic ID:  0.36172413826
+    Leaning time DPeriodic covariance:  0.718278169632
+    Leaning time Trees:  0.00322103500366
     Predicting...
-    TTime OVK ID:  0.206952095032
-    TTime OVK cov:  0.209890842438
-    LTime OVK Trees:  0.000284910202026
-    R2 OVK ID:  0.995314999338
-    R2 OVK cov:  0.994931068255
-    R2 Trees:  0.798097851982
+    Test time DPeriodic ID:  0.130563020706
+    Test time DPeriodic covariance:  0.132541894913
+    Test time Trees:  0.000212907791138
+    R2 OVK ID:  0.991732416722
+    R2 OVK covariance:  0.991494570755
+    R2 Trees:  0.763301018638
     plotting
     Done
 
@@ -86,19 +86,19 @@ An example to illustrate multi-output regression with operator-valiued kernels.
     A = np.eye(2)
     regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
     regr_1.fit(X, y)
-    print("LTime OVK ID: ", time.time() - start)
+    print("Leaning time DPeriodic ID: ", time.time() - start)
 
     start = time.time()
     A = np.cov(y.T) / np.linalg.norm(np.cov(y.T))
 
     regr_2 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
     regr_2.fit(X, y)
-    print("LTime OVK cov: ", time.time() - start)
+    print("Leaning time DPeriodic covariance: ", time.time() - start)
 
     start = time.time()
     regr_3 = DecisionTreeRegressor(max_depth=100)
     regr_3.fit(X, y)
-    print("LTime OVK Trees: ", time.time() - start)
+    print("Leaning time Trees: ", time.time() - start)
 
 
     # Predict
@@ -106,13 +106,13 @@ An example to illustrate multi-output regression with operator-valiued kernels.
     X_test = np.arange(-100.0, 100.0, .5)[:, np.newaxis]
     start = time.time()
     y_1 = regr_1.predict(X_test)
-    print("TTime OVK ID: ", time.time() - start)
+    print("Test time DPeriodic ID: ", time.time() - start)
     start = time.time()
     y_2 = regr_2.predict(X_test)
-    print("TTime OVK cov: ", time.time() - start)
+    print("Test time DPeriodic covariance: ", time.time() - start)
     start = time.time()
     y_3 = regr_3.predict(X_test)
-    print("LTime OVK Trees: ", time.time() - start)
+    print("Test time Trees: ", time.time() - start)
 
     # Ground truth
     y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
@@ -120,7 +120,7 @@ An example to illustrate multi-output regression with operator-valiued kernels.
 
 
     print("R2 OVK ID: ", regr_1.score(X_test, y_t))
-    print("R2 OVK cov: ", regr_2.score(X_test, y_t))
+    print("R2 OVK covariance: ", regr_2.score(X_test, y_t))
     print("R2 Trees: ", regr_3.score(X_test, y_t))
 
 
@@ -136,14 +136,14 @@ An example to illustrate multi-output regression with operator-valiued kernels.
     plt.ylim([-4, 4])
     plt.xlabel("data")
     plt.ylabel("target")
-    plt.title("Multi-output Decision Tree Regression")
+    plt.title("Multi-output OVK Regression")
     plt.legend()
     plt.show()
 
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 3.221 seconds)
+(0 minutes 1.848 seconds)
 
 
 

@@ -209,7 +209,7 @@
         <span class="k">return</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span></div>
 
 <div class="viewcode-block" id="KernelRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../template.html#operalib.risk.KernelRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the gradient of the Empirical OVK ridge risk.</span>
+        <span class="sd">&quot;&quot;&quot;Compute the gradient and value of the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

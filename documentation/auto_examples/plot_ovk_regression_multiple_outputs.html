@@ -141,19 +141,19 @@
 <p>An example to illustrate multi-output regression with operator-valiued kernels.</p>
 <img alt="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  17725
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  84682
 Creating dataset...
 Fitting...
-LTime OVK ID:  1.17048883438
-LTime OVK cov:  0.857505083084
-LTime OVK Trees:  0.00479197502136
+Leaning time DPeriodic ID:  0.36172413826
+Leaning time DPeriodic covariance:  0.718278169632
+Leaning time Trees:  0.00322103500366
 Predicting...
-TTime OVK ID:  0.206952095032
-TTime OVK cov:  0.209890842438
-LTime OVK Trees:  0.000284910202026
-R2 OVK ID:  0.995314999338
-R2 OVK cov:  0.994931068255
-R2 Trees:  0.798097851982
+Test time DPeriodic ID:  0.130563020706
+Test time DPeriodic covariance:  0.132541894913
+Test time Trees:  0.000212907791138
+R2 OVK ID:  0.991732416722
+R2 OVK covariance:  0.991494570755
+R2 Trees:  0.763301018638
 plotting
 Done
 </pre></div>
@@ -203,19 +203,19 @@ Done
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">regr_1</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="s1">&#39;DPeriodic&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">theta</span><span class="o">=.</span><span class="mi">99</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">)</span>
 <span class="n">regr_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;LTime OVK ID: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Leaning time DPeriodic ID: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
 
 <span class="n">regr_2</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="s1">&#39;DPeriodic&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">theta</span><span class="o">=.</span><span class="mi">99</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">)</span>
 <span class="n">regr_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;LTime OVK cov: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Leaning time DPeriodic covariance: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">regr_3</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">regr_3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;LTime OVK Trees: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Leaning time Trees: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 
 
 <span class="c1"># Predict</span>
@@ -223,13 +223,13 @@ Done
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">y_1</span> <span class="o">=</span> <span class="n">regr_1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;TTime OVK ID: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test time DPeriodic ID: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">y_2</span> <span class="o">=</span> <span class="n">regr_2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;TTime OVK cov: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test time DPeriodic covariance: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">y_3</span> <span class="o">=</span> <span class="n">regr_3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;LTime OVK Trees: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test time Trees: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
 
 <span class="c1"># Ground truth</span>
 <span class="n">y_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
@@ -237,7 +237,7 @@ Done
 
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;R2 OVK ID: &quot;</span><span class="p">,</span> <span class="n">regr_1</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_t</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;R2 OVK cov: &quot;</span><span class="p">,</span> <span class="n">regr_2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_t</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;R2 OVK covariance: &quot;</span><span class="p">,</span> <span class="n">regr_2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_t</span><span class="p">))</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;R2 Trees: &quot;</span><span class="p">,</span> <span class="n">regr_3</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_t</span><span class="p">))</span>
 
 
@@ -253,7 +253,7 @@ Done
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Multi-output Decision Tree Regression&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Multi-output OVK Regression&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -261,7 +261,7 @@ Done
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 3.221 seconds)</p>
+(0 minutes 1.848 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_multiple_outputs.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_multiple_outputs.py</span></code></a></div>
 <div class="sphx-glr-download container">

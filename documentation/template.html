@@ -168,7 +168,7 @@ prediction-time.</p>
 chapter 14.4.3, pp. 492-493</li>
 </ul>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">ovk</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_targets</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -339,7 +339,8 @@ outputs.</p>
 </div></blockquote>
 <p><strong>period</strong> : float, default None</p>
 <blockquote>
-<div><p>If None, defaults to 2 * pi. This parameter should not be default as
+<div><p>If None, defaults to 2 * pi.</p>
+<p>This parameter should not be default as
 wrong estimation leads to poor learning score.</p>
 </div></blockquote>
 </td>
@@ -389,7 +390,7 @@ wrong estimation leads to poor learning score.</p>
 <dl class="method">
 <dt id="operalib.risk.KernelRidgeRisk.functional_grad_val">
 <code class="descname">functional_grad_val</code><span class="sig-paren">(</span><em>dual_coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/operalib/risk.html#KernelRidgeRisk.functional_grad_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.functional_grad_val" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the gradient of the Empirical OVK ridge risk.</p>
+<dd><p>Compute the gradient and value of the Empirical OVK ridge risk.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

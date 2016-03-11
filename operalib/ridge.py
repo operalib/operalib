@@ -1,6 +1,6 @@
-"""OVK ridge regression.
+"""Module OVK ridge regression.
 
-Module :mod:`sklearn.ovk.ridge` implements Operator-Valued Kernel ridge
+The module :mod:`operalib.ridge` implements Operator-Valued Kernel ridge
 regression.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
@@ -27,13 +27,13 @@ PAIRWISE_KERNEL_FUNCTIONS = {
 
 
 class Ridge(BaseEstimator, RegressorMixin):
-    """OVK ridge regression.
+    """Operator-Valued kernel ridge regression.
 
-    Operator-Valued ridge regression (OVKRR) combines ridge regression (linear
-    least squares with l2-norm regularization) with the (OV)kernel trick. It
-    thus learns a linear function in the space induced by the respective kernel
-    and the data. For non-linear kernels, this corresponds to a non-linear
-    function in the original space.
+    Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
+    (linear least squares with l2-norm regularization) with the (OV)kernel
+    trick. It thus learns a linear function in the space induced by the
+    respective kernel and the data. For non-linear kernels, this corresponds to
+    a non-linear function in the original space.
 
     The form of the model learned by OVKRR is identical to support vector
     regression (SVR). However, different loss functions are used: OVKRR uses
@@ -46,21 +46,21 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     Attributes
     ----------
-    dual_coef_ : {array}, shape = [n_features] or [n_targets, n_features]
+    dual_coef_ : array, shape = [n_features] or [n_targets, n_features]
         Weight vector(s) in kernel space
 
-    self.linop_ : {callable}
+    self.linop_ : callable
         Callable which associate to the training points X the Gram matrix (the
         Gram matrix being a LinearOperator)
 
-    A_ : {array}, shape = [n_targets, n_targets]
+    A_ : {array, shape = [n_targets, n_targets]
         Set when Linear operator used by the decomposable kernel is default or
         None.
 
-    period_ : {float}
+    period_ : float
         Set when period used by the First periodic kernel is 'autocorr'.
 
-    solver_res_ : {any}
+    solver_res_ : any
         Raw results returned by the solver.
 
     References
@@ -71,11 +71,11 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     See also
     --------
-    Ridge
+    sklearn.Ridge
         Linear ridge regression.
-    KernelRidge
+    sklearn.KernelRidge
         Kernel ridge regression.
-    SVR
+    sklearn.SVR
         Support Vector Regression implemented using libsvm.
 
     Examples
@@ -234,10 +234,10 @@ class Ridge(BaseEstimator, RegressorMixin):
         Parameters
         ----------
         X : {array-like, sparse matrix}, shape = [n_samples, n_features]
-            Training data
+            Training data.
 
-        y : array-like, shape = [n_samples] or [n_samples, n_targets]
-            Target values
+        y : {array-like}, shape = [n_samples] or [n_samples, n_targets]
+            Target values.
 
         Returns
         -------
@@ -269,7 +269,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
         Returns
         -------
-        C : array, shape = [n_samples] or [n_samples, n_targets]
+        C : {array}, shape = [n_samples] or [n_samples, n_targets]
             Returns predicted values.
         """
         check_is_fitted(self, ['dual_coefs_', 'linop_'], all_or_any=all)

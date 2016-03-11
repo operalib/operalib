@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Operalib's documentation!
-============================================
+====================================
 
 Operalib is a library for structured learning and prediction for python based on
 operator-valued kernels (OVKs). OVKs are an extension of scalar kernels to
@@ -23,16 +23,19 @@ University of Evry, France.
     .. toctree::
        :maxdepth: 2
 
+       index
        api
        auto_examples/index
+       contact
        ...
 
 See the `README <https://github.com/RomainBrault/operalib/blob/master/README.rst>`_
 for additional information.
 
 Contact
-==================
+=======
 - Romain Brault: romain.brault@telecom-paristech.fr
+- Florence d'Alché-Buc: florence.dalche@telecom-paristech.fr
 
 Indices and tables
 ==================

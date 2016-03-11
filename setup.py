@@ -20,7 +20,7 @@ except ImportError:
     sys.exit(1)
 
 setup(name='operalib',
-      version='0.0.3',
+      version='0.0.1',  # Don't forget to change in operalib.__init__.py
       description='Learning with operator-valued kernels',
       author='Romain Brault',
       packages=find_packages(),

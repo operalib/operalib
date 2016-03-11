@@ -8,9 +8,10 @@ third-party library except scipy/numpy.
 #         the scikit-learn community.
 # License: MIT
 
-from dipy.utils.six.moves import xrange
 from numpy import correlate, arange, zeros, mean, diff, hstack, finfo, \
     where, ndarray, issubdtype, unsignedinteger, argsort, ones
+
+from sklearn.externals.six.moves import xrange
 
 eps = finfo(float).eps
 

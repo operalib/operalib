@@ -135,7 +135,7 @@
 regression.</p>
 <dl class="class">
 <dt id="operalib.ridge.Ridge">
-<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">Ridge</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">Ridge</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=1.0</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Operator-Valued kernel ridge regression.</p>
 <p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
 (linear least squares with l2-norm regularization) with the (OV)kernel
@@ -228,24 +228,24 @@ chapter 14.4.3, pp. 492-493</li>
 </table>
 <dl class="method">
 <dt id="operalib.ridge.Ridge.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=1.0</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em>, <em>kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize OVK ridge regression model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lbda</strong> : {float}</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>kernel</strong> : {string, callable}, default=&#8217;DGauss&#8217;</p>
+<blockquote>
+<div><p>Kernel mapping used internally. A callable should accept two
+arguments and the keyword arguments passed to this object as
+kernel_params, and should return a LinearOperator.</p>
+</div></blockquote>
+<p><strong>lbda</strong> : {float}, default=1e-5</p>
 <blockquote>
 <div><p>Small positive values of lbda improve the conditioning of the
 problem and reduce the variance of the estimates.  Lbda corresponds
 to <code class="docutils literal"><span class="pre">(2*C)^-1</span></code> in other linear models such as LogisticRegression
 or LinearSVC.</p>
-</div></blockquote>
-<p><strong>kernel</strong> : string or callable, default=&#8217;DGauss&#8217;</p>
-<blockquote>
-<div><p>Kernel mapping used internally. A callable should accept two
-arguments and the keyword arguments passed to this object as
-kernel_params, and should return a LinearOperator.</p>
 </div></blockquote>
 <p><strong>A</strong> : {LinearOperator, array-like, sparse matrix}, default=None</p>
 <blockquote>
@@ -253,29 +253,29 @@ kernel_params, and should return a LinearOperator.</p>
 None, wich is set to identity matrix of size y.shape[1] when
 fitting.</p>
 </div></blockquote>
-<p><strong>sigma</strong> : float, default=1</p>
+<p><strong>gamma</strong> : {float}, default=1.</p>
 <blockquote>
 <div><p>Sigma parameter for the Decomposable Gaussian kernel.
 Ignored by other kernels.</p>
 </div></blockquote>
-<p><strong>theta</strong> : float, default=1</p>
+<p><strong>theta</strong> : {float}, default=.7</p>
 <blockquote>
 <div><p>Theta parameter for the Decomposable First Periodic kernel.
 Ignored by other kernels.</p>
 </div></blockquote>
-<p><strong>period</strong> : float, default=default_period</p>
+<p><strong>period</strong> : {float}, default=default_period</p>
 <blockquote>
 <div><p>Period parameter for the First periodic kernel. If optional modules
 have been imported then default_period is 2 * pi. Otherwise it uses
 autocorrelation methods to determine the period.</p>
 </div></blockquote>
-<p><strong>solver</strong> : callable, default=scipy.optimize.fmin_l_bfgs_b</p>
+<p><strong>solver</strong> : {callable}, default=scipy.optimize.fmin_l_bfgs_b</p>
 <blockquote>
 <div><p>Solver able to find the minimum of the ridge problem.
 scipy.optimize.fmin_l_bfgs_b(<a href="#id1"><span class="problematic" id="id2">*</span></a>solver_params)[0] must return the
 optimal solution.</p>
 </div></blockquote>
-<p><strong>autocorr_params</strong> : mapping of string to any</p>
+<p><strong>autocorr_params</strong> : {mapping of string to any}</p>
 <blockquote>
 <div><p>Additional parameters (keyword arguments) for the period detection
 for periodic kernels. If None, parameter choice is left to the

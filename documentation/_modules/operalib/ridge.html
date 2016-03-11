@@ -224,7 +224,7 @@
 
 <div class="viewcode-block" id="Ridge.__init__"><a class="viewcode-back" href="../../modules/ridge.html#operalib.ridge.Ridge.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
-                 <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;autocorr&#39;</span><span class="p">,</span>
+                 <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;autocorr&#39;</span><span class="p">,</span>
                  <span class="n">autocorr_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">solver</span><span class="o">=</span><span class="n">fmin_l_bfgs_b</span><span class="p">,</span> <span class="n">solver_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kernel_params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize OVK ridge regression model.</span>
@@ -232,41 +232,41 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 
-<span class="sd">        lbda : {float}</span>
+<span class="sd">        kernel : {string, callable}, default=&#39;DGauss&#39;</span>
+<span class="sd">            Kernel mapping used internally. A callable should accept two</span>
+<span class="sd">            arguments and the keyword arguments passed to this object as</span>
+<span class="sd">            kernel_params, and should return a LinearOperator.</span>
+
+<span class="sd">        lbda : {float}, default=1e-5</span>
 <span class="sd">            Small positive values of lbda improve the conditioning of the</span>
 <span class="sd">            problem and reduce the variance of the estimates.  Lbda corresponds</span>
 <span class="sd">            to ``(2*C)^-1`` in other linear models such as LogisticRegression</span>
 <span class="sd">            or LinearSVC.</span>
-
-<span class="sd">        kernel : string or callable, default=&#39;DGauss&#39;</span>
-<span class="sd">            Kernel mapping used internally. A callable should accept two</span>
-<span class="sd">            arguments and the keyword arguments passed to this object as</span>
-<span class="sd">            kernel_params, and should return a LinearOperator.</span>
 
 <span class="sd">        A : {LinearOperator, array-like, sparse matrix}, default=None</span>
 <span class="sd">            Linear operator used by the decomposable kernel. If default is</span>
 <span class="sd">            None, wich is set to identity matrix of size y.shape[1] when</span>
 <span class="sd">            fitting.</span>
 
-<span class="sd">        sigma : float, default=1</span>
+<span class="sd">        gamma : {float}, default=1.</span>
 <span class="sd">            Sigma parameter for the Decomposable Gaussian kernel.</span>
 <span class="sd">            Ignored by other kernels.</span>
 
-<span class="sd">        theta : float, default=1</span>
+<span class="sd">        theta : {float}, default=.7</span>
 <span class="sd">            Theta parameter for the Decomposable First Periodic kernel.</span>
 <span class="sd">            Ignored by other kernels.</span>
 
-<span class="sd">        period : float, default=default_period</span>
+<span class="sd">        period : {float}, default=default_period</span>
 <span class="sd">            Period parameter for the First periodic kernel. If optional modules</span>
 <span class="sd">            have been imported then default_period is 2 * pi. Otherwise it uses</span>
 <span class="sd">            autocorrelation methods to determine the period.</span>
 
-<span class="sd">        solver : callable, default=scipy.optimize.fmin_l_bfgs_b</span>
+<span class="sd">        solver : {callable}, default=scipy.optimize.fmin_l_bfgs_b</span>
 <span class="sd">            Solver able to find the minimum of the ridge problem.</span>
 <span class="sd">            scipy.optimize.fmin_l_bfgs_b(*solver_params)[0] must return the</span>
 <span class="sd">            optimal solution.</span>
 
-<span class="sd">        autocorr_params : mapping of string to any</span>
+<span class="sd">        autocorr_params : {mapping of string to any}</span>
 <span class="sd">            Additional parameters (keyword arguments) for the period detection</span>
 <span class="sd">            for periodic kernels. If None, parameter choice is left to the</span>
 <span class="sd">            period detection method.</span>

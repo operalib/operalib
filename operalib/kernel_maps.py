@@ -1,10 +1,6 @@
 """
-***************
-Module OVK maps
-***************
-
-Module :mod:`operalib.kernel_maps` implements some Operator-Valued Kernel maps
-associated to the operator-valued kernel models defined in
+:mod:`operalib.kernel_maps` implement some Operator-Valued Kernel
+maps associated to the operator-valued kernel models defined in
 :mod:`operalib.kernels`.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from

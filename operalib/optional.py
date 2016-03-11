@@ -1,6 +1,6 @@
-"""OVK optional.
-
-Module :mod:`sklearn.ovk.optional` implements optinal features for OVK learning
+"""
+:mod:`operalib.optional` implements optinal features for OVK
+learning
 such as period detection for periodic kernels. It includes code relying on
 third-party library except scipy/numpy.
 """

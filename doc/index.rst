@@ -31,11 +31,6 @@ University of Evry, France.
 See the `README <https://github.com/RomainBrault/operalib/blob/master/README.rst>`_
 for additional information.
 
-Contact
-=======
-- Romain Brault: romain.brault@telecom-paristech.fr
-- Florence d'Alché-Buc: florence.dalche@telecom-paristech.fr
-
 Indices and tables
 ==================
 

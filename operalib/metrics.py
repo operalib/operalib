@@ -1,9 +1,6 @@
 """
-**************
-Module metrics
-**************
-
-Supplementary metrics not available in scikit-learn
+:mod:`operalib.metrics` define upplementary metrics not
+available in scikit-learn
 
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
@@ -25,13 +22,13 @@ def first_periodic_kernel(X, Y=None, gamma=None, period=None):
     Y : array of shape (n_samples_Y, n_features)
 
     gamma : float, default None
-        If None, defaults to 1.0 / n_samples_X
+        If None, default to 1.0 / n_samples_X
 
     period : float, default None
-        If None, defaults to 2 * pi.
+        If None, default to 2 * pi.
 
         This parameter should not be default as
-        wrong estimation leads to poor learning score.
+        wrong estimation lead to poor learning score.
 
     Returns
     -------

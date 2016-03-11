@@ -1,9 +1,5 @@
 """
-******************************
-Module Operator-Valued kernels
-******************************
-
-Module :mod:`operalib.kernels` implements some Operator-Valued Kernel
+:mod:`operalib.kernels` implements some Operator-Valued Kernel
 models.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from

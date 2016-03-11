@@ -1,7 +1,6 @@
-"""OVK learning unit tests.
+"""OVK learning, unit tests.
 
-The :mod:`sklearn.tests` unit tests for ovk
-kernels.
+The :mod:`sklearn.tests.test_KenrelRidge` tests OVK ridge regression estimator.
 """
 
 from sklearn.utils.estimator_checks import check_estimator

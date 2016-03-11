@@ -3,8 +3,9 @@
 Multi-output Operator-valued kernel Regression
 ==============================================
 
-An example to illustrate multi-output regression with operator-valiued kernels.
+An example to illustrate multi-output regression with operator-valued kernels.
 """
+
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
 #         the scikit-learn community.
 # License: MIT

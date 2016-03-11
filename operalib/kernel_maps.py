@@ -18,7 +18,8 @@ class DecomposableKernelMap(DecomposableKernel):
 
     Decomposable Operator-Valued Kernel map of the form:
 
-        X -> K_X(Y) = k_s(X, Y) * A
+    .. math::
+        X \to K_X(Y) = k_s(X, Y) A
 
     where A is a symmetric positive semidefinite operator acting on the
     outputs. This class just fixes the support data X to the kernel. Hence it
@@ -83,7 +84,8 @@ class DecomposableKernelMap(DecomposableKernel):
 
            If Kx is a compatible decomposable kernel, returns
 
-                K(X, Y) = Kx.T * Ky
+           .. math::
+                K(X, Y) = K_X^T K_Y
 
         Parameters
         ----------
@@ -114,6 +116,7 @@ class DecomposableKernelMap(DecomposableKernel):
     def __call__(self, Y):
         """Return the Gram matrix associated with the data Y.
 
+        .. math::
                K(X, Y)
 
         Parameters

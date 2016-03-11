@@ -1,8 +1,6 @@
 """
 :mod:`operalib.optional` implements optinal features for OVK
-learning
-such as period detection for periodic kernels. It includes code relying on
-third-party library except scipy/numpy.
+learning such as period detection for periodic kernels.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
 #         the scikit-learn community.

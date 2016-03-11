@@ -4,18 +4,16 @@ The :mod:`sklearn.tests.test_KenrelRidge` tests OVK ridge regression estimator.
 """
 
 from sklearn.utils.estimator_checks import check_estimator
-from scipy.optimize import check_grad
-from numpy.random import RandomState, rand, randn
-from numpy import sort, pi, sin, cos, array, dot, eye, arange, newaxis, cov
+from numpy.random import rand, randn, seed
+from numpy import sort, pi, sin, cos, array, dot, arange, newaxis, cov
 from numpy.linalg import norm, cholesky
 from distutils.version import LooseVersion
 from warnings import warn
 
 import operalib as ovk
 
-seed = 0
-rng = RandomState(seed)
-X = sort(200 * rng.rand(1000, 1) - 100, axis=0)
+seed(0)
+X = sort(200 * rand(1000, 1) - 100, axis=0)
 y = array([pi * sin(X).ravel(), pi * cos(X).ravel()]).T
 Tr = 2 * rand(2, 2) - 1
 Tr = dot(Tr, Tr.T)
@@ -44,31 +42,13 @@ def test_valid_estimator():
              ' 0.17.x... skipping')
 
 
-def test_ridge_grad_id():
-    """Test ovk.KernelRidgeRisk gradient with finite differences."""
-    K = ovk.DecomposableKernel(A=eye(2))
-    risk = ovk.KernelRidgeRisk(0.01)
-    assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
-                      lambda *args: risk.functional_grad_val(*args)[1],
-                      rand(X.shape[0] * y.shape[1]),
-                      y.ravel(), K(X, X)) < 1e-3
-
-
-def test_ridge_grad_cov():
-    """Test ovk.KernelRidgeRisk gradient with finite differences."""
-    K = ovk.DecomposableKernel(A=eye(2))
-    risk = ovk.KernelRidgeRisk(0.01)
-    assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
-                      lambda *args: risk.functional_grad_val(*args)[1],
-                      rand(X.shape[0] * y.shape[1]),
-                      y.ravel(), K(X, X)) < 1e-3
-
-
 def test_learn_periodic_autocorr_id():
     """Test ovk periodic estimator fit, predict. A=Id, autocorrelation."""
-    regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period='autocorr', theta=.99)
+    regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, theta=.99,
+                       period='autocorr', autocorr_params={'min_dist': 20})
     regr_1.fit(X, y)
-    assert regr_1.score(X_test, y_t) > 0.6
+    print regr_1.score(X_test, y_t)
+    assert regr_1.score(X_test, y_t) > 0.8
 
 
 def test_learn_periodic_id():
@@ -89,6 +69,6 @@ def test_learn_periodic_cov():
 def test_learn_gauss_cov():
     """Test ovk gaussian estimator fit, predict. A=cov(y.T)."""
     A = cov(y.T)
-    regr_1 = ovk.Ridge('DGauss', lbda=0.01, gamma=0.1, A=A)
+    regr_1 = ovk.Ridge('DGauss', lbda=.01, gamma=1., A=A)
     regr_1.fit(X, y)
     assert regr_1.score(X_test, y_t) > 0.8

@@ -4,6 +4,13 @@ Multi-output Operator-valued kernel Regression
 ==============================================
 
 An example to illustrate multi-output regression with operator-valued kernels.
+
+We compare Operator-valued kernel (OVK) without prior (ID), with covariance
+constraint prior (covariance) and a multioutput decision tree.
+
+Setting the operator A as a good prior (here a covariance constrain) helps to
+achieve a better score on a noisy test dataset. OVK methods can generalise
+better than decision trees but are way slow to train.
 """
 
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
@@ -19,9 +26,9 @@ import time
 
 print(__doc__)
 
-seed = np.random.randint(100000)
+seed = 0
 np.random.seed(seed)
-print(seed)
+print("seed", seed)
 
 # Create a random dataset
 print("Creating dataset...")
@@ -46,14 +53,13 @@ y += np.dot(np.random.randn(y.shape[0], y.shape[1]), Cov.T)
 print("Fitting...")
 start = time.time()
 A = np.eye(2)
-regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
+regr_1 = ovk.Ridge('DPeriodic', lbda=0.1, period=6, theta=.99, A=A)
 regr_1.fit(X, y)
 print("Leaning time DPeriodic ID: ", time.time() - start)
 
 start = time.time()
-A = np.cov(y.T) / np.linalg.norm(np.cov(y.T))
-
-regr_2 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.99, A=A)
+A = np.cov(y.T)
+regr_2 = ovk.Ridge('DPeriodic', lbda=0.1, period=6, theta=.99, A=A)
 regr_2.fit(X, y)
 print("Leaning time DPeriodic covariance: ", time.time() - start)
 

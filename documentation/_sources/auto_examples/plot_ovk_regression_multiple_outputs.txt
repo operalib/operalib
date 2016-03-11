@@ -2,11 +2,10 @@
 
 .. _sphx_glr_auto_examples_plot_ovk_regression_multiple_outputs.py:
 
-Multi-output Operator-valued kernel Regression.
 
-===================================================================
+==============================================
 Multi-output Operator-valued kernel Regression
-===================================================================
+==============================================
 
 An example to illustrate multi-output regression with operator-valiued kernels.
 
@@ -20,19 +19,19 @@ An example to illustrate multi-output regression with operator-valiued kernels.
 
  Out::
 
-      60499
+      64835
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.56773686409
-    Leaning time DPeriodic covariance:  0.794673919678
-    Leaning time Trees:  0.00279116630554
+    Leaning time DPeriodic ID:  0.462767839432
+    Leaning time DPeriodic covariance:  0.559628009796
+    Leaning time Trees:  0.00395488739014
     Predicting...
-    Test time DPeriodic ID:  0.148504018784
-    Test time DPeriodic covariance:  0.147799015045
-    Test time Trees:  0.000218152999878
-    R2 OVK ID:  0.988572591148
-    R2 OVK covariance:  0.990552365252
-    R2 Trees:  0.678021486298
+    Test time DPeriodic ID:  0.128185033798
+    Test time DPeriodic covariance:  0.126927852631
+    Test time Trees:  0.000198125839233
+    R2 OVK ID:  0.992771397969
+    R2 OVK covariance:  0.991835009337
+    R2 Trees:  0.815406161142
     plotting
     Done
 
@@ -143,7 +142,7 @@ An example to illustrate multi-output regression with operator-valiued kernels.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 2.219 seconds)
+(0 minutes 1.775 seconds)
 
 
 

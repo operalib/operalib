@@ -1,8 +1,7 @@
-"""Multi-output Operator-valued kernel Regression.
-
-===================================================================
+"""
+==============================================
 Multi-output Operator-valued kernel Regression
-===================================================================
+==============================================
 
 An example to illustrate multi-output regression with operator-valiued kernels.
 """

@@ -14,7 +14,8 @@ class DecomposableKernel(object):
 
     Decomposable Operator-Valued Kernel of the form:
 
-        X, Y -> K(X, Y) = k_s(X, Y) * A
+    .. math::
+        X, Y \mapsto K(X, Y) = k_s(X, Y) A
 
     where A is a symmetric positive semidefinite operator acting on the
     outputs.

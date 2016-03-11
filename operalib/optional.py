@@ -14,7 +14,7 @@ from sklearn.externals.six.moves import xrange
 eps = finfo(float).eps
 
 
-def indexes(y, thres=0.3, min_dist=1):
+def indexes(y, thres=0.05, min_dist=2):
     #     The MIT License (MIT)
 
     # Copyright (c) 2014 Lucas Hermann Negri

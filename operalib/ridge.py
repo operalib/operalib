@@ -91,7 +91,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     def __init__(self,
                  kernel='DGauss', lbda=1e-5,
-                 A=None, gamma=None, theta=0.7, period='autocorr',
+                 A=None, gamma=1., theta=0.7, period='autocorr',
                  autocorr_params=None,
                  solver=fmin_l_bfgs_b, solver_params=None, kernel_params=None):
         """Initialize OVK ridge regression model.
@@ -99,41 +99,41 @@ class Ridge(BaseEstimator, RegressorMixin):
         Parameters
         ----------
 
-        lbda : {float}
+        kernel : {string, callable}, default='DGauss'
+            Kernel mapping used internally. A callable should accept two
+            arguments and the keyword arguments passed to this object as
+            kernel_params, and should return a LinearOperator.
+
+        lbda : {float}, default=1e-5
             Small positive values of lbda improve the conditioning of the
             problem and reduce the variance of the estimates.  Lbda corresponds
             to ``(2*C)^-1`` in other linear models such as LogisticRegression
             or LinearSVC.
-
-        kernel : string or callable, default='DGauss'
-            Kernel mapping used internally. A callable should accept two
-            arguments and the keyword arguments passed to this object as
-            kernel_params, and should return a LinearOperator.
 
         A : {LinearOperator, array-like, sparse matrix}, default=None
             Linear operator used by the decomposable kernel. If default is
             None, wich is set to identity matrix of size y.shape[1] when
             fitting.
 
-        sigma : float, default=1
+        gamma : {float}, default=1.
             Sigma parameter for the Decomposable Gaussian kernel.
             Ignored by other kernels.
 
-        theta : float, default=1
+        theta : {float}, default=.7
             Theta parameter for the Decomposable First Periodic kernel.
             Ignored by other kernels.
 
-        period : float, default=default_period
+        period : {float}, default=default_period
             Period parameter for the First periodic kernel. If optional modules
             have been imported then default_period is 2 * pi. Otherwise it uses
             autocorrelation methods to determine the period.
 
-        solver : callable, default=scipy.optimize.fmin_l_bfgs_b
+        solver : {callable}, default=scipy.optimize.fmin_l_bfgs_b
             Solver able to find the minimum of the ridge problem.
             scipy.optimize.fmin_l_bfgs_b(*solver_params)[0] must return the
             optimal solution.
 
-        autocorr_params : mapping of string to any
+        autocorr_params : {mapping of string to any}
             Additional parameters (keyword arguments) for the period detection
             for periodic kernels. If None, parameter choice is left to the
             period detection method.

@@ -13,7 +13,7 @@ from sklearn.metrics.pairwise import check_pairwise_arrays, euclidean_distances
 
 def first_periodic_kernel(X, Y=None, gamma=None, period=None):
     # TODO: Add mathematical form of the kernel in the docstring
-    """Compute the first periodic kernel between X and Y.
+    """Compute the first periodic kernel between *X* and *Y*.
 
     Parameters
     ----------

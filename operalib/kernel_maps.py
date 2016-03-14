@@ -10,9 +10,10 @@ maps associated to the operator-valued kernel models defined in
 from scipy.sparse.linalg import LinearOperator
 from numpy import ravel, dot, reshape, transpose, asarray, subtract, eye, \
     newaxis
+from numpy.linalg import norm
 from sklearn.metrics.pairwise import rbf_kernel
 
-from .kernels import DecomposableKernel, RBFCurlFreeKernel
+from .kernels import DecomposableKernel, RBFCurlFreeKernel, RBFDivFreeKernel
 
 
 class DecomposableKernelMap(DecomposableKernel):
@@ -208,7 +209,7 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
     >>> import operalib as ovk
     >>> import numpy as np
     >>> X = np.random.randn(100, 10)
-    >>> K = ovk.RBFCurlFreeKernel(np.eye(2))
+    >>> K = ovk.RBFCurlFreeKernel(1.)
     >>> Gram = K(X, X)
     # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
@@ -264,6 +265,142 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
                 (self.gamma * delta[:, newaxis, :, :] *
                     delta[newaxis, :, :, :]).transpose((3, 2, 0, 1))),
             (0, 2, 1, 3)
+        )).reshape((self.p * X.shape[0], self.p * self.X.shape[0]))
+
+    def _dot(self, Gs, c):
+        return ravel(dot(Gs, c))
+
+    @property
+    def T(self):
+        """Transposition."""
+        return self
+
+    def __call__(self, Y):
+        """Return the Gram matrix associated with the data Y.
+
+        .. math::
+               K(X, Y)
+
+        Parameters
+        ----------
+        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Returns
+        -------
+        K(X, Y) : LinearOperator
+            Returns K(X, Y).
+        """
+        return LinearOperator(
+            (Y.shape[0] * self.p, self.n * self.p),
+            matvec=lambda b: self._dot(self._Gram(Y), b),
+            rmatvec=lambda b: self._dot(self._Gram(Y), b))
+
+
+class RBFDivFreeKernelMap(RBFDivFreeKernel):
+    r"""
+    Divergence-free Operator-Valued Kernel of the form:
+
+    .. math::
+        X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},
+
+    where,
+
+    .. math::
+        A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I).
+
+    This class just fixes the support data X to the kernel. Hence it
+    naturally inherit from RBFCurlFreeKernel
+
+    Attributes
+    ----------
+
+    n : {Int}
+        Number of samples.
+
+    d : {Int}
+        Number of features.
+
+    X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+        Support samples.
+
+    Gs : {array-like, sparse matrix}, shape = [n, n]
+        Gram matrix.
+
+    References
+    ----------
+
+    See also
+    --------
+
+    RBFDivFreeKernel
+        Divergence-free Kernel
+
+    Examples
+    --------
+    >>> import operalib as ovk
+    >>> import numpy as np
+    >>> X = np.random.randn(100, 10)
+    >>> K = ovk.RBFDivFreeKernel(1.)
+    >>> Gram = K(X, X)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <200x200 _CustomLinearOperator with dtype=float64>
+    >>> C = np.random.randn(Gram.shape[0])
+    >>> Kx = K(X)  # The kernel map.
+    >>> np.allclose(Gram * C, Kx(X) * C)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    True
+    """
+
+    def __init__(self, X, gamma):
+        """Initialize the Decomposable Operator-Valued Kernel.
+
+        Parameters
+        ----------
+
+        X: {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Support samples.
+
+        gamma : {float}, shape = [n_targets, n_targets]
+            RBF kernel parameter.
+        """
+        super(RBFDivFreeKernelMap, self).__init__(gamma)
+        self.n = X.shape[0]
+        self.d = X.shape[1]
+        self.p = X.shape[1]
+        self.X = X
+        self.Gs_train = None
+
+    def _Gram(self, X):
+        if X is self.X:
+            if self.Gs_train is None:
+                kernel_scalar = rbf_kernel(self.X, gamma=self.gamma)[:, :,
+                                                                     newaxis,
+                                                                     newaxis]
+                delta = subtract(X.T[:, newaxis, :], self.X.T[:, :, newaxis])
+                self.Gs_train = asarray(transpose(
+                    2 * self.gamma * kernel_scalar *
+                    (2 * self.gamma * (delta[:, newaxis, :, :] *
+                                       delta[newaxis, :, :, :]).transpose(
+                        (3, 2, 0, 1)) +
+                        ((self.p - 1) - 2 * self.gamma *
+                         norm(delta, axis=0)[:, :, newaxis, newaxis]**2) *
+                        eye(self.p)[newaxis, newaxis, :, :]), (0, 2, 1, 3)
+                )).reshape((self.p * X.shape[0], self.p * self.X.shape[0]))
+            return self.Gs_train
+
+        kernel_scalar = rbf_kernel(X, self.X, gamma=self.gamma)[:, :,
+                                                                newaxis,
+                                                                newaxis]
+        delta = subtract(X.T[:, newaxis, :], self.X.T[:, :, newaxis])
+        return asarray(transpose(
+            2 * self.gamma * kernel_scalar *
+            (2 * self.gamma * (delta[:, newaxis, :, :] *
+                               delta[newaxis, :, :, :]).transpose(
+                (3, 2, 0, 1)) +
+                ((self.p - 1) - 2 * self.gamma *
+                 norm(delta, axis=0).T[:, :, newaxis, newaxis]**2) *
+                eye(self.p)[newaxis, newaxis, :, :]), (0, 2, 1, 3)
         )).reshape((self.p * X.shape[0], self.p * self.X.shape[0]))
 
     def _dot(self, Gs, c):

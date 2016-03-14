@@ -56,16 +56,19 @@ if __OPERALIB_SETUP__:
     # We are not importing the rest of the scikit during the build
     # process, as it may not be compiled yet
 else:
-    from .kernels import DecomposableKernel, RBFCurlFreeKernel
+    from .kernels import DecomposableKernel, RBFCurlFreeKernel, \
+        RBFDivFreeKernel
     from .risk import KernelRidgeRisk
     from .ridge import Ridge
     from .metrics import first_periodic_kernel
     from .datasets.vectorfield import generate_2D_curl_free_field, \
-        generate_2D_curl_free_mesh, mesh2array, array2mesh
+        generate_2D_curl_free_mesh, mesh2array, array2mesh, \
+        generate_2D_div_free_field, generate_2D_div_free_mesh
 
-    __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel',
+    __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
                'KernelRidgeRisk',
                'first_periodic_kernel',
                'Ridge',
                'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh',
+               'generate_2D_div_free_field', 'generate_2D_div_free_mesh',
                'mesh2array', 'array2mesh']

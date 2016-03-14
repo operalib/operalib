@@ -39,8 +39,29 @@ def generate_2D_curl_free_mesh(n=1000, loc=25, space=0.5):
     return X, Y, U, V
 
 
+def generate_2D_div_free_mesh(n=1000, loc=25, space=0.5):
+    xs = arange(-1, 1, 2. / sqrt(n))
+    ys = arange(-1, 1, 2. / sqrt(n))
+    X, Y = meshgrid(xs, ys)
+    field = _gaussian(X, Y, -space, 0, loc) + \
+        _gaussian(X, Y, space, 0, loc) - \
+        _gaussian(X, Y, 0, space, loc) - \
+        _gaussian(X, Y, 0, -space, loc)
+    V, U = gradient(field)
+
+    return X, Y, V, -U
+
+
 def generate_2D_curl_free_field(n=1000, loc=25, space=0.5):
     X, Y, U, V = generate_2D_curl_free_mesh(n, loc, space)
+
+    X = mesh2array(X, Y)
+    y = mesh2array(U, V)
+    return X, y
+
+
+def generate_2D_div_free_field(n=1000, loc=25, space=0.5):
+    X, Y, U, V = generate_2D_div_free_mesh(n, loc, space)
 
     X = mesh2array(X, Y)
     y = mesh2array(U, V)

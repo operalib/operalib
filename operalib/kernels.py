@@ -135,10 +135,7 @@ class RBFCurlFreeKernel(object):
     Curl-free Operator-Valued Kernel of the form:
 
     .. math::
-        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)
-
-    where A is a symmetric positive semidefinite operator acting on the
-    outputs.
+        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T).
 
     Attributes
     ----------
@@ -158,7 +155,7 @@ class RBFCurlFreeKernel(object):
     --------
     >>> import operalib as ovk
     >>> import numpy as np
-    >>> X = np.random.randn(100, 10)
+    >>> X = np.random.randn(100, 2)
     >>> K = ovk.RBFCurlFreeKernel(1.)
     >>> K(X, X) # The kernel matrix as a linear operator
     # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
@@ -193,6 +190,106 @@ class RBFCurlFreeKernel(object):
         """
         from .kernel_maps import RBFCurlFreeKernelMap
         return RBFCurlFreeKernelMap(X, self.gamma)
+
+    def __call__(self, X, Y=None):
+        r"""Return the kernel map associated with the data X.
+
+        .. math::
+               K_x: \begin{cases}
+               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K(X, Y) \enskip\text{otherwise.}
+               \end{cases}
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Y : {array-like, sparse matrix}, shape = [n_samples2, n_features],
+                                          default = None
+            Samples.
+
+        Returns
+        -------
+        K_x : DecomposableKernelMap, callable or LinearOperator
+            Returns .. math::
+               K_x: \begin{cases}
+               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K(X, Y) \enskip\text{otherwise}
+               \end{cases}
+        """
+        Kmap = self.get_kernel_map(X)
+        if Y is None:
+            return Kmap
+        else:
+            return Kmap(Y)
+
+
+class RBFDivFreeKernel(object):
+    r"""
+    Divergence-free Operator-Valued Kernel of the form:
+
+    .. math::
+        X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},
+
+    where,
+
+    .. math::
+        A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I).
+
+    Attributes
+    ----------
+    gamma : {float}
+        RBF kernel parameter.
+
+    References
+    ----------
+
+    See also
+    --------
+
+    RBFDivFreeKernelMap
+        Divergence-free Kernel map
+
+    Examples
+    --------
+    >>> import operalib as ovk
+    >>> import numpy as np
+    >>> X = np.random.randn(100, 2)
+    >>> K = ovk.RBFDivFreeKernel(1.)
+    >>> K(X, X) # The kernel matrix as a linear operator
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <200x200 _CustomLinearOperator with dtype=float64>
+    """
+
+    def __init__(self, gamma):
+        """Initialize the Decomposable Operator-Valued Kernel.
+
+        Parameters
+        ----------
+        gamma : {float}, shape = [n_targets, n_targets]
+            RBF kernel parameter.
+        """
+        self.gamma = gamma
+
+    def get_kernel_map(self, X):
+        r"""Return the kernel map associated with the data X.
+
+        .. math::
+               K_x: Y \mapsto K(X, Y)
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Samples.
+
+        Returns
+        -------
+        K_x : DecomposableKernelMap, callable
+            Returns K_x: Y \mapsto K(X, Y).
+        """
+        from .kernel_maps import RBFDivFreeKernelMap
+        return RBFDivFreeKernelMap(X, self.gamma)
 
     def __call__(self, X, Y=None):
         r"""Return the kernel map associated with the data X.

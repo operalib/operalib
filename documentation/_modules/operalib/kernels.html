@@ -249,8 +249,10 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        K_x : DecomposableKernelMap, callable or LinearOperator</span>
-<span class="sd">            Returns .. math::</span>
+
+<span class="sd">        Returns K_x : DecomposableKernelMap, callable or LinearOperator</span>
+
+<span class="sd">            .. math::</span>
 <span class="sd">               K_x: \begin{cases}</span>
 <span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
 <span class="sd">               K(X, Y) \enskip\text{otherwise}</span>
@@ -344,12 +346,13 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        K_x : DecomposableKernelMap, callable or LinearOperator</span>
-<span class="sd">            Returns .. math::</span>
-<span class="sd">               K_x: \begin{cases}</span>
-<span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
-<span class="sd">               K(X, Y) \enskip\text{otherwise}</span>
-<span class="sd">               \end{cases}</span>
+<span class="sd">        Returns K_x : DecomposableKernelMap, callable or LinearOperator</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            K_x: \begin{cases}</span>
+<span class="sd">            Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
+<span class="sd">            K(X, Y) \enskip\text{otherwise}</span>
+<span class="sd">            \end{cases}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Kmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_kernel_map</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -444,12 +447,13 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        K_x : DecomposableKernelMap, callable or LinearOperator</span>
-<span class="sd">            Returns .. math::</span>
-<span class="sd">               K_x: \begin{cases}</span>
-<span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
-<span class="sd">               K(X, Y) \enskip\text{otherwise}</span>
-<span class="sd">               \end{cases}</span>
+<span class="sd">        Returns K_x : DecomposableKernelMap, callable or LinearOperator</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            K_x: \begin{cases}</span>
+<span class="sd">            Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
+<span class="sd">            K(X, Y) \enskip\text{otherwise}</span>
+<span class="sd">            \end{cases}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Kmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_kernel_map</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>

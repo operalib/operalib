@@ -31,11 +31,13 @@ better than decision trees but are slower to train.
       seed 123
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.40074300766
-    Leaning time Trees:  0.00342321395874
+    Leaning time DPeriodic ID:  0.431340932846
+    Leaning time Trees:  0.0035080909729
     Predicting...
-    Test time DPeriodic ID:  0.147338867188
-    Test time Trees:  0.000221014022827
+    Test time DPeriodic ID:  0.151921987534
+    Test time Trees:  0.000224828720093
+    R2 OVK ID:  0.994871736156
+    R2 Trees:  0.791425729333
     plotting
     Done
 
@@ -113,6 +115,9 @@ better than decision trees but are slower to train.
     y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
                            np.pi * np.cos(X_test).ravel()]).T, U)
 
+    print("R2 OVK ID: ", regr_1.score(X_test, y_t))
+    print("R2 Trees: ", regr_2.score(X_test, y_t))
+
     # Plot
     print("plotting")
     plt.figure()
@@ -131,7 +136,7 @@ better than decision trees but are slower to train.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 0.809 seconds)
+(0 minutes 1.000 seconds)
 
 
 

@@ -136,8 +136,7 @@ models.</p>
 <dl class="class">
 <dt id="operalib.kernels.DecomposableKernel">
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">DecomposableKernel</code><span class="sig-paren">(</span><em>A</em>, <em>scalar_kernel=&lt;function rbf_kernel&gt;</em>, <em>scalar_kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decomposable Operator-Valued Kernel.</p>
-<p>Decomposable Operator-Valued Kernel of the form:</p>
+<dd><p>Decomposable Operator-Valued Kernel of the form:</p>
 <div class="math">
 <p><img src="../_images/math/3b17e0411ce7558831a76b0eba45f4017b8c79e4.png" alt="X, Y \mapsto K(X, Y) = k_s(X, Y) A"/></p>
 </div><p>where A is a symmetric positive semidefinite operator acting on the
@@ -302,8 +301,7 @@ passed as callable object.</p>
 <dl class="class">
 <dt id="operalib.kernels.RBFCurlFreeKernel">
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">RBFCurlFreeKernel</code><span class="sig-paren">(</span><em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFCurlFreeKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFCurlFreeKernel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decomposable Operator-Valued Kernel.</p>
-<p>Decomposable Operator-Valued Kernel of the form:</p>
+<dd><p>Curl-free Operator-Valued Kernel of the form:</p>
 <div class="math">
 <p><img src="../_images/math/802f09cef3f151502e9d2edbaec4ea158076760b.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)"/></p>
 </div><p>where A is a symmetric positive semidefinite operator acting on the
@@ -453,8 +451,7 @@ maps associated to the operator-valued kernel models defined in
 <dl class="class">
 <dt id="operalib.kernel_maps.DecomposableKernelMap">
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">DecomposableKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>A</em>, <em>scalar_kernel</em>, <em>scalar_kernel_params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decomposable Operator-Valued Kernel.</p>
-<p>Decomposable Operator-Valued Kernel map of the form:</p>
+<dd><p>Decomposable Operator-Valued Kernel map of the form:</p>
 <div class="math">
 <p><img src="../_images/math/873d539006428d3e44fe15961747cf2acb16b48f.png" alt="X \mapsto K_X(Y) = k_s(X, Y) A"/></p>
 </div><p>where A is a symmetric positive semidefinite operator acting on the
@@ -632,8 +629,7 @@ X).</p>
 <dl class="class">
 <dt id="operalib.kernel_maps.RBFCurlFreeKernelMap">
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">RBFCurlFreeKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFCurlFreeKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFCurlFreeKernelMap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Curl-free Operator-Valued Kernel.</p>
-<p>Curl-free RBF Operator-Valued Kernel map of the form:</p>
+<dd><p>Curl-free RBF Operator-Valued Kernel map of the form:</p>
 <div class="math">
 <p><img src="../_images/math/802f09cef3f151502e9d2edbaec4ea158076760b.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)"/></p>
 </div><p>This class just fixes the support data X to the kernel. Hence it

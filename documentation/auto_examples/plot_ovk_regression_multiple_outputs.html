@@ -152,11 +152,13 @@ better than decision trees but are slower to train.</p>
 <div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  seed 123
 Creating dataset...
 Fitting...
-Leaning time DPeriodic ID:  0.40074300766
-Leaning time Trees:  0.00342321395874
+Leaning time DPeriodic ID:  0.431340932846
+Leaning time Trees:  0.0035080909729
 Predicting...
-Test time DPeriodic ID:  0.147338867188
-Test time Trees:  0.000221014022827
+Test time DPeriodic ID:  0.151921987534
+Test time Trees:  0.000224828720093
+R2 OVK ID:  0.994871736156
+R2 Trees:  0.791425729333
 plotting
 Done
 </pre></div>
@@ -229,6 +231,9 @@ Done
 <span class="n">y_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
                        <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
 
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;R2 OVK ID: &quot;</span><span class="p">,</span> <span class="n">regr_1</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_t</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;R2 Trees: &quot;</span><span class="p">,</span> <span class="n">regr_2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_t</span><span class="p">))</span>
+
 <span class="c1"># Plot</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plotting&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
@@ -248,7 +253,7 @@ Done
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 0.809 seconds)</p>
+(0 minutes 1.000 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_multiple_outputs.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_multiple_outputs.py</span></code></a></div>
 <div class="sphx-glr-download container">

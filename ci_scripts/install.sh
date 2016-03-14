@@ -88,9 +88,9 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     pip install --pre --upgrade --no-index --timeout=60 \
         --trusted-host travis-dev-wheels.scipy.org \
         -f https://travis-dev-wheels.scipy.org/ numpy scipy
+    pip install nose nose-timer cython
     pip install --pre --upgrade --no-index --timeout=360 \
     	git+https://github.com/scikit-learn/scikit-learn
-    pip install nose nose-timer cython
 fi
 
 if [[ "$COVERAGE" == "true" ]]; then

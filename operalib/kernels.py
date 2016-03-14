@@ -51,7 +51,7 @@ class DecomposableKernel(object):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.DecomposableKernel(np.eye(2))
     >>> K(X, X) # The kernel matrix as a linear operator
-    ... # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     """
 

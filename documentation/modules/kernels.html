@@ -200,8 +200,10 @@ outputs.</p>
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/dae319b6d726e8eea2ab27bdb414fac2e4068443.png" alt="K_x: Y \mapsto K(X, Y) if Y is None
-K(X, Y) otherwise"/></p>
+<p><img src="../_images/math/7ff41adce237e776ebb92b9f4103a2c446ee30de.png" alt="\begin{cases}
+K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+K(X, Y) \enskip\text{otherwise.}
+\end{cases}"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -221,7 +223,14 @@ K(X, Y) otherwise"/></p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
 <blockquote class="last">
-<div><p>Returns K_x: Y mapsto K(X, Y) if Y is None; K(X, Y) otherwise.</p>
+<div><dl class="docutils">
+<dt>Returns .. math::</dt>
+<dd><p class="first last">begin{cases}
+K_x: Y mapsto K(X, Y) enskiptext{if } Y text{is None,} \
+K(X, Y) enskiptext{otherwise}
+end{cases}</p>
+</dd>
+</dl>
 </div></blockquote>
 </td>
 </tr>

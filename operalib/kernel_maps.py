@@ -19,7 +19,7 @@ class DecomposableKernelMap(DecomposableKernel):
     Decomposable Operator-Valued Kernel map of the form:
 
     .. math::
-        X \to K_X(Y) = k_s(X, Y) A
+        X \mapsto K_X(Y) = k_s(X, Y) A
 
     where A is a symmetric positive semidefinite operator acting on the
     outputs. This class just fixes the support data X to the kernel. Hence it

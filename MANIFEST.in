@@ -1,1 +1,7 @@
 include requirements.txt
+include *.rst
+recursive-include doc *
+recursive-include examples *
+recursive-include operalib *.c *.pyx *.pxd
+include LICENSE
+include README.rst

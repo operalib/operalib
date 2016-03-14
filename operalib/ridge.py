@@ -138,11 +138,11 @@ class Ridge(BaseEstimator, RegressorMixin):
             for periodic kernels. If None, parameter choice is left to the
             period detection method.
 
-        solver_params : mapping of string to any, optional
+        solver_params : {mapping of string to any}, optional
             Additional parameters (keyword arguments) for solver function
             passed as callable object.
 
-        kernel_params : mapping of string to any, optional
+        kernel_params : {mapping of string to any}, optional
             Additional parameters (keyword arguments) for kernel function
             passed as callable object.
         """

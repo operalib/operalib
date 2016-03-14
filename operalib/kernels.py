@@ -116,8 +116,10 @@ class DecomposableKernel(object):
 
         Returns
         -------
-        K_x : DecomposableKernelMap, callable or LinearOperator
-            Returns .. math::
+
+        Returns K_x : DecomposableKernelMap, callable or LinearOperator
+
+            .. math::
                K_x: \begin{cases}
                Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
                K(X, Y) \enskip\text{otherwise}
@@ -211,12 +213,13 @@ class RBFCurlFreeKernel(object):
 
         Returns
         -------
-        K_x : DecomposableKernelMap, callable or LinearOperator
-            Returns .. math::
-               K_x: \begin{cases}
-               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
-               K(X, Y) \enskip\text{otherwise}
-               \end{cases}
+        Returns K_x : DecomposableKernelMap, callable or LinearOperator
+
+        .. math::
+            K_x: \begin{cases}
+            Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+            K(X, Y) \enskip\text{otherwise}
+            \end{cases}
         """
         Kmap = self.get_kernel_map(X)
         if Y is None:
@@ -311,12 +314,13 @@ class RBFDivFreeKernel(object):
 
         Returns
         -------
-        K_x : DecomposableKernelMap, callable or LinearOperator
-            Returns .. math::
-               K_x: \begin{cases}
-               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
-               K(X, Y) \enskip\text{otherwise}
-               \end{cases}
+        Returns K_x : DecomposableKernelMap, callable or LinearOperator
+
+        .. math::
+            K_x: \begin{cases}
+            Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+            K(X, Y) \enskip\text{otherwise}
+            \end{cases}
         """
         Kmap = self.get_kernel_map(X)
         if Y is None:

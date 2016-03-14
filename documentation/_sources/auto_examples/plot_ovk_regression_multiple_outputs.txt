@@ -31,13 +31,13 @@ better than decision trees but are slower to train.
       seed 123
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.381335020065
-    Leaning time DPeriodic covariance:  2.04438400269
-    Leaning time Trees:  0.00336217880249
+    Leaning time DPeriodic ID:  0.433846950531
+    Leaning time DPeriodic covariance:  2.25803518295
+    Leaning time Trees:  0.00340294837952
     Predicting...
-    Test time DPeriodic ID:  0.146606206894
-    Test time DPeriodic covariance:  0.145021915436
-    Test time Trees:  0.000218152999878
+    Test time DPeriodic ID:  0.147686958313
+    Test time DPeriodic covariance:  0.147945165634
+    Test time Trees:  0.000220060348511
     plotting
     Done
 
@@ -143,7 +143,7 @@ better than decision trees but are slower to train.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 2.974 seconds)
+(0 minutes 3.248 seconds)
 
 
 

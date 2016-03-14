@@ -189,10 +189,10 @@ outputs.</p>
 <dt id="operalib.kernels.DecomposableKernel.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
-<blockquote>
-<div>K_x: Y -&gt; K(X, Y) if Y is None
-K(X, Y) otherwise</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
+<div class="math">
+<p><img src="../_images/math/dae319b6d726e8eea2ab27bdb414fac2e4068443.png" alt="K_x: Y \mapsto K(X, Y) if Y is None
+K(X, Y) otherwise"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -244,6 +244,16 @@ passed as callable object.</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span><span class="n">NORMALIZE_WHITESPACE</span>  <span class="c1"># The kernel matrix as a linear</span>
+<span class="go">                                   # operator</span>
+<span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -256,9 +266,9 @@ passed as callable object.</p>
 <dt id="operalib.kernels.DecomposableKernel.get_kernel_map">
 <code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
-<blockquote>
-<div>K_x: Y -&gt; K(X, Y)</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
+<div class="math">
+<p><img src="../_images/math/4ee564d6a7d2480cee7375086025136309942b03.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">

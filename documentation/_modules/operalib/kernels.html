@@ -268,10 +268,7 @@
 <span class="sd">    Curl-free Operator-Valued Kernel of the form:</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)</span>
-
-<span class="sd">    where A is a symmetric positive semidefinite operator acting on the</span>
-<span class="sd">    outputs.</span>
+<span class="sd">        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T).</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -291,7 +288,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import operalib as ovk</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
+<span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 2)</span>
 <span class="sd">    &gt;&gt;&gt; K = ovk.RBFCurlFreeKernel(1.)</span>
 <span class="sd">    &gt;&gt;&gt; K(X, X) # The kernel matrix as a linear operator</span>
 <span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
@@ -328,6 +325,106 @@
         <span class="k">return</span> <span class="n">RBFCurlFreeKernelMap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RBFCurlFreeKernel.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFCurlFreeKernel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K_x: \begin{cases}</span>
+<span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
+<span class="sd">               K(X, Y) \enskip\text{otherwise.}</span>
+<span class="sd">               \end{cases}</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples2, n_features],</span>
+<span class="sd">                                          default = None</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K_x : DecomposableKernelMap, callable or LinearOperator</span>
+<span class="sd">            Returns .. math::</span>
+<span class="sd">               K_x: \begin{cases}</span>
+<span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
+<span class="sd">               K(X, Y) \enskip\text{otherwise}</span>
+<span class="sd">               \end{cases}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Kmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_kernel_map</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Kmap</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Kmap</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RBFDivFreeKernel"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel">[docs]</a><span class="k">class</span> <span class="nc">RBFDivFreeKernel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Divergence-free Operator-Valued Kernel of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},</span>
+
+<span class="sd">    where,</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gamma : {float}</span>
+<span class="sd">        RBF kernel parameter.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    RBFDivFreeKernelMap</span>
+<span class="sd">        Divergence-free Kernel map</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import operalib as ovk</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 2)</span>
+<span class="sd">    &gt;&gt;&gt; K = ovk.RBFDivFreeKernel(1.)</span>
+<span class="sd">    &gt;&gt;&gt; K(X, X) # The kernel matrix as a linear operator</span>
+<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RBFDivFreeKernel.__init__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Decomposable Operator-Valued Kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gamma : {float}, shape = [n_targets, n_targets]</span>
+<span class="sd">            RBF kernel parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span></div>
+
+<div class="viewcode-block" id="RBFDivFreeKernel.get_kernel_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel.get_kernel_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K_x: Y \mapsto K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K_x : DecomposableKernelMap, callable</span>
+<span class="sd">            Returns K_x: Y \mapsto K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.kernel_maps</span> <span class="kn">import</span> <span class="n">RBFDivFreeKernelMap</span>
+        <span class="k">return</span> <span class="n">RBFDivFreeKernelMap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RBFDivFreeKernel.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>

@@ -61,10 +61,11 @@ else:
     from .ridge import Ridge
     from .metrics import first_periodic_kernel
     from .datasets.vectorfield import generate_2D_curl_free_field, \
-        generate_2D_curl_free_mesh
+        generate_2D_curl_free_mesh, mesh2array, array2mesh
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel',
                'KernelRidgeRisk',
                'first_periodic_kernel',
                'Ridge',
-               'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh']
+               'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh',
+               'mesh2array', 'array2mesh']

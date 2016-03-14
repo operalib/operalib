@@ -1,7 +1,6 @@
 """Synthetic datasets for vector-field learning."""
 
-from numpy import arange, sqrt, meshgrid, pi, exp, gradient, empty
-from sklearn.utils import shuffle
+from numpy import arange, sqrt, meshgrid, pi, exp, gradient, empty, floor
 
 
 def _gaussian(X, Y, mean_X, mean_Y, scale=1):
@@ -10,16 +9,16 @@ def _gaussian(X, Y, mean_X, mean_Y, scale=1):
     return pi ** 2 * exp(- scale / 2 * (Xc ** 2 + Yc ** 2)) / sqrt(scale)
 
 
-def _array2mesh(arr, side=None):
+def array2mesh(arr, side=None):
     if side is None:
-        side = int(sqrt(arr.shape[0]))
+        side = int(floor(sqrt(arr.shape[0])))
     X = arr[:, 0].reshape((side, side))
     y = arr[:, 1].reshape((side, side))
 
     return X, y
 
 
-def _mesh2array(X, Y):
+def mesh2array(X, Y):
     arr = empty((X.size, 2))
     arr[:, 0] = X.ravel()
     arr[:, 1] = Y.ravel()
@@ -43,6 +42,6 @@ def generate_2D_curl_free_mesh(n=1000, loc=25, space=0.5):
 def generate_2D_curl_free_field(n=1000, loc=25, space=0.5):
     X, Y, U, V = generate_2D_curl_free_mesh(n, loc, space)
 
-    X = _mesh2array(X, Y)
-    y = _mesh2array(U, V)
-    return shuffle(X, y)
+    X = mesh2array(X, Y)
+    y = mesh2array(U, V)
+    return X, y

@@ -5,14 +5,9 @@ Multi-output Operator-valued kernel Regression
 
 An example to illustrate multi-output regression with operator-valued kernels.
 
-We compare Operator-valued kernel (OVK)
-- without prior (ID),
-- with covariance constraint prior (covariance),
-- with multioutput decision tree.
+We compare Operator-valued kernel (OVK) with multioutput decision tree.
 
-Setting the operator A as a good prior (here a covariance constraint) helps to
-achieve a better score on a noisy test dataset. OVK methods can generalise
-better than decision trees but are slower to train.
+OVK methods can generalise better than decision trees but are slower to train.
 """
 
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from

@@ -169,10 +169,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">check_pairwise_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">gamma</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.8</span>
 
     <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">period</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">pi</span>
 
     <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span> <span class="o">/</span> <span class="n">period</span>
     <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="n">period</span>

@@ -1,12 +1,10 @@
 import os
-from os.path import join
 
-import numpy
-
-from sklearn._build_utils import get_blas_info
+from operalib._build_utils import get_blas_info
 
 
 def configuration(parent_package='', top_path=None):
+    """Get BLAS configuration."""
     from numpy.distutils.misc_util import Configuration
 
     config = Configuration('operalib', parent_package, top_path)

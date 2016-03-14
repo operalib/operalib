@@ -14,7 +14,7 @@ from .kernels import DecomposableKernel
 
 
 class DecomposableKernelMap(DecomposableKernel):
-    """Decomposable Operator-Valued Kernel.
+    r"""Decomposable Operator-Valued Kernel.
 
     Decomposable Operator-Valued Kernel map of the form:
 

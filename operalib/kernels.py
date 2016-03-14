@@ -63,6 +63,16 @@ class DecomposableKernel(object):
         scalar_kernel_params : {mapping of string to any}, optional
             Additional parameters (keyword arguments) for kernel function
             passed as callable object.
+
+        Examples
+        --------
+        >>> import operalib as ovk
+        >>> import numpy as np
+        >>> X = np.random.randn(100, 10)
+        >>> K = ovk.DecomposableKernel(np.eye(2))
+        >>> K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear
+                                           # operator
+        <200x200 _CustomLinearOperator with dtype=float64>
         """
         self.A = A
         self.scalar_kernel = scalar_kernel
@@ -70,9 +80,10 @@ class DecomposableKernel(object):
         self.p = A.shape[0]
 
     def get_kernel_map(self, X):
-        """Return the kernel map associated with the data X.
+        r"""Return the kernel map associated with the data X.
 
-               K_x: Y -> K(X, Y)
+        .. math::
+               K_x: Y \mapsto K(X, Y)
 
         Parameters
         ----------
@@ -90,9 +101,10 @@ class DecomposableKernel(object):
                                      self.scalar_kernel_params)
 
     def __call__(self, X, Y=None):
-        """Return the kernel map associated with the data X.
+        r"""Return the kernel map associated with the data X.
 
-               K_x: Y -> K(X, Y) if Y is None
+        .. math::
+               K_x: Y \mapsto K(X, Y) if Y is None
                K(X, Y) otherwise
 
         Parameters

@@ -2,6 +2,9 @@
 """Setup script for Operalib."""
 # Copyright (C) 2007-2009 Cournapeau David <cournape@gmail.com>
 #               2010 Fabian Pedregosa <fabian.pedregosa@inria.fr>
+#
+# Adapted for operalib:
+# Copyright (C) 2015 Romain Brault <romain.brault@telecom-paristech.fr>
 # License: 3-clause BSD
 
 import sys

@@ -36,10 +36,10 @@ def first_periodic_kernel(X, Y=None, gamma=None, period=None):
     """
     X, Y = check_pairwise_arrays(X, Y)
     if gamma is None:
-        gamma = 1.0 / X.shape[1]
+        gamma = 0.8
 
     if period is None:
-        period = 2 * pi
+        period = 2. * pi
 
     a = -log(gamma) / period
     b = 2 * pi / period

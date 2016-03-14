@@ -15,4 +15,4 @@ X = sort(2 * rand(1000, 1) - 1, axis=0)
 def test_first_periodic_kernel_default():
     """Test whether default params are 1. / X.shape[0], 2 * pi."""
     assert_allclose(first_periodic_kernel(X, X),
-                    first_periodic_kernel(X, X, 1. / X.shape[1], 2. * pi))
+                    first_periodic_kernel(X, X, .8, 2. * pi))

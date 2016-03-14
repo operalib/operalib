@@ -9,7 +9,7 @@ from numpy import sort, pi
 from numpy.testing import assert_allclose
 
 seed(0)
-X = sort(200 * rand(1000, 1) - 100, axis=0)
+X = sort(2 * rand(1000, 1) - 1, axis=0)
 
 
 def test_first_periodic_kernel_default():

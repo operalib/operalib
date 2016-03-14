@@ -51,6 +51,18 @@ class DecomposableKernelMap(DecomposableKernel):
 
     Examples
     --------
+    >>> import operalib as ovk
+    >>> import numpy as np
+    >>> X = np.random.randn(100, 10)
+    >>> K = ovk.DecomposableKernel(np.eye(2))
+    >>> Gram = K(X, X)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <200x200 _CustomLinearOperator with dtype=float64>
+    >>> C = np.random.randn(Gram.shape[0])
+    >>> Kx = K(X)  # The kernel map.
+    >>> np.allclose(Gram * C, Kx(X) * C)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    True
     """
 
     def __init__(self, X, A, scalar_kernel, scalar_kernel_params):
@@ -97,6 +109,22 @@ class DecomposableKernelMap(DecomposableKernel):
         -------
         K(X, Y) : LinearOperator
             Returns K(X, Y).
+
+        Examples
+        --------
+        >>> import operalib as ovk
+        >>> import numpy as np
+        >>> X = np.random.randn(100, 10)
+        >>> K = ovk.DecomposableKernel(np.eye(2))
+        >>> Gram = K(X, X)
+        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        <200x200 _CustomLinearOperator with dtype=float64>
+        >>> C = np.random.randn(Gram.shape[0])
+        >>> Kx = K(X)  # The kernel map.
+        >>> Ky = K(X)
+        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)
+        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        True
         """
         # TODO: Check that Kx is compatible
         return self.__call__(Ky.X)
@@ -112,6 +140,11 @@ class DecomposableKernelMap(DecomposableKernel):
 
     def _dot(self, Gs, c):
         return ravel(dot(dot(Gs, reshape(c, (self.n, self.p))), self.A))
+
+    @property
+    def T(self):
+        """Transposition."""
+        return self
 
     def __call__(self, Y):
         """Return the Gram matrix associated with the data Y.

@@ -141,9 +141,11 @@
 <span class="c1"># License: MIT</span>
 
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">reshape</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">transpose</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> \
+    <span class="n">newaxis</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
 
-<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span>
+<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">RBFCurlFreeKernel</span>
 
 
 <div class="viewcode-block" id="DecomposableKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap">[docs]</a><span class="k">class</span> <span class="nc">DecomposableKernelMap</span><span class="p">(</span><span class="n">DecomposableKernel</span><span class="p">):</span>
@@ -156,7 +158,7 @@
 
 <span class="sd">    where A is a symmetric positive semidefinite operator acting on the</span>
 <span class="sd">    outputs. This class just fixes the support data X to the kernel. Hence it</span>
-<span class="sd">    naturally inherit from Decomposable kernels</span>
+<span class="sd">    naturally inherit from DecomposableKernel.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -165,13 +167,13 @@
 <span class="sd">        Number of samples.</span>
 
 <span class="sd">    d : {Int}</span>
-<span class="sd">        Number of features</span>
+<span class="sd">        Number of features.</span>
 
 <span class="sd">    X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
 <span class="sd">        Support samples.</span>
 
 <span class="sd">    Gs : {array-like, sparse matrix}, shape = [n, n]</span>
-<span class="sd">        Gram matrix associated with the scalar kernel</span>
+<span class="sd">        Gram matrix associated with the scalar kernel.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -280,6 +282,134 @@
         <span class="k">return</span> <span class="bp">self</span>
 
 <div class="viewcode-block" id="DecomposableKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : LinearOperator</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
+            <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="RBFCurlFreeKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFCurlFreeKernelMap">[docs]</a><span class="k">class</span> <span class="nc">RBFCurlFreeKernelMap</span><span class="p">(</span><span class="n">RBFCurlFreeKernel</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;Curl-free Operator-Valued Kernel.</span>
+
+<span class="sd">    Curl-free RBF Operator-Valued Kernel map of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)</span>
+
+<span class="sd">    This class just fixes the support data X to the kernel. Hence it</span>
+<span class="sd">    naturally inherit from RBFCurlFreeKernel</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    n : {Int}</span>
+<span class="sd">        Number of samples.</span>
+
+<span class="sd">    d : {Int}</span>
+<span class="sd">        Number of features.</span>
+
+<span class="sd">    X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">        Support samples.</span>
+
+<span class="sd">    Gs : {array-like, sparse matrix}, shape = [n, n]</span>
+<span class="sd">        Gram matrix.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    RBFCurlFreeKernel</span>
+<span class="sd">        Curl-free Kernel</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import operalib as ovk</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
+<span class="sd">    &gt;&gt;&gt; K = ovk.RBFCurlFreeKernel(np.eye(2))</span>
+<span class="sd">    &gt;&gt;&gt; Gram = K(X, X)</span>
+<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="sd">    &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
+<span class="sd">    &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)</span>
+<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RBFCurlFreeKernelMap.__init__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFCurlFreeKernelMap.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Decomposable Operator-Valued Kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Support samples.</span>
+
+<span class="sd">        gamma : {float}, shape = [n_targets, n_targets]</span>
+<span class="sd">            RBF kernel parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RBFCurlFreeKernelMap</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="bp">None</span></div>
+
+    <span class="k">def</span> <span class="nf">_Gram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">kernel_scalar</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)[:,</span> <span class="p">:,</span>
+                                                                     <span class="n">newaxis</span><span class="p">,</span>
+                                                                     <span class="n">newaxis</span><span class="p">]</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="n">subtract</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">newaxis</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">transpose</span><span class="p">(</span>
+                    <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">kernel_scalar</span> <span class="o">*</span>
+                    <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)[</span><span class="n">newaxis</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span>
+                        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">delta</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*</span>
+                            <span class="n">delta</span><span class="p">[</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:])</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))),</span>
+                    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+                <span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span>
+
+        <span class="n">kernel_scalar</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)[:,</span> <span class="p">:,</span>
+                                                                <span class="n">newaxis</span><span class="p">,</span>
+                                                                <span class="n">newaxis</span><span class="p">]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">subtract</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">newaxis</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">asarray</span><span class="p">(</span><span class="n">transpose</span><span class="p">(</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">kernel_scalar</span> <span class="o">*</span>
+            <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)[</span><span class="n">newaxis</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">delta</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*</span>
+                    <span class="n">delta</span><span class="p">[</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:])</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))),</span>
+            <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">_dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gs</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ravel</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">Gs</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transposition.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="RBFCurlFreeKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y.</span>
 
 <span class="sd">        .. math::</span>

@@ -50,8 +50,8 @@ class DecomposableKernel(object):
     >>> import numpy as np
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.DecomposableKernel(np.eye(2))
-    >>> K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear
-                                       # operator
+    >>> K(X, X) # The kernel matrix as a linear operator
+    ... # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     """
 
@@ -101,8 +101,8 @@ class DecomposableKernel(object):
         r"""Return the kernel map associated with the data X.
 
         .. math::
-               \begin{cases}
-               K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K_x: \begin{cases}
+               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
                K(X, Y) \enskip\text{otherwise.}
                \end{cases}
 
@@ -119,8 +119,8 @@ class DecomposableKernel(object):
         -------
         K_x : DecomposableKernelMap, callable or LinearOperator
             Returns .. math::
-               \begin{cases}
-               K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K_x: \begin{cases}
+               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
                K(X, Y) \enskip\text{otherwise}
                \end{cases}
         """

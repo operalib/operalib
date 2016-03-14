@@ -130,7 +130,7 @@ def configuration(parent_package='', top_path=None):
 
 scipy_min_version = '0.9'
 numpy_min_version = '1.6.1'
-sklearn_min_version = '1.7'
+sklearn_min_version = '1.17'
 
 
 def get_scipy_status():

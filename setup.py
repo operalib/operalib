@@ -128,9 +128,9 @@ def configuration(parent_package='', top_path=None):
     return config
 
 
-scipy_min_version = '0.9'
-numpy_min_version = '1.6.1'
-sklearn_min_version = '1.17'
+scipy_min_version = '0.11'
+numpy_min_version = '1.10.1'
+sklearn_min_version = '0.17'
 
 
 def get_scipy_status():

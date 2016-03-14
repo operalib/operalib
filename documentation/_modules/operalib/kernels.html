@@ -183,8 +183,8 @@
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
 <span class="sd">    &gt;&gt;&gt; K = ovk.DecomposableKernel(np.eye(2))</span>
-<span class="sd">    &gt;&gt;&gt; K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear</span>
-<span class="sd">                                       # operator</span>
+<span class="sd">    &gt;&gt;&gt; K(X, X) # The kernel matrix as a linear operator</span>
+<span class="sd">    ... # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -234,8 +234,8 @@
         <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">               \begin{cases}</span>
-<span class="sd">               K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
+<span class="sd">               K_x: \begin{cases}</span>
+<span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
 <span class="sd">               K(X, Y) \enskip\text{otherwise.}</span>
 <span class="sd">               \end{cases}</span>
 
@@ -252,8 +252,8 @@
 <span class="sd">        -------</span>
 <span class="sd">        K_x : DecomposableKernelMap, callable or LinearOperator</span>
 <span class="sd">            Returns .. math::</span>
-<span class="sd">               \begin{cases}</span>
-<span class="sd">               K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
+<span class="sd">               K_x: \begin{cases}</span>
+<span class="sd">               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\</span>
 <span class="sd">               K(X, Y) \enskip\text{otherwise}</span>
 <span class="sd">               \end{cases}</span>
 <span class="sd">        &quot;&quot;&quot;</span>

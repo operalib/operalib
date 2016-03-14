@@ -154,8 +154,8 @@ outputs.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span><span class="n">NORMALIZE_WHITESPACE</span>  <span class="c1"># The kernel matrix as a linear</span>
-<span class="go">                                   # operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
+<span class="gp">... </span>
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
@@ -200,8 +200,8 @@ outputs.</p>
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/7ff41adce237e776ebb92b9f4103a2c446ee30de.png" alt="\begin{cases}
-K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+<p><img src="../_images/math/21653c20d824ee7384783b73cd2d2525d9d4fbb0.png" alt="K_x: \begin{cases}
+Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise.}
 \end{cases}"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
@@ -225,8 +225,8 @@ K(X, Y) \enskip\text{otherwise.}
 <blockquote class="last">
 <div><dl class="docutils">
 <dt>Returns .. math::</dt>
-<dd><p class="first last">begin{cases}
-K_x: Y mapsto K(X, Y) enskiptext{if } Y text{is None,} \
+<dd><p class="first last">K_x: begin{cases}
+Y mapsto K(X, Y) enskiptext{if } Y text{is None,} \
 K(X, Y) enskiptext{otherwise}
 end{cases}</p>
 </dd>

@@ -60,14 +60,8 @@ regr_1.fit(X, y)
 print("Leaning time DPeriodic ID: ", time.time() - start)
 
 start = time.time()
-A = np.cov(y.T)
-regr_2 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.995, A=A)
+regr_2 = DecisionTreeRegressor(max_depth=100)
 regr_2.fit(X, y)
-print("Leaning time DPeriodic covariance: ", time.time() - start)
-
-start = time.time()
-regr_3 = DecisionTreeRegressor(max_depth=100)
-regr_3.fit(X, y)
 print("Leaning time Trees: ", time.time() - start)
 
 
@@ -77,12 +71,9 @@ X_test = np.arange(-100.0, 100.0, .5)[:, np.newaxis]
 start = time.time()
 y_1 = regr_1.predict(X_test)
 print("Test time DPeriodic ID: ", time.time() - start)
+
 start = time.time()
-# regr_2.linop_.A = np.eye(2)
 y_2 = regr_2.predict(X_test)
-print("Test time DPeriodic covariance: ", time.time() - start)
-start = time.time()
-y_3 = regr_3.predict(X_test)
 print("Test time Trees: ", time.time() - start)
 
 # Ground truth
@@ -93,8 +84,7 @@ y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
 print("plotting")
 plt.figure()
 plt.scatter(y_1[::1, 0], y_1[::1, 1], c="g", label="OVK Id", s=5., lw=0)
-plt.scatter(y_2[::1, 0], y_2[::1, 1], c="b", label="OVK Cov", s=5., lw=0)
-plt.scatter(y_3[::1, 0], y_3[::1, 1], c="r", label="D TREE", s=5., lw=0)
+plt.scatter(y_2[::1, 0], y_2[::1, 1], c="r", label="D TREE", s=5., lw=0)
 # plt.scatter(y[::1, 0], y[::1, 1], c="k", label="Data", s=5., lw = 0)
 plt.scatter(y_t[::1, 0], y_t[::1, 1], c="k", label="True", s=5., lw=0)
 plt.xlim([-4, 4])

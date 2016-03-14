@@ -41,7 +41,7 @@ __license__ = 'MIT'
 __version__ = '0.1b0'
 __maintainer__ = ['Romain Brault']
 __email__ = ['romain.brault@telecom-paristech.fr']
-__status__ = 'Prototype'
+__status__ = 'Beta'
 
 try:
     # This variable is injected in the __builtins__ by the build
@@ -56,12 +56,15 @@ if __OPERALIB_SETUP__:
     # We are not importing the rest of the scikit during the build
     # process, as it may not be compiled yet
 else:
-    from .kernels import DecomposableKernel
+    from .kernels import DecomposableKernel, RBFCurlFreeKernel
     from .risk import KernelRidgeRisk
     from .ridge import Ridge
     from .metrics import first_periodic_kernel
+    from .datasets.vectorfield import generate_2D_curl_free_field, \
+        generate_2D_curl_free_mesh
 
-    __all__ = ['DecomposableKernel',
+    __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel',
                'KernelRidgeRisk',
                'first_periodic_kernel',
-               'Ridge']
+               'Ridge',
+               'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh']

@@ -10,8 +10,7 @@ from sklearn.metrics.pairwise import rbf_kernel
 
 
 class DecomposableKernel(object):
-    r"""Decomposable Operator-Valued Kernel.
-
+    r"""
     Decomposable Operator-Valued Kernel of the form:
 
     .. math::
@@ -132,9 +131,8 @@ class DecomposableKernel(object):
 
 
 class RBFCurlFreeKernel(object):
-    r"""Decomposable Operator-Valued Kernel.
-
-    Decomposable Operator-Valued Kernel of the form:
+    r"""
+    Curl-free Operator-Valued Kernel of the form:
 
     .. math::
         X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)

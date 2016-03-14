@@ -80,6 +80,9 @@ print("Test time Trees: ", time.time() - start)
 y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
                        np.pi * np.cos(X_test).ravel()]).T, U)
 
+print("R2 OVK ID: ", regr_1.score(X_test, y_t))
+print("R2 Trees: ", regr_2.score(X_test, y_t))
+
 # Plot
 print("plotting")
 plt.figure()

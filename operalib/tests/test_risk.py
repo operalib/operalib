@@ -1,3 +1,8 @@
+"""OVK learning, unit tests.
+
+The :mod:`sklearn.tests.test_risk` tests risk module.
+"""
+
 from scipy.optimize import check_grad
 
 import operalib as ovk

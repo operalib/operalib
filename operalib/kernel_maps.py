@@ -16,8 +16,7 @@ from .kernels import DecomposableKernel, RBFCurlFreeKernel
 
 
 class DecomposableKernelMap(DecomposableKernel):
-    r"""Decomposable Operator-Valued Kernel.
-
+    r"""
     Decomposable Operator-Valued Kernel map of the form:
 
     .. math::
@@ -171,8 +170,7 @@ class DecomposableKernelMap(DecomposableKernel):
 
 
 class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
-    r"""Curl-free Operator-Valued Kernel.
-
+    r"""
     Curl-free RBF Operator-Valued Kernel map of the form:
 
     .. math::

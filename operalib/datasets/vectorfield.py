@@ -41,7 +41,7 @@ def generate_2D_curl_free_mesh(n=1000, loc=25, space=0.5):
 
 
 def generate_2D_curl_free_field(n=1000, loc=25, space=0.5):
-    X, Y, U, V = generate_2D_curl_free_mesh()
+    X, Y, U, V = generate_2D_curl_free_mesh(n, loc, space)
 
     X = _mesh2array(X, Y)
     y = _mesh2array(U, V)

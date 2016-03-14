@@ -101,8 +101,10 @@ class DecomposableKernel(object):
         r"""Return the kernel map associated with the data X.
 
         .. math::
-               K_x: Y \mapsto K(X, Y) if Y is None
-               K(X, Y) otherwise
+               \begin{cases}
+               K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K(X, Y) \enskip\text{otherwise.}
+               \end{cases}
 
         Parameters
         ----------
@@ -116,7 +118,11 @@ class DecomposableKernel(object):
         Returns
         -------
         K_x : DecomposableKernelMap, callable or LinearOperator
-            Returns K_x: Y \mapsto K(X, Y) if Y is None; K(X, Y) otherwise.
+            Returns .. math::
+               \begin{cases}
+               K_x: Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K(X, Y) \enskip\text{otherwise}
+               \end{cases}
         """
         Kmap = self.get_kernel_map(X)
         if Y is None:

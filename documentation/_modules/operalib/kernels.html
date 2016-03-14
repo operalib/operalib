@@ -143,7 +143,7 @@
 
 
 <div class="viewcode-block" id="DecomposableKernel"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DecomposableKernel">[docs]</a><span class="k">class</span> <span class="nc">DecomposableKernel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Decomposable Operator-Valued Kernel.</span>
+    <span class="sd">r&quot;&quot;&quot;Decomposable Operator-Valued Kernel.</span>
 
 <span class="sd">    Decomposable Operator-Valued Kernel of the form:</span>
 
@@ -179,6 +179,13 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import operalib as ovk</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
+<span class="sd">    &gt;&gt;&gt; K = ovk.DecomposableKernel(np.eye(2))</span>
+<span class="sd">    &gt;&gt;&gt; K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear</span>
+<span class="sd">                                       # operator</span>
+<span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DecomposableKernel.__init__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DecomposableKernel.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">scalar_kernel</span><span class="o">=</span><span class="n">rbf_kernel</span><span class="p">,</span> <span class="n">scalar_kernel_params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -196,16 +203,6 @@
 <span class="sd">        scalar_kernel_params : {mapping of string to any}, optional</span>
 <span class="sd">            Additional parameters (keyword arguments) for kernel function</span>
 <span class="sd">            passed as callable object.</span>
-
-<span class="sd">        Examples</span>
-<span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; import operalib as ovk</span>
-<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">        &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
-<span class="sd">        &gt;&gt;&gt; K = ovk.DecomposableKernel(np.eye(2))</span>
-<span class="sd">        &gt;&gt;&gt; K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear</span>
-<span class="sd">                                           # operator</span>
-<span class="sd">        &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel</span> <span class="o">=</span> <span class="n">scalar_kernel</span>
@@ -226,7 +223,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        K_x : DecomposableKernelMap, callable</span>
-<span class="sd">            Returns K_x: Y -&gt; K(X, Y).</span>
+<span class="sd">            Returns K_x: Y \mapsto K(X, Y).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.kernel_maps</span> <span class="kn">import</span> <span class="n">DecomposableKernelMap</span>
         <span class="k">return</span> <span class="n">DecomposableKernelMap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
@@ -252,7 +249,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        K_x : DecomposableKernelMap, callable or LinearOperator</span>
-<span class="sd">            Returns K_x: Y -&gt; K(X, Y) if Y is None; K(X, Y) otherwise.</span>
+<span class="sd">            Returns K_x: Y \mapsto K(X, Y) if Y is None; K(X, Y) otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Kmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_kernel_map</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>

@@ -89,7 +89,7 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
         --trusted-host travis-dev-wheels.scipy.org \
         -f https://travis-dev-wheels.scipy.org/ numpy scipy
     pip install --pre --upgrade --no-index --timeout=360 \
-    	-f git+https://github.com/scikit-learn/scikit-learn
+    	git+https://github.com/scikit-learn/scikit-learn
     pip install nose nose-timer cython
 fi
 

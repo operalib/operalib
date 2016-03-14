@@ -294,6 +294,10 @@ def setup_package():
                                   "(sklearn) {0} is out-of-date.\n{1}{2}"
                                   .format(sklearn_status['version'],
                                           sklearn_req_str, instructions))
+            else:
+                raise ImportError("Scikit-Learn (sklearn) is not "
+                                  "installed.\n{0}{1}"
+                                  .format(sklearn_req_str, instructions))
 
         from numpy.distutils.core import setup
 

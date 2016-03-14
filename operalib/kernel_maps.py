@@ -28,16 +28,16 @@ class DecomposableKernelMap(DecomposableKernel):
     Attributes
     ----------
 
-    n: {Int}
+    n : {Int}
         Number of samples.
 
-    d: {Int}
+    d : {Int}
         Number of features
 
-    X: {array-like, sparse matrix}, shape = [n_samples, n_features]
+    X : {array-like, sparse matrix}, shape = [n_samples, n_features]
         Support samples.
 
-    Gs: {array-like, sparse matrix}, shape = [n, n]
+    Gs : {array-like, sparse matrix}, shape = [n, n]
         Gram matrix associated with the scalar kernel
 
     References

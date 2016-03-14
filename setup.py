@@ -130,6 +130,7 @@ def configuration(parent_package='', top_path=None):
 
 scipy_min_version = '0.9'
 numpy_min_version = '1.6.1'
+sklearn_min_version = '1.7'
 
 
 def get_scipy_status():
@@ -168,6 +169,25 @@ def get_numpy_status():
         numpy_status['up_to_date'] = False
         numpy_status['version'] = ""
     return numpy_status
+
+
+def get_sklearn_status():
+    """
+    Return a dictionary containing a boolean specifying whether scikit-learn
+    is up-to-date, along with the version string (empty string if
+    not installed).
+    """
+    sklearn_status = {}
+    try:
+        import sklearn
+        sklearn_version = sklearn.__version__
+        sklearn_status['up_to_date'] = parse_version(
+            sklearn_version) >= parse_version(sklearn_min_version)
+        sklearn_status['version'] = sklearn_version
+    except ImportError:
+        sklearn_status['up_to_date'] = False
+        sklearn_status['version'] = ""
+    return sklearn_status
 
 
 def generate_cython():
@@ -239,6 +259,9 @@ def setup_package():
         scipy_status = get_scipy_status()
         scipy_req_str = "operalib requires SciPy >= {0}.\n".format(
             scipy_min_version)
+        sklearn_status = get_sklearn_status()
+        sklearn_req_str = "operalib requires scikit-learn >= {0}.\n".format(
+            sklearn_min_version)
 
         instructions = ("Installation instructions are available on the "
                         "operalib website: "
@@ -265,6 +288,12 @@ def setup_package():
                 raise ImportError("Scientific Python (SciPy) is not "
                                   "installed.\n{0}{1}"
                                   .format(scipy_req_str, instructions))
+        if sklearn_status['up_to_date'] is False:
+            if sklearn_status['version']:
+                raise ImportError("Your installation of scikit-learn "
+                                  "(sklearn) {0} is out-of-date.\n{1}{2}"
+                                  .format(sklearn_status['version'],
+                                          sklearn_req_str, instructions))
 
         from numpy.distutils.core import setup
 

@@ -35,7 +35,7 @@
     <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
         <link rel="next" title="Contact" href="../contact.html"/>
-        <link rel="prev" title="General examples" href="index.html"/> 
+        <link rel="prev" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -87,6 +87,7 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">Multi-output Operator-valued kernel Regression</a></li>
 </ul>
 </li>
@@ -140,23 +141,18 @@
   <div class="section" id="multi-output-operator-valued-kernel-regression">
 <span id="sphx-glr-auto-examples-plot-ovk-regression-multiple-outputs-py"></span><h1>Multi-output Operator-valued kernel Regression<a class="headerlink" href="#multi-output-operator-valued-kernel-regression" title="Permalink to this headline">¶</a></h1>
 <p>An example to illustrate multi-output regression with operator-valued kernels.</p>
-<p>We compare Operator-valued kernel (OVK)
-- without prior (ID),
-- with covariance constraint prior (covariance),
-- with multioutput decision tree.</p>
-<p>Setting the operator A as a good prior (here a covariance constraint) helps to
-achieve a better score on a noisy test dataset. OVK methods can generalise
-better than decision trees but are slower to train.</p>
+<p>We compare Operator-valued kernel (OVK) with multioutput decision tree.</p>
+<p>OVK methods can generalise better than decision trees but are slower to train.</p>
 <img alt="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  seed 123
 Creating dataset...
 Fitting...
-Leaning time DPeriodic ID:  0.431340932846
-Leaning time Trees:  0.0035080909729
+Leaning time DPeriodic ID:  0.526911973953
+Leaning time Trees:  0.00317406654358
 Predicting...
-Test time DPeriodic ID:  0.151921987534
-Test time Trees:  0.000224828720093
+Test time DPeriodic ID:  0.130017995834
+Test time Trees:  0.000219106674194
 R2 OVK ID:  0.994871736156
 R2 Trees:  0.791425729333
 plotting
@@ -253,7 +249,7 @@ Done
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 1.000 seconds)</p>
+(0 minutes 0.851 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_multiple_outputs.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_multiple_outputs.py</span></code></a></div>
 <div class="sphx-glr-download container">
@@ -270,7 +266,7 @@ Done
         <a href="../contact.html" class="btn btn-neutral float-right" title="Contact" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="General examples" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_ovk_regression_cf.html" class="btn btn-neutral" title="Vector-field Learning with structured output kernel" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

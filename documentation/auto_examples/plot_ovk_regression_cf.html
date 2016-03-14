@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Vector-field Learning with structured output kernel &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
+        <link rel="up" title="General examples" href="index.html"/>
+        <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/>
+        <link rel="prev" title="General examples" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">Vector-field Learning with structured output kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_multiple_outputs.html">Multi-output Operator-valued kernel Regression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">General examples</a> &raquo;</li>
+      
+    <li>Vector-field Learning with structured output kernel</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/auto_examples/plot_ovk_regression_cf.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="vector-field-learning-with-structured-output-kernel">
+<span id="sphx-glr-auto-examples-plot-ovk-regression-cf-py"></span><h1>Vector-field Learning with structured output kernel<a class="headerlink" href="#vector-field-learning-with-structured-output-kernel" title="Permalink to this headline">¶</a></h1>
+<p>An example to illustrate structured learning with operator-valued kernels.</p>
+<p>We compare Operator-valued kernel (OVK) with scikit-learn multi-output ridge
+regression.</p>
+<img alt="../_images/sphx_glr_plot_ovk_regression_cf_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_cf_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  R2 curl-free ridge:  0.741987726924
+R2 independant ridge:  0.657127597993
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.kernel_ridge</span> <span class="kn">import</span> <span class="n">KernelRidge</span>
+
+<span class="c1"># Generate data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">generate_2D_curl_free_field</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">yc</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mo">05</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Add some noise</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">Xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">regr_1</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+                   <span class="n">kernel_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mf">2.</span><span class="p">})</span>
+
+<span class="c1"># Learning with curl-free</span>
+<span class="n">regr_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">regr_1</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xte</span><span class="p">,</span> <span class="n">yte</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;R2 curl-free ridge: &#39;</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
+<span class="n">yp1</span> <span class="o">=</span> <span class="n">regr_1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xc</span><span class="p">)</span>
+<span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">Xc</span><span class="p">)</span>
+<span class="n">U1</span><span class="p">,</span> <span class="n">V1</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">yp1</span><span class="p">)</span>
+
+<span class="c1"># Learning with sklearn ridge</span>
+<span class="n">regr_2</span> <span class="o">=</span> <span class="n">KernelRidge</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
+<span class="n">regr_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">regr_2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xte</span><span class="p">,</span> <span class="n">yte</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;R2 independant ridge: &#39;</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+<span class="n">yp2</span> <span class="o">=</span> <span class="n">regr_2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">U2</span><span class="p">,</span> <span class="n">V2</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">yp2</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">axarr</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">U1</span><span class="p">,</span> <span class="n">V1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">U1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">V1</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">linewidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">u&#39;-&gt;&#39;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">U2</span><span class="p">,</span> <span class="n">V2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">U2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">V2</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">linewidth</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">u&#39;-&gt;&#39;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Curl-Free Ridge, R2: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">s1</span><span class="p">))</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Independant Ridge, R2: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">s2</span><span class="p">))</span>
+<span class="n">f</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Vectorfield learning&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Total running time of the script:</strong>
+(0 minutes 4.500 seconds)</p>
+<div class="sphx-glr-download container">
+<strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_cf.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_cf.py</span></code></a></div>
+<div class="sphx-glr-download container">
+<strong>Download IPython notebook:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_cf.ipynb" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_cf.ipynb</span></code></a></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral float-right" title="Multi-output Operator-valued kernel Regression" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="General examples" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

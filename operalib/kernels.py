@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import rbf_kernel
 
 
 class DecomposableKernel(object):
-    """Decomposable Operator-Valued Kernel.
+    r"""Decomposable Operator-Valued Kernel.
 
     Decomposable Operator-Valued Kernel of the form:
 
@@ -46,6 +46,13 @@ class DecomposableKernel(object):
 
     Examples
     --------
+    >>> import operalib as ovk
+    >>> import numpy as np
+    >>> X = np.random.randn(100, 10)
+    >>> K = ovk.DecomposableKernel(np.eye(2))
+    >>> K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear
+                                       # operator
+    <200x200 _CustomLinearOperator with dtype=float64>
     """
 
     def __init__(self, A, scalar_kernel=rbf_kernel, scalar_kernel_params=None):
@@ -63,16 +70,6 @@ class DecomposableKernel(object):
         scalar_kernel_params : {mapping of string to any}, optional
             Additional parameters (keyword arguments) for kernel function
             passed as callable object.
-
-        Examples
-        --------
-        >>> import operalib as ovk
-        >>> import numpy as np
-        >>> X = np.random.randn(100, 10)
-        >>> K = ovk.DecomposableKernel(np.eye(2))
-        >>> K(X, X) +NORMALIZE_WHITESPACE  # The kernel matrix as a linear
-                                           # operator
-        <200x200 _CustomLinearOperator with dtype=float64>
         """
         self.A = A
         self.scalar_kernel = scalar_kernel
@@ -93,7 +90,7 @@ class DecomposableKernel(object):
         Returns
         -------
         K_x : DecomposableKernelMap, callable
-            Returns K_x: Y -> K(X, Y).
+            Returns K_x: Y \mapsto K(X, Y).
         """
         from .kernel_maps import DecomposableKernelMap
         return DecomposableKernelMap(X, self.A,
@@ -119,7 +116,7 @@ class DecomposableKernel(object):
         Returns
         -------
         K_x : DecomposableKernelMap, callable or LinearOperator
-            Returns K_x: Y -> K(X, Y) if Y is None; K(X, Y) otherwise.
+            Returns K_x: Y \mapsto K(X, Y) if Y is None; K(X, Y) otherwise.
         """
         Kmap = self.get_kernel_map(X)
         if Y is None:

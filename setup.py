@@ -93,7 +93,7 @@ class CleanCommand(Clean):
                 if dirname == '__pycache__':
                     shutil.rmtree(os.path.join(dirpath, dirname))
 
-cmdclass = {'clean': CleanCommand}
+cmdclass_operalib = {'clean': CleanCommand}
 
 # Optional wheelhouse-uploader features
 # To automate release of binary packages for operalib we need a tool
@@ -106,7 +106,7 @@ WHEELHOUSE_UPLOADER_COMMANDS = set(['fetch_artifacts', 'upload_all'])
 if WHEELHOUSE_UPLOADER_COMMANDS.intersection(sys.argv):
     import wheelhouse_uploader.cmd
 
-    cmdclass.update(vars(wheelhouse_uploader.cmd))
+    cmdclass_operalib.update(vars(wheelhouse_uploader.cmd))
 
 
 def configuration(parent_package='', top_path=None):
@@ -212,7 +212,7 @@ def setup_package():
                                  'Programming Language :: Python :: 3.3',
                                  'Programming Language :: Python :: 3.4',
                                  ],
-                    cmdclass=cmdclass,
+                    cmdclass=cmdclass_operalib,
                     **extra_setuptools_args)
 
     if len(sys.argv) == 1 or (

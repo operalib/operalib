@@ -129,7 +129,7 @@ def configuration(parent_package='', top_path=None):
 
 
 scipy_min_version = '0.11'
-numpy_min_version = '1.10.1'
+numpy_min_version = '1.6.1'
 sklearn_min_version = '0.17'
 
 

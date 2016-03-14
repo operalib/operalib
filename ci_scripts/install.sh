@@ -84,11 +84,13 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     pip install --upgrade pip setuptools
 
     # We use the default Python virtualenv provided by travis
-    echo "Installing numpy master wheel"
+    echo "Installing numpy master wheel and sklearn master git"
     pip install --pre --upgrade --no-index --timeout=60 \
         --trusted-host travis-dev-wheels.scipy.org \
         -f https://travis-dev-wheels.scipy.org/ numpy scipy
-    pip install nose nose-timer cython sklearn
+    pip install --pre --upgrade --no-index --timeout=360 \
+    	-f git+https://github.com/scikit-learn/scikit-learn
+    pip install nose nose-timer cython
 fi
 
 if [[ "$COVERAGE" == "true" ]]; then

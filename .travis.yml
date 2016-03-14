@@ -39,12 +39,12 @@ env:
       CACHED_BUILD_DIR="$HOME/operalib_build_ubuntu"
     # This environment tests the oldest supported anaconda env
     - DISTRIB="conda" PYTHON_VERSION="2.7" COVERAGE="true"
-      NUMPY_VERSION="1.6.1" SCIPY_VERSION="0.11.0"
+      NUMPY_VERSION="1.6" SCIPY_VERSION="0.9.0"
       CYTHON_VERSION="0.21" SCIKIT_VERSION=0.17
       CACHED_BUILD_DIR="$HOME/operalib_build_oldest"
     # This environment tests the newest supported anaconda env
     - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
-      NUMPY_VERSION="1.10.4" SCIPY_VERSION="0.17.0"
+      NUMPY_VERSION="1.10" SCIPY_VERSION="0.17.0"
       CYTHON_VERSION="0.23.4" SCIKIT_VERSION=0.17
       CACHED_BUILD_DIR="$HOME/operalib_build_latest"
 
@@ -55,9 +55,10 @@ matrix:
     - python: "3.5"
 
   include:
-    # This environment tests scikit-learn against numpy and scipy master
+    # This environment tests operalib against numpy and scipy master
     # installed from their CI wheels in a virtualenv with the Python
-    # interpreter provided by travis.
+    # interpreter provided by travis. It also test agains scikit-learn master
+    # installed from its git repository.
     # Note: libatlas3gf-base is not allowed yet so we need 'sudo':
     # https://github.com/travis-ci/apt-package-whitelist/issues/2407
     # Once libatlas3gf-base is on the whitelist it will be possible to replace

@@ -68,11 +68,7 @@ or if you have write privileges::
 
 References
 ==========
-* Néhémy Lim, Florence d'Alché-Buc, Cédric Auliac, George Michailidis (2014): Operator-valued Kernel-based Vector Autoregressive Models for Network Inference, (in revision)
-* Lim, Senbabaoglu, Michalidis and d'Alche-Buc (2013): OKVAR-Boost: a novel boosting algorithm to infer nonlinear dynamics and interactions in gene regulatory networks. Bioinformatics 29 (11):1416-1423.
-* Brouard, d'Alché-Buc and Szafranski (2011): Semi-Supervized Penalized Output Kernel Regression for Link Prediction. In ICML 2011.
+A non-exhaustive list of publications related to operator-valued kernel is
+available here:
 
-
-Further litterature on Operator-valued kernels
-==============================================
-- http://romainbrault.github.io/operalib/documentation/reference_papers/index.html.
+http://romainbrault.github.io/operalib/documentation/reference_papers/index.html.

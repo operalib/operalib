@@ -8,7 +8,7 @@ Reference papers
 
 * Universal operator-valued kernels:
 	- `Vector valued reproducing kernel Hilbert spaces and universality <https://www.ge.infn.it/~gruppo4www/galilei/CDTU_Universal.pdf>`_, C. Carmeli et al., 2008
-	- `Universal Kernels for Multi-Task <Learninghttp://www6.cityu.edu.hk/ma/doc/people/caponnettoa/universal(JP14).pdf>`_, Andrea Caponnetto et al, 2006.
+	- `Universal Kernels for Multi-Task learning <http://www6.cityu.edu.hk/ma/doc/people/caponnettoa/universal(JP14).pdf>`_, Andrea Caponnetto et al, 2006.
 
 * Classification:
 	- http://arxiv.org/pdf/1209.1360v2.pdf

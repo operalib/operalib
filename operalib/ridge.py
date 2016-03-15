@@ -91,7 +91,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     def __init__(self,
                  kernel='DGauss', lbda=1e-5,
-                 A=None, gamma=1., theta=0.7, period='autocorr',
+                 A=None, gamma=None, theta=0.7, period='autocorr',
                  autocorr_params=None,
                  solver=fmin_l_bfgs_b, solver_params=None, kernel_params=None):
         """Initialize OVK ridge regression model.
@@ -115,7 +115,7 @@ class Ridge(BaseEstimator, RegressorMixin):
             None, wich is set to identity matrix of size y.shape[1] when
             fitting.
 
-        gamma : {float}, default=1.
+        gamma : {float}, default=None.
             Sigma parameter for the Decomposable Gaussian kernel.
             Ignored by other kernels.
 

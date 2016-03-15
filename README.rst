@@ -37,7 +37,7 @@ The project is developed by the
 University of Evry, France.
 
 Documentation
-========
+=============
 Is available at: http://romainbrault.github.io/operalib/documentation.
 
 Install

@@ -82,7 +82,7 @@ regression.
     plt.show()
 
 **Total running time of the script:**
-(0 minutes 4.953 seconds)
+(0 minutes 4.723 seconds)
 
 
 

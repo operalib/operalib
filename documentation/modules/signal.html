@@ -138,7 +138,7 @@ detection usefull for periodic kernels.</p>
 <dt id="operalib.signal.autocorrelation">
 <code class="descclassname">operalib.signal.</code><code class="descname">autocorrelation</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#autocorrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.autocorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Autocorrelation routine.</p>
-<p>Compute the autocorrelation of a signal X</p>
+<p>Compute the autocorrelation of a given signal X.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -161,7 +161,7 @@ detection usefull for periodic kernels.</p>
 
 <dl class="function">
 <dt id="operalib.signal.get_period">
-<code class="descclassname">operalib.signal.</code><code class="descname">get_period</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>thres=0.01</em>, <em>min_dist=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.get_period" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.signal.</code><code class="descname">get_period</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>thres=0.05</em>, <em>min_dist=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.get_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Period detection routine.</p>
 <p>Finds the period in <em>y</em> by taking its autocorrelation and its first order
 difference. By using <em>thres</em> and <em>min_dist</em> parameters, it is possible to

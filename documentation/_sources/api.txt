@@ -5,4 +5,5 @@ API Documentation
 * :doc:`modules/kernels`
 * :doc:`modules/risk`
 * :doc:`modules/metrics`
-* :doc:`modules/optional`
+* :doc:`modules/datasets`
+* :doc:`modules/signal`

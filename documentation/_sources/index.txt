@@ -32,6 +32,12 @@ University of Evry, France.
 See the `README <https://github.com/RomainBrault/operalib/blob/master/README.rst>`_
 for additional information.
 
+Issues
+======
+
+Signal any issue with the library or the documentation
+`here <https://github.com/RomainBrault/operalib/issues>`_.
+
 Indices and tables
 ==================
 

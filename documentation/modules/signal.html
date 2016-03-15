@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module signal &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Module signal</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/signal.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-operalib.signal">
+<span id="module-signal"></span><h1>Module signal<a class="headerlink" href="#module-operalib.signal" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-operalib.signal" title="operalib.signal"><code class="xref py py-mod docutils literal"><span class="pre">operalib.signal</span></code></a> implements signal preprocessing routines such as period
+detection usefull for periodic kernels.</p>
+<dl class="function">
+<dt id="operalib.signal.autocorrelation">
+<code class="descclassname">operalib.signal.</code><code class="descname">autocorrelation</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#autocorrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.autocorrelation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Autocorrelation routine.</p>
+<p>Compute the autocorrelation of a signal X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray</p>
+<blockquote>
+<div><p>1D signal to compute the autocorrelation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
+<blockquote class="last">
+<div><p>the autocorrelation of the signal x.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.signal.get_period">
+<code class="descclassname">operalib.signal.</code><code class="descname">get_period</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>thres=0.01</em>, <em>min_dist=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.get_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Period detection routine.</p>
+<p>Finds the period in <em>y</em> by taking its autocorrelation and its first order
+difference. By using <em>thres</em> and <em>min_dist</em> parameters, it is possible to
+reduce the number of detected peaks. <em>y</em> must be signed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray (signed)</p>
+<blockquote>
+<div><p>1D amplitude data to search for peaks.</p>
+</div></blockquote>
+<p><strong>X</strong> : ndarray</p>
+<blockquote>
+<div><p>support of y.</p>
+</div></blockquote>
+<p><strong>thres</strong> : float between [0., 1.]</p>
+<blockquote>
+<div><p>Normalized threshold. Only the peaks with amplitude higher than the
+threshold will be detected.</p>
+</div></blockquote>
+<p><strong>min_dist</strong> : int</p>
+<blockquote>
+<div><p>Minimum distance between each detected peak. The peak with the highest
+amplitude is preferred to satisfy this constraint.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">float</p>
+<blockquote class="last">
+<div><p>a period estimation of the signal y = f(x).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.signal.indexes">
+<code class="descclassname">operalib.signal.</code><code class="descname">indexes</code><span class="sig-paren">(</span><em>y</em>, <em>thres=0.05</em>, <em>min_dist=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#indexes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Peak detection routine.</p>
+<p>Finds the peaks in <em>y</em> by taking its first order difference. By using
+<em>thres</em> and <em>min_dist</em> parameters, it is possible to reduce the number of
+detected peaks. <em>y</em> must be signed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray (signed)</p>
+<blockquote>
+<div><p>1D amplitude data to search for peaks.</p>
+</div></blockquote>
+<p><strong>thres</strong> : float between [0., 1.]</p>
+<blockquote>
+<div><p>Normalized threshold. Only the peaks with amplitude higher than the
+threshold will be detected.</p>
+</div></blockquote>
+<p><strong>min_dist</strong> : int</p>
+<blockquote>
+<div><p>Minimum distance between each detected peak. The peak with the highest
+amplitude is preferred to satisfy this constraint.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
+<blockquote class="last">
+<div><p>Array containing the indexes of the peaks that were detected</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

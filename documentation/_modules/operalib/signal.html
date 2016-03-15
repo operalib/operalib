@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>operalib.optional &mdash; Operalib 0.1.0 documentation</title>
+  <title>operalib.signal &mdash; Operalib 0.1.0 documentation</title>
   
 
   
@@ -119,7 +119,7 @@
       
           <li><a href="../index.html">Module code</a> &raquo;</li>
       
-    <li>operalib.optional</li>
+    <li>operalib.signal</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -131,10 +131,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for operalib.optional</h1><div class="highlight"><pre>
+  <h1>Source code for operalib.signal</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">:mod:`operalib.optional` implements optinal features for OVK</span>
-<span class="sd">learning such as period detection for periodic kernels.</span>
+<span class="sd">:mod:`operalib.signal` implements signal preprocessing routines such as period</span>
+<span class="sd">detection usefull for periodic kernels.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Author: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
 <span class="c1">#         the scikit-learn community.</span>
@@ -148,7 +148,7 @@
 <span class="n">eps</span> <span class="o">=</span> <span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
 
 
-<div class="viewcode-block" id="indexes"><a class="viewcode-back" href="../../modules/optional.html#operalib.optional.indexes">[docs]</a><span class="k">def</span> <span class="nf">indexes</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="indexes"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.indexes">[docs]</a><span class="k">def</span> <span class="nf">indexes</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="c1">#     The MIT License (MIT)</span>
 
     <span class="c1"># Copyright (c) 2014 Lucas Hermann Negri</span>
@@ -220,22 +220,60 @@
     <span class="k">return</span> <span class="n">peaks</span></div>
 
 
-<span class="k">def</span> <span class="nf">_autocorrelation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="autocorrelation"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.autocorrelation">[docs]</a><span class="k">def</span> <span class="nf">autocorrelation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Autocorrelation routine.</span>
+
+<span class="sd">    Compute the autocorrelation of a signal X</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        1D signal to compute the autocorrelation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        the autocorrelation of the signal x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">variance</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">correlate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)[</span><span class="o">-</span><span class="n">n</span><span class="p">:]</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="p">(</span><span class="n">variance</span> <span class="o">*</span> <span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">result</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="get_period"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.get_period">[docs]</a><span class="k">def</span> <span class="nf">get_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Period detection routine.</span>
+
+<span class="sd">    Finds the period in *y* by taking its autocorrelation and its first order</span>
+<span class="sd">    difference. By using *thres* and *min_dist* parameters, it is possible to</span>
+<span class="sd">    reduce the number of detected peaks. *y* must be signed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : ndarray (signed)</span>
+<span class="sd">        1D amplitude data to search for peaks.</span>
+<span class="sd">    X : ndarray</span>
+<span class="sd">        support of y.</span>
+<span class="sd">    thres : float between [0., 1.]</span>
+<span class="sd">        Normalized threshold. Only the peaks with amplitude higher than the</span>
+<span class="sd">        threshold will be detected.</span>
+<span class="sd">    min_dist : int</span>
+<span class="sd">        Minimum distance between each detected peak. The peak with the highest</span>
+<span class="sd">        amplitude is preferred to satisfy this constraint.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        a period estimation of the signal y = f(x).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Ts</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">cb</span> <span class="o">=</span> <span class="n">_autocorrelation</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">cb</span> <span class="o">=</span> <span class="n">autocorrelation</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
         <span class="n">T</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="p">(</span><span class="n">thres</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">cb</span><span class="p">)),</span> <span class="n">min_dist</span><span class="o">=</span><span class="n">min_dist</span><span class="p">)</span>
         <span class="n">Ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
-    <span class="k">return</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span> <span class="o">*</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span> <span class="o">*</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span></div>
 </pre></div>
 
            </div>

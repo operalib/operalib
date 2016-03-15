@@ -1,6 +1,9 @@
 Reference papers
 ================
 
+A non-exhausted list of papers related to operator-valued kernels. Any dead links?
+Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
+
 * Reviews:
 	- `Wikipedia entry <https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space>`_.
 	- `Kernels for Vector-Valued Functions: a Review <http://cbcl.mit.edu/publications/ps/MIT-CSAIL-TR-2011-033.pdf>`_, Alvarez et al. 2011

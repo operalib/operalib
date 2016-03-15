@@ -89,7 +89,7 @@ def indexes(y, thres=0.05, min_dist=2):
 def autocorrelation(x):
     """Autocorrelation routine.
 
-    Compute the autocorrelation of a signal X
+    Compute the autocorrelation of a given signal X.
 
     Parameters
     ----------
@@ -109,7 +109,7 @@ def autocorrelation(x):
     return result
 
 
-def get_period(X, y, thres=0.01, min_dist=10):
+def get_period(X, y, thres=0.05, min_dist=2):
     """Period detection routine.
 
     Finds the period in *y* by taking its autocorrelation and its first order

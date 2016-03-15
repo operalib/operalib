@@ -49,7 +49,6 @@ def test_learn_periodic_autocorr_id():
                        period='autocorr', autocorr_params={'thres': 0.01,
                                                            'min_dist': 2})
     regr_1.fit(X, y)
-    print regr_1.score(X_test, y_t)
     assert regr_1.score(X_test, y_t) > 0.5
 
 
@@ -73,5 +72,4 @@ def test_learn_gauss_cov():
     A = cov(y.T)
     regr_1 = ovk.Ridge('DGauss', lbda=.01, gamma=5., A=A)
     regr_1.fit(X, y)
-    print regr_1.score(X_test, y_t)
     assert regr_1.score(X_test, y_t) > 0.3

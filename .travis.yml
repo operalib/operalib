@@ -57,7 +57,7 @@ matrix:
   include:
     # This environment tests operalib against numpy and scipy master
     # installed from their CI wheels in a virtualenv with the Python
-    # interpreter provided by travis. It also test agains scikit-learn master
+    # interpreter provided by travis. It also test against scikit-learn master
     # installed from its git repository.
     # Note: libatlas3gf-base is not allowed yet so we need 'sudo':
     # https://github.com/travis-ci/apt-package-whitelist/issues/2407

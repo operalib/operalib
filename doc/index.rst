@@ -25,6 +25,7 @@ University of Evry, France.
 
        api
        auto_examples/index
+       reference_papers/index
        contact
        ...
 

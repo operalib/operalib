@@ -61,6 +61,7 @@ else:
     from .risk import KernelRidgeRisk
     from .ridge import Ridge
     from .metrics import first_periodic_kernel
+    from .signal import get_period
     from .datasets.vectorfield import generate_2D_curl_free_field, \
         generate_2D_curl_free_mesh, mesh2array, array2mesh, \
         generate_2D_div_free_field, generate_2D_div_free_mesh
@@ -68,6 +69,7 @@ else:
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
                'KernelRidgeRisk',
                'first_periodic_kernel',
+               'get_period',
                'Ridge',
                'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh',
                'generate_2D_div_free_field', 'generate_2D_div_free_mesh',

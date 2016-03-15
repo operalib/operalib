@@ -1,6 +1,6 @@
 """
-:mod:`operalib.optional` implements optinal features for OVK
-learning such as period detection for periodic kernels.
+:mod:`operalib.signal` implements signal preprocessing routines such as period
+detection usefull for periodic kernels.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
 #         the scikit-learn community.
@@ -86,7 +86,21 @@ def indexes(y, thres=0.05, min_dist=2):
     return peaks
 
 
-def _autocorrelation(x):
+def autocorrelation(x):
+    """Autocorrelation routine.
+
+    Compute the autocorrelation of a signal X
+
+    Parameters
+    ----------
+    x : ndarray
+        1D signal to compute the autocorrelation.
+
+    Returns
+    -------
+    ndarray
+        the autocorrelation of the signal x.
+    """
     n = len(x)
     variance = x.var()
     x = x - x.mean()
@@ -95,10 +109,34 @@ def _autocorrelation(x):
     return result
 
 
-def _get_period(X, y, thres=0.01, min_dist=10):
+def get_period(X, y, thres=0.01, min_dist=10):
+    """Period detection routine.
+
+    Finds the period in *y* by taking its autocorrelation and its first order
+    difference. By using *thres* and *min_dist* parameters, it is possible to
+    reduce the number of detected peaks. *y* must be signed.
+
+    Parameters
+    ----------
+    y : ndarray (signed)
+        1D amplitude data to search for peaks.
+    X : ndarray
+        support of y.
+    thres : float between [0., 1.]
+        Normalized threshold. Only the peaks with amplitude higher than the
+        threshold will be detected.
+    min_dist : int
+        Minimum distance between each detected peak. The peak with the highest
+        amplitude is preferred to satisfy this constraint.
+
+    Returns
+    -------
+    float
+        a period estimation of the signal y = f(x).
+    """
     Ts = zeros(y.shape[1])
     for i in xrange(y.shape[1]):
-        cb = _autocorrelation(y[:, i])
+        cb = autocorrelation(y[:, i])
         T = indexes(cb, thres=(thres / max(cb)), min_dist=min_dist)
         Ts[i] = mean(diff(T.ravel()))
     return mean(diff(T.ravel())) * mean(diff(X.ravel()))

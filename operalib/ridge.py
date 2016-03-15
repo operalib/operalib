@@ -17,7 +17,7 @@ from sklearn.metrics.pairwise import rbf_kernel
 from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel
 from .risk import KernelRidgeRisk
-from .optional import _get_period
+from .signal import get_period
 
 # When adding a new kernel, update this table and the _get_kernel_map method
 PAIRWISE_KERNEL_FUNCTIONS = {
@@ -184,7 +184,7 @@ class Ridge(BaseEstimator, RegressorMixin):
     def _default_period(self, X, y):
         if self.period is 'autocorr':
             autocorr_params = self.autocorr_params or {}
-            return _get_period(X, y, **autocorr_params)
+            return get_period(X, y, **autocorr_params)
         elif isinstance(self.period, (int, float)):
             return self.period
         else:

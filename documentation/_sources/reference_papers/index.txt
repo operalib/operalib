@@ -2,13 +2,13 @@ Reference papers
 ================
 
 * On operator-valued kernels:
-	- http://www0.cs.ucl.ac.uk/staff/M.Pontil/reading/vecval.pdf
-	- http://arxiv.org/pdf/1205.2171.pdf
-	- https://www.ge.infn.it/~gruppo4www/galilei/rkhs_vec.pdf
+	- `On learning vector-valued function <http://www0.cs.ucl.ac.uk/staff/M.Pontil/reading/vecval.pdf>`_, Micchelli et al. 2003.
+	- `A Generalized Kernel Approach to Structured Output Learning <http://arxiv.org/pdf/1205.2171.pdf>`_, Kadri et al., 2015.
+	- `Vector valued reproducing kernel Hilbert spaces of integrable functions and Mercer theorem <https://www.ge.infn.it/~gruppo4www/galilei/rkhs_vec.pdf>`_, Carmeli et al., 2006.
 
 * Universal operator-valued kernels:
-	- https://www.ge.infn.it/~gruppo4www/galilei/CDTU_Universal.pdf
-	- http://www6.cityu.edu.hk/ma/doc/people/caponnettoa/universal(JP14).pdf
+	- `Vector valued reproducing kernel Hilbert spaces and universality <https://www.ge.infn.it/~gruppo4www/galilei/CDTU_Universal.pdf>`_, C. Carmeli et al., 2008
+	- `Universal Kernels for Multi-Task <Learninghttp://www6.cityu.edu.hk/ma/doc/people/caponnettoa/universal(JP14).pdf>`_, Andrea Caponnetto et al, 2006.
 
 * Classification:
 	- http://arxiv.org/pdf/1209.1360v2.pdf

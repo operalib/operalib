@@ -4,6 +4,7 @@ Reference papers
 * On operator-valued kernels:
 	- http://www0.cs.ucl.ac.uk/staff/M.Pontil/reading/vecval.pdf
 	- http://arxiv.org/pdf/1205.2171.pdf
+	- https://www.ge.infn.it/~gruppo4www/galilei/rkhs_vec.pdf
 
 * Universal operator-valued kernels:
 	- https://www.ge.infn.it/~gruppo4www/galilei/CDTU_Universal.pdf
@@ -23,7 +24,8 @@ Reference papers
 * Multiple output kernels:
 	- http://papers.nips.cc/paper/4653-multiple-operator-valued-kernel-learning.pdf
 
-* Multiview learning:
+* Multiview/multitask learning:
+	- http://www.cs.berkeley.edu/~russell/classes/cs294/f05/papers/evgeniou+al-2005.pdf
 	- http://www.lorisbazzani.info/papers/proceedings/Minhetal_ICML13.pdf
 
 * Functional data:

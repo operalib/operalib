@@ -89,7 +89,9 @@ class DecomposableKernel(object):
         Returns
         -------
         K_x : DecomposableKernelMap, callable
-            Returns K_x: Y \mapsto K(X, Y).
+
+        .. math::
+            K_x: Y \mapsto K(X, Y).
         """
         from .kernel_maps import DecomposableKernelMap
         return DecomposableKernelMap(X, self.A,
@@ -116,8 +118,7 @@ class DecomposableKernel(object):
 
         Returns
         -------
-
-        Returns K_x : DecomposableKernelMap, callable or LinearOperator
+        K_x : DecomposableKernelMap, callable or LinearOperator
 
             .. math::
                K_x: \begin{cases}
@@ -188,7 +189,9 @@ class RBFCurlFreeKernel(object):
         Returns
         -------
         K_x : DecomposableKernelMap, callable
-            Returns K_x: Y \mapsto K(X, Y).
+
+        .. math::
+            K_x: Y \mapsto K(X, Y).
         """
         from .kernel_maps import RBFCurlFreeKernelMap
         return RBFCurlFreeKernelMap(X, self.gamma)
@@ -213,7 +216,7 @@ class RBFCurlFreeKernel(object):
 
         Returns
         -------
-        Returns K_x : DecomposableKernelMap, callable or LinearOperator
+        K_x : DecomposableKernelMap, callable or LinearOperator
 
         .. math::
             K_x: \begin{cases}
@@ -289,7 +292,9 @@ class RBFDivFreeKernel(object):
         Returns
         -------
         K_x : DecomposableKernelMap, callable
-            Returns K_x: Y \mapsto K(X, Y).
+
+        .. math::
+            K_x: Y \mapsto K(X, Y).
         """
         from .kernel_maps import RBFDivFreeKernelMap
         return RBFDivFreeKernelMap(X, self.gamma)
@@ -314,7 +319,7 @@ class RBFDivFreeKernel(object):
 
         Returns
         -------
-        Returns K_x : DecomposableKernelMap, callable or LinearOperator
+        K_x : DecomposableKernelMap, callable or LinearOperator
 
         .. math::
             K_x: \begin{cases}

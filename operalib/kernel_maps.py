@@ -9,11 +9,20 @@ maps associated to the operator-valued kernel models defined in
 
 from scipy.sparse.linalg import LinearOperator
 from numpy import ravel, dot, reshape, transpose, asarray, subtract, eye, \
-    newaxis
+    newaxis, apply_along_axis
 from numpy.linalg import norm
 from sklearn.metrics.pairwise import rbf_kernel
+from distutils.version import LooseVersion
 
 from .kernels import DecomposableKernel, RBFCurlFreeKernel, RBFDivFreeKernel
+
+import numpy
+if LooseVersion(numpy.__version__) < LooseVersion('1.8'):
+    def _norm_axis_0(X):
+        return apply_along_axis(norm, 0, X)
+else:
+    def _norm_axis_0(X):
+        return norm(X, axis=0)
 
 
 class DecomposableKernelMap(DecomposableKernel):
@@ -384,7 +393,7 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
                                        delta[newaxis, :, :, :]).transpose(
                         (3, 2, 0, 1)) +
                         ((self.p - 1) - 2 * self.gamma *
-                         norm(delta, axis=0)[:, :, newaxis, newaxis]**2) *
+                         _norm_axis_0(delta)[:, :, newaxis, newaxis]**2) *
                         eye(self.p)[newaxis, newaxis, :, :]), (0, 2, 1, 3)
                 )).reshape((self.p * X.shape[0], self.p * self.X.shape[0]))
             return self.Gs_train
@@ -399,7 +408,7 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
                                delta[newaxis, :, :, :]).transpose(
                 (3, 2, 0, 1)) +
                 ((self.p - 1) - 2 * self.gamma *
-                 norm(delta, axis=0).T[:, :, newaxis, newaxis]**2) *
+                 _norm_axis_0(delta).T[:, :, newaxis, newaxis]**2) *
                 eye(self.p)[newaxis, newaxis, :, :]), (0, 2, 1, 3)
         )).reshape((self.p * X.shape[0], self.p * self.X.shape[0]))
 

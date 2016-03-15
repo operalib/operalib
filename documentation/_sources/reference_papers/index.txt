@@ -33,6 +33,7 @@ Reference papers
 
 * Learning kernels:
 	- http://jmlr.csail.mit.edu/proceedings/papers/v20/dinuzzo11/dinuzzo11.pdf
+	- http://www.icml-2011.org/papers/54_icmlpaper.pdf
 
 * Large scale-learning with operator-valued kernels:
 	- http://arxiv.org/pdf/1311.0222.pdf

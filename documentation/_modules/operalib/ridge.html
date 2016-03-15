@@ -225,7 +225,7 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
-                 <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;autocorr&#39;</span><span class="p">,</span>
+                 <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s1">&#39;autocorr&#39;</span><span class="p">,</span>
                  <span class="n">autocorr_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">solver</span><span class="o">=</span><span class="n">fmin_l_bfgs_b</span><span class="p">,</span> <span class="n">solver_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kernel_params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize OVK ridge regression model.</span>
@@ -249,7 +249,7 @@
 <span class="sd">            None, wich is set to identity matrix of size y.shape[1] when</span>
 <span class="sd">            fitting.</span>
 
-<span class="sd">        gamma : {float}, default=1.</span>
+<span class="sd">        gamma : {float}, default=None.</span>
 <span class="sd">            Sigma parameter for the Decomposable Gaussian kernel.</span>
 <span class="sd">            Ignored by other kernels.</span>
 

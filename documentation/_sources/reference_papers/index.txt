@@ -21,15 +21,15 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 	- `Multiclass Learning with Simplex Coding <http://arxiv.org/pdf/1209.1360v2.pdf>`_, Youssef Mroueh et al., 2012.
 
 * Vector-field learning:
-	- `Modeling magnetic fields using Gaussian processes <http://user.it.uu.se/~thosc112/pubpdf/wahlstromksg2013.pdf>`_, Wahlstr\"om et al., 2013.
-	- http://preprint.impa.br/FullText/Macedo__Thu_Oct_21_16_38_10_BRDT_2010/macedo-MVRBFs.pdf
+	- `Modeling magnetic fields using Gaussian processes <http://user.it.uu.se/~thosc112/pubpdf/wahlstromksg2013.pdf>`_, Wahlstrom et al., 2013.
+	- `Learning divergence-free and curl-free vector fields with matrix-valued kernels <http://preprint.impa.br/FullText/Macedo__Thu_Oct_21_16_38_10_BRDT_2010/macedo-MVRBFs.pdf`_, Macedo et al., 2010.
 
 * Network inference, link prediction:
-	- `Learning divergence-free and curl-free vector fields with matrix-valued kernels <https://hal.archives-ouvertes.fr/hal-00872342v2/document>`_, Macedo et al., 2010.
+	- `Operator-valued Kernel-based Vector Autoregressive Models for Network Inference <https://hal.archives-ouvertes.fr/hal-00872342v2/document>`_, Lim et al., 2014.
 	- `Input Output Kernel Regression <https://hal.archives-ouvertes.fr/hal-01216708/file/Input_Output_Kernel_Regression.pdf>`_, Brouard et al., 2015.
 
 * Multiple output kernels:
-	- `Operator-valued Kernel-based Vector Autoregressive Models for Network Inference <http://papers.nips.cc/paper/4653-multiple-operator-valued-kernel-learning.pdf>`_, Lim et al., 2014.
+	- `Multiple Operator-valued Kernel Learning <http://papers.nips.cc/paper/4653-multiple-operator-valued-kernel-learning.pdf>`_, Kadri et al., 2011.
 
 * Multiview/multitask learning:
 	- `Learning Multiple Tasks with Kernel Methods <http://www.cs.berkeley.edu/~russell/classes/cs294/f05/papers/evgeniou+al-2005.pdf>`_, Evgeniou et al., 2005.

@@ -15,6 +15,7 @@ Our aim is to provide an easy-to-use standard implementation of operator-valued
 kernel methods in the spirit of `scikit-learn <http://scikit-learn.org/>`_. Hence Operalib is designed for compatilibity to scikit-learn interface and conventions. It uses numpy, and scipy as underlying libraries.
 
 The project is developed by:
+
 * LTCI, Télécom ParisTech, 
 * Université Paris-Saclay, 
 * IBISC, University of Evry, France.

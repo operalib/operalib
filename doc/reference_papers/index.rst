@@ -10,7 +10,7 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 
 * On operator-valued kernels:
 	- `On learning vector-valued function <http://www0.cs.ucl.ac.uk/staff/M.Pontil/reading/vecval.pdf>`_, Micchelli et al. 2003.
-	- `A Generalized Kernel Approach to Structured Output Learning <http://arxiv.org/pdf/1205.2171.pdf>`_, Kadri et al., 2015.
+	- `Kernels for Vector-Valued Functions: a Review <http://cbcl.mit.edu/publications/ps/MIT-CSAIL-TR-2011-033.pdf>`_, Alvarez et al. 2011
 	- `Vector valued reproducing kernel Hilbert spaces of integrable functions and Mercer theorem <https://www.ge.infn.it/~gruppo4www/galilei/rkhs_vec.pdf>`_, Carmeli et al., 2006.
 
 * Universal operator-valued kernels:
@@ -24,9 +24,12 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 	- `Modeling magnetic fields using Gaussian processes <http://user.it.uu.se/~thosc112/pubpdf/wahlstromksg2013.pdf>`_, Wahlstrom et al., 2013.
 	- `Learning divergence-free and curl-free vector fields with matrix-valued kernels <http://preprint.impa.br/FullText/Macedo__Thu_Oct_21_16_38_10_BRDT_2010/macedo-MVRBFs.pdf>`_, Macedo et al., 2010.
 
-* Network inference, link prediction:
-	- `Operator-valued Kernel-based Vector Autoregressive Models for Network Inference <https://hal.archives-ouvertes.fr/hal-00872342v2/document>`_, Lim et al., 2014.
+
+
+* Structured output prediction, link prediction:
+
 	- `Input Output Kernel Regression <https://hal.archives-ouvertes.fr/hal-01216708/file/Input_Output_Kernel_Regression.pdf>`_, Brouard et al., 2015.
+		- `A Generalized Kernel Approach to Structured Output Learning <http://arxiv.org/pdf/1205.2171.pdf>`_, Kadri et al., 2015.
 
 * Multiple output kernels:
 	- `Multiple Operator-valued Kernel Learning <http://papers.nips.cc/paper/4653-multiple-operator-valued-kernel-learning.pdf>`_, Kadri et al., 2011.
@@ -43,6 +46,7 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 * Learning kernels:
 	- `Learning low-rank output kernels <http://jmlr.csail.mit.edu/proceedings/papers/v20/dinuzzo11/dinuzzo11.pdf>`_, Dinuzzo et al., 2011.
 	- `Learning Output Kernels with Block Coordinate Descent <http://www.icml-2011.org/papers/54_icmlpaper.pdf>`_, Dinuzzo et al., 2011.
+	- `Operator-valued Kernel-based Vector Autoregressive Models for Network Inference <https://hal.archives-ouvertes.fr/hal-00872342v2/document>`_, Lim et al., 2014.
 
 * Refinement of kernels:
 	- `Refinement of Operator-valued Reproducing Kernels <http://www.jmlr.org/papers/volume13/zhang12a/zhang12a.pdf>`_, Zhang et al., 2012.

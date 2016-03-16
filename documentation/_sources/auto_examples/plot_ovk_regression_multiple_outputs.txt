@@ -26,11 +26,11 @@ OVK methods can generalise better than decision trees but are slower to train.
       seed 123
     Creating dataset...
     Fitting...
-    Leaning time DPeriodic ID:  0.357867002487
-    Leaning time Trees:  0.00312781333923
+    Leaning time DPeriodic ID:  0.374309062958
+    Leaning time Trees:  0.00307893753052
     Predicting...
-    Test time DPeriodic ID:  0.129929065704
-    Test time Trees:  0.000219106674194
+    Test time DPeriodic ID:  0.130302906036
+    Test time Trees:  0.000225067138672
     R2 OVK ID:  0.994871736156
     R2 Trees:  0.791425729333
     plotting
@@ -131,7 +131,7 @@ OVK methods can generalise better than decision trees but are slower to train.
     print("Done")
 
 **Total running time of the script:**
-(0 minutes 0.683 seconds)
+(0 minutes 0.699 seconds)
 
 
 

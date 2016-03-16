@@ -33,6 +33,11 @@ The project is developed by:
 See the `README <https://github.com/RomainBrault/operalib/blob/master/README.rst>`_
 for additional information.
 
+Sources
+=======
+
+Are available on `github <https://github.com/RomainBrault/operalib/>`_
+
 Issues
 ======
 

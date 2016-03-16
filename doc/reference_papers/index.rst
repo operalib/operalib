@@ -22,7 +22,7 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 
 * Vector-field learning:
 	- `Modeling magnetic fields using Gaussian processes <http://user.it.uu.se/~thosc112/pubpdf/wahlstromksg2013.pdf>`_, Wahlstrom et al., 2013.
-	- `Learning divergence-free and curl-free vector fields with matrix-valued kernels <http://preprint.impa.br/FullText/Macedo__Thu_Oct_21_16_38_10_BRDT_2010/macedo-MVRBFs.pdf`_, Macedo et al., 2010.
+	- `Learning divergence-free and curl-free vector fields with matrix-valued kernels <http://preprint.impa.br/FullText/Macedo__Thu_Oct_21_16_38_10_BRDT_2010/macedo-MVRBFs.pdf>`_, Macedo et al., 2010.
 
 * Network inference, link prediction:
 	- `Operator-valued Kernel-based Vector Autoregressive Models for Network Inference <https://hal.archives-ouvertes.fr/hal-00872342v2/document>`_, Lim et al., 2014.

@@ -36,7 +36,7 @@ for additional information.
 Sources
 =======
 
-Are available on `github <https://github.com/RomainBrault/operalib/>`_
+Are available on `github <https://github.com/RomainBrault/operalib/>`_.
 
 Issues
 ======

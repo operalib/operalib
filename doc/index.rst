@@ -6,18 +6,14 @@
 Welcome to Operalib's documentation!
 ====================================
 
-Operalib is a library for structured learning and prediction for python based on
-operator-valued kernels (OVKs). OVKs are an extension of scalar kernels to
-operator-valued kernels. The idea is to predict silmultaneously several targets
-while, for instance, encoding the output structure with the operator-valued
-kernel.
+Operalib is a Python library devoted to multiple output regression and structured output prediction. It is mainly based on
+Operator-Valued Kernels (OVKs) and Output Kernels (OKs). OVKs allow to model vector-valued functions. Especially it is possible to predict silmultaneously several targets while taking into account the dependence relationship between the coordinates of the output vector. First introduced in Machine Learning to solve Multi-Task Regression problems, OVKs have been developed in the context of vector-valued Reproducing Kernel Hilbert Spaces (vv-RKHS) to address various tasks involving vectorial outputs: multiple structured classification, vector field learning, vector autoregression, functional regression, structured output prediction, link prediction...
 
-We aim at providing an easy-to-use standard implementation of operator-valued
-kernel methods. Operalib is designed for compatilibity to scikit-learn
+With Operalib, our aim is to provide an easy-to-use standard implementation of operator-valued
+kernel methods in the spirit of Scikitlearn <http://scikit-learn.org/>. Operalib is designed for compatilibity to scikit-learn
 interface and conventions. It uses numpy, and scipy as underlying libraries.
 
-The project is developed by the AROBAS group of the IBISC laboratory of the
-University of Evry, France.
+The project is developed by LTCI, Télécom ParisTech, Université Paris-Saclay and IBISC,University of Evry, France.
 
 
     .. toctree::

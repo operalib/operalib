@@ -9,7 +9,7 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 	- `Kernels for Vector-Valued Functions: a Review <http://cbcl.mit.edu/publications/ps/MIT-CSAIL-TR-2011-033.pdf>`_, Alvarez et al. 2011
 
 * On operator-valued kernels:
-	- `On learning vector-valued function <http://www0.cs.ucl.ac.uk/staff/M.Pontil/reading/vecval.pdf>`_, Micchelli et al. 2003.
+	- `On learning vector-valued function <http://www0.cs.ucl.ac.uk/staff/M.Pontil/reading/vecval.pdf>`_, Micchelli et al. 2005.
 	- `Kernels for Vector-Valued Functions: a Review <http://cbcl.mit.edu/publications/ps/MIT-CSAIL-TR-2011-033.pdf>`_, Alvarez et al. 2011
 	- `Vector valued reproducing kernel Hilbert spaces of integrable functions and Mercer theorem <https://www.ge.infn.it/~gruppo4www/galilei/rkhs_vec.pdf>`_, Carmeli et al., 2006.
 
@@ -27,9 +27,8 @@ Open a new issue `here <https://github.com/RomainBrault/operalib/issues>`_.
 
 
 * Structured output prediction, link prediction:
-
 	- `Input Output Kernel Regression <https://hal.archives-ouvertes.fr/hal-01216708/file/Input_Output_Kernel_Regression.pdf>`_, Brouard et al., 2015.
-		- `A Generalized Kernel Approach to Structured Output Learning <http://arxiv.org/pdf/1205.2171.pdf>`_, Kadri et al., 2015.
+	- `A Generalized Kernel Approach to Structured Output Learning <http://arxiv.org/pdf/1205.2171.pdf>`_, Kadri et al., 2015.
 
 * Multiple output kernels:
 	- `Multiple Operator-valued Kernel Learning <http://papers.nips.cc/paper/4653-multiple-operator-valued-kernel-learning.pdf>`_, Kadri et al., 2011.

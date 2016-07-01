@@ -38,13 +38,13 @@ env:
       CYTHON_VERSION="0.23.4" SCIKIT_VERSION=0.17
       CACHED_BUILD_DIR="$HOME/operalib_build_ubuntu"
     # This environment tests the oldest supported anaconda env
-    - DISTRIB="conda" PYTHON_VERSION="2.7" COVERAGE="true"
-      NUMPY_VERSION="1.10" SCIPY_VERSION="0.16"
+    - DISTRIB="conda" PYTHON_VERSION="2.6" COVERAGE="true" INSTALL_MKL="false"
+      NUMPY_VERSION="1.6.2" SCIPY_VERSION="0.11.0"
       CYTHON_VERSION="0.21" SCIKIT_VERSION=0.17
       CACHED_BUILD_DIR="$HOME/operalib_build_oldest"
     # This environment tests the newest supported anaconda env
-    - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
-      NUMPY_VERSION="1.10" SCIPY_VERSION="0.17.0"
+    - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true" INSTALL_MKL="true"
+      NUMPY_VERSION="1.10.4" SCIPY_VERSION="0.17.0"
       CYTHON_VERSION="0.23.4" SCIKIT_VERSION=0.17
       CACHED_BUILD_DIR="$HOME/operalib_build_latest"
 

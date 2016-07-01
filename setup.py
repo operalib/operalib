@@ -133,7 +133,6 @@ def configuration(parent_package='', top_path=None):
 
 scipy_min_version = '0.9'
 numpy_min_version = '1.6.1'
-sklearn_min_version = '0.17'
 
 
 def get_scipy_status():
@@ -242,9 +241,6 @@ def setup_package():
         scipy_status = get_scipy_status()
         scipy_req_str = "operalib requires SciPy >= {0}.\n".format(
             scipy_min_version)
-        sklearn_status = get_sklearn_status()
-        sklearn_req_str = "operalib requires scikit-learn >= {0}.\n".format(
-            sklearn_min_version)
 
         instructions = ("Installation instructions are available on the "
                         "operalib website: "

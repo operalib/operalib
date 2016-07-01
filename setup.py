@@ -35,9 +35,9 @@ with open('README.rst') as f:
     LONG_DESCRIPTION = f.read()
 MAINTAINER = 'Romain Brault'
 MAINTAINER_EMAIL = 'romain.brault@telecom-paristech.fr'
-URL = 'http://romainbrault.github.io/operalib/documentation/'
+URL = 'http://operalib.github.io/operalib/documentation/'
 LICENSE = 'MIT'
-DOWNLOAD_URL = 'https://github.com/RomainBrault/operalib/'
+DOWNLOAD_URL = 'https://github.com/operalib/operalib/'
 
 import operalib
 

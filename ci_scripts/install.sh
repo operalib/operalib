@@ -52,11 +52,11 @@ if [[ "$DISTRIB" == "conda" ]]; then
     if [[ "$INSTALL_MKL" == "true" ]]; then
         conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
             numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION numpy scipy \
-            cython=$CYTHON_VERSION scikit-learn=$SCIKIT_VERSION libgfortran mkl
+            cython=$CYTHON_VERSION scikit-learn libgfortran mkl
     else
         conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
             numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION cython=$CYTHON_VERSION \
-            scikit-learn=$SCIKIT_VERSION libgfortran
+            scikit-learn libgfortran
     fi
     source activate testenv
 

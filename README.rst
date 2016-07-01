@@ -38,7 +38,7 @@ University of Evry, France.
 
 Documentation
 =============
-Is available at: http://romainbrault.github.io/operalib/documentation.
+Is available at: http://operalib.github.io/operalib/documentation/.
 
 Install
 =======
@@ -71,4 +71,4 @@ References
 A non-exhaustive list of publications related to operator-valued kernel is
 available here:
 
-http://romainbrault.github.io/operalib/documentation/reference_papers/index.html.
+http://operalib.github.io/operalib/documentation/reference_papers/index.html.

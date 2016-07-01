@@ -67,19 +67,32 @@ if __name__ == '__main__':
     x_test, y_test, z_test = toy_data(1000, probs=probs)
 
     # Joint quantile regression
-    joint = Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=1e1,
+    lbda = 1e-2
+    gamma = 1e1
+    joint = Quantile(probs=probs, kernel='DGauss', lbda=lbda, gamma=gamma,
                      gamma_quantile=1e-2)
+    # Independent quantile regression
+    ind = Quantile(probs=probs, kernel='DGauss', lbda=lbda, gamma=gamma,
+                   gamma_quantile=np.inf)
+    # Independent quantile regression (with non-crossing constraints)
+    nc = Quantile(probs=probs, kernel='DGauss', lbda=lbda, gamma=gamma,
+                  gamma_quantile=np.inf, nc_const=True)
 
-    # Fit on training data and predict on test data
-    joint.fit(x_train, y_train)
-    pred = joint.predict(x_test)
+    # Fit on training data
+    for reg in [joint, ind, nc]:
+        reg.fit(x_train, y_train)
+#    pred = joint.predict(x_test)
 
     # Plot the estimated conditional quantiles
     plt.figure(figsize=(12, 7))
-    plt.subplot(131)
-    plt.plot(x_train, y_train, '.')
-    for q in pred:
-        plt.plot(x_test, q, '-')
-    for q in z_test:
-        plt.plot(x_test, q, '--')
-    plt.title('Joint quantile regression')
+    for (i, (reg, title)) in enumerate(
+        [(joint, 'Joint quantile regression'),
+         (ind, 'Independent quantile regression'),
+         (nc, 'Independent quantile regression (non-crossing)')]):
+        plt.subplot(1, 3, i+1)
+        plt.plot(x_train, y_train, '.')
+        for q in reg.predict(x_test):
+            plt.plot(x_test, q, '-')
+        for q in z_test:
+            plt.plot(x_test, q, '--')
+        plt.title(title)

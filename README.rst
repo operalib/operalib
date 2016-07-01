@@ -1,7 +1,7 @@
 .. -*- mode: rst -*-
 
-.. |Travis| image:: https://travis-ci.org/RomainBrault/operalib.svg?branch=master
-.. _Travis: https://travis-ci.org/RomainBrault/operalib
+.. |Travis| image:: https://travis-ci.org/operalib/operalib.svg?branch=master
+.. _Travis: https://travis-ci.org/operalib/operalib
 
 .. |Coveralls| image:: https://coveralls.io/repos/github/RomainBrault/operalib/badge.svg?branch=master
 .. _Coveralls: https://coveralls.io/github/RomainBrault/operalib?branch=master

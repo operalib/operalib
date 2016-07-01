@@ -173,26 +173,6 @@ def get_numpy_status():
         numpy_status['version'] = ""
     return numpy_status
 
-
-def get_sklearn_status():
-    """
-    Return a dictionary containing a boolean specifying whether scikit-learn
-    is up-to-date, along with the version string (empty string if
-    not installed).
-    """
-    sklearn_status = {}
-    try:
-        import sklearn
-        sklearn_version = sklearn.__version__
-        sklearn_status['up_to_date'] = parse_version(
-            sklearn_version) >= parse_version(sklearn_min_version)
-        sklearn_status['version'] = sklearn_version
-    except ImportError:
-        sklearn_status['up_to_date'] = False
-        sklearn_status['version'] = ""
-    return sklearn_status
-
-
 def generate_cython():
     cwd = os.path.abspath(os.path.dirname(__file__))
     print("Cythonizing sources")
@@ -291,16 +271,6 @@ def setup_package():
                 raise ImportError("Scientific Python (SciPy) is not "
                                   "installed.\n{0}{1}"
                                   .format(scipy_req_str, instructions))
-        if sklearn_status['up_to_date'] is False:
-            if sklearn_status['version']:
-                raise ImportError("Your installation of scikit-learn "
-                                  "(sklearn) {0} is out-of-date.\n{1}{2}"
-                                  .format(sklearn_status['version'],
-                                          sklearn_req_str, instructions))
-            else:
-                raise ImportError("Scikit-Learn (sklearn) is not "
-                                  "installed.\n{0}{1}"
-                                  .format(sklearn_req_str, instructions))
 
         from numpy.distutils.core import setup
 

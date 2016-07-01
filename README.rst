@@ -3,17 +3,17 @@
 .. |Travis| image:: https://travis-ci.org/operalib/operalib.svg?branch=master
 .. _Travis: https://travis-ci.org/operalib/operalib
 
-.. |Coveralls| image:: https://coveralls.io/repos/github/RomainBrault/operalib/badge.svg?branch=master
-.. _Coveralls: https://coveralls.io/github/RomainBrault/operalib?branch=master
+.. |Coveralls| image:: https://coveralls.io/repos/github/operalib/operalib/badge.svg?branch=master
+.. _Coveralls: https://coveralls.io/github/operalib/operalib ?branch=master
 
-.. |CircleCI| image:: https://circleci.com/gh/RomainBrault/operalib/tree/master.svg?style=shield&circle-token=:circle-token
-.. _CircleCI: https://circleci.com/gh/RomainBrault/operalib
+.. |CircleCI| image:: https://circleci.com/gh/operalib/operalib/tree/master.svg?style=shield&circle-token=:circle-token
+.. _CircleCI: https://circleci.com/gh/operalib/operalib
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://github.com/RomainBrault/operalib
+.. _Python27: https://github.com/operalib/operalib
 
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
-.. _Python35: https://github.com/RomainBrault/operalib
+.. _Python35: https://github.com/operalib/operalib
 
 Operalib
 ========

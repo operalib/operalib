@@ -60,6 +60,7 @@ else:
         RBFDivFreeKernel
     from .risk import KernelRidgeRisk
     from .ridge import Ridge
+    from .quantile import Quantile
     from .metrics import first_periodic_kernel
     from .signal import get_period
     from .datasets.vectorfield import generate_2D_curl_free_field, \
@@ -71,6 +72,7 @@ else:
                'first_periodic_kernel',
                'get_period',
                'Ridge',
+	       'Quantile',
                'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh',
                'generate_2D_div_free_field', 'generate_2D_div_free_mesh',
                'mesh2array', 'array2mesh']

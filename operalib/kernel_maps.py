@@ -9,7 +9,7 @@ maps associated to the operator-valued kernel models defined in
 
 from scipy.sparse.linalg import LinearOperator
 from numpy import ravel, dot, reshape, transpose, asarray, subtract, eye, \
-    newaxis, apply_along_axis
+    newaxis, apply_along_axis, kron
 from numpy.linalg import norm
 from sklearn.metrics.pairwise import rbf_kernel
 from distutils.version import LooseVersion
@@ -177,6 +177,9 @@ class DecomposableKernelMap(DecomposableKernel):
             (Y.shape[0] * self.p, self.n * self.p),
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
+
+    def Gram_dense(self, X):
+        return kron(self._Gram(X), self.A)
 
 
 class RBFCurlFreeKernelMap(RBFCurlFreeKernel):

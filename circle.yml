@@ -2,7 +2,7 @@ machine:
   environment:
     # The github organization or username of the repository which hosts the
     # project and documentation.
-    USERNAME: "RomainBrault"
+    USERNAME: "operalib"
 
     # The repository where the documentation will be hosted
     DOC_REPO: "operalib"

@@ -61,7 +61,7 @@ class Quantile(BaseEstimator, RegressorMixin):
     * R. Koenker
       "Quantile Regression", Cambridge University Press, Cambridge, New York,
       2005.
-    * M. Sangnier, O. Fercoq and F. d'Alché-Buc
+    * M. Sangnier, O. Fercoq and F. d'Alche-Buc
       "Joint quantile regression in vector-valued RKHSs", hal-01272327, 2016.
 
     See also

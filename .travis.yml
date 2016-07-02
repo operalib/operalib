@@ -21,6 +21,7 @@ addons:
     packages:
       - libatlas3gf-base
       - libatlas-dev
+      - liblapack-dev
       # only required by the DISTRIB="ubuntu" build:
       - python-scipy
 

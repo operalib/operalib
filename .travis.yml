@@ -12,6 +12,7 @@ cache:
   - $HOME/operalib_build_ubuntu
   - $HOME/operalib_build_oldest
   - $HOME/operalib_build_latest
+  - $HOME/operalib_build_current
   - $HOME/operalib_build_numpy_dev
   - $HOME/.cache/pip
   - $HOME/download
@@ -41,6 +42,7 @@ env:
     - DISTRIB="conda" PYTHON_VERSION="2.7" COVERAGE="true" INSTALL_MKL="false"
       NUMPY_VERSION="1.6.2" SCIPY_VERSION="0.11.0" 
       CYTHON_VERSION="0.21" SCIKIT_VERSION="0.17"
+      CACHED_BUILD_DIR="$HOME/operalib_build_current"
     # This environment tests the oldest supported anaconda env
     - DISTRIB="conda" PYTHON_VERSION="2.6" COVERAGE="true" INSTALL_MKL="false"
       NUMPY_VERSION="1.6.2" SCIPY_VERSION="0.11.0"

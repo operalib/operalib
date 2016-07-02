@@ -19,7 +19,7 @@ cache:
 addons:
   apt:
     packages:
-      - libatlas3-base
+      - libatlas3gf-base
       - libatlas-dev
       - liblapack-dev
       # only required by the DISTRIB="ubuntu" build:

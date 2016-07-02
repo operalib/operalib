@@ -52,11 +52,11 @@ if [[ "$DISTRIB" == "conda" ]]; then
     if [[ "$INSTALL_MKL" == "true" ]]; then
         conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
             numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION numpy scipy \
-            cython=$CYTHON_VERSION scikit-learn libgfortran mkl
+            cython=$CYTHON_VERSION scikit-learn libgfortran mkl cvxopt
     else
         conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
             numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION cython=$CYTHON_VERSION \
-            scikit-learn libgfortran
+            scikit-learn libgfortran cvxopt
     fi
     source activate testenv
 
@@ -73,7 +73,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     virtualenv --system-site-packages testvenv
     source testvenv/bin/activate
     pip install -U pip
-    pip install -U nose nose-timer cython sklearn
+    pip install -U nose nose-timer cython sklearn cvxopt
 
 elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     # Set up our own virtualenv environment to avoid travis' numpy.
@@ -88,7 +88,7 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     pip install --pre --upgrade --no-index --timeout=60 \
         --trusted-host travis-dev-wheels.scipy.org \
         -f https://travis-dev-wheels.scipy.org/ numpy scipy
-    pip install nose nose-timer cython
+    pip install nose nose-timer cython cvxopt
     pip install --pre --upgrade --no-index --timeout=360 \
     	git+https://github.com/scikit-learn/scikit-learn
 fi

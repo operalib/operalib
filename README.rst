@@ -60,11 +60,11 @@ GIT
 
 You can check the latest sources with the command::
 
-    git clone https://github.com/RomainBrault/operalib.git
+    git clone https://github.com/operalib/operalib
 
 or if you have write privileges::
 
-    git clone git@github.com:RomainBrault/operalib.git
+    git clone git@github.com:operalib/operalib.git
 
 References
 ==========

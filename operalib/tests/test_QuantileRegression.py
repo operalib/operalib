@@ -47,8 +47,9 @@ def toy_data(n=50, probs=[0.5], noise=1.):
     # Gaussian noise with decreasing std
     add_noise = noise_std * np.random.randn(n)
     observations = pattern + add_noise
-    quantiles = [pattern + norm.ppf(p, loc=np.zeros(n),
-                                    scale=np.fabs(noise_std)) for p in probs]
+    quantiles = [pattern + np.asarray([norm.ppf(p, loc=0., scale=abs(noise_i))
+                                       for noise_i in noise_std]) for p in
+                 probs]
     return t[:, None], observations, quantiles
 
 

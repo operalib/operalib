@@ -13,7 +13,7 @@ from sklearn.base import BaseEstimator, RegressorMixin
 from cvxopt import matrix, solvers
 
 from sklearn.utils import check_X_y, check_array
-from sklearn.utils.validation import check_is_fitted
+from sklearn.utils.validation import check_is_fitted, DataConversionWarning
 from sklearn.metrics.pairwise import rbf_kernel
 
 from .kernels import DecomposableKernel
@@ -183,7 +183,10 @@ class Quantile(BaseEstimator, RegressorMixin):
         pred = np.reshape(self.linop_(X) * self.coefs_, (n, p))
         pred += self.intercept_
 
-        return pred.T
+        if self.linop_.p > 1:
+            return pred.T
+        else:
+            return pred.T.ravel()
 
     def predict(self, X):
         """Predict conditional quantiles.
@@ -218,9 +221,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-                         y_numeric=True, multi_output=True)
-        self.probs_ = np.asarray(self.probs)
+        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'], y_numeric=True)
+        self.probs_ = np.array(self.probs, ndmin=1, copy=False)
         self._validate_params()
 
         self.linop_ = self._get_kernel_map(X, y)
@@ -304,7 +306,6 @@ class Quantile(BaseEstimator, RegressorMixin):
         # Set the intercept
 #        self.intercept = np.asarray(sol['y']).squeeze()
         self.intercept_ = 0.  # Erase the previous intercept before prediction
-        print(self.probs_)
         self.intercept_ = [
             np.percentile(y - pred, 100. * prob) for
             (pred, prob) in zip(self.predict(self.linop_.X), self.probs_)]
@@ -315,7 +316,7 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         Parameters
         ----------
-        pred : {array-like}, shape = [n_quantiles, n_samples]
+        pred : {array-like}, shape = [n_quantiles, n_samples] or [n_samples]
             Predictions.
 
         y : {array-like}, shape = [n_samples]
@@ -326,7 +327,10 @@ class Quantile(BaseEstimator, RegressorMixin):
         l : {array}, shape = [n_quantiles]
             Average loss for each quantile level.
         """
-        y = np.ravel(y)
+        if pred.ndim == 1:
+            pred = pred.reshape((1, -1))
+        pred, y = check_X_y(pred.T, y)
+        pred = pred.T
         residual = y - pred
         loss = np.sum([np.fmax(prob * res, (prob - 1) * res) for (res, prob) in
                       zip(residual, self.probs_)], axis=1)
@@ -341,7 +345,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         X : {array-like, sparse matrix}, shape = [n_samples, n_features]
             Training data.
 
-        y : {array-like}, shape = [n_samples] or [n_samples, n_targets]
+        y : {array-like}, shape = [n_samples]
             Target values.
 
         Returns
@@ -351,6 +355,5 @@ class Quantile(BaseEstimator, RegressorMixin):
         """
         check_is_fitted(self, ['coefs_', 'intercept_', 'linop_'],
                         all_or_any=all)
-        X = check_array(X)
-        y = check_array(y)
+        pred, y = check_X_y(X, y)
         return 1 - self.pinball_loss(self.predict(X), y).mean()

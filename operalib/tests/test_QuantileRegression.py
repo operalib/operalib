@@ -57,7 +57,7 @@ def test_valid_estimator():
     from sklearn import __version__
     # Adding patch revision number cause crash
     if LooseVersion(__version__) >= LooseVersion('0.18'):
-        check_estimator(ovk.Ridge)
+        check_estimator(ovk.Quantile)
     else:
         warn('sklearn\'s check_estimator seems to be broken in __version__ <='
              ' 0.17.x... skipping')

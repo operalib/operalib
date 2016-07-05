@@ -18,12 +18,13 @@ constraints.
 from operalib import Quantile
 
 import numpy as np
+import time
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 
 
 def toy_data(n=50, probs=[0.5], noise=1.):
-    """Sine wave toy dataset
+    """Sine wave toy dataset.
 
     Parameters
     ----------
@@ -46,13 +47,13 @@ def toy_data(n=50, probs=[0.5], noise=1.):
     """
     t_min, t_max = 0., 1.5  # Bounds for the input data
     t_down, t_up = 0., 1.5  # Bounds for the noise
-    t = np.random.rand(n) * (t_max-t_min) + t_min
+    t = np.random.rand(n) * (t_max - t_min) + t_min
     t = np.sort(t)
-    pattern = -np.sin(2*np.pi*t)  # Pattern of the signal
-    enveloppe = 1 + np.sin(2*np.pi*t/3)  # Enveloppe of the signal
+    pattern = -np.sin(2 * np.pi * t)  # Pattern of the signal
+    enveloppe = 1 + np.sin(2 * np.pi * t / 3)  # Enveloppe of the signal
     pattern = pattern * enveloppe
     # Noise decreasing std (from noise+0.2 to 0.2)
-    noise_std = 0.2 + noise*(t_up - t) / (t_up - t_down)
+    noise_std = 0.2 + noise * (t_up - t) / (t_up - t_down)
     # Gaussian noise with decreasing std
     add_noise = noise_std * np.random.randn(n)
     observations = pattern + add_noise
@@ -61,10 +62,14 @@ def toy_data(n=50, probs=[0.5], noise=1.):
     return t[:, None], observations, quantiles
 
 
+np.random.seed(0)
+
+print("Creating dataset...")
 probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
 x_train, y_train, z_train = toy_data(50)
 x_test, y_test, z_test = toy_data(1000, probs=probs)
 
+print("Fitting...")
 # Joint quantile regression
 lbda = 1e-2
 gamma = 1e1
@@ -79,19 +84,24 @@ nc = Quantile(probs=probs, kernel='DGauss', lbda=lbda, gamma=gamma,
 
 # Fit on training data
 for reg in [joint, ind, nc]:
+    start = time.time()
     reg.fit(x_train, y_train)
 #    pred = joint.predict(x_test)
+    print("Leaning time: ", time.time() - start)
+    print('score ', reg.score(x_test, y_test))
 
 # Plot the estimated conditional quantiles
+
 plt.figure(figsize=(12, 7))
 for (i, (reg, title)) in enumerate(
     [(joint, 'Joint quantile regression'),
      (ind, 'Independent quantile regression'),
      (nc, 'Independent quantile regression (non-crossing)')]):
-    plt.subplot(1, 3, i+1)
+    plt.subplot(1, 3, i + 1)
     plt.plot(x_train, y_train, '.')
     for q in reg.predict(x_test):
         plt.plot(x_test, q, '-')
     for q in z_test:
         plt.plot(x_test, q, '--')
     plt.title(title)
+plt.show()

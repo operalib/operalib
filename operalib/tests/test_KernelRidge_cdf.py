@@ -1,6 +1,6 @@
 """OVK learning, unit tests.
 
-The :mod:`sklearn.tests.test_KenrelRidge` tests OVK ridge regression estimator.
+The :mod:`sklearn.tests.test_KernelRidge` tests OVK ridge regression estimator.
 """
 import operalib as ovk
 from sklearn.cross_validation import train_test_split

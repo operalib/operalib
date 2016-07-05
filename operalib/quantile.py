@@ -178,8 +178,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         n = X.shape[0]
         p = self.probs.size
 
-        pred = np.reshape(self.linop_(X) * self.coefs, (n, p))
-        pred += self.intercept
+        pred = np.reshape(self.linop_(X) * self.coefs_, (n, p))
+        pred += self.intercept_
 
         return pred.T
 
@@ -196,7 +196,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         y : {array}, shape = [n_samples, n_quantiles]
             Returns predicted values for each prescribed quantile level.
         """
-        check_is_fitted(self, ['coefs', 'linop_'], all_or_any=all)
+        check_is_fitted(self, ['coefs_', 'intercept_', 'linop_'],
+                        all_or_any=all)
         X = check_array(X)
         return self._decision_function(X)
 
@@ -222,31 +223,31 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.linop_ = self._get_kernel_map(X, y)
         K = self.linop_.Gram_dense(X)
 
-        self.C = 1./self.lbda
+        self.C = 1. / self.lbda
 
         # Solve the optimization problem
         if self.nc_const:
-            self.qp_nc(K, y)
+            self._qp_nc(K, y)
         else:
-            self.qp(K, y)
+            self._qp(K, y)
         return self
 
-    def qp_nc(self, K, y):
+    def _qp_nc(self, K, y):
         # Needed to sort constraints on quantiles levels
         ind = np.argsort(self.probs)
 
         p = np.size(self.probs)  # Number of quantiles to predict
         n = K.shape[0]  # Number of coefficients
         m = n / p  # Number of training instances
-        l = m * (p-1)  # Number of non-crossing dual variables
+        l = m * (p - 1)  # Number of non-crossing dual variables
         probs = np.kron(np.ones(m), self.probs)  # Quantiles levels
 
-        D = -np.eye(p) + np.diag(np.ones(p-1), 1)  # Difference matrix
+        D = -np.eye(p) + np.diag(np.ones(p - 1), 1)  # Difference matrix
         D = np.delete(D, -1, 0)
         D = D.T[np.argsort(ind)].T
 
         # Quad. part of the objective function
-        K = matrix(np.r_[np.c_[K, np.zeros((n, l))], np.zeros((l, n+l))])
+        K = matrix(np.r_[np.c_[K, np.zeros((n, l))], np.zeros((l, n + l))])
         # Linear part of the objective
         q = matrix(np.r_[-np.kron(y, np.ones(p)), np.zeros(l)])
         # LHS of the inequality constraint
@@ -254,7 +255,8 @@ class Quantile(BaseEstimator, RegressorMixin):
                          np.c_[-np.eye(n), np.kron(np.eye(m), D.T)],
                          np.c_[np.zeros((l, n)), -np.eye(l)]])
         # RHS of the inequality constraint
-        h = matrix(np.r_[self.C*probs, self.C*(1-probs), np.zeros(m*(p-1))])
+        h = matrix(np.r_[self.C * probs, self.C * (1 - probs),
+                   np.zeros(m * (p - 1))])
         # LHS of the equality constraint
         A = matrix(np.c_[np.kron(np.ones(m), np.eye(p)), np.zeros((p, l))])
         # RHS of the equality constraint
@@ -267,21 +269,23 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Set coefs
 #        self.coefs = np.reshape(sol['x'][:n], (m, p)).T
-        self.coefs = np.asarray(sol['x'][:n])
+        self.coefs_ = np.asarray(sol['x'][:n])
 
         # Set the intercept (the quantile property is not verified)
-        self.intercept = np.asarray(sol['y']).squeeze()
+        self.intercept_ = np.asarray(sol['y']).squeeze()
 
-    def qp(self, K, y):
+    def _qp(self, K, y):
         p = np.size(self.probs)  # Number of quantiles to predict
         n = K.shape[0]  # Number of variables
-        probs = np.kron(np.ones(n/p), self.probs)  # Quantiles levels
+        probs = np.kron(np.ones(n / p), self.probs)  # Quantiles levels
 
         K = matrix(K)  # Quadratic part of the objective
         q = matrix(-np.kron(y, np.ones(p)))  # Linear part of the objective
         G = matrix(np.r_[np.eye(n), -np.eye(n)])  # LHS of the inequ. constr.
-        h = matrix(np.r_[self.C*probs, self.C*(1-probs)])  # RHS of the inequ.
-        A = matrix(np.kron(np.ones(n/p), np.eye(p)))  # LHS of the equ. constr.
+        # RHS of the inequ.
+        h = matrix(np.r_[self.C * probs, self.C * (1 - probs)])
+        # LHS of the equ. constr.
+        A = matrix(np.kron(np.ones(n / p), np.eye(p)))
         b = matrix(np.zeros(p))  # RHS of the equality constraint
 
         solvers.options['show_progress'] = self.verbose
@@ -291,16 +295,16 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Set coefs
 #        self.coefs = np.reshape(sol['x'], (n/p, p)).T
-        self.coefs = np.asarray(sol['x'])
+        self.coefs_ = np.asarray(sol['x'])
         self.sol = sol
 
         # Set the intercept
 #        self.intercept = np.asarray(sol['y']).squeeze()
-        self.intercept = 0.  # Erase the previous intercept before prediction
-        self.intercept = [
-            np.percentile(y-pred, 100.*prob) for
+        self.intercept_ = 0.  # Erase the previous intercept before prediction
+        self.intercept_ = [
+            np.percentile(y - pred, 100. * prob) for
             (pred, prob) in zip(self.predict(self.linop_.X), self.probs)]
-        self.intercept = np.asarray(self.intercept)
+        self.intercept_ = np.asarray(self.intercept_)
 
     def pinball_loss(self, pred, y):
         """Compute the pinball loss.
@@ -320,9 +324,9 @@ class Quantile(BaseEstimator, RegressorMixin):
         """
         y = np.ravel(y)
         residual = y - pred
-        loss = np.sum([np.fmax(prob*res, (prob-1)*res) for (res, prob) in
+        loss = np.sum([np.fmax(prob * res, (prob - 1) * res) for (res, prob) in
                       zip(residual, self.probs)], axis=1)
-        loss *= 1./y.size
+        loss *= 1. / y.size
         return loss
 
     def score(self, X, y, sample_weight=None):
@@ -341,4 +345,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         l : {float}
             Average pinball score (the higher, the better).
         """
+        check_is_fitted(self, ['coefs_', 'intercept_', 'linop_'],
+                        all_or_any=all)
+        X = check_array(X)
+        y = check_array(y)
         return 1 - self.pinball_loss(self.predict(X), y).mean()

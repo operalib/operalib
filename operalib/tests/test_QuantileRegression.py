@@ -39,8 +39,8 @@ def toy_data(n=50, probs=[0.5], noise=1.):
     t_down, t_up = 0., 1.5  # Bounds for the noise
     t = np.random.rand(n) * (t_max - t_min) + t_min
     t = np.sort(t)
-    pattern = -np.sin(2 * np.pi * t)  # Pattern of the signal
-    enveloppe = 1 + np.sin(2 * np.pi * t / 3)  # Enveloppe of the signal
+    pattern = -np.sin(2. * np.pi * t)  # Pattern of the signal
+    enveloppe = 1. + np.sin(2 * np.pi * t / 3.)  # Enveloppe of the signal
     pattern = pattern * enveloppe
     # Noise decreasing std (from noise+0.2 to 0.2)
     noise_std = 0.2 + noise * (t_up - t) / (t_up - t_down)

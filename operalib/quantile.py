@@ -220,7 +220,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         """
         X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
                          y_numeric=True, multi_output=True)
-        self.probs_ = np.array(self.probs)
+        self.probs_ = np.asarray(self.probs)
         self._validate_params()
 
         self.linop_ = self._get_kernel_map(X, y)
@@ -304,6 +304,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         # Set the intercept
 #        self.intercept = np.asarray(sol['y']).squeeze()
         self.intercept_ = 0.  # Erase the previous intercept before prediction
+        print(self.probs_)
         self.intercept_ = [
             np.percentile(y - pred, 100. * prob) for
             (pred, prob) in zip(self.predict(self.linop_.X), self.probs_)]

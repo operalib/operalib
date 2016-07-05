@@ -4,10 +4,13 @@ The :mod:`sklearn.tests.test_QuantileRegression` tests OVK quantile regression
 estimator.
 """
 
-import operalib
+import operalib as ovk
 
+from sklearn.utils.estimator_checks import check_estimator
 import numpy as np
 from scipy.stats import norm
+from distutils.version import LooseVersion
+from warnings import warn
 
 
 def toy_data(n=50, probs=[0.5], noise=1.):
@@ -49,6 +52,17 @@ def toy_data(n=50, probs=[0.5], noise=1.):
     return t[:, None], observations, quantiles
 
 
+def test_valid_estimator():
+    """Test whether ovk.Ridge is a valid sklearn estimator."""
+    from sklearn import __version__
+    # Adding patch revision number cause crash
+    if LooseVersion(__version__) >= LooseVersion('0.18'):
+        check_estimator(ovk.Ridge)
+    else:
+        warn('sklearn\'s check_estimator seems to be broken in __version__ <='
+             ' 0.17.x... skipping')
+
+
 def test_learn_quantile():
     """Test OVK quantile estimator fit, predict."""
     probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
@@ -58,14 +72,14 @@ def test_learn_quantile():
     # Joint quantile regression
     lbda = 1e-2
     gamma = 1e1
-    joint = operalib.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
-                              gamma=gamma, gamma_quantile=1e-2)
+    joint = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
+                         gamma=gamma, gamma_quantile=1e-2)
     # Independent quantile regression
-    ind = operalib.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
-                            gamma=gamma, gamma_quantile=np.inf)
+    ind = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
+                       gamma=gamma, gamma_quantile=np.inf)
     # Independent quantile regression (with non-crossing constraints)
-    nc = operalib.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
-                           gamma=gamma, gamma_quantile=np.inf, nc_const=True)
+    nc = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
+                      gamma=gamma, gamma_quantile=np.inf, nc_const=True)
 
     # Fit on training data
     for reg in [joint, ind, nc]:

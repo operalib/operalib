@@ -83,20 +83,23 @@ nc = Quantile(probs=probs, kernel='DGauss', lbda=lbda, gamma=gamma,
               gamma_quantile=np.inf, nc_const=True)
 
 # Fit on training data
-for reg in [joint, ind, nc]:
+methods = {'joint': joint,
+           'independant': ind,
+           'non-crossing': nc}
+for name, reg in methods.items():
     start = time.time()
     reg.fit(x_train, y_train)
 #    pred = joint.predict(x_test)
-    print("Leaning time: ", time.time() - start)
-    print('score ', reg.score(x_test, y_test))
+    print(name + ' leaning time: ', time.time() - start)
+    print(name + ' score ', reg.score(x_test, y_test))
 
 # Plot the estimated conditional quantiles
 
 plt.figure(figsize=(12, 7))
 for (i, (reg, title)) in enumerate(
-    [(joint, 'Joint quantile regression'),
-     (ind, 'Independent quantile regression'),
-     (nc, 'Independent quantile regression (non-crossing)')]):
+    [(joint, 'Joint'),
+     (ind, 'Independent'),
+     (nc, 'Independent (non-crossing)')]):
     plt.subplot(1, 3, i + 1)
     plt.plot(x_train, y_train, '.')
     for q in reg.predict(x_test):

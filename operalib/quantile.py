@@ -277,7 +277,7 @@ class Quantile(BaseEstimator, RegressorMixin):
     def _qp(self, K, y):
         p = np.size(self.probs)  # Number of quantiles to predict
         n = K.shape[0]  # Number of variables
-        probs = np.kron(np.ones(n / p), self.probs)  # Quantiles levels
+        probs = np.kron(np.ones(int(n / p)), self.probs)  # Quantiles levels
 
         K = matrix(K)  # Quadratic part of the objective
         q = matrix(-np.kron(y, np.ones(p)))  # Linear part of the objective
@@ -285,7 +285,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         # RHS of the inequ.
         h = matrix(np.r_[self.C * probs, self.C * (1 - probs)])
         # LHS of the equ. constr.
-        A = matrix(np.kron(np.ones(n / p), np.eye(p)))
+        A = matrix(np.kron(np.ones(int(n / p)), np.eye(p)))
         b = matrix(np.zeros(p))  # RHS of the equality constraint
 
         solvers.options['show_progress'] = self.verbose

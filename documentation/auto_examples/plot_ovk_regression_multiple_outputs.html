@@ -34,7 +34,7 @@
   
     <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Reference papers" href="../reference_papers/index.html"/>
+        <link rel="next" title="Joint quantile regression with operator-valued kernels" href="plot_ovk_quantile_regression.html"/>
         <link rel="prev" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/> 
 
   
@@ -88,7 +88,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Multi-output Operator-valued kernel Regression</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multi-output Operator-valued kernel Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_quantile_regression.html">Joint quantile regression with operator-valued kernels</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -146,18 +147,18 @@
 <p>OVK methods can generalise better than decision trees but are slower to train.</p>
 <img alt="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_multiple_outputs_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-python"><div class="highlight"><pre><span></span>  seed 123
-Creating dataset...
-Fitting...
-Leaning time DPeriodic ID:  0.411636829376
-Leaning time Trees:  0.0041651725769
-Predicting...
-Test time DPeriodic ID:  0.148937940598
-Test time Trees:  0.000228881835938
-R2 OVK ID:  0.994871736156
-R2 Trees:  0.791425729333
-plotting
-Done
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span>  <span class="n">seed</span> <span class="mi">123</span>
+<span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
+<span class="n">Fitting</span><span class="o">...</span>
+<span class="n">Leaning</span> <span class="n">time</span> <span class="n">DPeriodic</span> <span class="n">ID</span><span class="p">:</span>  <span class="mf">0.58633184433</span>
+<span class="n">Leaning</span> <span class="n">time</span> <span class="n">Trees</span><span class="p">:</span>  <span class="mf">0.00337409973145</span>
+<span class="n">Predicting</span><span class="o">...</span>
+<span class="n">Test</span> <span class="n">time</span> <span class="n">DPeriodic</span> <span class="n">ID</span><span class="p">:</span>  <span class="mf">1.40470504761</span>
+<span class="n">Test</span> <span class="n">time</span> <span class="n">Trees</span><span class="p">:</span>  <span class="mf">0.000232934951782</span>
+<span class="n">R2</span> <span class="n">OVK</span> <span class="n">ID</span><span class="p">:</span>  <span class="mf">0.994344519501</span>
+<span class="n">R2</span> <span class="n">Trees</span><span class="p">:</span>  <span class="mf">0.791425729333</span>
+<span class="n">plotting</span>
+<span class="n">Done</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -250,7 +251,7 @@ Done
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 0.778 seconds)</p>
+(0 minutes 3.576 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_regression_multiple_outputs.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_regression_multiple_outputs.py</span></code></a></div>
 <div class="sphx-glr-download container">
@@ -264,7 +265,7 @@ Done
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../reference_papers/index.html" class="btn btn-neutral float-right" title="Reference papers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plot_ovk_quantile_regression.html" class="btn btn-neutral float-right" title="Joint quantile regression with operator-valued kernels" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="plot_ovk_regression_cf.html" class="btn btn-neutral" title="Vector-field Learning with structured output kernel" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

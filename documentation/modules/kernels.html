@@ -139,7 +139,7 @@ models.</p>
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">DecomposableKernel</code><span class="sig-paren">(</span><em>A</em>, <em>scalar_kernel=&lt;function rbf_kernel&gt;</em>, <em>scalar_kernel_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposable Operator-Valued Kernel of the form:</p>
 <div class="math">
-<p><img src="../_images/math/3b17e0411ce7558831a76b0eba45f4017b8c79e4.png" alt="X, Y \mapsto K(X, Y) = k_s(X, Y) A"/></p>
+<p><img src="../_images/math/a5d59eb5e1ea95be039c011ad4a7bbd705198836.png" alt="X, Y \mapsto K(X, Y) = k_s(X, Y) A"/></p>
 </div><p>where A is a symmetric positive semidefinite operator acting on the
 outputs.</p>
 <div class="admonition seealso">
@@ -150,8 +150,8 @@ outputs.</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
@@ -200,7 +200,7 @@ outputs.</p>
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/21653c20d824ee7384783b73cd2d2525d9d4fbb0.png" alt="K_x: \begin{cases}
+<p><img src="../_images/math/64ba03dee603ef113a64da42d08357ced03c56dd.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise.}
 \end{cases}"/></p>
@@ -224,7 +224,7 @@ K(X, Y) \enskip\text{otherwise.}
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
 <blockquote class="last">
 <div><div class="math">
-<p><img src="../_images/math/733a88bad954a099a7a0ffd6f3c2aafa5243cf87.png" alt="K_x: \begin{cases}
+<p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise}
 \end{cases}"/></p>
@@ -273,7 +273,7 @@ passed as callable object.</p>
 <code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/4ee564d6a7d2480cee7375086025136309942b03.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
+<p><img src="../_images/math/9988c69086ad9b7884e515e21916ce071986f130.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -286,7 +286,7 @@ passed as callable object.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
 <div class="last math">
-<p><img src="../_images/math/c92b67ae26a945804d2174cb88592aa6b2e1589c.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
+<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
 </div></td>
 </tr>
 </tbody>
@@ -300,7 +300,7 @@ passed as callable object.</p>
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">RBFCurlFreeKernel</code><span class="sig-paren">(</span><em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFCurlFreeKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFCurlFreeKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Curl-free Operator-Valued Kernel of the form:</p>
 <div class="math">
-<p><img src="../_images/math/ae69fdc9c67d67b3f586c72715eaf2aaad94e6f6.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)."/></p>
+<p><img src="../_images/math/3ab6e4a66a0dd4d625704b62fa7d16b50cb3457e.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)."/></p>
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
@@ -309,8 +309,8 @@ passed as callable object.</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
@@ -350,7 +350,7 @@ passed as callable object.</p>
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFCurlFreeKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFCurlFreeKernel.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/21653c20d824ee7384783b73cd2d2525d9d4fbb0.png" alt="K_x: \begin{cases}
+<p><img src="../_images/math/64ba03dee603ef113a64da42d08357ced03c56dd.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise.}
 \end{cases}"/></p>
@@ -373,7 +373,7 @@ K(X, Y) \enskip\text{otherwise.}
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
 <div class="last math">
-<p><img src="../_images/math/733a88bad954a099a7a0ffd6f3c2aafa5243cf87.png" alt="K_x: \begin{cases}
+<p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise}
 \end{cases}"/></p>
@@ -412,7 +412,7 @@ K(X, Y) \enskip\text{otherwise}
 <code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFCurlFreeKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFCurlFreeKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/4ee564d6a7d2480cee7375086025136309942b03.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
+<p><img src="../_images/math/9988c69086ad9b7884e515e21916ce071986f130.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -425,7 +425,7 @@ K(X, Y) \enskip\text{otherwise}
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
 <div class="last math">
-<p><img src="../_images/math/c92b67ae26a945804d2174cb88592aa6b2e1589c.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
+<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
 </div></td>
 </tr>
 </tbody>
@@ -439,10 +439,10 @@ K(X, Y) \enskip\text{otherwise}
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">RBFDivFreeKernel</code><span class="sig-paren">(</span><em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFDivFreeKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFDivFreeKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divergence-free Operator-Valued Kernel of the form:</p>
 <div class="math">
-<p><img src="../_images/math/44992b63f5f1af2f7b8eaeae173e34181515de4f.png" alt="X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},"/></p>
+<p><img src="../_images/math/a171e60c0a82e03d8c285357bd7854957173fea6.png" alt="X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},"/></p>
 </div><p>where,</p>
 <div class="math">
-<p><img src="../_images/math/4e89f3bd1f71858086dd1b7884a4a93543c6c742.png" alt="A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I)."/></p>
+<p><img src="../_images/math/d61d306223d2565d510bb76bb564a20adc7672d0.png" alt="A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I)."/></p>
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
@@ -451,8 +451,8 @@ K(X, Y) \enskip\text{otherwise}
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFDivFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
@@ -492,7 +492,7 @@ K(X, Y) \enskip\text{otherwise}
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFDivFreeKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFDivFreeKernel.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/21653c20d824ee7384783b73cd2d2525d9d4fbb0.png" alt="K_x: \begin{cases}
+<p><img src="../_images/math/64ba03dee603ef113a64da42d08357ced03c56dd.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise.}
 \end{cases}"/></p>
@@ -515,7 +515,7 @@ K(X, Y) \enskip\text{otherwise.}
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
 <div class="last math">
-<p><img src="../_images/math/733a88bad954a099a7a0ffd6f3c2aafa5243cf87.png" alt="K_x: \begin{cases}
+<p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise}
 \end{cases}"/></p>
@@ -554,7 +554,7 @@ K(X, Y) \enskip\text{otherwise}
 <code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFDivFreeKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFDivFreeKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the kernel map associated with the data X.</p>
 <div class="math">
-<p><img src="../_images/math/4ee564d6a7d2480cee7375086025136309942b03.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
+<p><img src="../_images/math/9988c69086ad9b7884e515e21916ce071986f130.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -567,7 +567,7 @@ K(X, Y) \enskip\text{otherwise}
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
 <div class="last math">
-<p><img src="../_images/math/c92b67ae26a945804d2174cb88592aa6b2e1589c.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
+<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
 </div></td>
 </tr>
 </tbody>
@@ -584,7 +584,7 @@ maps associated to the operator-valued kernel models defined in
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">DecomposableKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>A</em>, <em>scalar_kernel</em>, <em>scalar_kernel_params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposable Operator-Valued Kernel map of the form:</p>
 <div class="math">
-<p><img src="../_images/math/873d539006428d3e44fe15961747cf2acb16b48f.png" alt="X \mapsto K_X(Y) = k_s(X, Y) A"/></p>
+<p><img src="../_images/math/9c1d311abbb14cb1e20037cdaf87fed832ff812d.png" alt="X \mapsto K_X(Y) = k_s(X, Y) A"/></p>
 </div><p>where A is a symmetric positive semidefinite operator acting on the
 outputs. This class just fixes the support data X to the kernel. Hence it
 naturally inherit from DecomposableKernel.</p>
@@ -596,8 +596,8 @@ naturally inherit from DecomposableKernel.</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
@@ -638,14 +638,43 @@ naturally inherit from DecomposableKernel.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="operalib.kernel_maps.DecomposableKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
-<td>Return the Gram matrix associated with the data Y.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.Gram_dense" title="operalib.kernel_maps.DecomposableKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="operalib.kernel_maps.DecomposableKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<td>Return the Gram matrix associated with the data Y as a linear operator.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="operalib.kernel_maps.DecomposableKernelMap.Gram_dense">
+<code class="descname">Gram_dense</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap.Gram_dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.Gram_dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dense Gram matrix associated with the data Y.</p>
+<div class="math">
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="operalib.kernel_maps.DecomposableKernelMap.T">
 <code class="descname">T</code><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.T" title="Permalink to this definition">¶</a></dt>
@@ -655,9 +684,9 @@ naturally inherit from DecomposableKernel.</p>
 <dl class="method">
 <dt id="operalib.kernel_maps.DecomposableKernelMap.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Gram matrix associated with the data Y.</p>
+<dd><p>Return the Gram matrix associated with the data Y as a linear operator.</p>
 <div class="math">
-<p><img src="../_images/math/f59bbeb8d790b6a3c8a8794e06646761f726420d.png" alt="K(X, Y)"/></p>
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -716,7 +745,7 @@ passed as callable object.</p>
 <blockquote>
 <div><p>If Kx is a compatible decomposable kernel, returns</p>
 <div class="math">
-<p><img src="../_images/math/524e251d74052ea71a9e45860ad66ec119a7614c.png" alt="K(X, Y) = K_X^T K_Y"/></p>
+<p><img src="../_images/math/1cfee29013ca2fe55ac4ba59286d8bd496da0bf8.png" alt="K(X, Y) = K_X^T K_Y"/></p>
 </div></div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -738,8 +767,8 @@ X).</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
@@ -762,7 +791,7 @@ X).</p>
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">RBFCurlFreeKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFCurlFreeKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFCurlFreeKernelMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Curl-free RBF Operator-Valued Kernel map of the form:</p>
 <div class="math">
-<p><img src="../_images/math/802f09cef3f151502e9d2edbaec4ea158076760b.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)"/></p>
+<p><img src="../_images/math/2a03967531088bc0f35945721ae6ce92c38deada.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)"/></p>
 </div><p>This class just fixes the support data X to the kernel. Hence it
 naturally inherit from RBFCurlFreeKernel</p>
 <div class="admonition seealso">
@@ -773,8 +802,8 @@ naturally inherit from RBFCurlFreeKernel</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
@@ -815,14 +844,43 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__" title="operalib.kernel_maps.RBFCurlFreeKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
-<td>Return the Gram matrix associated with the data Y.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense" title="operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__" title="operalib.kernel_maps.RBFCurlFreeKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<td>Return the Gram matrix associated with the data Y as a linear operator.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense">
+<code class="descname">Gram_dense</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFCurlFreeKernelMap.Gram_dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dense Gram matrix associated with the data Y.</p>
+<div class="math">
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="operalib.kernel_maps.RBFCurlFreeKernelMap.T">
 <code class="descname">T</code><a class="headerlink" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.T" title="Permalink to this definition">¶</a></dt>
@@ -832,9 +890,9 @@ naturally inherit from RBFCurlFreeKernel</p>
 <dl class="method">
 <dt id="operalib.kernel_maps.RBFCurlFreeKernelMap.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFCurlFreeKernelMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Gram matrix associated with the data Y.</p>
+<dd><p>Return the Gram matrix associated with the data Y as a linear operator.</p>
 <div class="math">
-<p><img src="../_images/math/f59bbeb8d790b6a3c8a8794e06646761f726420d.png" alt="K(X, Y)"/></p>
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -884,10 +942,10 @@ naturally inherit from RBFCurlFreeKernel</p>
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">RBFDivFreeKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFDivFreeKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFDivFreeKernelMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divergence-free Operator-Valued Kernel of the form:</p>
 <div class="math">
-<p><img src="../_images/math/44992b63f5f1af2f7b8eaeae173e34181515de4f.png" alt="X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},"/></p>
+<p><img src="../_images/math/a171e60c0a82e03d8c285357bd7854957173fea6.png" alt="X \mapsto K_X(Y) = exp(-\gamma||X-Y||^2)A_{X,Y},"/></p>
 </div><p>where,</p>
 <div class="math">
-<p><img src="../_images/math/4e89f3bd1f71858086dd1b7884a4a93543c6c742.png" alt="A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I)."/></p>
+<p><img src="../_images/math/d61d306223d2565d510bb76bb564a20adc7672d0.png" alt="A_{X,Y} = 2\gamma(X-Y)(X-T)^T+((d-1)-2\gamma||X-Y||^2 I)."/></p>
 </div><p>This class just fixes the support data X to the kernel. Hence it
 naturally inherit from RBFCurlFreeKernel</p>
 <div class="admonition seealso">
@@ -898,8 +956,8 @@ naturally inherit from RBFCurlFreeKernel</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFDivFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
@@ -940,14 +998,43 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.__call__" title="operalib.kernel_maps.RBFDivFreeKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
-<td>Return the Gram matrix associated with the data Y.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense" title="operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.__call__" title="operalib.kernel_maps.RBFDivFreeKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<td>Return the Gram matrix associated with the data Y as a linear operator.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense">
+<code class="descname">Gram_dense</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFDivFreeKernelMap.Gram_dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dense Gram matrix associated with the data Y.</p>
+<div class="math">
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="operalib.kernel_maps.RBFDivFreeKernelMap.T">
 <code class="descname">T</code><a class="headerlink" href="#operalib.kernel_maps.RBFDivFreeKernelMap.T" title="Permalink to this definition">¶</a></dt>
@@ -957,9 +1044,9 @@ naturally inherit from RBFCurlFreeKernel</p>
 <dl class="method">
 <dt id="operalib.kernel_maps.RBFDivFreeKernelMap.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#RBFDivFreeKernelMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.RBFDivFreeKernelMap.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Gram matrix associated with the data Y.</p>
+<dd><p>Return the Gram matrix associated with the data Y as a linear operator.</p>
 <div class="math">
-<p><img src="../_images/math/f59bbeb8d790b6a3c8a8794e06646761f726420d.png" alt="K(X, Y)"/></p>
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

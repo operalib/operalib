@@ -143,7 +143,7 @@
 
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">transpose</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> \
-    <span class="n">newaxis</span><span class="p">,</span> <span class="n">apply_along_axis</span>
+    <span class="n">newaxis</span><span class="p">,</span> <span class="n">apply_along_axis</span><span class="p">,</span> <span class="n">kron</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
 <span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
@@ -292,7 +292,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
 <div class="viewcode-block" id="DecomposableKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y.</span>
+        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y as a linear operator.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K(X, Y)</span>
@@ -310,7 +310,25 @@
         <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
             <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
             <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
-            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div></div>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DecomposableKernelMap.Gram_dense"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap.Gram_dense">[docs]</a>    <span class="k">def</span> <span class="nf">Gram_dense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the dense Gram matrix associated with the data Y.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : {array-like}</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">kron</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RBFCurlFreeKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFCurlFreeKernelMap">[docs]</a><span class="k">class</span> <span class="nc">RBFCurlFreeKernelMap</span><span class="p">(</span><span class="n">RBFCurlFreeKernel</span><span class="p">):</span>
@@ -419,7 +437,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
 <div class="viewcode-block" id="RBFCurlFreeKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y.</span>
+        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y as a linear operator.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K(X, Y)</span>
@@ -437,7 +455,25 @@
         <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
             <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
             <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
-            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div></div>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="RBFCurlFreeKernelMap.Gram_dense"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense">[docs]</a>    <span class="k">def</span> <span class="nf">Gram_dense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the dense Gram matrix associated with the data Y.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : {array-like}</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RBFDivFreeKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFDivFreeKernelMap">[docs]</a><span class="k">class</span> <span class="nc">RBFDivFreeKernelMap</span><span class="p">(</span><span class="n">RBFDivFreeKernel</span><span class="p">):</span>
@@ -555,7 +591,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
 <div class="viewcode-block" id="RBFDivFreeKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFDivFreeKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y.</span>
+        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y as a linear operator.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K(X, Y)</span>
@@ -573,7 +609,25 @@
         <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
             <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
             <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
-            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div></div>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="RBFDivFreeKernelMap.Gram_dense"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense">[docs]</a>    <span class="k">def</span> <span class="nf">Gram_dense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the dense Gram matrix associated with the data Y.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : {array-like}</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

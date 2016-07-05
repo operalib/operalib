@@ -220,7 +220,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         """
         X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
                          y_numeric=True, multi_output=True)
-        self.probs_ = np.asarray(self.probs)
+        self.probs_ = np.array(self.probs)
         self._validate_params()
 
         self.linop_ = self._get_kernel_map(X, y)

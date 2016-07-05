@@ -36,23 +36,8 @@ class Quantile(BaseEstimator, RegressorMixin):
 
     Attributes
     ----------
-    FIXME !
-    dual_coef_ : array, shape = [n_features] or [n_targets, n_features]
-        Weight vector(s) in kernel space
+    TODO !
 
-    self.linop_ : callable
-        Callable which associate to the training points X the Gram matrix (the
-        Gram matrix being a LinearOperator)
-
-    A_ : array, shape = [n_targets, n_targets]
-        Set when Linear operator used by the decomposable kernel is default or
-        None.
-
-    period_ : float
-        Set when period used by the First periodic kernel is 'autocorr'.
-
-    solver_res_ : any
-        Raw results returned by the solver.
 
     References
     ----------
@@ -96,7 +81,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         Parameters
         ----------
 
-        probs: {list}, default=[0.5]
+        probs : {list}, default=[0.5]
             Probabilities (quantiles levels).
 
         kernel : {string, callable}, default='DGauss'

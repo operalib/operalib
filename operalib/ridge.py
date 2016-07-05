@@ -74,9 +74,14 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     References
     ----------
-    * Kevin P. Murphy
-      "Machine Learning: A Probabilistic Perspective", The MIT Press
-      chapter 14.4.3, pp. 492-493
+    * Micchelli, Charles A., and Massimiliano Pontil.
+      "On learning vector-valued functions." Neural computation
+      17.1 (2005): 177-204.
+
+    * Alvarez, Mauricio A., Lorenzo Rosasco, and Neil D. Lawrence.
+      "Kernels for vector-valued functions: A review." arXiv preprint
+      arXiv:1106.6251 (2011). APA
+
 
     See also
     --------

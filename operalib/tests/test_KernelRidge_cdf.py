@@ -3,7 +3,13 @@
 The :mod:`sklearn.tests.test_KernelRidge` tests OVK ridge regression estimator.
 """
 import operalib as ovk
-from sklearn.cross_validation import train_test_split
+
+from sklearn import __version__
+from distutils.version import LooseVersion
+if LooseVersion(__version__) < LooseVersion('0.18'):
+    from sklearn.cross_validation import train_test_split
+else:
+    from sklearn.model_selection import train_test_split
 
 
 def test_learn_cf():

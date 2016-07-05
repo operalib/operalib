@@ -13,7 +13,7 @@ from sklearn.base import BaseEstimator, RegressorMixin
 from cvxopt import matrix, solvers
 
 from sklearn.utils import check_X_y, check_array
-from sklearn.utils.validation import check_is_fitted, DataConversionWarning
+from sklearn.utils.validation import check_is_fitted
 from sklearn.metrics.pairwise import rbf_kernel
 
 from .kernels import DecomposableKernel
@@ -87,6 +87,7 @@ class Quantile(BaseEstimator, RegressorMixin):
     >>> reg = ovk.Quantile('DGauss', lbda=1.0)
     >>> reg.fit(X, y)
     """
+
     def __init__(self, probs=0.5, kernel='DGauss', lbda=1e-5, gamma=None,
                  gamma_quantile=0., tol=None, nc_const=False,
                  kernel_params=None, verbose=False):
@@ -299,12 +300,10 @@ class Quantile(BaseEstimator, RegressorMixin):
         sol = solvers.qp(K, q, G, h, A, b)  # Solve the dual opt. problem
 
         # Set coefs
-#        self.coefs = np.reshape(sol['x'], (n/p, p)).T
         self.coefs_ = np.asarray(sol['x'])
         self.sol = sol
 
         # Set the intercept
-#        self.intercept = np.asarray(sol['y']).squeeze()
         self.intercept_ = 0.  # Erase the previous intercept before prediction
         self.intercept_ = [
             np.percentile(y - pred, 100. * prob) for

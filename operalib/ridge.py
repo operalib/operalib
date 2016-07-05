@@ -6,18 +6,28 @@ regression.
 #         the scikit-learn community.
 # License: MIT
 
+import warnings
+
 from scipy.optimize import fmin_l_bfgs_b
-from numpy import reshape, eye, zeros
+from numpy import reshape, eye, zeros, ndarray
 
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
 from sklearn.utils.validation import check_is_fitted
+
 from sklearn.metrics.pairwise import rbf_kernel
 
 from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel
 from .risk import KernelRidgeRisk
 from .signal import get_period
+
+from sklearn import __version__
+from distutils.version import LooseVersion
+if LooseVersion(__version__) < LooseVersion('0.18'):
+    from sklearn.utils.validation import DataConversionWarning
+else:
+    from sklearn.exceptions import DataConversionWarning
 
 # When adding a new kernel, update this table and the _get_kernel_map method
 PAIRWISE_KERNEL_FUNCTIONS = {
@@ -188,8 +198,8 @@ class Ridge(BaseEstimator, RegressorMixin):
         elif isinstance(self.period, (int, float)):
             return self.period
         else:
-            raise ValueError('period must be a positive number or a valid \
-                string')
+            raise ValueError('period must be a positive number or a valid '
+                             'string')
 
     def _get_kernel_map(self, X, y):
         # When adding a new kernel, update this table and the _get_kernel_map

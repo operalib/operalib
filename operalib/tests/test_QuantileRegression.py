@@ -9,8 +9,6 @@ import operalib as ovk
 from sklearn.utils.estimator_checks import check_estimator
 import numpy as np
 from scipy.stats import norm
-from distutils.version import LooseVersion
-from warnings import warn
 
 
 def toy_data(n=50, probs=[0.5], noise=1.):
@@ -55,13 +53,7 @@ def toy_data(n=50, probs=[0.5], noise=1.):
 
 def test_valid_estimator():
     """Test whether ovk.Quantile is a valid sklearn estimator."""
-    from sklearn import __version__
-    # Adding patch revision number cause crash
-    if LooseVersion(__version__) >= LooseVersion('0.18'):
-        check_estimator(ovk.Quantile)
-    else:
-        warn('sklearn\'s check_estimator seems to be broken in __version__ <='
-             ' 0.17.x... skipping')
+    check_estimator(ovk.Quantile)
 
 
 def test_learn_quantile():

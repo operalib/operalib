@@ -244,7 +244,7 @@ def setup_package():
 
         instructions = ("Installation instructions are available on the "
                         "operalib website: "
-                        "http://romainbrault.github.io/"
+                        "http://operalib.github.io/"
                         "operalib/documentation/\n")
 
         if numpy_status['up_to_date'] is False:

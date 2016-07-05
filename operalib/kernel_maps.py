@@ -158,7 +158,7 @@ class DecomposableKernelMap(DecomposableKernel):
         return self
 
     def __call__(self, Y):
-        """Return the Gram matrix associated with the data Y.
+        """Return the Gram matrix associated with the data Y as a linear operator.
 
         .. math::
                K(X, Y)
@@ -179,6 +179,21 @@ class DecomposableKernelMap(DecomposableKernel):
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
 
     def Gram_dense(self, X):
+        """Return the dense Gram matrix associated with the data Y.
+
+        .. math::
+               K(X, Y)
+
+        Parameters
+        ----------
+        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Returns
+        -------
+        K(X, Y) : {array-like}
+            Returns K(X, Y).
+        """
         return kron(self._Gram(X), self.A)
 
 
@@ -288,7 +303,7 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
         return self
 
     def __call__(self, Y):
-        """Return the Gram matrix associated with the data Y.
+        """Return the Gram matrix associated with the data Y as a linear operator.
 
         .. math::
                K(X, Y)
@@ -307,6 +322,24 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
             (Y.shape[0] * self.p, self.n * self.p),
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
+
+    def Gram_dense(self, X):
+        """Return the dense Gram matrix associated with the data Y.
+
+        .. math::
+               K(X, Y)
+
+        Parameters
+        ----------
+        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Returns
+        -------
+        K(X, Y) : {array-like}
+            Returns K(X, Y).
+        """
+        return self._Gram(X)
 
 
 class RBFDivFreeKernelMap(RBFDivFreeKernel):
@@ -424,7 +457,7 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
         return self
 
     def __call__(self, Y):
-        """Return the Gram matrix associated with the data Y.
+        """Return the Gram matrix associated with the data Y as a linear operator.
 
         .. math::
                K(X, Y)
@@ -443,3 +476,21 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
             (Y.shape[0] * self.p, self.n * self.p),
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
+
+    def Gram_dense(self, X):
+        """Return the dense Gram matrix associated with the data Y.
+
+        .. math::
+               K(X, Y)
+
+        Parameters
+        ----------
+        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Returns
+        -------
+        K(X, Y) : {array-like}
+            Returns K(X, Y).
+        """
+        return self._Gram(X)

@@ -87,7 +87,7 @@ class Quantile(BaseEstimator, RegressorMixin):
     >>> reg = ovk.Quantile('DGauss', lbda=1.0)
     >>> reg.fit(X, y)
     """
-    def __init__(self, probs=[0.5], kernel='DGauss', lbda=1e-5, gamma=None,
+    def __init__(self, probs=0.5, kernel='DGauss', lbda=1e-5, gamma=None,
                  gamma_quantile=0., tol=None, nc_const=False,
                  kernel_params=None, verbose=False):
         """Initialize quantile regression model.
@@ -129,7 +129,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         verbose : {Boolean}, default=False
             Verbosity
         """
-        self.probs = np.asarray(probs)
+        self.probs = probs
         self.lbda = lbda
         self.kernel = kernel
         self.gamma = gamma
@@ -148,11 +148,13 @@ class Quantile(BaseEstimator, RegressorMixin):
         if self.gamma is not None:
             if self.gamma < 0:
                 raise ValueError('sigma must be positive or default (None)')
+        if (self.probs_ < 0).any() or (self.probs_ > 1.0).any():
+            raise ValueError('Probabilities must be between 0 and 1.')
 
     def _default_decomposable_op(self, y):
-        probs = np.asarray([self.probs]).T  # 2D array
+        probs = np.asarray([self.probs_]).T  # 2D array
         return rbf_kernel(probs, gamma=self.gamma_quantile) \
-            if self.gamma_quantile != np.inf else np.eye(self.probs.size)
+            if self.gamma_quantile != np.inf else np.eye(self.probs_.size)
 
     def _get_kernel_map(self, X, y):
         # When adding a new kernel, update this table and the _get_kernel_map
@@ -176,7 +178,7 @@ class Quantile(BaseEstimator, RegressorMixin):
 
     def _decision_function(self, X):
         n = X.shape[0]
-        p = self.probs.size
+        p = self.probs_.size
 
         pred = np.reshape(self.linop_(X) * self.coefs_, (n, p))
         pred += self.intercept_
@@ -218,6 +220,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         """
         X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
                          y_numeric=True, multi_output=True)
+        self.probs_ = np.asarray(self.probs)
         self._validate_params()
 
         self.linop_ = self._get_kernel_map(X, y)
@@ -234,13 +237,13 @@ class Quantile(BaseEstimator, RegressorMixin):
 
     def _qp_nc(self, K, y):
         # Needed to sort constraints on quantiles levels
-        ind = np.argsort(self.probs)
+        ind = np.argsort(self.probs_)
 
-        p = np.size(self.probs)  # Number of quantiles to predict
+        p = np.size(self.probs_)  # Number of quantiles to predict
         n = K.shape[0]  # Number of coefficients
         m = n / p  # Number of training instances
         l = m * (p - 1)  # Number of non-crossing dual variables
-        probs = np.kron(np.ones(m), self.probs)  # Quantiles levels
+        probs = np.kron(np.ones(m), self.probs_)  # Quantiles levels
 
         D = -np.eye(p) + np.diag(np.ones(p - 1), 1)  # Difference matrix
         D = np.delete(D, -1, 0)
@@ -275,9 +278,9 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.intercept_ = np.asarray(sol['y']).squeeze()
 
     def _qp(self, K, y):
-        p = np.size(self.probs)  # Number of quantiles to predict
+        p = np.size(self.probs_)  # Number of quantiles to predict
         n = K.shape[0]  # Number of variables
-        probs = np.kron(np.ones(int(n / p)), self.probs)  # Quantiles levels
+        probs = np.kron(np.ones(int(n / p)), self.probs_)  # Quantiles levels
 
         K = matrix(K)  # Quadratic part of the objective
         q = matrix(-np.kron(y, np.ones(p)))  # Linear part of the objective
@@ -303,7 +306,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.intercept_ = 0.  # Erase the previous intercept before prediction
         self.intercept_ = [
             np.percentile(y - pred, 100. * prob) for
-            (pred, prob) in zip(self.predict(self.linop_.X), self.probs)]
+            (pred, prob) in zip(self.predict(self.linop_.X), self.probs_)]
         self.intercept_ = np.asarray(self.intercept_)
 
     def pinball_loss(self, pred, y):
@@ -325,7 +328,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         y = np.ravel(y)
         residual = y - pred
         loss = np.sum([np.fmax(prob * res, (prob - 1) * res) for (res, prob) in
-                      zip(residual, self.probs)], axis=1)
+                      zip(residual, self.probs_)], axis=1)
         loss *= 1. / y.size
         return loss
 

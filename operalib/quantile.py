@@ -148,8 +148,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         if self.gamma is not None:
             if self.gamma < 0:
                 raise ValueError('sigma must be positive or default (None)')
-        if (self.probs_ < 0).any() or (self.probs_ > 1.0).any():
-            raise ValueError('Probabilities must be between 0 and 1.')
+        if (self.probs_ < 0).any() or (self.probs_ > 1).any():
+            raise ValueError('Probabilities must be in [0., 1.]')
 
     def _default_decomposable_op(self, y):
         probs = np.asarray([self.probs_]).T  # 2D array
@@ -241,7 +241,7 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         p = np.size(self.probs_)  # Number of quantiles to predict
         n = K.shape[0]  # Number of coefficients
-        m = n / p  # Number of training instances
+        m = int(n / p)  # Number of training instances
         l = m * (p - 1)  # Number of non-crossing dual variables
         probs = np.kron(np.ones(m), self.probs_)  # Quantiles levels
 

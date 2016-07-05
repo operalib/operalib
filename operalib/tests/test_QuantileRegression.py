@@ -53,7 +53,7 @@ def toy_data(n=50, probs=[0.5], noise=1.):
 
 
 def test_valid_estimator():
-    """Test whether ovk.Ridge is a valid sklearn estimator."""
+    """Test whether ovk.Quantile is a valid sklearn estimator."""
     from sklearn import __version__
     # Adding patch revision number cause crash
     if LooseVersion(__version__) >= LooseVersion('0.18'):

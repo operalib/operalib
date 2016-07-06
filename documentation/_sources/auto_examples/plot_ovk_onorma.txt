@@ -22,10 +22,10 @@ kernels.
 
       Generating Data
     Fitting Joint...
-    Joint training time: 94.2035188675
+    Joint training time: 188.562981129
     Joint MSE: 0.00460049165306
     Fitting Independant...
-    Independant training time: 116.203554869
+    Independant training time: 192.988343
     Independant MSE: 0.00504153334366
 
 
@@ -110,6 +110,7 @@ kernels.
     err_c = np.cumsum(err) / (np.arange(n) + 1)
     plt.semilogy(np.linspace(0, 100, err_c.size), err_c, label='Independant')
 
+    plt.ylim(1e-2, 1.1e-1)
     plt.title('Online learning with ONORMA')
     plt.xlabel('Size of the Training set (%)')
     plt.ylabel('MSE')
@@ -117,7 +118,7 @@ kernels.
     plt.show()
 
 **Total running time of the script:**
-(3 minutes 30.937 seconds)
+(6 minutes 22.024 seconds)
 
 
 

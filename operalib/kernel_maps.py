@@ -9,12 +9,13 @@ maps associated to the operator-valued kernel models defined in
 
 from scipy.sparse.linalg import LinearOperator
 from numpy import ravel, dot, reshape, transpose, asarray, subtract, eye, \
-    newaxis, apply_along_axis, kron
+    newaxis, apply_along_axis, kron, ones
 from numpy.linalg import norm
 from sklearn.metrics.pairwise import rbf_kernel
 from distutils.version import LooseVersion
 
-from .kernels import DecomposableKernel, RBFCurlFreeKernel, RBFDivFreeKernel
+from .kernels import DecomposableKernel, RBFCurlFreeKernel, RBFDivFreeKernel, \
+    DotProductKernel
 
 import numpy
 if LooseVersion(numpy.__version__) < LooseVersion('1.8'):
@@ -23,6 +24,123 @@ if LooseVersion(numpy.__version__) < LooseVersion('1.8'):
 else:
     def _norm_axis_0(X):
         return norm(X, axis=0)
+
+
+class DotProductKernelMap(DotProductKernel):
+
+    def __init__(self, X, mu, p):
+        """Initialize the DotProduct Operator-Valued Kernel.
+
+        Parameters
+        ----------
+
+        X: {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Support samples.
+
+        mu : {float}, between 0. and 1.
+            Linear operator acting on the outputs
+
+        p : {integer}
+            Dimension of the output
+        """
+        super(DotProductKernelMap, self).__init__(mu, p)
+        self.n = X.shape[0]
+        self.d = X.shape[1]
+        self.X = X
+        self.Gs_train = None
+
+    def __mul__(self, Ky):
+        """Syntaxic sugar.
+
+           If Kx is a compatible DotProduct kernel, returns
+
+           .. math::
+                K(X, Y) = K_X^T K_Y
+
+        Parameters
+        ----------
+        Ky : {DotProductKernelMap}
+            Compatible kernel Map (e.g. same kernel but different support data
+            X).
+
+        Returns
+        -------
+        K(X, Y) : LinearOperator
+            Returns K(X, Y).
+
+        Examples
+        --------
+        >>> import operalib as ovk
+        >>> import numpy as np
+        >>> X = np.random.randn(100, 10)
+        >>> K = ovk.DotProductKernel(mu=0.2, p=5)
+        >>> Gram = K(X, X)
+        >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        <500x500 _CustomLinearOperator with dtype=float64>
+        >>> C = np.random.randn(Gram.shape[0])
+        >>> Kx = K(X)  # The kernel map.
+        >>> Ky = K(X)
+        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        True
+        """
+        # TODO: Check that Kx is compatible
+        return self.__call__(Ky.X)
+
+    def _Gram(self, X):
+        if X is self.X:
+            if self.Gs_train is None:
+                self.Gs_train = dot(self.X, self.X.T)
+            return self.Gs_train
+
+        return dot(X, self.X.T)
+
+    def _dot(self, Gs, c):
+        return ravel(dot((self.mu * kron(Gs, ones((self.p, self.p))) +
+                         (1 - self.mu) * kron(Gs ** 2, eye(self.p))), c))
+
+    @property
+    def T(self):
+        """Transposition."""
+        return self
+
+    def __call__(self, Y):
+        """Return the Gram matrix associated with the data Y as a linear operator.
+
+        .. math::
+               K(X, Y)
+
+        Parameters
+        ----------
+        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Returns
+        -------
+        K(X, Y) : LinearOperator
+            Returns K(X, Y).
+        """
+        return LinearOperator(
+            (Y.shape[0] * self.p, self.n * self.p),
+            matvec=lambda b: self._dot(self._Gram(Y), b),
+            rmatvec=lambda b: self._dot(self._Gram(Y), b))
+
+    def Gram_dense(self, X):
+        """Return the dense Gram matrix associated with the data Y.
+
+        .. math::
+               K(X, Y)
+
+        Parameters
+        ----------
+        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Returns
+        -------
+        K(X, Y) : {array-like}
+            Returns K(X, Y).
+        """
+        return self._Gram(X)
 
 
 class DecomposableKernelMap(DecomposableKernel):
@@ -67,12 +185,11 @@ class DecomposableKernelMap(DecomposableKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.DecomposableKernel(np.eye(2))
     >>> Gram = K(X, X)
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 
@@ -128,13 +245,12 @@ class DecomposableKernelMap(DecomposableKernel):
         >>> X = np.random.randn(100, 10)
         >>> K = ovk.DecomposableKernel(np.eye(2))
         >>> Gram = K(X, X)
-        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         <200x200 _CustomLinearOperator with dtype=float64>
         >>> C = np.random.randn(Gram.shape[0])
         >>> Kx = K(X)  # The kernel map.
         >>> Ky = K(X)
-        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)
-        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         True
         """
         # TODO: Check that Kx is compatible
@@ -238,12 +354,11 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.RBFCurlFreeKernel(1.)
     >>> Gram = K(X, X)
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    <200x200 _CustomLinearOperator with dtype=float64>
+    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <1000x1000 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 
@@ -388,12 +503,11 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.RBFDivFreeKernel(1.)
     >>> Gram = K(X, X)
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    <200x200 _CustomLinearOperator with dtype=float64>
+    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <1000x1000 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 

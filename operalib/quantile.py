@@ -70,10 +70,13 @@ class Quantile(BaseEstimator, RegressorMixin):
     >>> y = rng.randn(n_samples)
     >>> X = rng.randn(n_samples, n_features)
     >>> reg = ovk.Quantile('DGauss', lbda=1.0)
-    >>> reg.fit(X, y)
+    >>> reg.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    Quantile(gamma=None, gamma_quantile=0.0, kernel='DGauss',
+        kernel_params=None, lbda=1.0, nc_const=False, probs=0.5, tol=None,
+        verbose=False)
     """
 
-    def __init__(self, probs=0.5, kernel='DGauss', lbda=1e-5, gamma=None,
+    def __init__(self, kernel='DGauss', probs=0.5, lbda=1e-5, gamma=None,
                  gamma_quantile=0., tol=None, nc_const=False,
                  kernel_params=None, verbose=False):
         """Initialize quantile regression model.
@@ -169,10 +172,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         pred = np.reshape(self.linop_(X) * self.coefs_, (n, p))
         pred += self.intercept_
 
-        if self.linop_.p > 1:
-            return pred.T
-        else:
-            return pred.T.ravel()
+        return pred.T if self.linop_.p > 1 else pred.T.ravel()
 
     def predict(self, X):
         """Predict conditional quantiles.

@@ -38,7 +38,7 @@ __credits__ = ['Romain Brault', 'Florence D\'Alche Buc',
                'Markus Heinonen', 'Tristan Tchilinguirian',
                'Alexandre Gramfort']
 __license__ = 'MIT'
-__version__ = '0.1b0'
+__version__ = '0.2b0'
 __maintainer__ = ['Romain Brault']
 __email__ = ['romain.brault@telecom-paristech.fr']
 __status__ = 'Beta'
@@ -57,22 +57,26 @@ if __OPERALIB_SETUP__:
     # process, as it may not be compiled yet
 else:
     from .kernels import DecomposableKernel, RBFCurlFreeKernel, \
-        RBFDivFreeKernel
+        RBFDivFreeKernel, DotProductKernel
     from .risk import KernelRidgeRisk
+    from .learningrate import Constant, InvScaling
     from .ridge import Ridge
+    from .onorma import ONORMA
     from .quantile import Quantile
     from .metrics import first_periodic_kernel
     from .signal import get_period
     from .datasets.vectorfield import generate_2D_curl_free_field, \
         generate_2D_curl_free_mesh, mesh2array, array2mesh, \
         generate_2D_div_free_field, generate_2D_div_free_mesh
+    from .datasets.quantile import generate_quantile_data
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
+               'DotProductKernel',
                'KernelRidgeRisk',
+               'Constant', 'InvScaling',
                'first_periodic_kernel',
                'get_period',
-               'Ridge',
-	       'Quantile',
+               'Ridge', 'Quantile', 'ONORMA',
                'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh',
                'generate_2D_div_free_field', 'generate_2D_div_free_mesh',
-               'mesh2array', 'array2mesh']
+               'mesh2array', 'array2mesh', 'generate_quantile_data']

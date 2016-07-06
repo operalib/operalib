@@ -9,6 +9,24 @@ models.
 from sklearn.metrics.pairwise import rbf_kernel
 
 
+class DotProductKernel(object):
+
+    def __init__(self, mu, p):
+        self.mu = mu
+        self.p = p
+
+    def get_kernel_map(self, X):
+        from .kernel_maps import DotProductKernelMap
+        return DotProductKernelMap(X, self.mu, self.p)
+
+    def __call__(self, X, Y=None):
+        Kmap = self.get_kernel_map(X)
+        if Y is None:
+            return Kmap
+        else:
+            return Kmap(Y)
+
+
 class DecomposableKernel(object):
     r"""
     Decomposable Operator-Valued Kernel of the form:
@@ -49,8 +67,8 @@ class DecomposableKernel(object):
     >>> import numpy as np
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.DecomposableKernel(np.eye(2))
-    >>> K(X, X) # The kernel matrix as a linear operator
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> # The kernel matrix as a linear operator
+    >>> K(X, X)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     """
 
@@ -160,8 +178,8 @@ class RBFCurlFreeKernel(object):
     >>> import numpy as np
     >>> X = np.random.randn(100, 2)
     >>> K = ovk.RBFCurlFreeKernel(1.)
-    >>> K(X, X) # The kernel matrix as a linear operator
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> # The kernel matrix as a linear operator
+    >>> K(X, X)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     """
 
@@ -263,8 +281,8 @@ class RBFDivFreeKernel(object):
     >>> import numpy as np
     >>> X = np.random.randn(100, 2)
     >>> K = ovk.RBFDivFreeKernel(1.)
-    >>> K(X, X) # The kernel matrix as a linear operator
-    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> # The kernel matrix as a linear operator
+    >>> K(X, X)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     """
 

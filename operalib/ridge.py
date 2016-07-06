@@ -6,10 +6,8 @@ regression.
 #         the scikit-learn community.
 # License: MIT
 
-import warnings
-
 from scipy.optimize import fmin_l_bfgs_b
-from numpy import reshape, eye, zeros, ndarray
+from numpy import reshape, eye, zeros
 
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
@@ -21,13 +19,6 @@ from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel
 from .risk import KernelRidgeRisk
 from .signal import get_period
-
-from sklearn import __version__
-from distutils.version import LooseVersion
-if LooseVersion(__version__) < LooseVersion('0.18'):
-    from sklearn.utils.validation import DataConversionWarning
-else:
-    from sklearn.exceptions import DataConversionWarning
 
 # When adding a new kernel, update this table and the _get_kernel_map method
 PAIRWISE_KERNEL_FUNCTIONS = {
@@ -58,7 +49,7 @@ class Ridge(BaseEstimator, RegressorMixin):
     dual_coef_ : array, shape = [n_features] or [n_targets, n_features]
         Weight vector(s) in kernel space
 
-    self.linop_ : callable
+    linop_ : callable
         Callable which associate to the training points X the Gram matrix (the
         Gram matrix being a LinearOperator)
 
@@ -101,7 +92,11 @@ class Ridge(BaseEstimator, RegressorMixin):
     >>> y = rng.randn(n_samples, n_targets)
     >>> X = rng.randn(n_samples, n_features)
     >>> clf = ovk.Ridge('DGauss', lbda=1.0)
-    >>> clf.fit(X, y)
+    >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    Ridge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
+       kernel_params=None, lbda=1.0, period='autocorr',
+       solver=<function fmin_l_bfgs_b at ...>, solver_params=None,
+       theta=0.7)
     """
 
     def __init__(self,
@@ -131,7 +126,7 @@ class Ridge(BaseEstimator, RegressorMixin):
             fitting.
 
         gamma : {float}, default=None.
-            Sigma parameter for the Decomposable Gaussian kernel.
+            Gamma parameter for the Decomposable Gaussian kernel.
             Ignored by other kernels.
 
         theta : {float}, default=.7
@@ -191,7 +186,7 @@ class Ridge(BaseEstimator, RegressorMixin):
     def _default_decomposable_op(self, y):
         if self.A is not None:
             return self.A
-        elif len(y.shape) == 2:
+        elif y.ndim == 2:
             return eye(y.shape[1])
         else:
             return eye(1)
@@ -237,10 +232,8 @@ class Ridge(BaseEstimator, RegressorMixin):
     def _decision_function(self, X):
         pred = self.linop_(X) * self.dual_coefs_
 
-        if self.linop_.p > 1:
-            return reshape(pred, (X.shape[0], self.linop_.p))
-        else:
-            return pred
+        return reshape(pred, (X.shape[0], self.linop_.p)) \
+            if self.linop_.p > 1 else pred
 
     def fit(self, X, y):
         """Fit OVK ridge regression model.

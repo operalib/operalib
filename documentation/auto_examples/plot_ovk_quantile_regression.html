@@ -34,8 +34,8 @@
   
     <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Reference papers" href="../reference_papers/index.html"/>
-        <link rel="prev" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/> 
+        <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/>
+        <link rel="prev" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,8 +88,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_multiple_outputs.html">Multi-output Operator-valued kernel Regression</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Joint quantile regression with operator-valued kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_multiple_outputs.html">Multi-output Operator-valued kernel Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_onorma.html">Online Learning with Operator-Valued kernels</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -150,11 +151,11 @@ constraints.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span>  <span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
-<span class="n">joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.235834121704</span>
+<span class="n">joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.225032091141</span>
 <span class="n">joint</span> <span class="n">score</span>  <span class="mf">0.7703945361</span>
-<span class="n">independant</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.143927097321</span>
+<span class="n">independant</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.14355802536</span>
 <span class="n">independant</span> <span class="n">score</span>  <span class="mf">0.769375053019</span>
-<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.735819101334</span>
+<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.723670005798</span>
 <span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span>  <span class="mf">0.769973790545</span>
 </pre></div>
 </div>
@@ -166,59 +167,18 @@ constraints.</p>
 
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">from</span> <span class="nn">operalib</span> <span class="kn">import</span> <span class="n">Quantile</span>
+<span class="kn">from</span> <span class="nn">operalib</span> <span class="kn">import</span> <span class="n">Quantile</span><span class="p">,</span> <span class="n">generate_quantile_data</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-
-<span class="k">def</span> <span class="nf">toy_data</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">noise</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sine wave toy dataset.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    n : {integer}</span>
-<span class="sd">        Number of samples to generate.</span>
-
-<span class="sd">    probs : {list}, shape = [n_quantiles]</span>
-<span class="sd">        Probabilities (quantiles levels).</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    X : {array}, shape = [n]</span>
-<span class="sd">        Input data.</span>
-
-<span class="sd">    y : {array}, shape = [n]</span>
-<span class="sd">        Targets.</span>
-
-<span class="sd">    quantiles : {array}, shape = [n x n_quantiles]</span>
-<span class="sd">        True conditional quantiles.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span>  <span class="c1"># Bounds for the input data</span>
-    <span class="n">t_down</span><span class="p">,</span> <span class="n">t_up</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span>  <span class="c1"># Bounds for the noise</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_max</span> <span class="o">-</span> <span class="n">t_min</span><span class="p">)</span> <span class="o">+</span> <span class="n">t_min</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">pattern</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>  <span class="c1"># Pattern of the signal</span>
-    <span class="n">enveloppe</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Enveloppe of the signal</span>
-    <span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">*</span> <span class="n">enveloppe</span>
-    <span class="c1"># Noise decreasing std (from noise+0.2 to 0.2)</span>
-    <span class="n">noise_std</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t_down</span><span class="p">)</span>
-    <span class="c1"># Gaussian noise with decreasing std</span>
-    <span class="n">add_noise</span> <span class="o">=</span> <span class="n">noise_std</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">observations</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">+</span> <span class="n">add_noise</span>
-    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
-                                    <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">noise_std</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">t</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="n">observations</span><span class="p">,</span> <span class="n">quantiles</span>
-
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating dataset...&quot;</span><span class="p">)</span>
 <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
-<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">z_train</span> <span class="o">=</span> <span class="n">toy_data</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">toy_data</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">z_train</span> <span class="o">=</span> <span class="n">generate_quantile_data</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">generate_quantile_data</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fitting...&quot;</span><span class="p">)</span>
 <span class="c1"># Joint quantile regression</span>
@@ -262,7 +222,7 @@ constraints.</p>
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 1.637 seconds)</p>
+(0 minutes 1.325 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
 <div class="sphx-glr-download container">
@@ -276,10 +236,10 @@ constraints.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../reference_papers/index.html" class="btn btn-neutral float-right" title="Reference papers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral float-right" title="Multi-output Operator-valued kernel Regression" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral" title="Multi-output Operator-valued kernel Regression" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_ovk_regression_cf.html" class="btn btn-neutral" title="Vector-field Learning with structured output kernel" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

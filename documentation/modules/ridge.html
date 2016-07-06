@@ -179,7 +179,11 @@ arXiv:1106.6251 (2011). APA</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
+<span class="go">Ridge(A=None, autocorr_params=None, gamma=None, kernel=&#39;DGauss&#39;,</span>
+<span class="go">   kernel_params=None, lbda=1.0, period=&#39;autocorr&#39;,</span>
+<span class="go">   solver=&lt;function fmin_l_bfgs_b at ...&gt;, solver_params=None,</span>
+<span class="go">   theta=0.7)</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes</p>
@@ -192,7 +196,7 @@ arXiv:1106.6251 (2011). APA</li>
 <tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">dual_coef_</span></a></td>
 <td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
 </tr>
-<tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">self.linop_</span></a></td>
+<tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">linop_</span></a></td>
 <td>(callable) Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)</td>
 </tr>
 <tr class="row-odd"><td><a href="#id5"><span class="problematic" id="id6">A_</span></a></td>

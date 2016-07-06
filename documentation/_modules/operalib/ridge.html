@@ -140,10 +140,8 @@
 <span class="c1">#         the scikit-learn community.</span>
 <span class="c1"># License: MIT</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
-
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin_l_bfgs_b</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">ndarray</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">zeros</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_X_y</span><span class="p">,</span> <span class="n">check_array</span>
@@ -155,13 +153,6 @@
 <span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span>
 <span class="kn">from</span> <span class="nn">.risk</span> <span class="kn">import</span> <span class="n">KernelRidgeRisk</span>
 <span class="kn">from</span> <span class="nn">.signal</span> <span class="kn">import</span> <span class="n">get_period</span>
-
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
-<span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s1">&#39;0.18&#39;</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">DataConversionWarning</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="kn">import</span> <span class="n">DataConversionWarning</span>
 
 <span class="c1"># When adding a new kernel, update this table and the _get_kernel_map method</span>
 <span class="n">PAIRWISE_KERNEL_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
@@ -192,7 +183,7 @@
 <span class="sd">    dual_coef_ : array, shape = [n_features] or [n_targets, n_features]</span>
 <span class="sd">        Weight vector(s) in kernel space</span>
 
-<span class="sd">    self.linop_ : callable</span>
+<span class="sd">    linop_ : callable</span>
 <span class="sd">        Callable which associate to the training points X the Gram matrix (the</span>
 <span class="sd">        Gram matrix being a LinearOperator)</span>
 
@@ -235,7 +226,11 @@
 <span class="sd">    &gt;&gt;&gt; y = rng.randn(n_samples, n_targets)</span>
 <span class="sd">    &gt;&gt;&gt; X = rng.randn(n_samples, n_features)</span>
 <span class="sd">    &gt;&gt;&gt; clf = ovk.Ridge(&#39;DGauss&#39;, lbda=1.0)</span>
-<span class="sd">    &gt;&gt;&gt; clf.fit(X, y)</span>
+<span class="sd">    &gt;&gt;&gt; clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    Ridge(A=None, autocorr_params=None, gamma=None, kernel=&#39;DGauss&#39;,</span>
+<span class="sd">       kernel_params=None, lbda=1.0, period=&#39;autocorr&#39;,</span>
+<span class="sd">       solver=&lt;function fmin_l_bfgs_b at ...&gt;, solver_params=None,</span>
+<span class="sd">       theta=0.7)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -265,7 +260,7 @@
 <span class="sd">            fitting.</span>
 
 <span class="sd">        gamma : {float}, default=None.</span>
-<span class="sd">            Sigma parameter for the Decomposable Gaussian kernel.</span>
+<span class="sd">            Gamma parameter for the Decomposable Gaussian kernel.</span>
 <span class="sd">            Ignored by other kernels.</span>
 
 <span class="sd">        theta : {float}, default=.7</span>
@@ -325,7 +320,7 @@
     <span class="k">def</span> <span class="nf">_default_decomposable_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -371,10 +366,8 @@
     <span class="k">def</span> <span class="nf">_decision_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dual_coefs_</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">reshape</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pred</span>
+        <span class="k">return</span> <span class="n">reshape</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span><span class="p">))</span> \
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pred</span>
 
 <div class="viewcode-block" id="Ridge.fit"><a class="viewcode-back" href="../../modules/ridge.html#operalib.ridge.Ridge.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit OVK ridge regression model.</span>

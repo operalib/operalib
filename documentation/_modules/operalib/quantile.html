@@ -204,10 +204,13 @@
 <span class="sd">    &gt;&gt;&gt; y = rng.randn(n_samples)</span>
 <span class="sd">    &gt;&gt;&gt; X = rng.randn(n_samples, n_features)</span>
 <span class="sd">    &gt;&gt;&gt; reg = ovk.Quantile(&#39;DGauss&#39;, lbda=1.0)</span>
-<span class="sd">    &gt;&gt;&gt; reg.fit(X, y)</span>
+<span class="sd">    &gt;&gt;&gt; reg.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    Quantile(gamma=None, gamma_quantile=0.0, kernel=&#39;DGauss&#39;,</span>
+<span class="sd">        kernel_params=None, lbda=1.0, nc_const=False, probs=0.5, tol=None,</span>
+<span class="sd">        verbose=False)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nc_const</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">kernel_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize quantile regression model.</span>
@@ -303,10 +306,7 @@
         <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
         <span class="n">pred</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept_</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">T</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pred</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Quantile.predict"><a class="viewcode-back" href="../../modules/quantile.html#operalib.quantile.Quantile.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Predict conditional quantiles.</span>

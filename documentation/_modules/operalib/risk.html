@@ -137,11 +137,11 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Authors: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
 <span class="c1">#         the scikit-learn community.</span>
-<span class="c1">#	   Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
+<span class="c1">#         Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
 <span class="c1"># License: MIT</span>
 
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">inner</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">fmax</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">inner</span>
 
 
 <div class="viewcode-block" id="KernelRidgeRisk"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk">[docs]</a><span class="k">class</span> <span class="nc">KernelRidgeRisk</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -160,76 +160,76 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">=</span> <span class="n">lbda</span></div>
 
-<div class="viewcode-block" id="KernelRidgeRisk.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+<div class="viewcode-block" id="KernelRidgeRisk.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
 <span class="sd">            Coefficient to optimise</span>
 
 <span class="sd">        ground_truth : {vector-like}</span>
 <span class="sd">            Targets samples</span>
 
 <span class="sd">        Gram : {LinearOperator}</span>
-<span class="sd">            Gram matrix acting on the dual_coefs</span>
+<span class="sd">            Gram matrix acting on the coefs</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float : Empirical OVK ridge risk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">dual_coefs</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
         <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">dual_coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KernelRidgeRisk.functional_grad"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+<div class="viewcode-block" id="KernelRidgeRisk.functional_grad"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the gradient of the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
 <span class="sd">            Coefficient to optimise</span>
 
 <span class="sd">        ground_truth : {vector-like}</span>
 <span class="sd">            Targets samples</span>
 
 <span class="sd">        Gram : {LinearOperator}</span>
-<span class="sd">            Gram matrix acting on the dual_coefs</span>
+<span class="sd">            Gram matrix acting on the coefs</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        {vector-like} : gradient of the Empirical OVK ridge risk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">dual_coefs</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
         <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span></div>
 
-<div class="viewcode-block" id="KernelRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dual_coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+<div class="viewcode-block" id="KernelRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the gradient and value of the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        dual_coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
 <span class="sd">            Coefficient to optimise</span>
 
 <span class="sd">        ground_truth : {vector-like}</span>
 <span class="sd">            Targets samples</span>
 
 <span class="sd">        Gram : {LinearOperator}</span>
-<span class="sd">            Gram matrix acting on the dual_coefs</span>
+<span class="sd">            Gram matrix acting on the coefs</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Tuple{float, vector-like} : Empirical OVK ridge risk and its gradient</span>
 <span class="sd">        returned as a tuple.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">dual_coefs</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
         <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">dual_coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">),</span> <span class="n">Gram</span> <span class="o">*</span>
                 <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span><span class="p">)</span></div></div>
 </pre></div>

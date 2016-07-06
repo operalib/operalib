@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>operalib.datasets.quantile &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference_papers/index.html">Reference papers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>operalib.datasets.quantile</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for operalib.datasets.quantile</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Synthetic datasets for quantile learning.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">rand</span><span class="p">,</span> <span class="n">randn</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sort</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">fabs</span><span class="p">,</span> <span class="n">pi</span>
+
+
+<div class="viewcode-block" id="generate_quantile_data"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.generate_quantile_data">[docs]</a><span class="k">def</span> <span class="nf">generate_quantile_data</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">noise</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sine wave toy dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : {integer}</span>
+<span class="sd">        Number of samples to generate.</span>
+
+<span class="sd">    probs : {list}, shape = [n_quantiles]</span>
+<span class="sd">        Probabilities (quantiles levels).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : {array}, shape = [n]</span>
+<span class="sd">        Input data.</span>
+
+<span class="sd">    y : {array}, shape = [n]</span>
+<span class="sd">        Targets.</span>
+
+<span class="sd">    quantiles : {array}, shape = [n x n_quantiles]</span>
+<span class="sd">        True conditional quantiles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span>  <span class="c1"># Bounds for the input data</span>
+    <span class="n">t_down</span><span class="p">,</span> <span class="n">t_up</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span>  <span class="c1"># Bounds for the noise</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_max</span> <span class="o">-</span> <span class="n">t_min</span><span class="p">)</span> <span class="o">+</span> <span class="n">t_min</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>  <span class="c1"># Pattern of the signal</span>
+    <span class="n">enveloppe</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Enveloppe of the signal</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">*</span> <span class="n">enveloppe</span>
+    <span class="c1"># Noise decreasing std (from noise+0.2 to 0.2)</span>
+    <span class="n">noise_std</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t_down</span><span class="p">)</span>
+    <span class="c1"># Gaussian noise with decreasing std</span>
+    <span class="n">add_noise</span> <span class="o">=</span> <span class="n">noise_std</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">observations</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">+</span> <span class="n">add_noise</span>
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                                    <span class="n">scale</span><span class="o">=</span><span class="n">fabs</span><span class="p">(</span><span class="n">noise_std</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="n">observations</span><span class="p">,</span> <span class="n">quantiles</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

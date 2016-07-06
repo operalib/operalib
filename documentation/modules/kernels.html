@@ -154,8 +154,8 @@ outputs.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The kernel matrix as a linear operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>  
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
@@ -313,8 +313,8 @@ passed as callable object.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The kernel matrix as a linear operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>  
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
@@ -455,8 +455,8 @@ K(X, Y) \enskip\text{otherwise}
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFDivFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="c1"># The kernel matrix as a linear operator</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The kernel matrix as a linear operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>  
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
@@ -601,12 +601,11 @@ naturally inherit from DecomposableKernel.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>  
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -772,13 +771,12 @@ X).</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Ky</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="p">(</span><span class="n">Kx</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">Ky</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="p">(</span><span class="n">Kx</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">Ky</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>  
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -807,12 +805,11 @@ naturally inherit from RBFCurlFreeKernel</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-
-<span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
+<span class="go">&lt;1000x1000 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>  
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -961,12 +958,11 @@ naturally inherit from RBFCurlFreeKernel</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFDivFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-
-<span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
+<span class="go">&lt;1000x1000 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>  
 <span class="go">True</span>
 </pre></div>
 </div>

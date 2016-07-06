@@ -133,6 +133,42 @@
   <div class="section" id="module-operalib.datasets">
 <span id="module-datasets"></span><h1>Module datasets<a class="headerlink" href="#module-operalib.datasets" title="Permalink to this headline">¶</a></h1>
 <p>Synthetic dataset.</p>
+<dl class="function">
+<dt id="operalib.datasets.generate_quantile_data">
+<code class="descclassname">operalib.datasets.</code><code class="descname">generate_quantile_data</code><span class="sig-paren">(</span><em>n=50, probs=[0.5], noise=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/quantile.html#generate_quantile_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.generate_quantile_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine wave toy dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : {integer}</p>
+<blockquote>
+<div><p>Number of samples to generate.</p>
+</div></blockquote>
+<p><strong>probs</strong> : {list}, shape = [n_quantiles]</p>
+<blockquote>
+<div><p>Probabilities (quantiles levels).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : {array}, shape = [n]</p>
+<blockquote>
+<div><p>Input data.</p>
+</div></blockquote>
+<p><strong>y</strong> : {array}, shape = [n]</p>
+<blockquote>
+<div><p>Targets.</p>
+</div></blockquote>
+<p><strong>quantiles</strong> : {array}, shape = [n x n_quantiles]</p>
+<blockquote class="last">
+<div><p>True conditional quantiles.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 

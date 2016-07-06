@@ -143,12 +143,13 @@
 
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">transpose</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> \
-    <span class="n">newaxis</span><span class="p">,</span> <span class="n">apply_along_axis</span><span class="p">,</span> <span class="n">kron</span>
+    <span class="n">newaxis</span><span class="p">,</span> <span class="n">apply_along_axis</span><span class="p">,</span> <span class="n">kron</span><span class="p">,</span> <span class="n">ones</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
 <span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
 
-<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">RBFCurlFreeKernel</span><span class="p">,</span> <span class="n">RBFDivFreeKernel</span>
+<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">RBFCurlFreeKernel</span><span class="p">,</span> <span class="n">RBFDivFreeKernel</span><span class="p">,</span> \
+    <span class="n">DotProductKernel</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s1">&#39;1.8&#39;</span><span class="p">):</span>
@@ -157,6 +158,123 @@
 <span class="k">else</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">_norm_axis_0</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DotProductKernelMap</span><span class="p">(</span><span class="n">DotProductKernel</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the DotProduct Operator-Valued Kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Support samples.</span>
+
+<span class="sd">        mu : {float}, between 0. and 1.</span>
+<span class="sd">            Linear operator acting on the outputs</span>
+
+<span class="sd">        p : {integer}</span>
+<span class="sd">            Dimension of the output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DotProductKernelMap</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Ky</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Syntaxic sugar.</span>
+
+<span class="sd">           If Kx is a compatible DotProduct kernel, returns</span>
+
+<span class="sd">           .. math::</span>
+<span class="sd">                K(X, Y) = K_X^T K_Y</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Ky : {DotProductKernelMap}</span>
+<span class="sd">            Compatible kernel Map (e.g. same kernel but different support data</span>
+<span class="sd">            X).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : LinearOperator</span>
+<span class="sd">            Returns K(X, Y).</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import operalib as ovk</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
+<span class="sd">        &gt;&gt;&gt; K = ovk.DotProductKernel(mu=0.2, p=5)</span>
+<span class="sd">        &gt;&gt;&gt; Gram = K(X, X)</span>
+<span class="sd">        &gt;&gt;&gt; Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">        &lt;500x500 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="sd">        &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
+<span class="sd">        &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
+<span class="sd">        &gt;&gt;&gt; Ky = K(X)</span>
+<span class="sd">        &gt;&gt;&gt; np.allclose(Gram * C, (Kx.T * Ky) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Check that Kx is compatible</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="n">Ky</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_Gram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span>
+
+        <span class="k">return</span> <span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gs</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ravel</span><span class="p">(</span><span class="n">dot</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">*</span> <span class="n">kron</span><span class="p">(</span><span class="n">Gs</span><span class="p">,</span> <span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)))</span> <span class="o">+</span>
+                         <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="n">kron</span><span class="p">(</span><span class="n">Gs</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">))),</span> <span class="n">c</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transposition.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y as a linear operator.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : LinearOperator</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
+            <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">Gram_dense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the dense Gram matrix associated with the data Y.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K(X, Y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : {array-like, sparse matrix}, shape = [n_samples1, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K(X, Y) : {array-like}</span>
+<span class="sd">            Returns K(X, Y).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="DecomposableKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap">[docs]</a><span class="k">class</span> <span class="nc">DecomposableKernelMap</span><span class="p">(</span><span class="n">DecomposableKernel</span><span class="p">):</span>
@@ -201,12 +319,11 @@
 <span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
 <span class="sd">    &gt;&gt;&gt; K = ovk.DecomposableKernel(np.eye(2))</span>
 <span class="sd">    &gt;&gt;&gt; Gram = K(X, X)</span>
-<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &gt;&gt;&gt; Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">    &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
 <span class="sd">    &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
-<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)</span>
-<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -262,13 +379,12 @@
 <span class="sd">        &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
 <span class="sd">        &gt;&gt;&gt; K = ovk.DecomposableKernel(np.eye(2))</span>
 <span class="sd">        &gt;&gt;&gt; Gram = K(X, X)</span>
-<span class="sd">        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">        &gt;&gt;&gt; Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">        &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">        &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
 <span class="sd">        &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
 <span class="sd">        &gt;&gt;&gt; Ky = K(X)</span>
-<span class="sd">        &gt;&gt;&gt; np.allclose(Gram * C, (Kx.T * Ky) * C)</span>
-<span class="sd">        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">        &gt;&gt;&gt; np.allclose(Gram * C, (Kx.T * Ky) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">        True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Check that Kx is compatible</span>
@@ -372,12 +488,11 @@
 <span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
 <span class="sd">    &gt;&gt;&gt; K = ovk.RBFCurlFreeKernel(1.)</span>
 <span class="sd">    &gt;&gt;&gt; Gram = K(X, X)</span>
-<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
-<span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="sd">    &gt;&gt;&gt; Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &lt;1000x1000 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">    &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
 <span class="sd">    &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
-<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)</span>
-<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -522,12 +637,11 @@
 <span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
 <span class="sd">    &gt;&gt;&gt; K = ovk.RBFDivFreeKernel(1.)</span>
 <span class="sd">    &gt;&gt;&gt; Gram = K(X, X)</span>
-<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
-<span class="sd">    &lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="sd">    &gt;&gt;&gt; Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &lt;1000x1000 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="sd">    &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
 <span class="sd">    &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
-<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)</span>
-<span class="sd">    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

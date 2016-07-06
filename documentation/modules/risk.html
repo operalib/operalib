@@ -144,26 +144,26 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.__call__" title="operalib.risk.KernelRidgeRisk.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(dual_coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.__call__" title="operalib.risk.KernelRidgeRisk.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
 <td>Compute the Empirical OVK ridge risk.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.functional_grad" title="operalib.risk.KernelRidgeRisk.functional_grad"><code class="xref py py-obj docutils literal"><span class="pre">functional_grad</span></code></a>(dual_coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.functional_grad" title="operalib.risk.KernelRidgeRisk.functional_grad"><code class="xref py py-obj docutils literal"><span class="pre">functional_grad</span></code></a>(coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
 <td>Compute the gradient of the Empirical OVK ridge risk.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.functional_grad_val" title="operalib.risk.KernelRidgeRisk.functional_grad_val"><code class="xref py py-obj docutils literal"><span class="pre">functional_grad_val</span></code></a>(dual_coefs,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.risk.KernelRidgeRisk.functional_grad_val" title="operalib.risk.KernelRidgeRisk.functional_grad_val"><code class="xref py py-obj docutils literal"><span class="pre">functional_grad_val</span></code></a>(coefs,&nbsp;ground_truth,&nbsp;Gram)</td>
 <td>Compute the gradient and value of the Empirical OVK ridge risk.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="operalib.risk.KernelRidgeRisk.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>dual_coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/risk.html#KernelRidgeRisk.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/risk.html#KernelRidgeRisk.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the Empirical OVK ridge risk.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dual_coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
 <blockquote>
 <div><p>Coefficient to optimise</p>
 </div></blockquote>
@@ -173,7 +173,7 @@
 </div></blockquote>
 <p><strong>Gram</strong> : {LinearOperator}</p>
 <blockquote>
-<div><p>Gram matrix acting on the dual_coefs</p>
+<div><p>Gram matrix acting on the coefs</p>
 </div></blockquote>
 </td>
 </tr>
@@ -213,13 +213,13 @@ or LinearSVC.</p>
 
 <dl class="method">
 <dt id="operalib.risk.KernelRidgeRisk.functional_grad">
-<code class="descname">functional_grad</code><span class="sig-paren">(</span><em>dual_coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/risk.html#KernelRidgeRisk.functional_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.functional_grad" title="Permalink to this definition">¶</a></dt>
+<code class="descname">functional_grad</code><span class="sig-paren">(</span><em>coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/risk.html#KernelRidgeRisk.functional_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.functional_grad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the gradient of the Empirical OVK ridge risk.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dual_coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
 <blockquote>
 <div><p>Coefficient to optimise</p>
 </div></blockquote>
@@ -229,7 +229,7 @@ or LinearSVC.</p>
 </div></blockquote>
 <p><strong>Gram</strong> : {LinearOperator}</p>
 <blockquote>
-<div><p>Gram matrix acting on the dual_coefs</p>
+<div><p>Gram matrix acting on the coefs</p>
 </div></blockquote>
 </td>
 </tr>
@@ -242,13 +242,13 @@ or LinearSVC.</p>
 
 <dl class="method">
 <dt id="operalib.risk.KernelRidgeRisk.functional_grad_val">
-<code class="descname">functional_grad_val</code><span class="sig-paren">(</span><em>dual_coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/risk.html#KernelRidgeRisk.functional_grad_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.functional_grad_val" title="Permalink to this definition">¶</a></dt>
+<code class="descname">functional_grad_val</code><span class="sig-paren">(</span><em>coefs</em>, <em>ground_truth</em>, <em>Gram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/risk.html#KernelRidgeRisk.functional_grad_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.risk.KernelRidgeRisk.functional_grad_val" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the gradient and value of the Empirical OVK ridge risk.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dual_coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coefs</strong> : {vector-like}, shape = [n_samples1 * n_targets]</p>
 <blockquote>
 <div><p>Coefficient to optimise</p>
 </div></blockquote>
@@ -258,7 +258,7 @@ or LinearSVC.</p>
 </div></blockquote>
 <p><strong>Gram</strong> : {LinearOperator}</p>
 <blockquote>
-<div><p>Gram matrix acting on the dual_coefs</p>
+<div><p>Gram matrix acting on the coefs</p>
 </div></blockquote>
 </td>
 </tr>

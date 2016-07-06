@@ -13,8 +13,6 @@ import matplotlib.pyplot as plt
 
 import time
 
-from IPython import embed
-
 np.random.seed(0)
 
 n = 5000

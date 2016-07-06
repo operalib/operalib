@@ -2,7 +2,7 @@
 
 from scipy.stats import norm
 from numpy.random import rand, randn
-from numpy import sort, sin, zeros, fabs, pi
+from numpy import sort, sin, asarray, pi
 
 
 def generate_quantile_data(n=50, probs=[0.5], noise=1.):
@@ -39,6 +39,6 @@ def generate_quantile_data(n=50, probs=[0.5], noise=1.):
     # Gaussian noise with decreasing std
     add_noise = noise_std * randn(n)
     observations = pattern + add_noise
-    quantiles = [pattern + norm.ppf(p, loc=zeros(n),
-                                    scale=fabs(noise_std)) for p in probs]
+    quantiles = [pattern + asarray([norm.ppf(p, loc=0., scale=abs(noise_c))
+                 for noise_c in noise_std]) for p in probs]
     return t[:, None], observations, quantiles

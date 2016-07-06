@@ -258,7 +258,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
             self.d_ = X.shape[1]
             self.p_ = y.shape[1]
 
-            self.coefs_ = zeros(n * p)
+            self.coefs_ = zeros(self.T_ * p)
 
             if self.T is None:
                 self.T_ = n

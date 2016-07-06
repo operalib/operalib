@@ -22,6 +22,10 @@ X = np.random.rand(n, d)
 
 
 def phi(X):
+    """Generate data according to Evgeniou, C. A. Micchelli, and M. Pontil.
+
+    'Learning multiple tasks with kernel methods.' 2005.
+    """
     return np.hstack((X[:, 0:1] ** 2,
                       X[:, 3:4] ** 2,
                       X[:, 0:1] * X[:, 1:2],

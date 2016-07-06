@@ -258,8 +258,6 @@ class ONORMA(BaseEstimator, RegressorMixin):
             self.d_ = X.shape[1]
             self.p_ = y.shape[1]
 
-            self.coefs_ = zeros(self.T_ * p)
-
             if self.T is None:
                 self.T_ = n
             else:
@@ -268,6 +266,8 @@ class ONORMA(BaseEstimator, RegressorMixin):
                 self.learning_rate_ = Constant(1.)
             else:
                 self.learning_rate_ = self.learning_rate
+
+            self.coefs_ = zeros(self.T_ * p)
 
             self.t_ = 0
             eta_t = self.learning_rate_(self.t_ + 1)

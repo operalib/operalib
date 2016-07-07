@@ -15,7 +15,7 @@
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _Python35: https://github.com/operalib/operalib
 
-.. image:: https://badge.fury.io/py/operalib.svg
+.. |PyPi| image:: https://badge.fury.io/py/operalib.svg
     :target: https://badge.fury.io/py/operalib
 
 

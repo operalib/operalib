@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; Operalib 0.1.0 documentation</title>
+  <title>Module Learnin Rate &mdash; Operalib 0.1.0 documentation</title>
   
 
   
@@ -108,7 +108,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -116,9 +116,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>Overview: module code</li>
+    <li>Module Learnin Rate</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+            <a href="../_sources/modules/learningrate.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -128,20 +130,51 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="operalib/datasets/quantile.html">operalib.datasets.quantile</a></li>
-<li><a href="operalib/datasets/vectorfield.html">operalib.datasets.vectorfield</a></li>
-<li><a href="operalib/kernel_maps.html">operalib.kernel_maps</a></li>
-<li><a href="operalib/kernels.html">operalib.kernels</a></li>
-<li><a href="operalib/learningrate.html">operalib.learningrate</a></li>
-<li><a href="operalib/metrics.html">operalib.metrics</a></li>
-<li><a href="operalib/onorma.html">operalib.onorma</a></li>
-<li><a href="operalib/quantile.html">operalib.quantile</a></li>
-<li><a href="operalib/ridge.html">operalib.ridge</a></li>
-<li><a href="operalib/risk.html">operalib.risk</a></li>
-<li><a href="operalib/signal.html">operalib.signal</a></li>
-<li><a href="sklearn/base.html">sklearn.base</a></li>
-</ul>
+  <div class="section" id="module-learnin-rate">
+<h1>Module Learnin Rate<a class="headerlink" href="#module-learnin-rate" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-operalib.learningrate"></span><p><a class="reference internal" href="#module-operalib.learningrate" title="operalib.learningrate"><code class="xref py py-mod docutils literal"><span class="pre">operalib.learningrate</span></code></a> implements the learning rate for (Stochastic)
+gradient descent algorithms</p>
+<dl class="function">
+<dt id="operalib.learningrate.Constant">
+<code class="descclassname">operalib.learningrate.</code><code class="descname">Constant</code><span class="sig-paren">(</span><em>eta=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/learningrate.html#Constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.learningrate.Constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant learnin rate.</p>
+<div class="math">
+<p><img src="../_images/math/be167800146bd9d1b34b429cbce5f285b8f16834.png" alt="t \mapsto eta"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eta</strong> : float default 1.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>eta</strong> : Callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.learningrate.InvScaling">
+<code class="descclassname">operalib.learningrate.</code><code class="descname">InvScaling</code><span class="sig-paren">(</span><em>eta=1.0</em>, <em>power=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/learningrate.html#InvScaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.learningrate.InvScaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant learnin rate.</p>
+<div class="math">
+<p><img src="../_images/math/3653f4c34f9f507dbaeb0a927622a26c5f2d02bd.png" alt="t \mapsto eta0 * t^{-power}"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>eta0</strong> : float, default 1.</p>
+<p><strong>power</strong> : float, default 1.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>eta</strong> : Callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
            </div>
           </div>

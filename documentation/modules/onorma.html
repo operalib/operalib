@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Module Ridge &mdash; Operalib 0.1.0 documentation</title>
+  <title>Module ONORMA &mdash; Operalib 0.1.0 documentation</title>
   
 
   
@@ -116,11 +116,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>Module Ridge</li>
+    <li>Module ONORMA</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/modules/ridge.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/modules/onorma.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -130,27 +130,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-operalib.ridge">
-<span id="module-ridge"></span><h1>Module Ridge<a class="headerlink" href="#module-operalib.ridge" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
-regression.</p>
+  <div class="section" id="module-onorma">
+<h1>Module ONORMA<a class="headerlink" href="#module-onorma" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-operalib.onorma"></span><p><a class="reference internal" href="ridge.html#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-valued Naive Online
+Regularised Risk Minimization Algorithm (ONORMA)</p>
 <dl class="class">
-<dt id="operalib.ridge.Ridge">
-<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">Ridge</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Operator-Valued kernel ridge regression.</p>
-<p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
-(linear least squares with l2-norm regularization) with the (OV)kernel
-trick. It thus learns a linear function in the space induced by the
-respective kernel and the data. For non-linear kernels, this corresponds to
-a non-linear function in the original space.</p>
-<p>The form of the model learned by OVKRR is identical to support vector
-regression (SVR). However, different loss functions are used: OVKRR uses
-squared error loss while support vector regression uses epsilon-insensitive
-loss, both combined with l2 regularization. In contrast to SVR, fitting a
-OVKRR model can be done in closed-form and is typically faster for
-medium-sized datasets. On the other  hand, the learned model is non-sparse
-and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at
-prediction-time.</p>
+<dt id="operalib.onorma.ONORMA">
+<em class="property">class </em><code class="descclassname">operalib.onorma.</code><code class="descname">ONORMA</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>T=None</em>, <em>A=None</em>, <em>learning_rate='invscaling'</em>, <em>truncation=None</em>, <em>gamma=None</em>, <em>mu=0.2</em>, <em>eta=1.0</em>, <em>power=0.5</em>, <em>shuffle=True</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Operator-Valued Operator-valued Naive Online Regularised Risk
+Minimization Algorithm .</p>
+<p>Operator-Valued kernel Operator-valued Naive Online Regularised Risk
+Minimization Algorithm (ONORMA) hat extends the standard kernel-based
+online learning algorithm NORMA from scalar-valued to operator-valued
+setting</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
@@ -164,12 +156,12 @@ prediction-time.</p>
 </div>
 <p class="rubric">References</p>
 <ul class="simple">
-<li>Micchelli, Charles A., and Massimiliano Pontil.
-&#8220;On learning vector-valued functions.&#8221; Neural computation
-17.1 (2005): 177-204.</li>
-<li>Alvarez, Mauricio A., Lorenzo Rosasco, and Neil D. Lawrence.
-&#8220;Kernels for vector-valued functions: A review.&#8221; arXiv preprint
-arXiv:1106.6251 (2011). APA</li>
+<li>Audiffren, Julien, and Hachem Kadri.
+&#8220;Online learning with multiple operator-valued kernels.&#8221;
+arXiv preprint arXiv:1311.0222 (2013).</li>
+<li>Kivinen, Jyrki, Alexander J. Smola, and Robert C. Williamson.
+&#8220;Online learning with kernels.&#8221;
+IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 </ul>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
@@ -178,22 +170,21 @@ arXiv:1106.6251 (2011). APA</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">ONORMA</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
-<span class="go">Ridge(A=None, autocorr_params=None, gamma=None, kernel=&#39;DGauss&#39;,</span>
-<span class="go">   lbda=1.0, period=&#39;autocorr&#39;,</span>
-<span class="go">   solver=&lt;function fmin_l_bfgs_b at ...&gt;, solver_params=None,</span>
-<span class="go">   theta=0.7)</span>
+<span class="go">ONORMA(A=None, T=None, eta=1.0, gamma=None, kernel=&#39;DGauss&#39;, lbda=1.0,</span>
+<span class="go">    learning_rate=&#39;invscaling&#39;, mu=0.2, power=0.5, random_state=0,</span>
+<span class="go">    shuffle=True, truncation=None)</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="9%" />
-<col width="91%" />
+<col width="5%" />
+<col width="95%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">dual_coef_</span></a></td>
+<tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">coef_</span></a></td>
 <td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
 </tr>
 <tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">linop_</span></a></td>
@@ -202,11 +193,14 @@ arXiv:1106.6251 (2011). APA</li>
 <tr class="row-odd"><td><a href="#id5"><span class="problematic" id="id6">A_</span></a></td>
 <td>(array, shape = [n_targets, n_targets]) Set when Linear operator used by the decomposable kernel is default or None.</td>
 </tr>
-<tr class="row-even"><td><a href="#id7"><span class="problematic" id="id8">period_</span></a></td>
-<td>(float) Set when period used by the First periodic kernel is &#8216;autocorr&#8217;.</td>
+<tr class="row-even"><td><a href="#id7"><span class="problematic" id="id8">T_</span></a></td>
+<td>(integer) Total number of iterations</td>
 </tr>
-<tr class="row-odd"><td><a href="#id9"><span class="problematic" id="id10">solver_res_</span></a></td>
-<td>(any) Raw results returned by the solver.</td>
+<tr class="row-odd"><td><a href="#id9"><span class="problematic" id="id10">n_</span></a></td>
+<td>(integer) Total number of datapoints</td>
+</tr>
+<tr class="row-even"><td><a href="#id11"><span class="problematic" id="id12">p_</span></a></td>
+<td>(integer) Dimensionality of the outputs</td>
 </tr>
 </tbody>
 </table>
@@ -217,27 +211,30 @@ arXiv:1106.6251 (2011). APA</li>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.fit" title="operalib.ridge.Ridge.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
-<td>Fit OVK ridge regression model.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.fit" title="operalib.onorma.ONORMA.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<td>Fit ONORMA model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.Ridge.get_params" title="operalib.ridge.Ridge.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.get_params" title="operalib.onorma.ONORMA.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.predict" title="operalib.ridge.Ridge.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
-<td>Predict using the OVK ridge model.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.partial_fit" title="operalib.onorma.ONORMA.partial_fit"><code class="xref py py-obj docutils literal"><span class="pre">partial_fit</span></code></a>(X,&nbsp;y)</td>
+<td>Partial fit of ONORMA model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.Ridge.score" title="operalib.ridge.Ridge.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.predict" title="operalib.onorma.ONORMA.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
+<td>Predict using ONORMA model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.score" title="operalib.onorma.ONORMA.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
 <td>Returns the coefficient of determination R^2 of the prediction.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.set_params" title="operalib.ridge.Ridge.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.set_params" title="operalib.onorma.ONORMA.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="operalib.ridge.Ridge.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit OVK ridge regression model.</p>
+<dt id="operalib.onorma.ONORMA.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit ONORMA model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -260,8 +257,8 @@ arXiv:1106.6251 (2011). APA</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.Ridge.get_params" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.onorma.ONORMA.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.onorma.ONORMA.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -285,9 +282,48 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Predict using the OVK ridge model.</p>
+<dt id="operalib.onorma.ONORMA.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial fit of ONORMA model.</p>
+<p>This method is usefull for online learning for instance.
+Must call</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Training data.</p>
+</div></blockquote>
+<p><strong>y</strong> : {array-like}, shape = [n_samples] or [n_samples, n_targets]</p>
+<blockquote>
+<div><p>Target values.</p>
+</div></blockquote>
+<p><strong>n</strong> : {integer}</p>
+<blockquote>
+<div><p>Total number of data.
+This argument is required for the first call to partial_fit and can
+be omitted in the subsequent calls.</p>
+</div></blockquote>
+<p><strong>p</strong> : {integer}</p>
+<blockquote>
+<div><p>Dimensionality of the outputs.
+This argument is required for the first call to partial_fit and can
+be omitted in the subsequent calls.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>self</strong> : returns an instance of self.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.onorma.ONORMA.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict using ONORMA model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -309,8 +345,8 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.score">
-<code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.Ridge.score" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.onorma.ONORMA.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.onorma.ONORMA.score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coefficient of determination R^2 of the prediction.</p>
 <p>The coefficient R^2 is defined as (1 - u/v), where u is the regression
 sum of squares ((y_true - y_pred) ** 2).sum() and v is the residual
@@ -348,8 +384,8 @@ would get a R^2 score of 0.0.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.Ridge.set_params" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.onorma.ONORMA.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.onorma.ONORMA.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The former have parameters of the form

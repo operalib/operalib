@@ -160,9 +160,57 @@
         <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">DotProductKernelMap</span><span class="p">(</span><span class="n">DotProductKernel</span><span class="p">):</span>
+<div class="viewcode-block" id="DotProductKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DotProductKernelMap">[docs]</a><span class="k">class</span> <span class="nc">DotProductKernelMap</span><span class="p">(</span><span class="n">DotProductKernel</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Dot Product Operator-Valued Kernel map of the form:</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<span class="sd">    .. math::</span>
+<span class="sd">        x \mapsto K_X(y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,</span>
+<span class="sd">        y \rangle^2 I_p</span>
+
+<span class="sd">    This class just fixes the support data X to the kernel. Hence it</span>
+<span class="sd">    naturally inherit from DecomposableKernel.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    n : {Int}</span>
+<span class="sd">        Number of samples.</span>
+
+<span class="sd">    d : {Int}</span>
+<span class="sd">        Number of features.</span>
+
+<span class="sd">    X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">        Support samples.</span>
+
+<span class="sd">    Gs : {array-like, sparse matrix}, shape = [n, n]</span>
+<span class="sd">        Gram matrix associated with the scalar kernel.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    DotProductKernel</span>
+<span class="sd">        Dot Product Kernel</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import operalib as ovk</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; X = np.random.randn(100, 10)</span>
+<span class="sd">    &gt;&gt;&gt; K = ovk.DotProductKernel(mu=0.2, p=5)</span>
+<span class="sd">    &gt;&gt;&gt; Gram = K(X, X)</span>
+<span class="sd">    &gt;&gt;&gt; Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    &lt;500x500 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="sd">    &gt;&gt;&gt; C = np.random.randn(Gram.shape[0])</span>
+<span class="sd">    &gt;&gt;&gt; Kx = K(X)  # The kernel map.</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DotProductKernelMap.__init__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DotProductKernelMap.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the DotProduct Operator-Valued Kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -181,9 +229,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Gs_train</span> <span class="o">=</span> <span class="bp">None</span></div>
 
-    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Ky</span><span class="p">):</span>
+<div class="viewcode-block" id="DotProductKernelMap.__mul__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DotProductKernelMap.__mul__">[docs]</a>    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Ky</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Syntaxic sugar.</span>
 
 <span class="sd">           If Kx is a compatible DotProduct kernel, returns</span>
@@ -218,7 +266,7 @@
 <span class="sd">        True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Check that Kx is compatible</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="n">Ky</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="n">Ky</span><span class="o">.</span><span class="n">X</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_Gram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">:</span>
@@ -237,7 +285,7 @@
         <span class="sd">&quot;&quot;&quot;Transposition.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<div class="viewcode-block" id="DotProductKernelMap.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DotProductKernelMap.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the Gram matrix associated with the data Y as a linear operator.</span>
 
 <span class="sd">        .. math::</span>
@@ -256,9 +304,9 @@
         <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span>
             <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span>
             <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">),</span>
-            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span>
+            <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">b</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">Gram_dense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="DotProductKernelMap.Gram_dense"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DotProductKernelMap.Gram_dense">[docs]</a>    <span class="k">def</span> <span class="nf">Gram_dense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the dense Gram matrix associated with the data Y.</span>
 
 <span class="sd">        .. math::</span>
@@ -274,7 +322,7 @@
 <span class="sd">        K(X, Y) : {array-like}</span>
 <span class="sd">            Returns K(X, Y).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gram</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="DecomposableKernelMap"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernel_maps.DecomposableKernelMap">[docs]</a><span class="k">class</span> <span class="nc">DecomposableKernelMap</span><span class="p">(</span><span class="n">DecomposableKernel</span><span class="p">):</span>

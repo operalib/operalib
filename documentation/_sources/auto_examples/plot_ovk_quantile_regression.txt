@@ -25,11 +25,11 @@ constraints.
 
       Creating dataset...
     Fitting...
-    joint leaning time:  0.209446907043
+    joint leaning time:  0.229334831238
     joint score  0.7703945361
-    independant leaning time:  0.135004997253
+    independant leaning time:  0.146661996841
     independant score  0.769375053019
-    non-crossing leaning time:  0.675905942917
+    non-crossing leaning time:  0.847125053406
     non-crossing score  0.769973790545
 
 
@@ -46,7 +46,7 @@ constraints.
 
     # -*- coding: utf-8 -*-
 
-    from operalib import Quantile, generate_quantile_data
+    from operalib import Quantile, toy_data_quantile
 
     import numpy as np
     import time
@@ -56,8 +56,8 @@ constraints.
 
     print("Creating dataset...")
     probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-    x_train, y_train, z_train = generate_quantile_data(50)
-    x_test, y_test, z_test = generate_quantile_data(1000, probs=probs)
+    x_train, y_train, z_train = toy_data_quantile(50)
+    x_test, y_test, z_test = toy_data_quantile(1000, probs=probs)
 
     print("Fitting...")
     # Joint quantile regression
@@ -100,7 +100,7 @@ constraints.
     plt.show()
 
 **Total running time of the script:**
-(0 minutes 1.939 seconds)
+(0 minutes 2.185 seconds)
 
 
 

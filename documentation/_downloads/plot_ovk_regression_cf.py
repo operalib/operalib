@@ -17,14 +17,13 @@ from sklearn.kernel_ridge import KernelRidge
 
 # Generate data
 np.random.seed(0)
-X, y = ovk.generate_2D_curl_free_field(n=2000)
+X, y = ovk.toy_data_curl_free_field(n=2000)
 Xc = X.copy()
 yc = y.copy() + .05 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
 K = ovk.RBFCurlFreeKernel(1.)
 Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=100)
 
-regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel, lbda=0.0001,
-                   kernel_params={'gamma': 2.})
+regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
 
 # Learning with curl-free
 regr_1.fit(Xtr, ytr)
@@ -35,7 +34,7 @@ X1, Y1 = ovk.array2mesh(Xc)
 U1, V1 = ovk.array2mesh(yp1)
 
 # Learning with sklearn ridge
-regr_2 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=1.3)
+regr_2 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=1.5)
 regr_2.fit(Xtr, ytr)
 s2 = regr_2.score(Xte, yte)
 print('R2 independant ridge: ', s2)

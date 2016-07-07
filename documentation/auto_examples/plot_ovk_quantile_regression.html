@@ -151,11 +151,11 @@ constraints.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span>  <span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
-<span class="n">joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.209446907043</span>
+<span class="n">joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.229334831238</span>
 <span class="n">joint</span> <span class="n">score</span>  <span class="mf">0.7703945361</span>
-<span class="n">independant</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.135004997253</span>
+<span class="n">independant</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.146661996841</span>
 <span class="n">independant</span> <span class="n">score</span>  <span class="mf">0.769375053019</span>
-<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.675905942917</span>
+<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.847125053406</span>
 <span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span>  <span class="mf">0.769973790545</span>
 </pre></div>
 </div>
@@ -167,7 +167,7 @@ constraints.</p>
 
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">from</span> <span class="nn">operalib</span> <span class="kn">import</span> <span class="n">Quantile</span><span class="p">,</span> <span class="n">generate_quantile_data</span>
+<span class="kn">from</span> <span class="nn">operalib</span> <span class="kn">import</span> <span class="n">Quantile</span><span class="p">,</span> <span class="n">toy_data_quantile</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -177,8 +177,8 @@ constraints.</p>
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating dataset...&quot;</span><span class="p">)</span>
 <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
-<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">z_train</span> <span class="o">=</span> <span class="n">generate_quantile_data</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">generate_quantile_data</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">z_train</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fitting...&quot;</span><span class="p">)</span>
 <span class="c1"># Joint quantile regression</span>
@@ -222,7 +222,7 @@ constraints.</p>
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong>
-(0 minutes 1.939 seconds)</p>
+(0 minutes 2.185 seconds)</p>
 <div class="sphx-glr-download container">
 <strong>Download Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
 <div class="sphx-glr-download container">

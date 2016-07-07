@@ -175,9 +175,6 @@ outputs.</p>
 <tr class="row-odd"><td>scalar_kernel_params</td>
 <td>({mapping of string to any}) Additional parameters (keyword arguments) for kernel function passed as callable object.</td>
 </tr>
-<tr class="row-even"><td>p</td>
-<td>({Int}) dimension of the targets (n_targets).</td>
-</tr>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
@@ -285,6 +282,155 @@ passed as callable object.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
+<div class="last math">
+<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="operalib.kernels.DotProductKernel">
+<em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">DotProductKernel</code><span class="sig-paren">(</span><em>mu</em>, <em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DotProductKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DotProductKernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dot product Operator-Valued Kernel of the form:</p>
+<div class="math">
+<p><img src="../_images/math/cccd2aa60ceb818ce8a79e52eae7223ef24f306e.png" alt="x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
+y \rangle^2 I_p"/></p>
+</div><div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">DotProductKernelMap</span></code></dt>
+<dd>Dot Product Kernel Map</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DotProductKernel</span><span class="p">(</span><span class="n">mu</span><span class="o">=.</span><span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The kernel matrix as a linear operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>  
+<span class="go">&lt;500x500 _CustomLinearOperator with dtype=float64&gt;</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>mu</td>
+<td>({array, LinearOperator}, shape = [n_targets, n_targets]) Tradeoff between shared and independant components</td>
+</tr>
+<tr class="row-even"><td>p</td>
+<td>({Int}) dimension of the targets (n_targets).</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DotProductKernel.__call__" title="operalib.kernels.DotProductKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
+<td>Return the kernel map associated with the data X.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DotProductKernel.get_kernel_map" title="operalib.kernels.DotProductKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
+<td>Return the kernel map associated with the data X.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="operalib.kernels.DotProductKernel.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>X</em>, <em>Y=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DotProductKernel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DotProductKernel.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the kernel map associated with the data X.</p>
+<div class="math">
+<p><img src="../_images/math/64ba03dee603ef113a64da42d08357ced03c56dd.png" alt="K_x: \begin{cases}
+Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+K(X, Y) \enskip\text{otherwise.}
+\end{cases}"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
+<blockquote>
+<div><blockquote>
+<div><p>default = None</p>
+</div></blockquote>
+<p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DotProductKernelMap, callable or LinearOperator</p>
+<blockquote class="last">
+<div><div class="math">
+<p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
+Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+K(X, Y) \enskip\text{otherwise}
+\end{cases}"/></p>
+</div></div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernels.DotProductKernel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mu</em>, <em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DotProductKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DotProductKernel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the  Dot product Operator-Valued Kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>mu</strong> : {float}</p>
+<blockquote>
+<div><p>Tradeoff between shared and independant components.</p>
+</div></blockquote>
+<p><strong>p</strong> : {integer}</p>
+<blockquote class="last">
+<div><p>dimension of the targets (n_targets).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="operalib.kernels.DotProductKernel.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#operalib.kernels.DotProductKernel.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernels.DotProductKernel.get_kernel_map">
+<code class="descname">get_kernel_map</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DotProductKernel.get_kernel_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DotProductKernel.get_kernel_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the kernel map associated with the data X.</p>
+<div class="math">
+<p><img src="../_images/math/9988c69086ad9b7884e515e21916ce071986f130.png" alt="K_x: Y \mapsto K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DotProductKernelMap, callable</p>
 <div class="last math">
 <p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
 </div></td>
@@ -773,6 +919,206 @@ X).</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Ky</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="p">(</span><span class="n">Kx</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">Ky</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>  
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="operalib.kernel_maps.DotProductKernelMap">
+<em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">DotProductKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>mu</em>, <em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DotProductKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DotProductKernelMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dot Product Operator-Valued Kernel map of the form:</p>
+<div class="math">
+<p><img src="../_images/math/9fbba63bb3266d1025220785aa5d60f459aa4d5b.png" alt="x \mapsto K_X(y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
+y \rangle^2 I_p"/></p>
+</div><p>This class just fixes the support data X to the kernel. Hence it
+naturally inherit from DecomposableKernel.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">DotProductKernel</span></code></dt>
+<dd>Dot Product Kernel</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DotProductKernel</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
+<span class="go">&lt;500x500 _CustomLinearOperator with dtype=float64&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Gram</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="n">Kx</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>  
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>n</td>
+<td>({Int}) Number of samples.</td>
+</tr>
+<tr class="row-even"><td>d</td>
+<td>({Int}) Number of features.</td>
+</tr>
+<tr class="row-odd"><td>X</td>
+<td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
+</tr>
+<tr class="row-even"><td>Gs</td>
+<td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix associated with the scalar kernel.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DotProductKernelMap.Gram_dense" title="operalib.kernel_maps.DotProductKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<td>Return the dense Gram matrix associated with the data Y.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.DotProductKernelMap.__call__" title="operalib.kernel_maps.DotProductKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<td>Return the Gram matrix associated with the data Y as a linear operator.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<td>Return the kernel map associated with the data X.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="operalib.kernel_maps.DotProductKernelMap.Gram_dense">
+<code class="descname">Gram_dense</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DotProductKernelMap.Gram_dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DotProductKernelMap.Gram_dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dense Gram matrix associated with the data Y.</p>
+<div class="math">
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="operalib.kernel_maps.DotProductKernelMap.T">
+<code class="descname">T</code><a class="headerlink" href="#operalib.kernel_maps.DotProductKernelMap.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transposition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernel_maps.DotProductKernelMap.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DotProductKernelMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DotProductKernelMap.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Gram matrix associated with the data Y as a linear operator.</p>
+<div class="math">
+<p><img src="../_images/math/4ecb126e7f69de1cddc530d11300d320d59495b0.png" alt="K(X, Y)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernel_maps.DotProductKernelMap.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>X</em>, <em>mu</em>, <em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DotProductKernelMap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DotProductKernelMap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the DotProduct Operator-Valued Kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></p>
+<blockquote>
+<div><p>Support samples.</p>
+</div></blockquote>
+<p><strong>mu</strong> : {float}, between 0. and 1.</p>
+<blockquote>
+<div><p>Linear operator acting on the outputs</p>
+</div></blockquote>
+<p><strong>p</strong> : {integer}</p>
+<blockquote class="last">
+<div><p>Dimension of the output</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.kernel_maps.DotProductKernelMap.__mul__">
+<code class="descname">__mul__</code><span class="sig-paren">(</span><em>Ky</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DotProductKernelMap.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DotProductKernelMap.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Syntaxic sugar.</p>
+<blockquote>
+<div><p>If Kx is a compatible DotProduct kernel, returns</p>
+<div class="math">
+<p><img src="../_images/math/1cfee29013ca2fe55ac4ba59286d8bd496da0bf8.png" alt="K(X, Y) = K_X^T K_Y"/></p>
+</div></div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ky</strong> : {DotProductKernelMap}</p>
+<blockquote>
+<div><p>Compatible kernel Map (e.g. same kernel but different support data
+X).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
+<blockquote class="last">
+<div><p>Returns K(X, Y).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DotProductKernel</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Gram</span>  
+<span class="go">&lt;500x500 _CustomLinearOperator with dtype=float64&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Kx</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># The kernel map.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Ky</span> <span class="o">=</span> <span class="n">K</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>

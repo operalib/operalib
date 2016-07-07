@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>operalib.onorma &mdash; Operalib 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Operalib 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Operalib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference_papers/index.html">Reference papers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Operalib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>operalib.onorma</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for operalib.onorma</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`operalib.ridge` implements Operator-valued Naive Online</span>
+<span class="sd">Regularised Risk Minimization Algorithm (ONORMA)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Author: Romain Brault &lt;romain.brault@telecom-paristech.fr&gt; with help from</span>
+<span class="c1">#         the scikit-learn community.</span>
+<span class="c1"># License: MIT</span>
+
+<span class="kn">import</span> <span class="nn">dill</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">eye</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">vstack</span><span class="p">,</span> <span class="n">zeros</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_X_y</span><span class="p">,</span> <span class="n">check_array</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
+
+<span class="kn">from</span> <span class="nn">.metrics</span> <span class="kn">import</span> <span class="n">first_periodic_kernel</span>
+<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">DotProductKernel</span>
+<span class="kn">from</span> <span class="nn">.learningrate</span> <span class="kn">import</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">InvScaling</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.utils.estimator_checks</span> <span class="kn">import</span> <span class="n">MULTI_OUTPUT</span>
+
+<span class="c1"># When adding a new kernel, update this table and the _get_kernel_map</span>
+<span class="c1"># method</span>
+<span class="n">PAIRWISE_KERNEL_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;DGauss&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span>
+    <span class="s1">&#39;DPeriodic&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span>
+    <span class="s1">&#39;DotProduct&#39;</span><span class="p">:</span> <span class="n">DotProductKernel</span><span class="p">}</span>
+
+<span class="c1"># When adding a new learning rate, update this table and the _get_learning_rate</span>
+<span class="c1"># method</span>
+<span class="n">LEARNING_RATE_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;constant&#39;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+    <span class="s1">&#39;invscaling&#39;</span><span class="p">:</span> <span class="n">InvScaling</span><span class="p">}</span>
+
+<span class="n">MULTI_OUTPUT</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ONORMA&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ONORMA"><a class="viewcode-back" href="../../modules/onorma.html#operalib.onorma.ONORMA">[docs]</a><span class="k">class</span> <span class="nc">ONORMA</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Operator-Valued Operator-valued Naive Online Regularised Risk</span>
+<span class="sd">    Minimization Algorithm .</span>
+
+<span class="sd">    Operator-Valued kernel Operator-valued Naive Online Regularised Risk</span>
+<span class="sd">    Minimization Algorithm (ONORMA) hat extends the standard kernel-based</span>
+<span class="sd">    online learning algorithm NORMA from scalar-valued to operator-valued</span>
+<span class="sd">    setting</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    coef_ : array, shape = [n_features] or [n_targets, n_features]</span>
+<span class="sd">        Weight vector(s) in kernel space</span>
+
+<span class="sd">    linop_ : callable</span>
+<span class="sd">        Callable which associate to the training points X the Gram matrix (the</span>
+<span class="sd">        Gram matrix being a LinearOperator)</span>
+
+<span class="sd">    A_ : array, shape = [n_targets, n_targets]</span>
+<span class="sd">        Set when Linear operator used by the decomposable kernel is default or</span>
+<span class="sd">        None.</span>
+
+<span class="sd">    T_ : integer</span>
+<span class="sd">        Total number of iterations</span>
+
+<span class="sd">    n_ : integer</span>
+<span class="sd">        Total number of datapoints</span>
+
+<span class="sd">    p_ : integer</span>
+<span class="sd">        Dimensionality of the outputs</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    * Audiffren, Julien, and Hachem Kadri.</span>
+<span class="sd">      &quot;Online learning with multiple operator-valued kernels.&quot;</span>
+<span class="sd">      arXiv preprint arXiv:1311.0222 (2013).</span>
+
+<span class="sd">    * Kivinen, Jyrki, Alexander J. Smola, and Robert C. Williamson.</span>
+<span class="sd">      &quot;Online learning with kernels.&quot;</span>
+<span class="sd">      IEEE transactions on signal processing 52.8 (2004): 2165-2176.</span>
+
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    sklearn.Ridge</span>
+<span class="sd">        Linear ridge regression.</span>
+<span class="sd">    sklearn.KernelRidge</span>
+<span class="sd">        Kernel ridge regression.</span>
+<span class="sd">    sklearn.SVR</span>
+<span class="sd">        Support Vector Regression implemented using libsvm.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import operalib as ovk</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; n_samples, n_features, n_targets = 10, 5, 5</span>
+<span class="sd">    &gt;&gt;&gt; rng = np.random.RandomState(0)</span>
+<span class="sd">    &gt;&gt;&gt; y = rng.randn(n_samples, n_targets)</span>
+<span class="sd">    &gt;&gt;&gt; X = rng.randn(n_samples, n_features)</span>
+<span class="sd">    &gt;&gt;&gt; clf = ovk.ONORMA(&#39;DGauss&#39;, lbda=1.)</span>
+<span class="sd">    &gt;&gt;&gt; clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
+<span class="sd">    ONORMA(A=None, T=None, eta=1.0, gamma=None, kernel=&#39;DGauss&#39;, lbda=1.0,</span>
+<span class="sd">        learning_rate=&#39;invscaling&#39;, mu=0.2, power=0.5, random_state=0,</span>
+<span class="sd">        shuffle=True, truncation=None)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+                 <span class="n">T</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;invscaling&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">power</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize ONORMA.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        kernel : {string, callable}, default=&#39;DGauss&#39;</span>
+<span class="sd">            Kernel mapping used internally. A callable should accept two</span>
+<span class="sd">            arguments, and should return a LinearOperator.</span>
+
+<span class="sd">        lbda : {float}, default=1e-5</span>
+<span class="sd">            Small positive values of lbda improve the conditioning of the</span>
+<span class="sd">            problem and reduce the variance of the estimates.  Lbda corresponds</span>
+<span class="sd">            to ``(2*C)^-1`` in other linear models such as LogisticRegression</span>
+<span class="sd">            or LinearSVC.</span>
+
+<span class="sd">        T : {integer}, default=None</span>
+<span class="sd">            Number of iterations.</span>
+
+<span class="sd">        A : {LinearOperator, array-like, sparse matrix}, default=None</span>
+<span class="sd">            Linear operator used by the decomposable kernel. If default is</span>
+<span class="sd">            None, wich is set to identity matrix of size y.shape[1] when</span>
+<span class="sd">            fitting.</span>
+
+<span class="sd">        learning_rate : {Callable}</span>
+<span class="sd">            Learning rate, a function that return the step size at given step</span>
+
+<span class="sd">        truncation : learning_rate : {Callable}</span>
+<span class="sd">            TODO</span>
+
+<span class="sd">        gamma : {float}, default=None.</span>
+<span class="sd">            Gamma parameter for the Decomposable Gaussian kernel.</span>
+<span class="sd">            Ignored by other kernels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">=</span> <span class="n">lbda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncation</span> <span class="o">=</span> <span class="n">truncation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span>
+
+    <span class="k">def</span> <span class="nf">_validate_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># check on self.kernel is performed in method __get_kernel</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;lbda must be a positive scalar&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;mu must be a scalar between 0. and 1.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;T must be a positive integer&#39;</span><span class="p">)</span>
+        <span class="c1"># if self.A &lt; 0: # Check whether A is S PD would be really expensive</span>
+        <span class="c1">#     raise ValueError(&#39;A must be a symmetric positive operator&#39;)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;gamma must be positive or default (None)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_default_decomposable_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span>
+        <span class="k">elif</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># When adding a new kernel, update this table and the _get_kernel_map</span>
+        <span class="c1"># method</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">):</span>
+            <span class="n">ov_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="c1"># 1) check string and assign the right parameters</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;DGauss&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_decomposable_op</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="n">kernel_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_</span><span class="p">,</span> <span class="s1">&#39;scalar_kernel&#39;</span><span class="p">:</span> <span class="n">rbf_kernel</span><span class="p">,</span>
+                                 <span class="s1">&#39;scalar_kernel_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">}}</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;DotProduct&#39;</span><span class="p">:</span>
+                <span class="n">kernel_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mu&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;DPeriodic&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_decomposable_op</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">period_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="n">kernel_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">A_</span><span class="p">,</span>
+                                 <span class="s1">&#39;scalar_kernel&#39;</span><span class="p">:</span> <span class="n">first_periodic_kernel</span><span class="p">,</span>
+                                 <span class="s1">&#39;scalar_kernel_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span>
+                                                          <span class="s1">&#39;period&#39;</span><span class="p">:</span>
+                                                          <span class="bp">self</span><span class="o">.</span><span class="n">period_</span><span class="p">},</span> <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;unsupported kernel&#39;</span><span class="p">)</span>
+            <span class="c1"># 2) Uses lookup table to select the right kernel from string</span>
+            <span class="n">ov_kernel</span> <span class="o">=</span> <span class="n">PAIRWISE_KERNEL_FUNCTIONS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">](</span><span class="o">**</span><span class="n">kernel_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;unsupported kernel&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ov_kernel</span>
+
+    <span class="k">def</span> <span class="nf">_get_learning_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="c1"># 1) check string and assign the right parameters</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">==</span> <span class="s1">&#39;constant&#39;</span><span class="p">:</span>
+                <span class="n">lr_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eta&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="p">}</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">==</span> <span class="s1">&#39;invscaling&#39;</span><span class="p">:</span>
+                <span class="n">lr_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eta&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="p">,</span> <span class="s1">&#39;power&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;unsupported kernel&#39;</span><span class="p">)</span>
+            <span class="n">lr</span> <span class="o">=</span> <span class="n">LEARNING_RATE_FUNCTIONS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">](</span><span class="o">**</span><span class="n">lr_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s1">&#39;unsupported learning rate&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lr</span>
+
+    <span class="k">def</span> <span class="nf">_decision_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ov_kernel_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pred</span>
+
+<div class="viewcode-block" id="ONORMA.predict"><a class="viewcode-back" href="../../modules/onorma.html#operalib.onorma.ONORMA.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predict using ONORMA model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        C : {array}, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">            Returns predicted values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;coefs_&#39;</span><span class="p">,</span> <span class="s1">&#39;t_&#39;</span><span class="p">,</span> <span class="s1">&#39;p_&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;X_seen_&#39;</span><span class="p">,</span> <span class="s1">&#39;y_seen_&#39;</span><span class="p">],</span> <span class="n">all_or_any</span><span class="o">=</span><span class="nb">all</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decision_function</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ONORMA.partial_fit"><a class="viewcode-back" href="../../modules/onorma.html#operalib.onorma.ONORMA.partial_fit">[docs]</a>    <span class="k">def</span> <span class="nf">partial_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Partial fit of ONORMA model.</span>
+
+<span class="sd">        This method is usefull for online learning for instance.</span>
+<span class="sd">        Must call</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Training data.</span>
+
+<span class="sd">        y : {array-like}, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">            Target values.</span>
+
+<span class="sd">        n : {integer}</span>
+<span class="sd">            Total number of data.</span>
+<span class="sd">            This argument is required for the first call to partial_fit and can</span>
+<span class="sd">            be omitted in the subsequent calls.</span>
+
+<span class="sd">        p : {integer}</span>
+<span class="sd">            Dimensionality of the outputs.</span>
+<span class="sd">            This argument is required for the first call to partial_fit and can</span>
+<span class="sd">            be omitted in the subsequent calls.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">Xt</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">X</span>
+        <span class="n">yt</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">y</span>
+        <span class="n">init</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;coefs_&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;t_&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;t_&#39;</span><span class="p">):</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">init</span><span class="p">:</span>
+            <span class="n">Xtt</span> <span class="o">=</span> <span class="n">Xt</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">ytt</span> <span class="o">=</span> <span class="n">yt</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">=</span> <span class="n">Xtt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p_</span> <span class="o">=</span> <span class="n">ytt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_learning_rate</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span> <span class="o">=</span> <span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">)</span>
+            <span class="n">eta_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ravel</span><span class="p">(</span><span class="n">eta_t</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">ytt</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span> <span class="o">=</span> <span class="n">Xtt</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y_seen_</span> <span class="o">=</span> <span class="n">ytt</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ov_kernel_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_seen_</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># Reshape if self.coefs_ has not been preallocated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">init</span> <span class="k">else</span> <span class="n">n</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">init</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">Xtt</span> <span class="o">=</span> <span class="n">Xt</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">ytt</span> <span class="o">=</span> <span class="n">yt</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">eta_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Update weights</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">eta_t</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decision_function</span><span class="p">(</span><span class="n">Xtt</span><span class="p">)</span> <span class="o">-</span> <span class="n">ytt</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">eta_t</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span><span class="p">)</span>
+
+            <span class="c1"># Update seen data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span> <span class="o">=</span> <span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span><span class="p">,</span> <span class="n">Xtt</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y_seen_</span> <span class="o">=</span> <span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">y_seen_</span><span class="p">,</span> <span class="n">ytt</span><span class="p">))</span>
+
+            <span class="c1"># prepare next step</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ONORMA.fit"><a class="viewcode-back" href="../../modules/onorma.html#operalib.onorma.ONORMA.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit ONORMA model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Training data.</span>
+
+<span class="sd">        y : {array-like}, shape = [n_samples] or [n_samples, n_targets]</span>
+<span class="sd">            Target values.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">y_numeric</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">multi_output</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_</span><span class="p">):</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_</span><span class="p">):</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Romain Brault.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

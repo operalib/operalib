@@ -15,7 +15,7 @@ import time
 
 np.random.seed(0)
 
-n = 1000
+n = 5000
 d = 20
 p = 4
 X = np.random.rand(n, d)
@@ -44,41 +44,39 @@ y = np.dot(phi(X), np.random.multivariate_normal(np.zeros(7),
 # Link components to a common mean.
 y = .5 * y + 0.5 * np.mean(y, axis=1).reshape(-1, 1)
 
-est = ovk.ONORMA('DGauss', A=.8 * np.eye(p) + .2 * np.ones((p, p)), gamma=.25,
-                 learning_rate=ovk.InvScaling(1., 0.5), lbda=0.00001)
-
-print('Fitting Joint...')
-start = time.time()
-err = np.empty(n)
-err[0] = np.linalg.norm(y[0, :]) ** 2
-est.partial_fit(X[0, :].reshape(1, -1), y[0, :])
-for t in range(1, n):
-    err[t] = np.linalg.norm(est.predict(X[t, :].reshape(1, -1)) - y[t, :]) ** 2
-    est.partial_fit(X[t, :].reshape(1, -1), y[t, :])
-print('Joint training time:', time.time() - start)
-print('Joint MSE:', err[-1])
-
-err_c = np.cumsum(err) / (np.arange(n) + 1)
-plt.semilogy(np.linspace(0, 100, err_c.size), err_c, label='Joint')
-
-est = ovk.ONORMA('DGauss', A=1. * np.eye(p) + .0 * np.ones((p, p)), gamma=.25,
-                 learning_rate=ovk.InvScaling(1., 0.5), lbda=0.00001)
-
+est = ovk.ONORMA('DGauss', A=1. * np.eye(p) + .0 * np.ones((p, p)), gamma=.1,
+                 learning_rate=ovk.InvScaling(1.0, 0.5), lbda=0.00001)
 print('Fitting Independant...')
 start = time.time()
-err = np.empty(n)
-err[0] = np.linalg.norm(y[0, :]) ** 2
+err_i = np.empty(n)
+err_i[0] = np.linalg.norm(y[0, :]) ** 2
 est.partial_fit(X[0, :].reshape(1, -1), y[0, :])
-for t in range(n):
-    err[t] = np.linalg.norm(est.predict(X[t, :].reshape(1, -1)) - y[t, :]) ** 2
-    est.partial_fit(X[t, :].reshape(1, -1), y[t, :])
+for t in range(1, n):
+    err_i[t] = np.linalg.norm(est.predict(X[t, :].reshape(1, -1)) -
+                              y[t, :]) ** 2
+    est.partial_fit(X[t, :], y[t, :])
+err_ci = np.cumsum(err_i) / (np.arange(n) + 1)
 print('Independant training time:', time.time() - start)
-print('Independant MSE:', err[-1])
+print('Independant MSE:', err_ci[-1])
+plt.semilogy(np.linspace(0, 100, err_ci.size), err_ci, label='Independant')
 
-err_c = np.cumsum(err) / (np.arange(n) + 1)
-plt.semilogy(np.linspace(0, 100, err_c.size), err_c, label='Independant')
+est = ovk.ONORMA('DGauss', A=.9 * np.eye(p) + 0.1 * np.ones((p, p)), gamma=.1,
+                 learning_rate=ovk.InvScaling(1.0, 0.5), lbda=0.00001)
+print('Fitting Joint...')
+start = time.time()
+err_j = np.empty(n)
+err_j[0] = np.linalg.norm(y[0, :]) ** 2
+est.partial_fit(X[0, :].reshape(1, -1), y[0, :])
+for t in range(1, n):
+    err_j[t] = np.linalg.norm(est.predict(X[t, :].reshape(1, -1)) -
+                              y[t, :]) ** 2
+    est.partial_fit(X[t, :], y[t, :])
+err_cj = np.cumsum(err_j) / (np.arange(n) + 1)
+print('Joint training time:', time.time() - start)
+print('Joint MSE:', err_cj[-1])
+plt.semilogy(np.linspace(0, 100, err_cj.size), err_cj, label='Joint')
 
-plt.ylim(2.5e-2, 1.5e-1)
+plt.ylim(0.017, 1.2e-1)
 plt.title('Online learning with ONORMA')
 plt.xlabel('Size of the Training set (%)')
 plt.ylabel('MSE')

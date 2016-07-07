@@ -1,5 +1,8 @@
 .. -*- mode: rst -*-
 
+.. |PyPi| image:: https://badge.fury.io/py/operalib.svg
+.. _PyPi: https://pypi.python.org/pypi/operalib
+
 .. |Travis| image:: https://travis-ci.org/operalib/operalib.svg?branch=master
 .. _Travis: https://travis-ci.org/operalib/operalib
 

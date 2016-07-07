@@ -10,16 +10,105 @@ from sklearn.metrics.pairwise import rbf_kernel
 
 
 class DotProductKernel(object):
+    r"""
+    Dot product Operator-Valued Kernel of the form:
+
+    .. math::
+        x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
+        y \rangle^2 I_p
+
+    Attributes
+    ----------
+    mu : {array, LinearOperator}, shape = [n_targets, n_targets]
+        Tradeoff between shared and independant components
+
+    p : {Int}
+        dimension of the targets (n_targets).
+
+    References
+    ----------
+
+    See also
+    --------
+
+    DotProductKernelMap
+        Dot Product Kernel Map
+
+    Examples
+    --------
+    >>> import operalib as ovk
+    >>> import numpy as np
+    >>> X = np.random.randn(100, 10)
+    >>> K = ovk.DotProductKernel(mu=.2, p=5)
+    >>> # The kernel matrix as a linear operator
+    >>> K(X, X)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <500x500 _CustomLinearOperator with dtype=float64>
+    """
 
     def __init__(self, mu, p):
+        """Initialize the  Dot product Operator-Valued Kernel.
+
+        Parameters
+        ----------
+
+        mu : {float}
+            Tradeoff between shared and independant components.
+
+        p : {integer}
+            dimension of the targets (n_targets).
+        """
         self.mu = mu
         self.p = p
 
     def get_kernel_map(self, X):
+        r"""Return the kernel map associated with the data X.
+
+        .. math::
+               K_x: Y \mapsto K(X, Y)
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Samples.
+
+        Returns
+        -------
+        K_x : DotProductKernelMap, callable
+
+        .. math::
+            K_x: Y \mapsto K(X, Y).
+        """
         from .kernel_maps import DotProductKernelMap
         return DotProductKernelMap(X, self.mu, self.p)
 
     def __call__(self, X, Y=None):
+        r"""Return the kernel map associated with the data X.
+
+        .. math::
+               K_x: \begin{cases}
+               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K(X, Y) \enskip\text{otherwise.}
+               \end{cases}
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples1, n_features]
+            Samples.
+
+        Y : {array-like, sparse matrix}, shape = [n_samples2, n_features],
+                                          default = None
+            Samples.
+
+        Returns
+        -------
+        K_x : DotProductKernelMap, callable or LinearOperator
+
+            .. math::
+               K_x: \begin{cases}
+               Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
+               K(X, Y) \enskip\text{otherwise}
+               \end{cases}
+        """
         Kmap = self.get_kernel_map(X)
         if Y is None:
             return Kmap
@@ -48,9 +137,6 @@ class DecomposableKernel(object):
     scalar_kernel_params : {mapping of string to any}
         Additional parameters (keyword arguments) for kernel function passed as
         callable object.
-
-    p : {Int}
-        dimension of the targets (n_targets).
 
     References
     ----------

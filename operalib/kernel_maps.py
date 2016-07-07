@@ -27,6 +27,54 @@ else:
 
 
 class DotProductKernelMap(DotProductKernel):
+    r"""
+    Dot Product Operator-Valued Kernel map of the form:
+
+    .. math::
+        x \mapsto K_X(y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
+        y \rangle^2 I_p
+
+    This class just fixes the support data X to the kernel. Hence it
+    naturally inherit from DecomposableKernel.
+
+    Attributes
+    ----------
+
+    n : {Int}
+        Number of samples.
+
+    d : {Int}
+        Number of features.
+
+    X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+        Support samples.
+
+    Gs : {array-like, sparse matrix}, shape = [n, n]
+        Gram matrix associated with the scalar kernel.
+
+    References
+    ----------
+
+    See also
+    --------
+
+    DotProductKernel
+        Dot Product Kernel
+
+    Examples
+    --------
+    >>> import operalib as ovk
+    >>> import numpy as np
+    >>> X = np.random.randn(100, 10)
+    >>> K = ovk.DotProductKernel(mu=0.2, p=5)
+    >>> Gram = K(X, X)
+    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <500x500 _CustomLinearOperator with dtype=float64>
+    >>> C = np.random.randn(Gram.shape[0])
+    >>> Kx = K(X)  # The kernel map.
+    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    True
+    """
 
     def __init__(self, X, mu, p):
         """Initialize the DotProduct Operator-Valued Kernel.

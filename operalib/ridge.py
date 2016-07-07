@@ -94,7 +94,7 @@ class Ridge(BaseEstimator, RegressorMixin):
     >>> clf = ovk.Ridge('DGauss', lbda=1.0)
     >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     Ridge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
-       kernel_params=None, lbda=1.0, period='autocorr',
+       lbda=1.0, period='autocorr',
        solver=<function fmin_l_bfgs_b at ...>, solver_params=None,
        theta=0.7)
     """
@@ -103,7 +103,7 @@ class Ridge(BaseEstimator, RegressorMixin):
                  kernel='DGauss', lbda=1e-5,
                  A=None, gamma=None, theta=0.7, period='autocorr',
                  autocorr_params=None,
-                 solver=fmin_l_bfgs_b, solver_params=None, kernel_params=None):
+                 solver=fmin_l_bfgs_b, solver_params=None):
         """Initialize OVK ridge regression model.
 
         Parameters
@@ -111,8 +111,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
         kernel : {string, callable}, default='DGauss'
             Kernel mapping used internally. A callable should accept two
-            arguments and the keyword arguments passed to this object as
-            kernel_params, and should return a LinearOperator.
+            arguments, and should return a LinearOperator.
 
         lbda : {float}, default=1e-5
             Small positive values of lbda improve the conditioning of the
@@ -151,10 +150,6 @@ class Ridge(BaseEstimator, RegressorMixin):
         solver_params : {mapping of string to any}, optional
             Additional parameters (keyword arguments) for solver function
             passed as callable object.
-
-        kernel_params : {mapping of string to any}, optional
-            Additional parameters (keyword arguments) for kernel function
-            passed as callable object.
         """
         self.kernel = kernel
         self.lbda = lbda
@@ -165,7 +160,6 @@ class Ridge(BaseEstimator, RegressorMixin):
         self.autocorr_params = autocorr_params
         self.solver = solver
         self.solver_params = solver_params
-        self.kernel_params = kernel_params
 
     def _validate_params(self):
         # check on self.kernel is performed in method __get_kernel
@@ -205,8 +199,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         # When adding a new kernel, update this table and the _get_kernel_map
         # method
         if callable(self.kernel):
-            kernel_params = self.kernel_params or {}
-            ov_kernel = self.kernel(**kernel_params)
+            ov_kernel = self.kernel
         elif type(self.kernel) is str:
             # 1) check string and assign the right parameters
             if self.kernel == 'DGauss':

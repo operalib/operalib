@@ -29,7 +29,9 @@ We aim at providing an easy-to-use standard implementation of operator-valued
 kernel methods. Operalib is designed for compatilibity to
 `scikit-learn <http://scikit-learn.org>`_ interface and conventions.
 It uses `numpy <http://www.numpy.org>`_,
-`scipy <http://www.scipy.org>`_ and `cvxopt <http://www.cvxopt.org>`_ as underlying libraries.
+`scipy <http://www.scipy.org>`_ and `cvxopt <http://www.cvxopt.org>`_ as
+underlying libraries. It also relies on
+`dill <https://pypi.python.org/pypi/dill>`_ for lambda pickling.
 
 The project is developed by the
 `AROBAS <https://www.ibisc.univ-evry.fr/arobas>`_ group of the

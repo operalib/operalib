@@ -6,22 +6,35 @@ Regularised Risk Minimization Algorithm (ONORMA)
 #         the scikit-learn community.
 # License: MIT
 
-from numpy import reshape, eye, zeros, ravel, vstack
+import dill
+
+from numpy import eye, empty, ravel, vstack, zeros
 
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.metrics.pairwise import rbf_kernel
-from sklearn.utils import check_X_y, check_array, shuffle
+from sklearn.utils import check_X_y, check_array
 from sklearn.utils.validation import check_is_fitted
 
 from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel, DotProductKernel
-from .learningrate import Constant
+from .learningrate import Constant, InvScaling
 
+from sklearn.utils.estimator_checks import MULTI_OUTPUT
 
+# When adding a new kernel, update this table and the _get_kernel_map
+# method
 PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
     'DPeriodic': DecomposableKernel,
     'DotProduct': DotProductKernel}
+
+# When adding a new learning rate, update this table and the _get_learning_rate
+# method
+LEARNING_RATE_FUNCTIONS = {
+    'constant': Constant,
+    'invscaling': InvScaling}
+
+MULTI_OUTPUT.append('ONORMA')
 
 
 class ONORMA(BaseEstimator, RegressorMixin):
@@ -84,17 +97,17 @@ class ONORMA(BaseEstimator, RegressorMixin):
     >>> rng = np.random.RandomState(0)
     >>> y = rng.randn(n_samples, n_targets)
     >>> X = rng.randn(n_samples, n_features)
-    >>> clf = ovk.ONORMA('DGauss', lbda=1.0)
+    >>> clf = ovk.ONORMA('DGauss', lbda=1.)
     >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    ONORMA(A=None, T=None, gamma=None, kernel='DGauss', kernel_params=None,
-        lbda=1.0, learning_rate=None, mu=0.2, random_state=0, shuffle=True,
-        truncation=None)
+    ONORMA(A=None, T=None, eta=1.0, gamma=None, kernel='DGauss', lbda=1.0,
+        learning_rate='invscaling', mu=0.2, power=0.5, random_state=0,
+        shuffle=True, truncation=None)
     """
 
     def __init__(self, kernel='DGauss', lbda=1e-5,
-                 T=None, A=None, learning_rate=None, truncation=None,
-                 gamma=None, mu=0.2, kernel_params=None, shuffle=True,
-                 random_state=0):
+                 T=None, A=None, learning_rate='invscaling', truncation=None,
+                 gamma=None, mu=0.2, eta=1., power=.5,
+                 shuffle=True, random_state=0):
         """Initialize ONORMA.
 
         Parameters
@@ -102,8 +115,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
 
         kernel : {string, callable}, default='DGauss'
             Kernel mapping used internally. A callable should accept two
-            arguments and the keyword arguments passed to this object as
-            kernel_params, and should return a LinearOperator.
+            arguments, and should return a LinearOperator.
 
         lbda : {float}, default=1e-5
             Small positive values of lbda improve the conditioning of the
@@ -128,10 +140,6 @@ class ONORMA(BaseEstimator, RegressorMixin):
         gamma : {float}, default=None.
             Gamma parameter for the Decomposable Gaussian kernel.
             Ignored by other kernels.
-
-        kernel_params : {mapping of string to any}, optional
-            Additional parameters (keyword arguments) for kernel function
-            passed as callable object.
         """
         self.kernel = kernel
         self.lbda = lbda
@@ -141,9 +149,10 @@ class ONORMA(BaseEstimator, RegressorMixin):
         self.truncation = truncation
         self.gamma = gamma
         self.mu = mu
-        self.kernel_params = kernel_params
         self.shuffle = shuffle
         self.random_state = random_state
+        self.eta = eta
+        self.power = power
 
     def _validate_params(self):
         # check on self.kernel is performed in method __get_kernel
@@ -172,8 +181,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
         # When adding a new kernel, update this table and the _get_kernel_map
         # method
         if callable(self.kernel):
-            kernel_params = self.kernel_params or {}
-            ov_kernel = self.kernel(**kernel_params)
+            ov_kernel = self.kernel
         elif type(self.kernel) is str:
             # 1) check string and assign the right parameters
             if self.kernel == 'DGauss':
@@ -196,13 +204,29 @@ class ONORMA(BaseEstimator, RegressorMixin):
             ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.kernel](**kernel_params)
         else:
             raise NotImplemented('unsupported kernel')
-        return ov_kernel(X)
+        return ov_kernel
+
+    def _get_learning_rate(self):
+        if callable(self.learning_rate):
+            return self.learning_rate
+        elif type(self.learning_rate) is str:
+            # 1) check string and assign the right parameters
+            if self.learning_rate == 'constant':
+                lr_params = {'eta': self.eta}
+            elif self.learning_rate == 'invscaling':
+                lr_params = {'eta': self.eta, 'power': self.power}
+            else:
+                raise NotImplemented('unsupported kernel')
+            lr = LEARNING_RATE_FUNCTIONS[self.learning_rate](**lr_params)
+        else:
+            raise NotImplemented('unsupported learning rate')
+        return lr
 
     def _decision_function(self, X):
-        self.linop_ = self._get_kernel_map(self.X_seen_, self.y_seen_)
+        self.linop_ = self.ov_kernel_(self.X_seen_)
         pred = self.linop_(X) * self.coefs_[:self.t_ * self.p_]
 
-        return reshape(pred, (X.shape[0], -1)) if self.linop_.p > 1 else pred
+        return pred.reshape(X.shape[0], -1) if self.linop_.p > 1 else pred
 
     def predict(self, X):
         """Predict using ONORMA model.
@@ -217,11 +241,12 @@ class ONORMA(BaseEstimator, RegressorMixin):
         C : {array}, shape = [n_samples] or [n_samples, n_targets]
             Returns predicted values.
         """
-        check_is_fitted(self, ['coefs_', 'n_', 'p_'], all_or_any=all)
+        check_is_fitted(self, ['coefs_', 't_', 'p_',
+                               'X_seen_', 'y_seen_'], all_or_any=all)
         X = check_array(X)
         return self._decision_function(X)
 
-    def partial_fit(self, X, y, n=None, p=None):
+    def partial_fit(self, X, y):
         """Partial fit of ONORMA model.
 
         This method is usefull for online learning for instance.
@@ -249,48 +274,48 @@ class ONORMA(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        if (n is not None) and (p is not None):
-            X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-                             y_numeric=True, multi_output=True)
-            self._validate_params()
+        n = 1 if X.ndim <= 1 else X.shape[0]
+        Xt = X.reshape(n, -1) if X.ndim <= 1 else X
+        yt = y.reshape(n, -1) if y.ndim <= 1 else y
+        init = not (hasattr(self, 'coefs_') and hasattr(self, 't_'))
+        if hasattr(self, 't_'):
+            init = self.t_ == 0
+        if init:
+            Xtt = Xt[0, :].reshape(1, -1)
+            ytt = yt[0, :].reshape(1, -1)
+            self.d_ = Xtt.shape[1]
+            self.p_ = ytt.shape[1]
 
-            self.n_ = n
-            self.d_ = X.shape[1]
-            self.p_ = y.shape[1]
+            self.learning_rate_ = self._get_learning_rate()
 
-            if self.T is None:
-                self.T_ = n
-            else:
-                self.T_ = self.T
-            if self.learning_rate is None:
-                self.learning_rate_ = Constant(1.)
-            else:
-                self.learning_rate_ = self.learning_rate
+            self.coefs_ = empty(self.p_)
+            eta_t = self.learning_rate_(1)
+            self.coefs_[:self.p_] = -ravel(eta_t * (0 - ytt))
+            self.X_seen_ = Xtt
+            self.y_seen_ = ytt
 
-            self.coefs_ = zeros(self.T_ * p)
+            self.ov_kernel_ = self._get_kernel_map(self.X_seen_, self.y_seen_)
 
-            self.t_ = 0
+            self.t_ = 1
+
+        # Reshape if self.coefs_ has not been preallocated
+        self.coefs_.resize((self.t_ + (n - 1 if init else n)) * self.p_)
+        for idx in range(1 if init else 0, n):
+            Xtt = Xt[idx, :].reshape(1, -1)
+            ytt = yt[idx, :].reshape(1, -1)
             eta_t = self.learning_rate_(self.t_ + 1)
 
-            self.coefs_[self.t_ * self.p_:(self.t_ + 1) * self.p_] -= ravel(
-                eta_t * (0 - y))
-            self.X_seen_ = X
-            self.y_seen_ = y
+            # Update weights
+            self.coefs_[self.t_ * self.p_:(self.t_ + 1) * self.p_] = -ravel(
+                eta_t * (self._decision_function(Xtt) - ytt))
+            self.coefs_[:self.t_ * self.p_] *= (1. - eta_t * self.lbda)
 
+            # Update seen data
+            self.X_seen_ = vstack((self.X_seen_, Xtt))
+            self.y_seen_ = vstack((self.y_seen_, ytt))
+
+            # prepare next step
             self.t_ += 1
-
-            return self
-
-        eta_t = self.learning_rate_(self.t_ + 1)
-
-        self.coefs_[self.t_ * self.p_:(self.t_ + 1) * self.p_] -= ravel(
-            eta_t * (self._decision_function(X) - y))
-        self.coefs_[:self.t_ * self.p_] *= (1. - eta_t * self.lbda)
-
-        self.X_seen_ = vstack((self.X_seen_, X))
-        self.y_seen_ = vstack((self.y_seen_, y))
-
-        self.t_ += 1
 
         return self
 
@@ -309,17 +334,19 @@ class ONORMA(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-                         y_numeric=True, multi_output=True)
+        X, y = check_X_y(X, y, None, y_numeric=True, multi_output=True)
+        self._validate_params()
+        self.T_ = X.shape[0] if self.T is None else self.T
 
-        n = X.shape[0]
-        p = y.shape[1]
-
-        self.partial_fit(X[0, :].reshape(1, -1),
-                         y[0, :].reshape(1, -1), n, p)
-        for self.t_ in range(1, self.T_):
-            idx = self.t_ % self.n_
-            self.partial_fit(X[idx, :].reshape(1, -1),
-                             y[idx, :].reshape(1, -1))
-
+        self.t_ = 0
+        if y.ndim > 1:
+            self.coefs_ = zeros(self.T_ * y.shape[1])
+            for i in range(self.T_):
+                idx = i % X.shape[0]
+                self.partial_fit(X[idx, :], y[idx, :])
+        else:
+            self.coefs_ = zeros(self.T_)
+            for i in range(self.T_):
+                idx = i % X.shape[0]
+                self.partial_fit(X[idx, :], y[idx])
         return self

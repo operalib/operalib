@@ -18,8 +18,8 @@ def test_valid_estimator():
 def test_learn_quantile():
     """Test OVK quantile estimator fit, predict."""
     probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-    x_train, y_train, z_train = ovk.generate_quantile_data(50)
-    x_test, y_test, z_test = ovk.generate_quantile_data(1000, probs=probs)
+    x_train, y_train, z_train = ovk.toy_data_quantile(50)
+    x_test, y_test, z_test = ovk.toy_data_quantile(1000, probs=probs)
 
     # Joint quantile regression
     lbda = 1e-2

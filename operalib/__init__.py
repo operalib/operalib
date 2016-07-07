@@ -65,10 +65,10 @@ else:
     from .quantile import Quantile
     from .metrics import first_periodic_kernel
     from .signal import get_period
-    from .datasets.vectorfield import generate_2D_curl_free_field, \
-        generate_2D_curl_free_mesh, mesh2array, array2mesh, \
-        generate_2D_div_free_field, generate_2D_div_free_mesh
-    from .datasets.quantile import generate_quantile_data
+    from .datasets.vectorfield import toy_data_curl_free_field, \
+        toy_data_curl_free_mesh, mesh2array, array2mesh, \
+        toy_data_div_free_field, toy_data_div_free_mesh
+    from .datasets.quantile import toy_data_quantile
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
                'DotProductKernel',
@@ -77,6 +77,6 @@ else:
                'first_periodic_kernel',
                'get_period',
                'Ridge', 'Quantile', 'ONORMA',
-               'generate_2D_curl_free_field', 'generate_2D_curl_free_mesh',
-               'generate_2D_div_free_field', 'generate_2D_div_free_mesh',
-               'mesh2array', 'array2mesh', 'generate_quantile_data']
+               'toy_data_curl_free_field', 'toy_data_curl_free_mesh',
+               'toy_data_div_free_field', 'toy_data_div_free_mesh',
+               'mesh2array', 'array2mesh', 'toy_data_quantile']

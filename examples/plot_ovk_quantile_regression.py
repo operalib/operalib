@@ -15,7 +15,7 @@ constraints.
 
 # -*- coding: utf-8 -*-
 
-from operalib import Quantile, generate_quantile_data
+from operalib import Quantile, toy_data_quantile
 
 import numpy as np
 import time
@@ -25,8 +25,8 @@ np.random.seed(0)
 
 print("Creating dataset...")
 probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-x_train, y_train, z_train = generate_quantile_data(50)
-x_test, y_test, z_test = generate_quantile_data(1000, probs=probs)
+x_train, y_train, z_train = toy_data_quantile(50)
+x_test, y_test, z_test = toy_data_quantile(1000, probs=probs)
 
 print("Fitting...")
 # Joint quantile regression

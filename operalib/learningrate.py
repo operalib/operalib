@@ -24,7 +24,7 @@ def Constant(eta=1.):
     return lambda t: float(eta)
 
 
-def InvScaling(eta0=1., power=1.):
+def InvScaling(eta=1., power=1.):
     r"""Constant learnin rate.
 
     .. math::
@@ -40,4 +40,4 @@ def InvScaling(eta0=1., power=1.):
     -------
     eta : Callable
     """
-    return lambda t: float(eta0) / t ** power
+    return lambda t: float(eta) / t ** power

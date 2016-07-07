@@ -22,7 +22,7 @@ regression.
 
  Out::
 
-      R2 curl-free ridge:  0.747493775808
+      R2 curl-free ridge:  0.744308419138
     R2 independant ridge:  0.662694234336
 
 
@@ -81,7 +81,7 @@ regression.
     plt.show()
 
 **Total running time of the script:**
-(0 minutes 14.503 seconds)
+(0 minutes 8.936 seconds)
 
 
 

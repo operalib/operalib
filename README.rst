@@ -15,13 +15,12 @@
 .. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _Python35: https://github.com/operalib/operalib
 
-.. |PyPi| image:: https://badge.fury.io/py/operalib.svg
-    :target: https://badge.fury.io/py/operalib
-
+.. |PyPi|:: https://badge.fury.io/py/operalib.svg
+.. _PyPi: https://badge.fury.io/py/operalib
 
 Operalib
 ========
-|Travis|_ |Coveralls|_ |CircleCI|_ |Python27|_ |Python35|_
+|PyPi|_ |Travis|_ |Coveralls|_ |CircleCI|_ |Python27|_ |Python35|_
 
 Operalib is a library for structured learning and prediction for
 `python <https://www.python.org>`_ based on operator-valued kernels (OVKs).

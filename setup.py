@@ -172,6 +172,7 @@ def get_numpy_status():
         numpy_status['version'] = ""
     return numpy_status
 
+
 def generate_cython():
     cwd = os.path.abspath(os.path.dirname(__file__))
     print("Cythonizing sources")
@@ -208,11 +209,9 @@ def setup_package():
                                  'Operating System :: Unix',
                                  'Operating System :: MacOS',
                                  'Programming Language :: Python :: 2',
-                                 'Programming Language :: Python :: 2.6',
                                  'Programming Language :: Python :: 2.7',
                                  'Programming Language :: Python :: 3',
-                                 'Programming Language :: Python :: 3.3',
-                                 'Programming Language :: Python :: 3.4',
+                                 'Programming Language :: Python :: 3.5',
                                  ],
                     cmdclass=cmdclass_operalib,
                     **extra_setuptools_args)

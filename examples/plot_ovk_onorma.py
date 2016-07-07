@@ -15,7 +15,7 @@ import time
 
 np.random.seed(0)
 
-n = 5000
+n = 1000
 d = 20
 p = 4
 X = np.random.rand(n, d)
@@ -78,7 +78,7 @@ print('Independant MSE:', err[-1])
 err_c = np.cumsum(err) / (np.arange(n) + 1)
 plt.semilogy(np.linspace(0, 100, err_c.size), err_c, label='Independant')
 
-plt.ylim(1e-2, 1.1e-1)
+plt.ylim(2.5e-2, 1.5e-1)
 plt.title('Online learning with ONORMA')
 plt.xlabel('Size of the Training set (%)')
 plt.ylabel('MSE')

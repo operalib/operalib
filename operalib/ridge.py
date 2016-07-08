@@ -4,6 +4,7 @@ regression.
 """
 # Author: Romain Brault <romain.brault@telecom-paristech.fr> with help from
 #         the scikit-learn community.
+#         Maxime Sangnier <maxime.sangnier@gmail.com>
 # License: MIT
 
 from scipy.optimize import fmin_l_bfgs_b

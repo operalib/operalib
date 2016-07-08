@@ -4,7 +4,7 @@
 .. _Travis: https://travis-ci.org/operalib/operalib
 
 .. |Coveralls| image:: https://coveralls.io/repos/github/operalib/operalib/badge.svg?branch=master
-.. _Coveralls: https://coveralls.io/github/operalib/operalib ?branch=master
+.. _Coveralls: https://coveralls.io/github/operalib/operalib?branch=master
 
 .. |CircleCI| image:: https://circleci.com/gh/operalib/operalib/tree/master.svg?style=shield&circle-token=:circle-token
 .. _CircleCI: https://circleci.com/gh/operalib/operalib

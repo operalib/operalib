@@ -31,7 +31,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
     (linear least squares with l2-norm regularization) with the (OV)kernel
-    trick. It thus learns a linear function in the space induced by the
+    trick. It learns a linear function in the space induced by the
     respective kernel and the data. For non-linear kernels, this corresponds to
     a non-linear function in the original space.
 

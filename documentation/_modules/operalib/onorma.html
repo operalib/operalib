@@ -153,8 +153,6 @@
 <span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">DotProductKernel</span>
 <span class="kn">from</span> <span class="nn">.learningrate</span> <span class="kn">import</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">InvScaling</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.utils.estimator_checks</span> <span class="kn">import</span> <span class="n">MULTI_OUTPUT</span>
-
 <span class="c1"># When adding a new kernel, update this table and the _get_kernel_map</span>
 <span class="c1"># method</span>
 <span class="n">PAIRWISE_KERNEL_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
@@ -167,8 +165,6 @@
 <span class="n">LEARNING_RATE_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;constant&#39;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
     <span class="s1">&#39;invscaling&#39;</span><span class="p">:</span> <span class="n">InvScaling</span><span class="p">}</span>
-
-<span class="n">MULTI_OUTPUT</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ONORMA&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ONORMA"><a class="viewcode-back" href="../../modules/onorma.html#operalib.onorma.ONORMA">[docs]</a><span class="k">class</span> <span class="nc">ONORMA</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">):</span>

@@ -104,5 +104,4 @@ def test_learn_ONORMA_dot_fit():
                      gamma=.25, learning_rate=ovk.InvScaling(.05, .25),
                      lbda=0.00001)
     est.fit(X, y)
-    print(est.score(X, y))
     assert est.score(X, y) >= 0.5

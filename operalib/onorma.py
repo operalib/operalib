@@ -34,7 +34,7 @@ LEARNING_RATE_FUNCTIONS = {
 
 
 class ONORMA(BaseEstimator, RegressorMixin):
-    """Operator-Valued Operator-valued Naive Online Regularised Risk
+    """Operator-valued Naive Online Regularised Risk
     Minimization Algorithm .
 
     Operator-Valued kernel Operator-valued Naive Online Regularised Risk

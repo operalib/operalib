@@ -38,7 +38,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
     Minimization Algorithm .
 
     Operator-Valued kernel Operator-valued Naive Online Regularised Risk
-    Minimization Algorithm (ONORMA) hat extends the standard kernel-based
+    Minimization Algorithm (ONORMA) extends the standard kernel-based
     online learning algorithm NORMA from scalar-valued to operator-valued
     setting
 

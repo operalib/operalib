@@ -9,7 +9,7 @@ regression.
 
 from scipy.optimize import fmin_l_bfgs_b
 from scipy.sparse.linalg import LinearOperator
-from numpy import reshape, eye, zeros, empty, dot, any, isnan
+from numpy import reshape, eye, zeros, empty, dot, any, isnan, diag
 
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
@@ -27,6 +27,13 @@ PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
     'DPeriodic': DecomposableKernel, }
 
+# graph_Laplacian(rbf_kernel(X, gamma=1,))
+
+
+def _graph_Laplacian(similarities):
+    M = similarities.sum(axis=1)
+    return diag(M) - similarities
+
 
 class _SemisupLinop:
 
@@ -40,7 +47,7 @@ class _SemisupLinop:
 
     def _dot_U(self, vec):
         mat = vec.reshape((self.ns + self.ls, self.p))
-        res = empty((self.ns + self.ls, mat.shape[1]))
+        res = empty((self.ns + self.ls, self.p))
         res[self.B, :] = mat[self.B, :]
         res[~self.B, :] = self.lbda2 * dot(self.L, mat[~self.B, :])
 
@@ -68,7 +75,7 @@ class _SemisupLinop:
 
 
 class Ridge(BaseEstimator, RegressorMixin):
-    """Operator-Valued kernel ridge regression.
+    u"""Operator-Valued kernel ridge regression.
 
     Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
     (linear least squares with l2-norm regularization) with the (OV)kernel
@@ -324,7 +331,10 @@ class Ridge(BaseEstimator, RegressorMixin):
             is_sup = not(any(isnan(y), axis=1))
         else:
             is_sup = [True] * Gram.shape[0]
-        weight, zeronan = _Semisuplinop(self.lbda_m, is_sup, self.L_,
+
+        self.L_ = _graph_Laplacian(rbf_kernel(X[~is_sup, :]))
+
+        weight, zeronan = _SemisupLinop(self.lbda_m, is_sup, self.L_,
                                         y.shape[1]).gen()
 
         self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,

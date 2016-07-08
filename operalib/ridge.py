@@ -8,7 +8,8 @@ regression.
 # License: MIT
 
 from scipy.optimize import fmin_l_bfgs_b
-from numpy import reshape, eye, zeros, any, isnan, reshape
+from scipy.sparse.linalg import LinearOperator
+from numpy import reshape, eye, zeros, empty, dot, any, isnan
 
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
@@ -25,6 +26,43 @@ from .signal import get_period
 PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
     'DPeriodic': DecomposableKernel, }
+
+
+class _SemisupLinop:
+
+    def __init__(self, lbda2, B, L, p):
+        self.lbda2 = lbda2
+        self.B = B.ravel()
+        self.L = L
+        self.p = p
+        self.ns = B.shape[0] - L.shape[0]
+        self.ls = L.shape[0]
+
+    def _dot_U(self, vec):
+        mat = vec.reshape((self.ns + self.ls, self.p))
+        res = empty((self.ns + self.ls, mat.shape[1]))
+        res[self.B, :] = mat[self.B, :]
+        res[~self.B, :] = self.lbda2 * dot(self.L, mat[~self.B, :])
+
+        return res.ravel()
+
+    def _dot_J(self, vec):
+        mat = vec.reshape((self.ns + self.ls, self.p))
+        res = mat[self.B, :]
+
+        return res.ravel()
+
+    def gen(self):
+        shape_U = ((self.ns + self.ls) * self.p, (self.ns + self.ls) * self.p)
+        shape_J = (self.ns * self.p, (self.ns + self.ls) * self.p)
+
+        # return U, J
+        return (LinearOperator(shape_U,
+                               matvec=lambda b: self._dot_U(b),
+                               rmatvec=lambda b: self._dot_U(b)),
+                LinearOperator(shape_J,
+                               matvec=lambda b: self._dot_J(b),
+                               rmatvec=lambda b: self._dot_J(b)))
 
 
 class Ridge(BaseEstimator, RegressorMixin):

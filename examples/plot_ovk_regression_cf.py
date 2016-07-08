@@ -49,8 +49,10 @@ axarr[0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
 axarr[1].streamplot(X2, Y2, U2, V2, color=np.sqrt(U2**2 + V2**2),
                     linewidth=.5, cmap=plt.cm.jet, density=2, arrowstyle=u'->')
 axarr[0].set_ylim([-1, 1])
+axarr[0].set_xlim([-1, 1])
 axarr[0].set_title('Curl-Free Ridge, R2: ' + str(s1))
 axarr[1].set_ylim([-1, 1])
+axarr[1].set_xlim([-1, 1])
 axarr[1].set_title('Independant Ridge, R2: ' + str(s2))
 f.suptitle('Vectorfield learning')
 plt.show()

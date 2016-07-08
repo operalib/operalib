@@ -19,8 +19,6 @@ from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel, DotProductKernel
 from .learningrate import Constant, InvScaling
 
-from sklearn.utils.estimator_checks import MULTI_OUTPUT
-
 # When adding a new kernel, update this table and the _get_kernel_map
 # method
 PAIRWISE_KERNEL_FUNCTIONS = {
@@ -33,8 +31,6 @@ PAIRWISE_KERNEL_FUNCTIONS = {
 LEARNING_RATE_FUNCTIONS = {
     'constant': Constant,
     'invscaling': InvScaling}
-
-MULTI_OUTPUT.append('ONORMA')
 
 
 class ONORMA(BaseEstimator, RegressorMixin):

@@ -49,7 +49,7 @@ Install
 =======
 The package is available on PyPi, and the installation should be as simple as::
 
-  pip install nose operalib
+  pip install operalib
 
 This package uses distutils, which is the default way of installing
 python modules. To install in your home directory, use::

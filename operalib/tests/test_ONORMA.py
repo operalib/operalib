@@ -10,12 +10,19 @@ from sklearn.utils.estimator_checks import check_estimator
 from distutils.version import LooseVersion
 from warnings import warn
 
+from sklearn.utils.estimator_checks import MULTI_OUTPUT
+
+
+MULTI_OUTPUT.append('ONORMA')
+
+
 np.random.seed(0)
 
 n = 100
 d = 20
 p = 4
 X = np.random.rand(n, d)
+
 
 def phi(X):
     """Generate data according to Evgeniou, C. A. Micchelli, and M. Pontil.

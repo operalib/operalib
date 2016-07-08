@@ -9,7 +9,6 @@ import numpy as np
 
 def test_semisup_linop():
     """Test ovk.semisup.SemisupLinop."""
-
     np.random.seed()
 
     n = 100
@@ -33,7 +32,10 @@ def test_semisup_linop():
 
     res = np.empty((n, p))
     res[B, :] = y[B, :]
-    res[~B] = lbda2 * np.dot(L, y[~B, :])
+    res[~B] = 0
+    assert np.allclose(J * y.ravel(), res.ravel())
 
-    assert np.allclose(J * y.ravel(), y[B, :].ravel())
+    res = np.empty((n, p))
+    res[B, :] = y[B, :]
+    res[~B] = lbda2 * np.dot(L, y[~B, :])
     assert np.allclose(U * y.ravel(), res.ravel())

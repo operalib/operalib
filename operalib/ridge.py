@@ -46,23 +46,25 @@ class _SemisupLinop:
 
         return res.ravel()
 
-    def _dot_J(self, vec):
+    def _dot_JT(self, vec):
         mat = vec.reshape((self.ns + self.ls, self.p))
-        res = mat[self.B, :]
+        res = empty((self.ns + self.ls, self.p))
+        res[self.B, :] = mat[self.B, :]
+        res[~self.B, :] = 0
 
         return res.ravel()
 
     def gen(self):
         shape_U = ((self.ns + self.ls) * self.p, (self.ns + self.ls) * self.p)
-        shape_J = (self.ns * self.p, (self.ns + self.ls) * self.p)
+        shape_JT = ((self.ns + self.ls) * self.p, (self.ns + self.ls) * self.p)
 
-        # return U, J
+        # return U, JT
         return (LinearOperator(shape_U,
                                matvec=lambda b: self._dot_U(b),
                                rmatvec=lambda b: self._dot_U(b)),
-                LinearOperator(shape_J,
-                               matvec=lambda b: self._dot_J(b),
-                               rmatvec=lambda b: self._dot_J(b)))
+                LinearOperator(shape_JT,
+                               matvec=lambda b: self._dot_JT(b),
+                               rmatvec=lambda b: self._dot_JT(b)))
 
 
 class Ridge(BaseEstimator, RegressorMixin):

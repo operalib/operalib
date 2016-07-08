@@ -27,37 +27,34 @@ PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
     'DPeriodic': DecomposableKernel, }
 
-# graph_Laplacian(rbf_kernel(X, gamma=1,))
-
 
 def _graph_Laplacian(similarities):
-    M = similarities.sum(axis=1)
-    return diag(M) - similarities
+    return diag(similarities.sum(axis=1)) - similarities
 
 
 class _SemisupLinop:
 
-    def __init__(self, lbda2, B, L, p):
+    def __init__(self, lbda2, is_sup, L, p):
         self.lbda2 = lbda2
-        self.B = B.ravel()
+        self.is_sup = is_sup.ravel()
         self.L = L
         self.p = p
-        self.ns = B.shape[0] - L.shape[0]
+        self.ns = is_sup.shape[0] - L.shape[0]
         self.ls = L.shape[0]
 
     def _dot_U(self, vec):
         mat = vec.reshape((self.ns + self.ls, self.p))
         res = empty((self.ns + self.ls, self.p))
-        res[self.B, :] = mat[self.B, :]
-        res[~self.B, :] = self.lbda2 * dot(self.L, mat[~self.B, :])
+        res[self.is_sup, :] = mat[self.is_sup, :]
+        res[~self.is_sup, :] = self.lbda2 * dot(self.L, mat[~self.is_sup, :])
 
         return res.ravel()
 
     def _dot_JT(self, vec):
         mat = vec.reshape((self.ns + self.ls, self.p))
         res = empty((self.ns + self.ls, self.p))
-        res[self.B, :] = mat[self.B, :]
-        res[~self.B, :] = 0
+        res[self.is_sup, :] = mat[self.is_sup, :]
+        res[~self.is_sup, :] = 0
 
         return res.ravel()
 
@@ -164,8 +161,8 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     def __init__(self,
                  kernel='DGauss', lbda=1e-5, lbda_m=0.,
-                 A=None, gamma=None, theta=0.7, period='autocorr',
-                 autocorr_params=None,
+                 A=None, gamma=None, gamma_m=None, theta=0.7,
+                 period='autocorr', autocorr_params=None,
                  solver=fmin_l_bfgs_b, solver_params=None):
         """Initialize OVK ridge regression model.
 
@@ -223,6 +220,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         self.lbda_m = lbda_m
         self.A = A
         self.gamma = gamma
+        self.gamma_m = gamma_m
         self.theta = theta
         self.period = period
         self.autocorr_params = autocorr_params
@@ -315,8 +313,8 @@ class Ridge(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-                         y_numeric=True, multi_output=True)
+        # X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
+        #                  y_numeric=False, multi_output=True)
         self._validate_params()
 
         solver_params = self.solver_params or {}
@@ -327,12 +325,14 @@ class Ridge(BaseEstimator, RegressorMixin):
         Gram = self.linop_(X)
         risk = KernelRidgeRisk(self.lbda)
 
-        if not self.L:
-            is_sup = not(any(isnan(y), axis=1))
-        else:
-            is_sup = [True] * Gram.shape[0]
+        is_sup = ~any(isnan(y), axis=1)
 
-        self.L_ = _graph_Laplacian(rbf_kernel(X[~is_sup, :]))
+        print(is_sup.size)
+        if sum(~is_sup) > 0:
+            self.L_ = _graph_Laplacian(rbf_kernel(X[~is_sup, :],
+                                                  gamma=self.gamma_m))
+        else:
+            self.L_ = empty((0, 0))
 
         weight, zeronan = _SemisupLinop(self.lbda_m, is_sup, self.L_,
                                         y.shape[1]).gen()

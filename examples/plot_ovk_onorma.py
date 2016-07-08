@@ -46,7 +46,7 @@ y = .5 * y + 0.5 * np.mean(y, axis=1).reshape(-1, 1)
 
 est = ovk.ONORMA('DGauss', A=1. * np.eye(p) + .0 * np.ones((p, p)), gamma=.1,
                  learning_rate=ovk.InvScaling(1.0, 0.5), lbda=0.00001)
-print('Fitting Independant...')
+print('Fitting Independent...')
 start = time.time()
 err_i = np.empty(n)
 err_i[0] = np.linalg.norm(y[0, :]) ** 2
@@ -56,9 +56,9 @@ for t in range(1, n):
                               y[t, :]) ** 2
     est.partial_fit(X[t, :], y[t, :])
 err_ci = np.cumsum(err_i) / (np.arange(n) + 1)
-print('Independant training time:', time.time() - start)
-print('Independant MSE:', err_ci[-1])
-plt.semilogy(np.linspace(0, 100, err_ci.size), err_ci, label='Independant')
+print('Independent training time:', time.time() - start)
+print('Independent MSE:', err_ci[-1])
+plt.semilogy(np.linspace(0, 100, err_ci.size), err_ci, label='Independent')
 
 est = ovk.ONORMA('DGauss', A=.9 * np.eye(p) + 0.1 * np.ones((p, p)), gamma=.1,
                  learning_rate=ovk.InvScaling(1.0, 0.5), lbda=0.00001)

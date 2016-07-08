@@ -15,7 +15,7 @@ import time
 
 np.random.seed(0)
 
-n = 5000
+n = 2500
 d = 20
 p = 4
 X = np.random.rand(n, d)
@@ -76,7 +76,7 @@ print('Joint training time:', time.time() - start)
 print('Joint MSE:', err_cj[-1])
 plt.semilogy(np.linspace(0, 100, err_cj.size), err_cj, label='Joint')
 
-plt.ylim(0.017, 1.2e-1)
+plt.ylim(4e-2, 1.2e-1)
 plt.title('Online learning with ONORMA')
 plt.xlabel('Size of the Training set (%)')
 plt.ylabel('MSE')

@@ -32,9 +32,9 @@ y_t = dot(array([pi * sin(X_test).ravel(),
 
 
 def test_ridge_grad_id():
-    """Test ovk.KernelRidgeRisk gradient with finite differences."""
+    """Test ovk.OVKRidgeRisk gradient with finite differences."""
     K = ovk.DecomposableKernel(A=eye(2))
-    risk = ovk.KernelRidgeRisk(0.01)
+    risk = ovk.OVKRidgeRisk(0.01)
     assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
                       lambda *args: risk.functional_grad_val(*args)[1],
                       randn(X.shape[0] * y.shape[1]),
@@ -42,9 +42,9 @@ def test_ridge_grad_id():
 
 
 def test_ridge_grad_cov():
-    """Test ovk.KernelRidgeRisk gradient with finite differences."""
+    """Test ovk.OVKRidgeRisk gradient with finite differences."""
     K = ovk.DecomposableKernel(A=eye(2))
-    risk = ovk.KernelRidgeRisk(0.01)
+    risk = ovk.OVKRidgeRisk(0.01)
     assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
                       lambda *args: risk.functional_grad_val(*args)[1],
                       randn(X.shape[0] * y.shape[1]),
@@ -52,12 +52,45 @@ def test_ridge_grad_cov():
 
 
 def test_grad_val():
-    """Test whether ovk.KernelRidgeRisk gradient and val are consistents."""
+    """Test whether ovk.OVKRidgeRisk gradient and val are consistents."""
     K = ovk.DecomposableKernel(A=eye(2))
-    risk = ovk.KernelRidgeRisk(0.01)
+    risk = ovk.OVKRidgeRisk(0.01)
     C = randn(X.shape[0] * y.shape[1])
     v = risk(C, y.ravel(), K(X, X))
     g = risk.functional_grad(C, y.ravel(), K(X, X))
     vg = risk.functional_grad_val(C, y.ravel(), K(X, X))
     assert_allclose(v, vg[0])
     assert_allclose(g, vg[1])
+
+
+def test_rff_ridge_grad_id():
+    """Test ovk.ORFFidgeRisk gradient with finite differences."""
+    K = ovk.DecomposableKernel(A=eye(2))
+    risk = ovk.ORFFRidgeRisk(0.01)
+    assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
+                      lambda *args: risk.functional_grad_val(*args)[1],
+                      randn(X.shape[0] * y.shape[1]),
+                      y.ravel(), K(X, X)) < 1e-3
+
+
+def test_rff_ridge_grad_cov():
+    """Test ovk.ORFFRidgeRisk gradient with finite differences."""
+    K = ovk.DecomposableKernel(A=eye(2))
+    risk = ovk.ORFFRidgeRisk(0.01)
+    assert check_grad(lambda *args: risk.functional_grad_val(*args)[0],
+                      lambda *args: risk.functional_grad_val(*args)[1],
+                      randn(X.shape[0] * y.shape[1]),
+                      y.ravel(), K(X, X)) < 1e-3
+
+
+def test_rff_grad_val():
+    """Test whether ovk.ORFFRidgeRisk gradient and val are consistents."""
+    K = ovk.DecomposableKernel(A=eye(2))
+    risk = ovk.ORFFRidgeRisk(0.01)
+    C = randn(X.shape[0] * y.shape[1])
+    v = risk(C, y.ravel(), K(X, X))
+    g = risk.functional_grad(C, y.ravel(), K(X, X))
+    vg = risk.functional_grad_val(C, y.ravel(), K(X, X))
+    assert_allclose(v, vg[0])
+    assert_allclose(g, vg[1])
+

@@ -6,7 +6,12 @@ models.
 #         the scikit-learn community.
 # License: MIT
 
+from numpy import dot, diag, sqrt
+
 from sklearn.metrics.pairwise import rbf_kernel
+from sklearn.kernel_approximation import RBFSampler
+from scipy.sparse.linalg import LinearOperator
+from scipy.linalg import svd
 
 
 class DotProductKernel(object):
@@ -201,6 +206,49 @@ class DecomposableKernel(object):
         return DecomposableKernelMap(X, self.A,
                                      self.scalar_kernel,
                                      self.scalar_kernel_params)
+
+    def get_orff_map(self, X, D=100, random_state=0):
+
+        u, s, v = svd(self.A, full_matrices=False, compute_uv=True)
+        self.B_ = dot(diag(sqrt(s)), v)
+
+        if (self.scalar_kernel is rbf_kernel) and not hasattr(self, 'Xb_'):
+            if self.scalar_kernel_params is None:
+                gamma = 1.
+            else:
+                gamma = self.scalar_kernel_params['gamma']
+            self.phi_ = RBFSampler(gamma=gamma,
+                                   n_components=D, random_state=random_state)
+            self.phi_.fit(X)
+            self.Xb_ = self.phi_.transform(X)
+        elif not hasattr(self, 'Xb_'):
+            raise NotImplementedError('ORFF map for kernel is not '
+                                      'implemented yet')
+
+        D = self.phi_.n_components
+        if X is self.Xb_:
+            cshape = (D, self.p)
+            rshape = (self.Xb_.shape[0], self.p)
+            oshape = (self.Xb_.shape[0] * self.p, D * self.B_.shape[1])
+            return LinearOperator(oshape,
+                                  matvec=lambda b: dot(dot(self.Xb_,
+                                                           b.reshape(cshape)),
+                                                       self.B_),
+                                  rmatvec=lambda r: dot(Xb.T,
+                                                        dot(r.reshape(rshape),
+                                                            self.B_.T)))
+        else:
+            Xb = self.phi_.transform(X)
+            cshape = (D, self.p)
+            rshape = (X.shape[0], self.p)
+            oshape = (Xb.shape[0] * self.p, D * self.B_.shape[1])
+            return LinearOperator(oshape,
+                                  matvec=lambda b: dot(dot(Xb,
+                                                           b.reshape(cshape)),
+                                                       self.B_),
+                                  rmatvec=lambda r: dot(Xb.T,
+                                                        dot(r.reshape(rshape),
+                                                            self.B_.T)))
 
     def __call__(self, X, Y=None):
         r"""Return the kernel map associated with the data X.

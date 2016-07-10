@@ -58,10 +58,11 @@ if __OPERALIB_SETUP__:
 else:
     from .kernels import DecomposableKernel, RBFCurlFreeKernel, \
         RBFDivFreeKernel, DotProductKernel
-    from .risk import KernelRidgeRisk
+    from .risk import OVKRidgeRisk, ORFFRidgeRisk
     from .learningrate import Constant, InvScaling
-    from .ridge import Ridge
+    from .ridge import OVKRidge
     from .onorma import ONORMA
+    from .orff import ORFFRidge
     from .quantile import Quantile
     from .metrics import first_periodic_kernel
     from .signal import get_period
@@ -72,11 +73,11 @@ else:
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
                'DotProductKernel',
-               'KernelRidgeRisk',
+               'OVKRidgeRisk', 'ORFFRidgeRisk',
                'Constant', 'InvScaling',
                'first_periodic_kernel',
                'get_period',
-               'Ridge', 'Quantile', 'ONORMA',
+               'OVKRidge', 'ORFFRidge', 'Quantile', 'ONORMA',
                'toy_data_curl_free_field', 'toy_data_curl_free_mesh',
                'toy_data_div_free_field', 'toy_data_div_free_mesh',
                'mesh2array', 'array2mesh', 'toy_data_quantile']

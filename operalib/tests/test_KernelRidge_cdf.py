@@ -18,7 +18,7 @@ def test_learn_cf():
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
 
-    regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
+    regr_1 = ovk.OVKRidge(kernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)
     assert regr_1.score(Xte, yte) >= 0.8
 
@@ -29,6 +29,6 @@ def test_learn_df():
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
 
-    regr_1 = ovk.Ridge(kernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
+    regr_1 = ovk.OVKRidge(kernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)
     assert regr_1.score(Xte, yte) >= 0.8

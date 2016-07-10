@@ -13,12 +13,11 @@ from numpy import reshape, eye, zeros
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
 from sklearn.utils.validation import check_is_fitted
-
 from sklearn.metrics.pairwise import rbf_kernel
 
 from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel
-from .risk import KernelRidgeRisk
+from .risk import OVKRidgeRisk
 from .signal import get_period
 
 # When adding a new kernel, update this table and the _get_kernel_map method
@@ -27,7 +26,7 @@ PAIRWISE_KERNEL_FUNCTIONS = {
     'DPeriodic': DecomposableKernel, }
 
 
-class Ridge(BaseEstimator, RegressorMixin):
+class OVKRidge(BaseEstimator, RegressorMixin):
     """Operator-Valued kernel ridge regression.
 
     Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
@@ -77,9 +76,9 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     See also
     --------
-    sklearn.Ridge
+    sklearn.OVKRidge
         Linear ridge regression.
-    sklearn.KernelRidge
+    sklearn.KernelOVKRidge
         Kernel ridge regression.
     sklearn.SVR
         Support Vector Regression implemented using libsvm.
@@ -92,9 +91,9 @@ class Ridge(BaseEstimator, RegressorMixin):
     >>> rng = np.random.RandomState(0)
     >>> y = rng.randn(n_samples, n_targets)
     >>> X = rng.randn(n_samples, n_features)
-    >>> clf = ovk.Ridge('DGauss', lbda=1.0)
+    >>> clf = ovk.OVKRidge('DGauss', lbda=1.0)
     >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    Ridge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
+    OVKRidge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
        lbda=1.0, period='autocorr',
        solver=<function fmin_l_bfgs_b at ...>, solver_params=None,
        theta=0.7)
@@ -252,11 +251,11 @@ class Ridge(BaseEstimator, RegressorMixin):
 
         self.linop_ = self._get_kernel_map(X, y)
         Gram = self.linop_(X)
-        risk = KernelRidgeRisk(self.lbda)
+        risk = OVKRidgeRisk(self.lbda)
         self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
                                          zeros(Gram.shape[1]),
                                          args=(y.ravel(), Gram),
-                                         *solver_params)
+                                         **solver_params)
         self.dual_coefs_ = self.solver_res_[0]
         return self
 

@@ -142,16 +142,16 @@
 
 <span class="kn">import</span> <span class="nn">dill</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">eye</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">vstack</span><span class="p">,</span> <span class="n">zeros</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">eye</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">vstack</span><span class="p">,</span> <span class="n">zeros</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_X_y</span><span class="p">,</span> <span class="n">check_array</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">RegressorMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="k">import</span> <span class="n">rbf_kernel</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">check_X_y</span><span class="p">,</span> <span class="n">check_array</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
 
-<span class="kn">from</span> <span class="nn">.metrics</span> <span class="kn">import</span> <span class="n">first_periodic_kernel</span>
-<span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">DotProductKernel</span>
-<span class="kn">from</span> <span class="nn">.learningrate</span> <span class="kn">import</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">InvScaling</span>
+<span class="kn">from</span> <span class="nn">.metrics</span> <span class="k">import</span> <span class="n">first_periodic_kernel</span>
+<span class="kn">from</span> <span class="nn">.kernels</span> <span class="k">import</span> <span class="n">DecomposableKernel</span><span class="p">,</span> <span class="n">DotProductKernel</span>
+<span class="kn">from</span> <span class="nn">.learningrate</span> <span class="k">import</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">InvScaling</span>
 
 <span class="c1"># When adding a new kernel, update this table and the _get_kernel_map</span>
 <span class="c1"># method</span>
@@ -234,10 +234,10 @@
 <span class="sd">        shuffle=True, truncation=None)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
-                 <span class="n">T</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;invscaling&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">power</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span>
-                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;invscaling&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">power</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize ONORMA.</span>
 
 <span class="sd">        Parameters</span>
@@ -290,17 +290,17 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;lbda must be a positive scalar&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;mu must be a scalar between 0. and 1.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;T must be a positive integer&#39;</span><span class="p">)</span>
         <span class="c1"># if self.A &lt; 0: # Check whether A is S PD would be really expensive</span>
         <span class="c1">#     raise ValueError(&#39;A must be a symmetric positive operator&#39;)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;gamma must be positive or default (None)&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_default_decomposable_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span>
         <span class="k">elif</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">eye</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -310,7 +310,7 @@
     <span class="k">def</span> <span class="nf">_get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="c1"># When adding a new kernel, update this table and the _get_kernel_map</span>
         <span class="c1"># method</span>
-        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">):</span>
             <span class="n">ov_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="c1"># 1) check string and assign the right parameters</span>
@@ -337,7 +337,7 @@
         <span class="k">return</span> <span class="n">ov_kernel</span>
 
     <span class="k">def</span> <span class="nf">_get_learning_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="c1"># 1) check string and assign the right parameters</span>
@@ -464,9 +464,9 @@
 <span class="sd">        -------</span>
 <span class="sd">        self : returns an instance of self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">y_numeric</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">multi_output</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y_numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">multi_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">T_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>

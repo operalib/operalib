@@ -141,11 +141,11 @@
 <span class="c1">#         the scikit-learn community.</span>
 <span class="c1"># License: MIT</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">cos</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">check_pairwise_arrays</span><span class="p">,</span> <span class="n">euclidean_distances</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">cos</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="k">import</span> <span class="n">check_pairwise_arrays</span><span class="p">,</span> <span class="n">euclidean_distances</span>
 
 
-<div class="viewcode-block" id="first_periodic_kernel"><a class="viewcode-back" href="../../ridge.html#operalib.metrics.first_periodic_kernel">[docs]</a><span class="k">def</span> <span class="nf">first_periodic_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="first_periodic_kernel"><a class="viewcode-back" href="../../ridge.html#operalib.metrics.first_periodic_kernel">[docs]</a><span class="k">def</span> <span class="nf">first_periodic_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># TODO: Add mathematical form of the kernel in the docstring</span>
     <span class="sd">&quot;&quot;&quot;Compute the first periodic kernel between *X* and *Y*.</span>
 
@@ -169,16 +169,16 @@
 <span class="sd">    kernel_matrix : array of shape (n_samples_X, n_samples_Y)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">check_pairwise_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">gamma</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gamma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.8</span>
 
-    <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">period</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">pi</span>
 
     <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span> <span class="o">/</span> <span class="n">period</span>
     <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="n">period</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">b</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">K</span> <span class="o">=</span> <span class="n">euclidean_distances</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">euclidean_distances</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># TODO: Optimize to avoid temporary</span>
     <span class="k">return</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span> <span class="o">*</span> <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">K</span><span class="p">)))</span> <span class="o">/</span> <span class="n">c</span></div>

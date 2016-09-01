@@ -207,10 +207,24 @@ class DecomposableKernel(object):
                                      self.scalar_kernel,
                                      self.scalar_kernel_params)
 
-    def get_orff_map(self, X, D=100, random_state=0):
+    def get_orff_map(self, X, D=100, eps=1e-5, random_state=0):
+        r"""Return the Random Fourier Feature map associated with the data X.
 
+        .. math::
+               K_x: Y \mapsto \tilde{\Phi}(X)
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Samples.
+
+        Returns
+        -------
+        \tilde{\Phi}(X) : Linear Operator, callable
+        """
         u, s, v = svd(self.A, full_matrices=False, compute_uv=True)
-        self.B_ = dot(diag(sqrt(s)), v)
+        self.B_ = dot(diag(sqrt(s[s > eps])), v[s > eps, :])
+        self.r = self.B_.shape[0]
 
         if (self.scalar_kernel is rbf_kernel) and not hasattr(self, 'Xb_'):
             if self.scalar_kernel_params is None:
@@ -227,9 +241,9 @@ class DecomposableKernel(object):
 
         D = self.phi_.n_components
         if X is self.Xb_:
-            cshape = (D, self.p)
+            cshape = (D, self.r)
             rshape = (self.Xb_.shape[0], self.p)
-            oshape = (self.Xb_.shape[0] * self.p, D * self.B_.shape[1])
+            oshape = (self.Xb_.shape[0] * self.p, D * self.r)
             return LinearOperator(oshape,
                                   matvec=lambda b: dot(dot(self.Xb_,
                                                            b.reshape(cshape)),
@@ -239,9 +253,9 @@ class DecomposableKernel(object):
                                                             self.B_.T)))
         else:
             Xb = self.phi_.transform(X)
-            cshape = (D, self.p)
+            cshape = (D, self.r)
             rshape = (X.shape[0], self.p)
-            oshape = (Xb.shape[0] * self.p, D * self.B_.shape[1])
+            oshape = (Xb.shape[0] * self.p, D * self.r)
             return LinearOperator(oshape,
                                   matvec=lambda b: dot(dot(Xb,
                                                            b.reshape(cshape)),
@@ -347,6 +361,47 @@ class RBFCurlFreeKernel(object):
         """
         from .kernel_maps import RBFCurlFreeKernelMap
         return RBFCurlFreeKernelMap(X, self.gamma)
+
+    def get_orff_map(self, X, D=100, random_state=0):
+        r"""Return the Random Fourier Feature map associated with the data X.
+
+        .. math::
+               K_x: Y \mapsto \tilde{\Phi}(X)
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Samples.
+
+        Returns
+        -------
+        \tilde{\Phi}(X) : Linear Operator, callable
+        """
+        self.r = 1
+        if not hasattr(self, 'Xb_'):
+            self.phi_ = RBFSampler(gamma=self.gamma,
+                                   n_components=D, random_state=random_state)
+            self.phi_.fit(X)
+            self.Xb_ = self.phi_.transform(X)
+            self.Xb_ = (self.Xb_.reshape((self.Xb_.shape[0],
+                                          1, self.Xb_.shape[1])) *
+                        self.phi_.random_weights_.reshape((1, -1,
+                                                           self.Xb_.shape[1])))
+            self.Xb_ = self.Xb_.reshape((-1, self.Xb_.shape[2]))
+
+        D = self.phi_.n_components
+        if X is self.Xb_:
+            return LinearOperator(self.Xb_.shape,
+                                  matvec=lambda b: dot(self.Xb_ * b),
+                                  rmatvec=lambda r: dot(self.Xb_.T * r))
+        else:
+            Xb = self.phi_.transform(X)
+            Xb = (Xb.reshape((Xb.shape[0], 1, Xb.shape[1])) *
+                  self.phi_.random_weights_.reshape((1, -1, Xb.shape[1])))
+            Xb = Xb.reshape((-1, Xb.shape[2]))
+            return LinearOperator(Xb.shape,
+                                  matvec=lambda b: dot(Xb, b),
+                                  rmatvec=lambda r: dot(Xb.T, r))
 
     def __call__(self, X, Y=None):
         r"""Return the kernel map associated with the data X.

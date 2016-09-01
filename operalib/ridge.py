@@ -16,14 +16,15 @@ from sklearn.utils.validation import check_is_fitted
 from sklearn.metrics.pairwise import rbf_kernel
 
 from .metrics import first_periodic_kernel
-from .kernels import DecomposableKernel
+from .kernels import DecomposableKernel, RBFCurlFreeKernel
 from .risk import OVKRidgeRisk
 from .signal import get_period
 
 # When adding a new kernel, update this table and the _get_kernel_map method
 PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
-    'DPeriodic': DecomposableKernel, }
+    'DPeriodic': DecomposableKernel,
+    'CurlF': RBFCurlFreeKernel}
 
 
 class OVKRidge(BaseEstimator, RegressorMixin):
@@ -100,7 +101,7 @@ class OVKRidge(BaseEstimator, RegressorMixin):
     """
 
     def __init__(self,
-                 kernel='DGauss', lbda=1e-5,
+                 ovkernel='DGauss', lbda=1e-5,
                  A=None, gamma=None, theta=0.7, period='autocorr',
                  autocorr_params=None,
                  solver=fmin_l_bfgs_b, solver_params=None):
@@ -109,7 +110,7 @@ class OVKRidge(BaseEstimator, RegressorMixin):
         Parameters
         ----------
 
-        kernel : {string, callable}, default='DGauss'
+        ovkernel : {string, callable}, default='DGauss'
             Kernel mapping used internally. A callable should accept two
             arguments, and should return a LinearOperator.
 
@@ -151,7 +152,7 @@ class OVKRidge(BaseEstimator, RegressorMixin):
             Additional parameters (keyword arguments) for solver function
             passed as callable object.
         """
-        self.kernel = kernel
+        self.ovkernel = ovkernel
         self.lbda = lbda
         self.A = A
         self.gamma = gamma
@@ -162,7 +163,7 @@ class OVKRidge(BaseEstimator, RegressorMixin):
         self.solver_params = solver_params
 
     def _validate_params(self):
-        # check on self.kernel is performed in method __get_kernel
+        # check on self.ovkernel is performed in method __get_kernel
         if self.lbda < 0:
             raise ValueError('lbda must be positive')
         # if self.A < 0: # Check whether A is S PD would be really expensive
@@ -198,15 +199,15 @@ class OVKRidge(BaseEstimator, RegressorMixin):
     def _get_kernel_map(self, X, y):
         # When adding a new kernel, update this table and the _get_kernel_map
         # method
-        if callable(self.kernel):
-            ov_kernel = self.kernel
-        elif type(self.kernel) is str:
+        if callable(self.ovkernel):
+            ov_kernel = self.ovkernel
+        elif type(self.ovkernel) is str:
             # 1) check string and assign the right parameters
-            if self.kernel == 'DGauss':
+            if self.ovkernel == 'DGauss':
                 self.A_ = self._default_decomposable_op(y)
                 kernel_params = {'A': self.A_, 'scalar_kernel': rbf_kernel,
                                  'scalar_kernel_params': {'gamma': self.gamma}}
-            elif self.kernel == 'DPeriodic':
+            elif self.ovkernel == 'DPeriodic':
                 self.A_ = self._default_decomposable_op(y)
                 self.period_ = self._default_period(X, y)
                 kernel_params = {'A': self.A_,
@@ -214,10 +215,12 @@ class OVKRidge(BaseEstimator, RegressorMixin):
                                  'scalar_kernel_params': {'gamma': self.theta,
                                                           'period':
                                                           self.period_}, }
+            elif self.ovkernel == 'CurlF':
+                kernel_params = {'gamma': self.gamma}
             else:
                 raise NotImplemented('unsupported kernel')
             # 2) Uses lookup table to select the right kernel from string
-            ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.kernel](**kernel_params)
+            ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.ovkernel](**kernel_params)
         else:
             raise NotImplemented('unsupported kernel')
         return ov_kernel(X)

@@ -13,7 +13,7 @@ import operalib as ovk
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cross_validation import train_test_split
-from sklearn.kernel_ridge import KernelOVKRidge
+from sklearn.kernel_ridge import KernelRidge
 
 # Generate data
 np.random.seed(0)
@@ -34,7 +34,7 @@ X1, Y1 = ovk.array2mesh(Xc)
 U1, V1 = ovk.array2mesh(yp1)
 
 # Learning with sklearn ridge
-regr_2 = KernelOVKRidge(kernel='rbf', alpha=0.0001, gamma=1.5)
+regr_2 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=1.5)
 regr_2.fit(Xtr, ytr)
 s2 = regr_2.score(Xte, yte)
 print('R2 independant ridge: ', s2)

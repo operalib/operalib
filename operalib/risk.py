@@ -7,7 +7,9 @@
 # License: MIT
 
 from numpy.linalg import norm
-from numpy import inner
+from numpy import inner, dot
+
+from .kernels import DecomposableKernel
 
 
 class ORFFRidgeRisk(object):
@@ -26,8 +28,8 @@ class ORFFRidgeRisk(object):
         """
         self.lbda = lbda
 
-    def __call__(self, coefs, ground_truth, phix):
-        """Compute the Empirical OVK ridge risk.
+    def __call__(self, coefs, ground_truth, phix, ker):
+        """Compute the Empirical ORFF ridge risk.
 
         Parameters
         ----------
@@ -42,16 +44,21 @@ class ORFFRidgeRisk(object):
 
         Returns
         -------
-        float : Empirical OVK ridge risk
+        float : Empirical ORFF ridge risk
         """
         pred = phix * coefs
         res = pred - ground_truth
         np = ground_truth.size
-        reg = inner(coefs, coefs)
+        if isinstance(ker, DecomposableKernel):
+            J = dot(ker.B_, ker.B_.T)
+            reg = dot(dot(coefs.reshape((-1, ker.r)), J).T,
+                      coefs.reshape((-1, ker.r)))
+        else:
+            raise('Unsupported kernel')
         return norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np)
 
-    def functional_grad(self, coefs, ground_truth, phix):
-        """Compute the gradient of the Empirical OVK ridge risk.
+    def functional_grad(self, coefs, ground_truth, phix, ker):
+        """Compute the gradient of the Empirical ORFF ridge risk.
 
         Parameters
         ----------
@@ -66,15 +73,20 @@ class ORFFRidgeRisk(object):
 
         Returns
         -------
-        {vector-like} : gradient of the Empirical OVK ridge risk
+        {vector-like} : gradient of the Empirical ORFF ridge risk
         """
         pred = phix * coefs
         res = pred - ground_truth
         np = ground_truth.size
-        return phix.H * res / np + self.lbda * coefs / np
+        if isinstance(ker, DecomposableKernel):
+            J = dot(ker.B_, ker.B_.T)
+            reg_grad = dot(coefs.reshape((-1, ker.r)), J).ravel()
+        else:
+            raise('Unsupported kernel')
+        return phix.H * res / np + self.lbda * reg_grad / np
 
-    def functional_grad_val(self, coefs, ground_truth, phix):
-        """Compute the gradient and value of the Empirical OVK ridge risk.
+    def functional_grad_val(self, coefs, ground_truth, phix, ker):
+        """Compute the gradient and value of the Empirical ORFF ridge risk.
 
         Parameters
         ----------
@@ -89,13 +101,18 @@ class ORFFRidgeRisk(object):
 
         Returns
         -------
-        Tuple{float, vector-like} : Empirical OVK ridge risk and its gradient
+        Tuple{float, vector-like} : Empirical ORFF ridge risk and its gradient
         returned as a tuple.
         """
         pred = phix * coefs
         res = pred - ground_truth
         np = ground_truth.size
-        reg = inner(coefs, coefs)
+        if isinstance(ker, DecomposableKernel):
+            J = dot(ker.B_, ker.B_.T)
+            reg_grad = dot(coefs.reshape((-1, ker.r)), J).ravel()
+            reg = inner(coefs, reg_grad)
+        else:
+            raise('Unsupported kernel')
         return (norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np),
                 phix.H * res / np + self.lbda * coefs / np)
 

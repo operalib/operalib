@@ -9,7 +9,7 @@ models.
 from numpy import dot, diag, sqrt
 
 from sklearn.metrics.pairwise import rbf_kernel
-from sklearn.kernel_approximation import RBFSampler
+from sklearn.kernel_approximation import RBFSampler, SkewedChi2Sampler
 from scipy.sparse.linalg import LinearOperator
 from scipy.linalg import svd
 
@@ -233,6 +233,16 @@ class DecomposableKernel(object):
                 gamma = self.scalar_kernel_params['gamma']
             self.phi_ = RBFSampler(gamma=gamma,
                                    n_components=D, random_state=random_state)
+            self.phi_.fit(X)
+            self.Xb_ = self.phi_.transform(X)
+        elif (self.scalar_kernel is 'skewed_chi2') and not hasattr(self, 'Xb_'):
+            if self.scalar_kernel_params is None:
+                skew = 1.
+            else:
+                skew = self.scalar_kernel_params['skew']
+            self.phi_ = SkewedChi2Sampler(skewedness=skew,
+                                          n_components=D,
+                                          random_state=random_state)
             self.phi_.fit(X)
             self.Xb_ = self.phi_.transform(X)
         elif not hasattr(self, 'Xb_'):
@@ -505,6 +515,50 @@ class RBFDivFreeKernel(object):
         """
         from .kernel_maps import RBFDivFreeKernelMap
         return RBFDivFreeKernelMap(X, self.gamma)
+
+    def get_orff_map(self, X, D=100, random_state=0):
+        r"""Return the Random Fourier Feature map associated with the data X.
+
+        .. math::
+               K_x: Y \mapsto \tilde{\Phi}(X)
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Samples.
+
+        Returns
+        -------
+        \tilde{\Phi}(X) : Linear Operator, callable
+        """
+        self.r = 1
+        if not hasattr(self, 'Xb_'):
+            self.phi_ = RBFSampler(gamma=self.gamma,
+                                   n_components=D, random_state=random_state)
+            self.phi_.fit(X)
+            self.Xb_ = self.phi_.transform(X)
+            self.Xb_ = (self.Xb_.reshape((self.Xb_.shape[0],
+                                          1, self.Xb_.shape[1])) *
+                        self.phi_.random_weights_.reshape((1, -1,
+                                                           self.Xb_.shape[1])))
+            self.Xb_ = self.Xb_.reshape((-1, self.Xb_.shape[2]))
+
+        D = self.phi_.n_components
+        if X is self.Xb_:
+            return LinearOperator(self.Xb_.shape,
+                                  matvec=lambda b: dot(self.Xb_ * b),
+                                  rmatvec=lambda r: dot(self.Xb_.T * r))
+        else:
+            Xb = self.phi_.transform(X)
+            # TODO:
+            # w = self.phi_.random_weights_.reshape((1, -1, Xb.shape[1]))
+            # wn = np.linalg.norm(w)
+            # Xb = (Xb.reshape((Xb.shape[0], 1, Xb.shape[1])) *
+            #       wn * np.eye()w np.dot(w.T, w) / wn)
+            Xb = Xb.reshape((-1, Xb.shape[2]))
+            return LinearOperator(Xb.shape,
+                                  matvec=lambda b: dot(Xb, b),
+                                  rmatvec=lambda r: dot(Xb.T, r))
 
     def __call__(self, X, Y=None):
         r"""Return the kernel map associated with the data X.

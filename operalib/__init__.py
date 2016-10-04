@@ -70,6 +70,7 @@ else:
         toy_data_curl_free_mesh, mesh2array, array2mesh, \
         toy_data_div_free_field, toy_data_div_free_mesh
     from .datasets.quantile import toy_data_quantile
+    from .preprocessing.simplex import sencode, sdecode
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
                'DotProductKernel',
@@ -80,4 +81,5 @@ else:
                'OVKRidge', 'ORFFRidge', 'Quantile', 'ONORMA',
                'toy_data_curl_free_field', 'toy_data_curl_free_mesh',
                'toy_data_div_free_field', 'toy_data_div_free_mesh',
-               'mesh2array', 'array2mesh', 'toy_data_quantile']
+               'mesh2array', 'array2mesh', 'toy_data_quantile',
+               'sencode', 'sdecode']

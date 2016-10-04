@@ -17,6 +17,7 @@ from .risk import ORFFRidgeRisk
 # When adding a new kernel, update this table and the _get_kernel_map method
 PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
+    'DSkewed_chi2': DecomposableKernel,
     'DPeriodic': DecomposableKernel,
     'CurlF': RBFCurlFreeKernel}
 
@@ -25,12 +26,13 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
 
 
     def __init__(self, ovkernel='DGauss', lbda=1e-5,
-                 A=None, gamma=1., D=1000,
+                 A=None, gamma=1., D=1000, skew=0.,
                  solver=fmin_l_bfgs_b, solver_params=None):
         self.ovkernel = ovkernel
         self.lbda = lbda
         self.A = A
         self.gamma = gamma
+        self.skew = skew
         self.D = D
         self.solver = solver
         self.solver_params = solver_params
@@ -46,6 +48,9 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
         if self.gamma is not None:
             if self.gamma < 0:
                 raise ValueError('sigma must be positive or default (None)')
+        if self.skew is not None:
+            if self.skew < 0:
+                raise ValueError('sigma must be positive or default (None)')
         # TODO, add supported solver check
 
     def _get_kernel(self, X, y):
@@ -59,6 +64,10 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
                 self.A_ = self._default_decomposable_op(y)
                 kernel_params = {'A': self.A_, 'scalar_kernel': rbf_kernel,
                                  'scalar_kernel_params': {'gamma': self.gamma}}
+            elif self.ovkernel == 'DSkewed_chi2':
+                self.A_ = self._default_decomposable_op(y)
+                kernel_params = {'A': self.A_, 'scalar_kernel': 'skewed_chi2',
+                                 'scalar_kernel_params': {'skew': self.skew}}
             elif self.ovkernel == 'CurlF':
                 kernel_params = {'gamma': self.gamma}
             else:

@@ -1,0 +1,37 @@
+# Basic .gitattributes for a python repo.
+
+# Ignore for release
+# ============
+/bin/ export-ignore
+/temp/ export-ignore
+/tests/ export-ignore
+/doc/ export-ignore
+/examples/ export-ignore
+/.* export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/*.yml export-ignore
+/*.xml export-ignore
+/README.md
+
+# Source files
+# ============
+*.pxd       text
+*.py        text
+*.py3       text
+*.pyw       text
+*.pyx       text
+
+# Binary files
+# ============
+*.db        binary
+*.p         binary
+*.pkl       binary
+*.pyc       binary
+*.pyd       binary
+*.pyo       binary
+
+# Note: .db, .p, and .pkl files are associated
+# with the python modules ``pickle``, ``dbm.*``,
+# ``shelve``, ``marshal``, ``anydbm``, & ``bsddb``
+# (among others).

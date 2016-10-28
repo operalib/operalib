@@ -18,7 +18,7 @@ from sklearn.metrics.pairwise import rbf_kernel
 
 from .metrics import first_periodic_kernel
 from .kernels import DecomposableKernel
-from .risk import WeakSupKernelRidgeRisk
+from .risk import KernelRidgeRisk
 from .signal import get_period
 
 # When adding a new kernel, update this table and the _get_kernel_map method
@@ -101,8 +101,7 @@ class Ridge(BaseEstimator, RegressorMixin):
     """
 
     def __init__(self,
-                 kernel='DGauss', lbda0=1e-5, lbda1=0.5, lbda2=0.5, 
-                 nfeatweak=0, ndataweak=0,
+                 kernel='DGauss', lbda=1e-5,
                  A=None, gamma=None, theta=0.7, period='autocorr',
                  autocorr_params=None,
                  solver=fmin_l_bfgs_b, solver_params=None):
@@ -154,11 +153,7 @@ class Ridge(BaseEstimator, RegressorMixin):
             passed as callable object.
         """
         self.kernel = kernel
-        self.lbda0 = lbda0
-        self.lbda1 = lbda1
-        self.lbda2 = lbda2
-        self.nfeatweak = nfeatweak
-        self.ndataweak = ndataweak
+        self.lbda = lbda
         self.A = A
         self.gamma = gamma
         self.theta = theta
@@ -169,8 +164,8 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     def _validate_params(self):
         # check on self.kernel is performed in method __get_kernel
-        if self.lbda0 < 0 or self.lbda1 < 0 or self.lbda2 < 0:
-            raise ValueError('all lbdas must be positive')
+        if self.lbda < 0:
+            raise ValueError('lbda must be positive')
         # if self.A < 0: # Check whether A is S PD would be really expensive
         #     raise ValueError('A must be a symmetric positive operator')
         if self.gamma is not None:
@@ -257,7 +252,7 @@ class Ridge(BaseEstimator, RegressorMixin):
 
         self.linop_ = self._get_kernel_map(X, y)
         Gram = self.linop_(X)
-        risk = WeakSupKernelRidgeRisk(self.lbda0, self.lbda1, self.lbda2, self.nfeatweak, self.ndataweak)
+        risk = KernelRidgeRisk(self.lbda)
         self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
                                          zeros(Gram.shape[1]),
                                          args=(y.ravel(), Gram),

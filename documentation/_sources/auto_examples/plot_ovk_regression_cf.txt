@@ -81,19 +81,22 @@ regression.
     f.suptitle('Vectorfield learning')
     plt.show()
 
-**Total running time of the script:**
-(0 minutes 16.828 seconds)
+**Total running time of the script:** ( 0 minutes  7.686 seconds)
 
 
 
-.. container:: sphx-glr-download
-
-    **Download Python source code:** :download:`plot_ovk_regression_cf.py <plot_ovk_regression_cf.py>`
+.. container:: sphx-glr-footer
 
 
-.. container:: sphx-glr-download
+  .. container:: sphx-glr-download
 
-    **Download IPython notebook:** :download:`plot_ovk_regression_cf.ipynb <plot_ovk_regression_cf.ipynb>`
+     :download:`Download Python source code: plot_ovk_regression_cf.py <plot_ovk_regression_cf.py>`
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Jupyter notebook: plot_ovk_regression_cf.ipynb <plot_ovk_regression_cf.ipynb>`
 
 .. rst-class:: sphx-glr-signature
 

@@ -23,10 +23,10 @@ kernels.
 
     Generating Data
     Fitting Independent...
-    Independent training time: 133.285966873
+    Independent training time: 71.2871541977
     Independent MSE: 0.0422670721831
     Fitting Joint...
-    Joint training time: 126.84382391
+    Joint training time: 25.0329360962
     Joint MSE: 0.0416010133362
 
 
@@ -114,19 +114,22 @@ kernels.
     plt.legend()
     plt.show()
 
-**Total running time of the script:**
-(4 minutes 20.633 seconds)
+**Total running time of the script:** ( 1 minutes  36.919 seconds)
 
 
 
-.. container:: sphx-glr-download
-
-    **Download Python source code:** :download:`plot_ovk_onorma.py <plot_ovk_onorma.py>`
+.. container:: sphx-glr-footer
 
 
-.. container:: sphx-glr-download
+  .. container:: sphx-glr-download
 
-    **Download IPython notebook:** :download:`plot_ovk_onorma.ipynb <plot_ovk_onorma.ipynb>`
+     :download:`Download Python source code: plot_ovk_onorma.py <plot_ovk_onorma.py>`
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Jupyter notebook: plot_ovk_onorma.ipynb <plot_ovk_onorma.ipynb>`
 
 .. rst-class:: sphx-glr-signature
 

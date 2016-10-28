@@ -137,28 +137,42 @@
 <h1>Module Learnin Rate<a class="headerlink" href="#module-learnin-rate" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-operalib.learningrate"></span><p><a class="reference internal" href="#module-operalib.learningrate" title="operalib.learningrate"><code class="xref py py-mod docutils literal"><span class="pre">operalib.learningrate</span></code></a> implements the learning rate for (Stochastic)
 gradient descent algorithms</p>
-<dl class="function">
+<dl class="class">
 <dt id="operalib.learningrate.Constant">
-<code class="descclassname">operalib.learningrate.</code><code class="descname">Constant</code><span class="sig-paren">(</span><em>eta=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/learningrate.html#Constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.learningrate.Constant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constant learnin rate.</p>
+<em class="property">class </em><code class="descclassname">operalib.learningrate.</code><code class="descname">Constant</code><span class="sig-paren">(</span><em>eta=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/learningrate.html#Constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.learningrate.Constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant learning rate.</p>
 <div class="math">
 <p><img src="../_images/math/be167800146bd9d1b34b429cbce5f285b8f16834.png" alt="t \mapsto eta"/></p>
-</div><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+</div><p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eta</strong> : float default 1.</td>
+<tr class="row-odd"><td>eta</td>
+<td>(float default 1.)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>eta</strong> : Callable</td>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(t)</td>
+<td>Return learning rate at time t.</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="class">
 <dt id="operalib.learningrate.InvScaling">
-<code class="descclassname">operalib.learningrate.</code><code class="descname">InvScaling</code><span class="sig-paren">(</span><em>eta=1.0</em>, <em>power=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/learningrate.html#InvScaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.learningrate.InvScaling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constant learnin rate.</p>
+<em class="property">class </em><code class="descclassname">operalib.learningrate.</code><code class="descname">InvScaling</code><span class="sig-paren">(</span><em>eta=1</em>, <em>power=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/learningrate.html#InvScaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.learningrate.InvScaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse scaling learnin rate.</p>
 <div class="math">
 <p><img src="../_images/math/3653f4c34f9f507dbaeb0a927622a26c5f2d02bd.png" alt="t \mapsto eta0 * t^{-power}"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
@@ -169,8 +183,20 @@ gradient descent algorithms</p>
 <p><strong>power</strong> : float, default 1.</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>eta</strong> : Callable</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>InvScaling</strong> : Callable</p>
 </td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(t)</td>
+<td>Return learning rate at time t.</td>
 </tr>
 </tbody>
 </table>

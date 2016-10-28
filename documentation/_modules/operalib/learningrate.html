@@ -144,25 +144,38 @@
 <span class="c1"># License: MIT</span>
 
 
-<div class="viewcode-block" id="Constant"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.Constant">[docs]</a><span class="k">def</span> <span class="nf">Constant</span><span class="p">(</span><span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;Constant learnin rate.</span>
+<div class="viewcode-block" id="Constant"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.Constant">[docs]</a><span class="k">class</span> <span class="nc">Constant</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;Constant learning rate.</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">        t \mapsto eta</span>
 
-<span class="sd">    Parameters</span>
+<span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    eta : float default 1.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    eta : Callable</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">eta</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;Initialize constant learning rate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eta : float default 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;Return learning rate at time t.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.eta : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span></div>
 
 
-<div class="viewcode-block" id="InvScaling"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.InvScaling">[docs]</a><span class="k">def</span> <span class="nf">InvScaling</span><span class="p">(</span><span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;Constant learnin rate.</span>
+<div class="viewcode-block" id="InvScaling"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.InvScaling">[docs]</a><span class="k">class</span> <span class="nc">InvScaling</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;Inverse scaling learnin rate.</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">        t \mapsto eta0 * t^{-power}</span>
@@ -175,9 +188,29 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    eta : Callable</span>
+<span class="sd">    InvScaling : Callable</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">eta</span><span class="p">)</span> <span class="o">/</span> <span class="n">t</span> <span class="o">**</span> <span class="n">power</span></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;Initialize inverse scaling learnin rate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eta0 : float, default 1.</span>
+
+<span class="sd">        power : float, default 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;Return learning rate at time t.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.eta / t ** self.power : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="p">)</span> <span class="o">/</span> <span class="n">t</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">power</span></div>
 </pre></div>
 
            </div>

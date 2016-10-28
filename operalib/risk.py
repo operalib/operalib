@@ -26,7 +26,8 @@ class KernelRidgeRisk(object):
         """
         self.lbda = lbda
 
-    def __call__(self, coefs, ground_truth, Gram, weight, zeronan):
+    def __call__(self, coefs, ground_truth, Gram,
+                 weight=None, zeronan=None):
         """Compute the Empirical OVK ridge risk.
 
         Parameters
@@ -50,18 +51,22 @@ class KernelRidgeRisk(object):
         """
         np = ground_truth.size
         pred = Gram * coefs
-        wpred = weight * pred  # sup x identity | unsup x lbda_m x L
-        res = zeronan * (wpred - ground_truth)
-        wip = wpred - zeronan * wpred  # only unsup part of wpred
         reg = inner(coefs, pred)  # reg in rkhs
-        lap = inner(wip, pred)  # Laplacian part x lambda_m
+        if weight is None or zeronan is None:
+            obj = norm(pred - ground_truth) ** 2 / (2 * np)
+        else:
+            wpred = weight * pred  # sup x identity | unsup x lbda_m x L
+            res = zeronan * (wpred - ground_truth)
+            wip = wpred - zeronan * wpred  # only unsup part of wpred
+            lap = inner(wip, pred)  # Laplacian part x lambda_m
 
-        obj = norm(zeronan * res) ** 2 / (2 * np)  # Loss
+            obj = norm(zeronan * res) ** 2 / (2 * np)  # Loss
+            obj += lap / (2 * np)  # Laplacian regularization
         obj += self.lbda * reg / (2 * np)  # Regulariation
-        obj += lap / (2 * np)  # Laplacian regularization
         return obj
 
-    def functional_grad(self, coefs, ground_truth, Gram, weight, zeronan):
+    def functional_grad(self, coefs, ground_truth, Gram,
+                        weight=None, zeronan=None):
         """Compute the gradient of the Empirical OVK ridge risk.
 
         Parameters
@@ -75,9 +80,9 @@ class KernelRidgeRisk(object):
         Gram : {LinearOperator}
             Gram matrix acting on the coefs
 
-        L : array, shape = [n_samples_miss, n_samples_miss]
-            Graph Laplacian of data with missing targets (semi-supervised
-            learning).
+        weight: {LinearOperator}
+
+        zeronan: {LinearOperator}
 
         Returns
         -------
@@ -85,10 +90,14 @@ class KernelRidgeRisk(object):
         """
         np = ground_truth.size
         pred = Gram * coefs
-        res = weight * pred - zeronan * ground_truth
+        if weight is None or zeronan is None:
+            res = pred - ground_truth
+        else:
+            res = weight * pred - zeronan * ground_truth
         return Gram * res / np + self.lbda * pred / np
 
-    def functional_grad_val(self, coefs, ground_truth, Gram, weight, zeronan):
+    def functional_grad_val(self, coefs, ground_truth, Gram,
+                            weight=None, zeronan=None):
         """Compute the gradient and value of the Empirical OVK ridge risk.
 
         Parameters
@@ -113,13 +122,17 @@ class KernelRidgeRisk(object):
         """
         np = ground_truth.size
         pred = Gram * coefs
-        wpred = weight * pred  # sup x identity | unsup x lbda_m x L
-        res = wpred - zeronan * ground_truth
-        wip = wpred - zeronan * wpred  # only unsup part of wpred
         reg = inner(coefs, pred)  # reg in rkhs
-        lap = inner(wip, pred)  # Laplacian part x lambda_m
+        if weight is None or zeronan is None:
+            res = pred - ground_truth
+            obj = norm(res) ** 2 / (2 * np)
+        else:
+            wpred = weight * pred  # sup x identity | unsup x lbda_m x L
+            res = wpred - zeronan * ground_truth
+            wip = wpred - zeronan * wpred  # only unsup part of wpred
+            lap = inner(wip, pred)  # Laplacian part x lambda_m
 
-        obj = norm(zeronan * res) ** 2 / (2 * np)  # Loss
+            obj = norm(zeronan * res) ** 2 / (2 * np)  # Loss
+            obj += lap / (2 * np)  # Laplacian regularization
         obj += self.lbda * reg / (2 * np)  # Regulariation
-        obj += lap / (2 * np)  # Laplacian regularization
         return obj, Gram * res / np + self.lbda * pred / np

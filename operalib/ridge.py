@@ -129,7 +129,7 @@ class Ridge(BaseEstimator, RegressorMixin):
       "Kernels for vector-valued functions: A review." arXiv preprint
       arXiv:1106.6251 (2011). APA
 
-    * Brouard Céline, d'Alché-Buc Florence and Szafranski Marie.
+    * Brouard Celine, d'Alche-Buc Florence and Szafranski Marie.
       "Input Output Kernel Regression," Hal preprint
       hal-01216708 (2015).
 
@@ -191,6 +191,10 @@ class Ridge(BaseEstimator, RegressorMixin):
         gamma : {float}, default=None.
             Gamma parameter for the Decomposable Gaussian kernel.
             Ignored by other kernels.
+
+        gamma_m : {float}, default=None.
+            Gamma parameter for the graph Laplacian inducing penalty on data
+            with missing targets.
 
         theta : {float}, default=.7
             Theta parameter for the Decomposable First Periodic kernel.
@@ -313,8 +317,9 @@ class Ridge(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        # X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-        #                  y_numeric=False, multi_output=True)
+        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
+                         y_numeric=True, multi_output=True,
+                         force_all_finite=False)
         self._validate_params()
 
         solver_params = self.solver_params or {}
@@ -325,17 +330,22 @@ class Ridge(BaseEstimator, RegressorMixin):
         Gram = self.linop_(X)
         risk = KernelRidgeRisk(self.lbda)
 
-        is_sup = ~any(isnan(y), axis=1)
+        if y.ndim > 1:
+            is_sup = ~any(isnan(y), axis=1)
+        else:
+            is_sup = ~isnan(y)
 
-        print(is_sup.size)
+        # print(is_sup.size)
+        # if
+        #     raise ValueError("Unknown label type: %r" % y_type)
         if sum(~is_sup) > 0:
             self.L_ = _graph_Laplacian(rbf_kernel(X[~is_sup, :],
                                                   gamma=self.gamma_m))
         else:
             self.L_ = empty((0, 0))
 
-        weight, zeronan = _SemisupLinop(self.lbda_m, is_sup, self.L_,
-                                        y.shape[1]).gen()
+        p = y.shape[1] if y.ndim > 1 else 1
+        weight, zeronan = _SemisupLinop(self.lbda_m, is_sup, self.L_, p).gen()
 
         self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
                                          zeros(Gram.shape[1]),

@@ -98,3 +98,8 @@ class KernelRidgeRisk(object):
         reg = inner(coefs, pred)
         return (norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np), Gram *
                 res / np + self.lbda * pred / np)
+
+class WeakSupKernelRidge(object):
+    def __init__(self):
+        pass
+

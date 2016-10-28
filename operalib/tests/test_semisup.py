@@ -16,7 +16,7 @@ def test_semisup_linop():
     lbda2 = .1
 
     # supervised indices
-    B = np.random.randint(2, size=(n), dtype=np.bool)
+    B = np.random.randint(2, size=(n)).astype(np.bool)
 
     # Graph Laplcian
     n_unsup = np.sum(~B)

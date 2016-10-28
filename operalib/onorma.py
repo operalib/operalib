@@ -6,7 +6,8 @@ Regularised Risk Minimization Algorithm (ONORMA)
 #         the scikit-learn community.
 # License: MIT
 
-import cloudpickle
+import dill
+dill.extend(True)
 
 from numpy import eye, empty, ravel, vstack, zeros
 

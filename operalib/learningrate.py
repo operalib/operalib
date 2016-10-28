@@ -7,25 +7,38 @@ gradient descent algorithms
 # License: MIT
 
 
-def Constant(eta=1.):
-    r"""Constant learnin rate.
+class Constant(object):
+    r"""Constant learning rate.
 
     .. math::
         t \mapsto eta
 
-    Parameters
+    Attributes
     ----------
     eta : float default 1.
-
-    Returns
-    -------
-    eta : Callable
     """
-    return lambda t: float(eta)
+
+    def __init__(self, eta=1):
+        r"""Initialize constant learning rate.
+
+        Parameters
+        ----------
+        eta : float default 1.
+        """
+        self.eta = eta
+
+    def __call__(self, t):
+        r"""Return learning rate at time t.
+
+        Returns
+        -------
+        self.eta : float
+        """
+        return self.eta
 
 
-def InvScaling(eta=1., power=1.):
-    r"""Constant learnin rate.
+class InvScaling(object):
+    r"""Inverse scaling learnin rate.
 
     .. math::
         t \mapsto eta0 * t^{-power}
@@ -38,6 +51,26 @@ def InvScaling(eta=1., power=1.):
 
     Returns
     -------
-    eta : Callable
+    InvScaling : Callable
     """
-    return lambda t: float(eta) / t ** power
+
+    def __init__(self, eta=1, power=1.):
+        r"""Initialize inverse scaling learnin rate.
+
+        Parameters
+        ----------
+        eta0 : float, default 1.
+
+        power : float, default 1.
+        """
+        self.eta = eta
+        self.power = power
+
+    def __call__(self, t):
+        r"""Return learning rate at time t.
+
+        Returns
+        -------
+        self.eta / t ** self.power : float
+        """
+        return float(self.eta) / t ** self.power

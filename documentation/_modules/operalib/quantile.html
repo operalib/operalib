@@ -396,7 +396,7 @@
         <span class="n">sol</span> <span class="o">=</span> <span class="n">solvers</span><span class="o">.</span><span class="n">qp</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># Solve the dual opt. problem</span>
 
         <span class="c1"># Set coefs</span>
-<span class="c1">#        self.coefs = np.reshape(sol[&#39;x&#39;][:n], (m, p)).T</span>
+        <span class="c1"># self.coefs = np.reshape(sol[&#39;x&#39;][:n], (m, p)).T</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][:</span><span class="n">n</span><span class="p">])</span>
 
         <span class="c1"># Set the intercept (the quantile property is not verified)</span>

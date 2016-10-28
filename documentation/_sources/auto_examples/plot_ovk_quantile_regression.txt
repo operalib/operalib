@@ -26,11 +26,11 @@ constraints.
 
     Creating dataset...
     Fitting...
-    joint leaning time:  0.227138996124
+    joint leaning time:  0.212819099426
     joint score  0.7703945361
-    independant leaning time:  0.141874074936
+    independant leaning time:  0.135488033295
     independant score  0.769375053019
-    non-crossing leaning time:  0.829403877258
+    non-crossing leaning time:  0.931074142456
     non-crossing score  0.769973790545
 
 
@@ -100,7 +100,7 @@ constraints.
         plt.title(title)
     plt.show()
 
-**Total running time of the script:** ( 0 minutes  2.198 seconds)
+**Total running time of the script:** ( 0 minutes  2.184 seconds)
 
 
 

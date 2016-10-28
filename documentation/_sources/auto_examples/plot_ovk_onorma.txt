@@ -23,10 +23,10 @@ kernels.
 
     Generating Data
     Fitting Independent...
-    Independent training time: 115.989397049
+    Independent training time: 103.175685167
     Independent MSE: 0.0422670721831
     Fitting Joint...
-    Joint training time: 120.312315226
+    Joint training time: 68.8301849365
     Joint MSE: 0.0416010133362
 
 
@@ -114,7 +114,7 @@ kernels.
     plt.legend()
     plt.show()
 
-**Total running time of the script:** ( 3 minutes  56.830 seconds)
+**Total running time of the script:** ( 2 minutes  52.442 seconds)
 
 
 

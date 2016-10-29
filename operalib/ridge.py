@@ -9,7 +9,7 @@ regression.
 
 from scipy.optimize import fmin_l_bfgs_b
 from scipy.sparse.linalg import LinearOperator
-from numpy import reshape, eye, zeros, empty, dot, any, isnan, diag
+from numpy import reshape, eye, zeros, empty, dot, all, isnan, diag
 
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y, check_array
@@ -317,9 +317,9 @@ class Ridge(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-                         y_numeric=True, multi_output=True,
-                         force_all_finite=False)
+        # X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
+        #                  y_numeric=True, multi_output=False,
+        #                  force_all_finite=False)
         self._validate_params()
 
         solver_params = self.solver_params or {}
@@ -331,7 +331,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         risk = KernelRidgeRisk(self.lbda)
 
         if y.ndim > 1:
-            is_sup = ~any(isnan(y), axis=1)
+            is_sup = ~all(isnan(y), axis=1)
         else:
             is_sup = ~isnan(y)
 

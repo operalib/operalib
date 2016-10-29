@@ -8,6 +8,7 @@
 
 from numpy.linalg import norm
 from numpy import inner
+from numpy.ma import masked_invalid
 
 
 class KernelRidgeRisk(object):
@@ -52,11 +53,13 @@ class KernelRidgeRisk(object):
         np = ground_truth.size
         pred = Gram * coefs
         reg = inner(coefs, pred)  # reg in rkhs
+        vgt = masked_invalid(ground_truth)
+        vgt[vgt.mask] = pred[vgt.mask]
         if weight is None or zeronan is None:
-            obj = norm(pred - ground_truth) ** 2 / (2 * np)
+            obj = norm(pred - vgt) ** 2 / (2 * np)
         else:
             wpred = weight * pred  # sup x identity | unsup x lbda_m x L
-            res = zeronan * (wpred - ground_truth)
+            res = zeronan * (wpred - vgt)
             wip = wpred - zeronan * wpred  # only unsup part of wpred
             lap = inner(wip, pred)  # Laplacian part x lambda_m
 
@@ -90,10 +93,12 @@ class KernelRidgeRisk(object):
         """
         np = ground_truth.size
         pred = Gram * coefs
+        vgt = masked_invalid(ground_truth)
+        vgt[vgt.mask] = pred[vgt.mask]
         if weight is None or zeronan is None:
-            res = pred - ground_truth
+            res = pred - vgt
         else:
-            res = weight * pred - zeronan * ground_truth
+            res = weight * pred - zeronan * vgt
         return Gram * res / np + self.lbda * pred / np
 
     def functional_grad_val(self, coefs, ground_truth, Gram,
@@ -122,13 +127,15 @@ class KernelRidgeRisk(object):
         """
         np = ground_truth.size
         pred = Gram * coefs
+        vgt = masked_invalid(ground_truth)
+        vgt[vgt.mask] = pred[vgt.mask]
         reg = inner(coefs, pred)  # reg in rkhs
         if weight is None or zeronan is None:
-            res = pred - ground_truth
+            res = pred - vgt
             obj = norm(res) ** 2 / (2 * np)
         else:
             wpred = weight * pred  # sup x identity | unsup x lbda_m x L
-            res = wpred - zeronan * ground_truth
+            res = wpred - zeronan * vgt
             wip = wpred - zeronan * wpred  # only unsup part of wpred
             lap = inner(wip, pred)  # Laplacian part x lambda_m
 

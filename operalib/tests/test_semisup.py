@@ -18,7 +18,7 @@ def test_semisup_linop():
     # supervised indices
     B = np.random.randint(2, size=(n)).astype(np.bool)
 
-    # Graph Laplcian
+    # Graph Laplacian
     n_unsup = np.sum(~B)
     L = np.random.randn(n_unsup, n_unsup)
     L = np.dot(L, L.T)

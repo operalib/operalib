@@ -2,6 +2,9 @@
 
 The :mod:`sklearn.tests.test_KernelRidge` tests OVK ridge regression estimator.
 """
+from numpy import NaN, bool
+from numpy.random import binomial
+
 import operalib as ovk
 
 from sklearn import __version__
@@ -28,6 +31,32 @@ def test_learn_df():
     X, y = ovk.toy_data_div_free_field(n=500)
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
+
+    regr_1 = ovk.Ridge(kernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
+    regr_1.fit(Xtr, ytr)
+    assert regr_1.score(Xte, yte) >= 0.8
+
+
+def test_learn_cf_semi():
+    """Test ovk curl-free estimator fit on semi-supervised data."""
+    X, y = ovk.toy_data_curl_free_field(n=500)
+
+    Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
+    nan_mask = binomial(1, 0.1, ytr.shape[0]).astype(bool)
+    ytr[nan_mask, :] = NaN
+
+    regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
+    regr_1.fit(Xtr, ytr)
+    assert regr_1.score(Xte, yte) >= 0.8
+
+
+def test_learn_df_semi():
+    """Test ovk curl-free estimator fit on semi-supervised data.."""
+    X, y = ovk.toy_data_div_free_field(n=500)
+
+    Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
+    nan_mask = binomial(1, 0.1, ytr.shape[0]).astype(bool)
+    ytr[nan_mask, :] = NaN
 
     regr_1 = ovk.Ridge(kernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)

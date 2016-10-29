@@ -6,7 +6,7 @@ Vector-field Learning with structured output kernel
 An example to illustrate structured learning with operator-valued kernels.
 
 We compare Operator-valued kernel (OVK) with scikit-learn multi-output ridge
-regression.
+regression on a semi-supervised dataset.
 """
 
 import operalib as ovk
@@ -19,31 +19,51 @@ from sklearn.kernel_ridge import KernelRidge
 np.random.seed(0)
 X, y = ovk.toy_data_curl_free_field(n=2000)
 Xc = X.copy()
-yc = y.copy() + .05 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
+yc = y.copy() + .075 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
 K = ovk.RBFCurlFreeKernel(1.)
 Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=500)
 
-regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+# Add unlabelled data
+ytr = ovk.datasets.awful(ytr, .85, .1, .5)
+sup_mask = ~np.any(np.isnan(ytr), axis=1)
+weaksup_mask = ~np.all(np.isnan(ytr), axis=1)
 
-nan_mask = np.random.binomial(1, 0., ytr.shape[0]).astype(np.bool)
-ytr[nan_mask, :] = np.NaN
-
-# Learning with curl-free
+# Learning with curl-free semisup + weak
+regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001,
+                   gamma_m=1., lbda_m=0.0001)
 regr_1.fit(Xtr, ytr)
 s1 = regr_1.score(Xte, yte)
-print('R2 curl-free ridge: ', s1)
+print('R2 curl-free semisup + weak ridge: ', s1)
 yp1 = regr_1.predict(Xc)
 X1, Y1 = ovk.array2mesh(Xc)
 U1, V1 = ovk.array2mesh(yp1)
 
-# Learning with sklearn ridge
-regr_2 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=1.5)
-regr_2.fit(Xtr[~nan_mask, :], ytr[~nan_mask, :])
+# Learning with curl-free weak
+regr_2 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+regr_2.fit(Xtr[weaksup_mask, :], ytr[weaksup_mask, :])
 s2 = regr_2.score(Xte, yte)
-print('R2 independant ridge: ', s2)
-yp2 = regr_2.predict(X)
-X2, Y2 = ovk.array2mesh(X)
+print('R2 curl-free weak ridge: ', s2)
+yp2 = regr_2.predict(Xc)
+X2, Y2 = ovk.array2mesh(Xc)
 U2, V2 = ovk.array2mesh(yp2)
+
+# Learning with curl-free
+regr_3 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+regr_3.fit(Xtr[sup_mask, :], ytr[sup_mask, :])
+s3 = regr_3.score(Xte, yte)
+print('R2 curl-free ridge: ', s3)
+yp3 = regr_3.predict(Xc)
+X3, Y3 = ovk.array2mesh(Xc)
+U3, V3 = ovk.array2mesh(yp3)
+
+# Learning with sklearn ridge
+regr_4 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=.5)
+regr_4.fit(Xtr[sup_mask, :], ytr[sup_mask, :])
+s4 = regr_4.score(Xte, yte)
+print('R2 independant ridge: ', s4)
+yp4 = regr_4.predict(X)
+X4, Y4 = ovk.array2mesh(X)
+U4, V4 = ovk.array2mesh(yp4)
 
 # Plotting
 f, axarr = plt.subplots(1, 2, sharex=True, sharey=True, figsize=(14, 7))

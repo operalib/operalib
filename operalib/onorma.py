@@ -6,8 +6,6 @@ Regularised Risk Minimization Algorithm (ONORMA)
 #         the scikit-learn community.
 # License: MIT
 
-import dill
-
 from numpy import eye, empty, ravel, vstack, zeros
 
 from sklearn.base import BaseEstimator, RegressorMixin

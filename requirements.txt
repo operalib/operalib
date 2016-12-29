@@ -2,4 +2,3 @@ numpy
 scipy
 scikit-learn>=0.17
 cvxopt
-dill

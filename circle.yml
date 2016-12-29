@@ -19,6 +19,7 @@ dependencies:
   pre:
     - sudo -E apt-get -yq remove texlive-binaries --purge\
     - sudo add-apt-repository ppa:bzindovic/suitesparse-bugfix-1319687 -y
+    - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F76221572C52609D
     - sudo apt-get update
     - sudo apt-get install suitesparse-dev
     - sudo apt-get install libatlas-dev libatlas3gf-base

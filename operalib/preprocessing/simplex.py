@@ -1,6 +1,6 @@
 """Simplex coding module."""
 
-from numpy import dot, array, vstack, hstack, ones, zeros, full, sqrt
+from numpy import dot, array, vstack, hstack, ones, zeros, sqrt
 
 
 def scode(n):
@@ -15,7 +15,7 @@ def _scode_i(n):
     """
     if n > 1:
         C1 = vstack((ones((1, 1)), zeros((n - 1, 1))))
-        C2 = vstack((full((1, n), -1. / n),
+        C2 = vstack((-ones((1, n)) / n,
                      _scode_i(n - 1) * sqrt(1. - 1. / (n * n))))
         return hstack((C1, C2))
     if n == 1:

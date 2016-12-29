@@ -18,6 +18,10 @@ dependencies:
   # Various dependencies
   pre:
     - sudo -E apt-get -yq remove texlive-binaries --purge\
+    - sudo add-apt-repository main -y
+    - sudo add-apt-repository universe -y
+    - sudo add-apt-repository restricted -y
+    - sudo add-apt-repository multiverse -y
     - sudo apt-get update
     - sudo apt-get install suitesparse-dev
     - sudo apt-get install libatlas-dev libatlas3gf-base

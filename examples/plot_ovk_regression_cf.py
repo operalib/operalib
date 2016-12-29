@@ -23,7 +23,7 @@ yc = y.copy() + .05 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
 K = ovk.RBFCurlFreeKernel(1.)
 Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=500)
 
-regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
 
 nan_mask = np.random.binomial(1, 0., ytr.shape[0]).astype(np.bool)
 ytr[nan_mask, :] = np.NaN
@@ -57,5 +57,6 @@ axarr[0].set_title('Curl-Free Ridge, R2: ' + str(s1))
 axarr[1].set_ylim([-1, 1])
 axarr[1].set_xlim([-1, 1])
 axarr[1].set_title('Independant Ridge, R2: ' + str(s2))
+
 f.suptitle('Vectorfield learning')
 plt.show()

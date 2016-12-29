@@ -238,7 +238,9 @@ class ONORMA(BaseEstimator, RegressorMixin):
         check_is_fitted(self, ['coefs_', 't_', 'p_',
                                'X_seen_', 'y_seen_'], all_or_any=all)
         X = check_array(X)
-        return self._decision_function(X)
+        linop = self.ov_kernel_(self.X_seen_)
+        pred = linop(X) * self.coefs_[:self.t_ * self.p_]
+        return pred.reshape(X.shape[0], -1) if linop.p > 1 else pred
 
     def partial_fit(self, X, y):
         """Partial fit of ONORMA model.

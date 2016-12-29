@@ -50,7 +50,7 @@ y += np.dot(np.random.randn(y.shape[0], y.shape[1]), Cov)
 print("Fitting...")
 start = time.time()
 A = np.eye(2)
-regr_1 = ovk.Ridge('DPeriodic', lbda=0.01, period=6, theta=.995, A=A)
+regr_1 = ovk.OVKRidge('DPeriodic', lbda=0.01, period=6, theta=.995, A=A)
 regr_1.fit(X, y)
 print("Leaning time DPeriodic ID: ", time.time() - start)
 

@@ -1,6 +1,6 @@
 """OVK learning, unit tests.
 
-The :mod:`sklearn.tests.test_KernelRidge` tests OVK ridge regression estimator.
+The :mod:`sklearn.tests.test_ovkernelRidge` tests OVK ridge regression estimator.
 """
 from numpy import NaN, bool
 from numpy.random import binomial
@@ -21,7 +21,7 @@ def test_learn_cf():
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
 
-    regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
+    regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)
     assert regr_1.score(Xte, yte) >= 0.8
 
@@ -32,7 +32,7 @@ def test_learn_df():
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
 
-    regr_1 = ovk.Ridge(kernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
+    regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)
     assert regr_1.score(Xte, yte) >= 0.8
 
@@ -45,7 +45,7 @@ def test_learn_cf_semi():
     nan_mask = binomial(1, 0.1, ytr.shape[0]).astype(bool)
     ytr[nan_mask, :] = NaN
 
-    regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
+    regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)
     assert regr_1.score(Xte, yte) >= 0.8
 
@@ -58,6 +58,6 @@ def test_learn_df_semi():
     nan_mask = binomial(1, 0.1, ytr.shape[0]).astype(bool)
     ytr[nan_mask, :] = NaN
 
-    regr_1 = ovk.Ridge(kernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
+    regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFDivFreeKernel(gamma=10.), lbda=0)
     regr_1.fit(Xtr, ytr)
     assert regr_1.score(Xte, yte) >= 0.8

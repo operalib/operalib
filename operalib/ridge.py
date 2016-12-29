@@ -9,23 +9,24 @@ regression.
 
 from scipy.optimize import fmin_l_bfgs_b
 from scipy.sparse.linalg import LinearOperator
-from numpy import reshape, eye, zeros, empty, dot, all, isnan, diag
+from numpy import (reshape, eye, zeros, empty, dot, all, isnan, diag, number,
+                   issubdtype)
 
 from sklearn.base import BaseEstimator, RegressorMixin
-from sklearn.utils import check_X_y, check_array
+from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted
-
 from sklearn.metrics.pairwise import rbf_kernel
 
 from .metrics import first_periodic_kernel
-from .kernels import DecomposableKernel
-from .risk import KernelRidgeRisk
+from .kernels import DecomposableKernel, RBFCurlFreeKernel
+from .risk import OVKRidgeRisk
 from .signal import get_period
 
 # When adding a new kernel, update this table and the _get_kernel_map method
 PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
-    'DPeriodic': DecomposableKernel, }
+    'DPeriodic': DecomposableKernel,
+    'CurlF': RBFCurlFreeKernel}
 
 
 def _graph_Laplacian(similarities):
@@ -71,8 +72,8 @@ class _SemisupLinop:
                                rmatvec=lambda b: self._dot_JT(b)))
 
 
-class Ridge(BaseEstimator, RegressorMixin):
-    u"""Operator-Valued kernel ridge regression.
+class OVKRidge(BaseEstimator, RegressorMixin):
+    """Operator-Valued kernel ridge regression.
 
     Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
     (linear least squares with l2-norm regularization) with the (OV)kernel
@@ -136,9 +137,9 @@ class Ridge(BaseEstimator, RegressorMixin):
 
     See also
     --------
-    sklearn.Ridge
+    sklearn.OVKRidge
         Linear ridge regression.
-    sklearn.KernelRidge
+    sklearn.KernelOVKRidge
         Kernel ridge regression.
     sklearn.SVR
         Support Vector Regression implemented using libsvm.
@@ -151,16 +152,16 @@ class Ridge(BaseEstimator, RegressorMixin):
     >>> rng = np.random.RandomState(0)
     >>> y = rng.randn(n_samples, n_targets)
     >>> X = rng.randn(n_samples, n_features)
-    >>> clf = ovk.Ridge('DGauss', lbda=1.0)
+    >>> clf = ovk.OVKRidge('DGauss', lbda=1.0)
     >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    Ridge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
+    OVKRidge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
        lbda=1.0, period='autocorr',
        solver=<function fmin_l_bfgs_b at ...>, solver_params=None,
        theta=0.7)
     """
 
     def __init__(self,
-                 kernel='DGauss', lbda=1e-5, lbda_m=0.,
+                 ovkernel='DGauss', lbda=1e-5, lbda_m=0.,
                  A=None, gamma=None, gamma_m=None, theta=0.7,
                  period='autocorr', autocorr_params=None,
                  solver=fmin_l_bfgs_b, solver_params=None):
@@ -169,7 +170,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         Parameters
         ----------
 
-        kernel : {string, callable}, default='DGauss'
+        ovkernel : {string, callable}, default='DGauss'
             Kernel mapping used internally. A callable should accept two
             arguments, and should return a LinearOperator.
 
@@ -219,7 +220,7 @@ class Ridge(BaseEstimator, RegressorMixin):
             Additional parameters (keyword arguments) for solver function
             passed as callable object.
         """
-        self.kernel = kernel
+        self.ovkernel = ovkernel
         self.lbda = lbda
         self.lbda_m = lbda_m
         self.A = A
@@ -232,7 +233,7 @@ class Ridge(BaseEstimator, RegressorMixin):
         self.solver_params = solver_params
 
     def _validate_params(self):
-        # check on self.kernel is performed in method __get_kernel
+        # check on self.ovkernel is performed in method __get_kernel
         if self.lbda < 0:
             raise ValueError('lbda must be positive')
         if self.lbda_m < 0:
@@ -271,15 +272,15 @@ class Ridge(BaseEstimator, RegressorMixin):
     def _get_kernel_map(self, X, y):
         # When adding a new kernel, update this table and the _get_kernel_map
         # method
-        if callable(self.kernel):
-            ov_kernel = self.kernel
-        elif type(self.kernel) is str:
+        if callable(self.ovkernel):
+            ovkernel = self.ovkernel
+        elif type(self.ovkernel) is str:
             # 1) check string and assign the right parameters
-            if self.kernel == 'DGauss':
+            if self.ovkernel == 'DGauss':
                 self.A_ = self._default_decomposable_op(y)
                 kernel_params = {'A': self.A_, 'scalar_kernel': rbf_kernel,
                                  'scalar_kernel_params': {'gamma': self.gamma}}
-            elif self.kernel == 'DPeriodic':
+            elif self.ovkernel == 'DPeriodic':
                 self.A_ = self._default_decomposable_op(y)
                 self.period_ = self._default_period(X, y)
                 kernel_params = {'A': self.A_,
@@ -287,13 +288,16 @@ class Ridge(BaseEstimator, RegressorMixin):
                                  'scalar_kernel_params': {'gamma': self.theta,
                                                           'period':
                                                           self.period_}, }
+            elif self.ovkernel == 'CurlF':
+                kernel_params = {'gamma': self.gamma}
             else:
                 raise NotImplemented('unsupported kernel')
             # 2) Uses lookup table to select the right kernel from string
-            ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.kernel](**kernel_params)
+            ovkernel = PAIRWISE_KERNEL_FUNCTIONS[self.ovkernel](
+                **kernel_params)
         else:
             raise NotImplemented('unsupported kernel')
-        return ov_kernel(X)
+        return ovkernel(X)
 
     def _decision_function(self, X):
         pred = self.linop_(X) * self.dual_coefs_
@@ -317,27 +321,28 @@ class Ridge(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        # X, y = check_X_y(X, y, ['csr', 'csc', 'coo'],
-        #                  y_numeric=True, multi_output=False,
-        #                  force_all_finite=False)
+        X = check_array(X, force_all_finite=True, accept_sparse=False,
+                        ensure_2d=True)
+        y = check_array(y, force_all_finite=False, accept_sparse=False,
+                        ensure_2d=False)
+        if y.ndim == 1:
+            y = check_array(y, force_all_finite=True, accept_sparse=False,
+                            ensure_2d=False)
         self._validate_params()
 
         solver_params = self.solver_params or {}
 
-        # TODO: compute graph Laplacian
-
         self.linop_ = self._get_kernel_map(X, y)
         Gram = self.linop_(X)
-        risk = KernelRidgeRisk(self.lbda)
+        risk = OVKRidgeRisk(self.lbda)
 
+        if not issubdtype(y.dtype, number):
+            raise ValueError("Unknown label type: %r" % y.dtype)
         if y.ndim > 1:
             is_sup = ~all(isnan(y), axis=1)
         else:
             is_sup = ~isnan(y)
 
-        # print(is_sup.size)
-        # if
-        #     raise ValueError("Unknown label type: %r" % y_type)
         if sum(~is_sup) > 0:
             self.L_ = _graph_Laplacian(rbf_kernel(X[~is_sup, :],
                                                   gamma=self.gamma_m))
@@ -369,5 +374,6 @@ class Ridge(BaseEstimator, RegressorMixin):
             Returns predicted values.
         """
         check_is_fitted(self, ['dual_coefs_', 'linop_'], all_or_any=all)
-        X = check_array(X)
+        X = check_array(X, force_all_finite=True, accept_sparse=False,
+                        ensure_2d=True)
         return self._decision_function(X)

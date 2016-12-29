@@ -19,7 +19,8 @@ from sklearn.kernel_ridge import KernelRidge
 np.random.seed(0)
 X, y = ovk.toy_data_curl_free_field(n=2000)
 Xc = X.copy()
-yc = y.copy() + .075 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
+# Add some noise
+yc = y.copy() + .075 * np.random.randn(y.shape[0], y.shape[1])
 K = ovk.RBFCurlFreeKernel(1.)
 Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=500)
 
@@ -29,8 +30,8 @@ sup_mask = ~np.any(np.isnan(ytr), axis=1)
 weaksup_mask = ~np.all(np.isnan(ytr), axis=1)
 
 # Learning with curl-free semisup + weak
-regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001,
-                   gamma_m=1., lbda_m=0.0001)
+regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001,
+                      gamma_m=1., lbda_m=0.0001)
 regr_1.fit(Xtr, ytr)
 s1 = regr_1.score(Xte, yte)
 print('R2 curl-free semisup + weak ridge: ', s1)
@@ -39,7 +40,7 @@ X1, Y1 = ovk.array2mesh(Xc)
 U1, V1 = ovk.array2mesh(yp1)
 
 # Learning with curl-free weak
-regr_2 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+regr_2 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
 regr_2.fit(Xtr[weaksup_mask, :], ytr[weaksup_mask, :])
 s2 = regr_2.score(Xte, yte)
 print('R2 curl-free weak ridge: ', s2)
@@ -48,7 +49,7 @@ X2, Y2 = ovk.array2mesh(Xc)
 U2, V2 = ovk.array2mesh(yp2)
 
 # Learning with curl-free
-regr_3 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+regr_3 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
 regr_3.fit(Xtr[sup_mask, :], ytr[sup_mask, :])
 s3 = regr_3.score(Xte, yte)
 print('R2 curl-free ridge: ', s3)
@@ -66,16 +67,30 @@ X4, Y4 = ovk.array2mesh(X)
 U4, V4 = ovk.array2mesh(yp4)
 
 # Plotting
-f, axarr = plt.subplots(1, 2, sharex=True, sharey=True, figsize=(14, 7))
-axarr[0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
-                    linewidth=.5, cmap=plt.cm.jet, density=2, arrowstyle=u'->')
-axarr[1].streamplot(X2, Y2, U2, V2, color=np.sqrt(U2**2 + V2**2),
-                    linewidth=.5, cmap=plt.cm.jet, density=2, arrowstyle=u'->')
-axarr[0].set_ylim([-1, 1])
-axarr[0].set_xlim([-1, 1])
-axarr[0].set_title('Curl-Free Ridge, R2: ' + str(s1))
-axarr[1].set_ylim([-1, 1])
-axarr[1].set_xlim([-1, 1])
-axarr[1].set_title('Independant Ridge, R2: ' + str(s2))
+f, axarr = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(14, 7))
+axarr[0, 0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
+                       linewidth=.5, cmap=plt.cm.jet, density=2,
+                       arrowstyle=u'->')
+axarr[0, 1].streamplot(X2, Y2, U2, V2, color=np.sqrt(U2**2 + V2**2),
+                       linewidth=.5, cmap=plt.cm.jet, density=2,
+                       arrowstyle=u'->')
+axarr[1, 0].streamplot(X3, Y3, U3, V3, color=np.sqrt(U2**2 + V2**2),
+                       linewidth=.5, cmap=plt.cm.jet, density=2,
+                       arrowstyle=u'->')
+axarr[1, 1].streamplot(X4, Y4, U4, V4, color=np.sqrt(U2**2 + V2**2),
+                       linewidth=.5, cmap=plt.cm.jet, density=2,
+                       arrowstyle=u'->')
+axarr[0, 0].set_ylim([-1, 1])
+axarr[0, 0].set_xlim([-1, 1])
+axarr[0, 0].set_title('Curl-free semisup + weak ridge: ' + str(s1))
+axarr[0, 1].set_ylim([-1, 1])
+axarr[0, 1].set_xlim([-1, 1])
+axarr[0, 1].set_title('Curl-free weak ridge, R2: ' + str(s2))
+axarr[1, 0].set_ylim([-1, 1])
+axarr[1, 0].set_xlim([-1, 1])
+axarr[1, 0].set_title('Curl-free ridge, R2: ' + str(s3))
+axarr[1, 1].set_ylim([-1, 1])
+axarr[1, 1].set_xlim([-1, 1])
+axarr[1, 1].set_title('Independant ridge, R2: ' + str(s4))
 f.suptitle('Vectorfield learning')
 plt.show()

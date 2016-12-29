@@ -1,4 +1,4 @@
-numpy
+numpy>=1.11
 scipy
 scikit-learn>=0.17
 cvxopt

@@ -83,7 +83,7 @@ class ORFFRidgeRisk(object):
             reg_grad = dot(coefs.reshape((-1, ker.r)), J).ravel()
         else:
             raise('Unsupported kernel')
-        return phix.H * res / np + self.lbda * reg_grad / np
+        return phix.rmatvec(res) / np + self.lbda * reg_grad / np
 
     def functional_grad_val(self, coefs, ground_truth, phix, ker):
         """Compute the gradient and value of the Empirical ORFF ridge risk.
@@ -114,7 +114,7 @@ class ORFFRidgeRisk(object):
         else:
             raise('Unsupported kernel')
         return (norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np),
-                phix.H * res / np + self.lbda * coefs / np)
+                phix.rmatvec(res) / np + self.lbda * coefs / np)
 
 
 class OVKRidgeRisk(object):

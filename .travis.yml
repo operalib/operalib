@@ -12,10 +12,17 @@ cache:
 addons:
   apt:
     packages:
-      - libsuitesparse-dev
+      # cvxopt
+      - libdsdp-dev
+      - libfftw3-dev
+      - libglpk-dev
+      - libgsl-dev
+
+      # sklearn
       - libatlas3gf-base
       - libatlas-dev
       - liblapack-dev
+
       # only required by the DISTRIB="ubuntu" build:
       - python-scipy
 
@@ -70,6 +77,10 @@ matrix:
        sudo: True
        before_install: sudo apt-get install -yqq libatlas3gf-base libatlas-dev
 
+before_install:
+  - wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.3.tar.gz
+  - tar -xf SuiteSparse-4.5.3.tar.gz
+  - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse
 install: source ci_scripts/install.sh
 script: bash ci_scripts/test.sh
 after_success: source ci_scripts/success.sh

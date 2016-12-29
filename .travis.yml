@@ -5,20 +5,14 @@ language: python
 
 cache:
   apt: true
-  pip: true
-  # We use six different cache directory
-  # to work around a Travis bug with multi-platform cache
   directories:
-  - $HOME/operalib_build_ubuntu
-  - $HOME/operalib_build_oldest
-  - $HOME/operalib_build_latest
-  - $HOME/operalib_build_numpy_dev
   - $HOME/.cache/pip
   - $HOME/download
 
 addons:
   apt:
     packages:
+      - libsuitesparse-dev
       - libatlas3gf-base
       - libatlas-dev
       - liblapack-dev

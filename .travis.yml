@@ -16,7 +16,6 @@ addons:
       - libdsdp-dev
       - libfftw3-dev
       - libglpk-dev
-      - libgsl-dev
 
       # sklearn
       - libatlas3gf-base

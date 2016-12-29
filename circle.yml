@@ -34,7 +34,7 @@ dependencies:
     - cd ${HOME}
     - wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.3.tar.gz
     - tar -xf SuiteSparse-4.5.3.tar.gz
-    - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse
+    - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse-4.5.3
     - cd ${HOME}/operalib
     - pip install cvxopt
 

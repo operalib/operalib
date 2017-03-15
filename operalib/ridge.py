@@ -65,9 +65,11 @@ class _SemisupLinop:
 
         # return U, JT
         return (LinearOperator(shape_U,
+                               dtype=self.L.dtype,
                                matvec=lambda b: self._dot_U(b),
                                rmatvec=lambda b: self._dot_U(b)),
                 LinearOperator(shape_JT,
+                               dtype=self.L.dtype,
                                matvec=lambda b: self._dot_JT(b),
                                rmatvec=lambda b: self._dot_JT(b)))
 

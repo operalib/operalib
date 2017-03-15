@@ -169,6 +169,7 @@ class DotProductKernelMap(DotProductKernel):
         """
         return LinearOperator(
             (Y.shape[0] * self.p, self.n * self.p),
+            dtype=self.X.dtype,
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
 
@@ -339,6 +340,7 @@ class DecomposableKernelMap(DecomposableKernel):
         """
         return LinearOperator(
             (Y.shape[0] * self.p, self.n * self.p),
+            dtype=self.X.dtype,
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
 
@@ -483,6 +485,7 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
         """
         return LinearOperator(
             (Y.shape[0] * self.p, self.n * self.p),
+            dtype=self.X.dtype,
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
 
@@ -636,6 +639,7 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
         """
         return LinearOperator(
             (Y.shape[0] * self.p, self.n * self.p),
+            dtype=self.X.dtype,
             matvec=lambda b: self._dot(self._Gram(Y), b),
             rmatvec=lambda b: self._dot(self._Gram(Y), b))
 

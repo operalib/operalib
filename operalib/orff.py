@@ -57,7 +57,7 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
         # method
         if callable(self.ovkernel):
             ov_kernel = self.ovkernel
-        elif type(self.ovkernel) is str:
+        elif isinstance(self.ovkernel, str):
             # 1) check string and assign the right parameters
             if self.ovkernel == 'DGauss':
                 self.A_ = self._default_decomposable_op(y)
@@ -70,11 +70,12 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
             elif self.ovkernel == 'CurlF':
                 kernel_params = {'gamma': self.gamma}
             else:
-                raise NotImplemented('unsupported kernel')
+                raise NotImplementedError('unsupported kernel')
             # 2) Uses lookup table to select the right kernel from string
-            ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.ovkernel](**kernel_params)
+            ov_kernel = \
+                PAIRWISE_KERNEL_FUNCTIONS[self.ovkernel](**kernel_params)
         else:
-            raise NotImplemented('unsupported kernel')
+            raise NotImplementedError('unsupported kernel')
         return ov_kernel
 
     def _default_decomposable_op(self, y):
@@ -117,7 +118,8 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
         self.phix_ = self.linop_.get_orff_map(X, self.D)
         risk = ORFFRidgeRisk(self.lbda)
         self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
-                                         zeros(self.phix_.shape[1]),
+                                         zeros(self.phix_.shape[1],
+                                               dtype=X.dtype),
                                          args=(y.ravel(), self.phix_,
                                                self.linop_),
                                          **solver_params)

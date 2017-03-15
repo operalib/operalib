@@ -19,8 +19,8 @@ class DotProductKernel(object):
     Dot product Operator-Valued Kernel of the form:
 
     .. math::
-        x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
-        y \rangle^2 I_p
+        x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle
+        x, y \rangle^2 I_p
 
     Attributes
     ----------
@@ -234,8 +234,9 @@ class DecomposableKernel(object):
             self.phi_ = RBFSampler(gamma=gamma,
                                    n_components=D, random_state=random_state)
             self.phi_.fit(X)
-            self.Xb_ = self.phi_.transform(X)
-        elif (self.scalar_kernel is 'skewed_chi2') and not hasattr(self, 'Xb_'):
+            self.Xb_ = self.phi_.transform(X).astype(X.dtype)
+        elif (self.scalar_kernel is 'skewed_chi2') and not hasattr(self,
+                                                                   'Xb_'):
             if self.scalar_kernel_params is None:
                 skew = 1.
             else:
@@ -244,7 +245,7 @@ class DecomposableKernel(object):
                                           n_components=D,
                                           random_state=random_state)
             self.phi_.fit(X)
-            self.Xb_ = self.phi_.transform(X)
+            self.Xb_ = self.phi_.transform(X).astype(X.dtype)
         elif not hasattr(self, 'Xb_'):
             raise NotImplementedError('ORFF map for kernel is not '
                                       'implemented yet')
@@ -255,6 +256,7 @@ class DecomposableKernel(object):
             rshape = (self.Xb_.shape[0], self.p)
             oshape = (self.Xb_.shape[0] * self.p, D * self.r)
             return LinearOperator(oshape,
+                                  dtype=self.Xb_.dtype,
                                   matvec=lambda b: dot(dot(self.Xb_,
                                                            b.reshape(cshape)),
                                                        self.B_),
@@ -267,6 +269,7 @@ class DecomposableKernel(object):
             rshape = (X.shape[0], self.p)
             oshape = (Xb.shape[0] * self.p, D * self.r)
             return LinearOperator(oshape,
+                                  dtype=self.Xb_.dtype,
                                   matvec=lambda b: dot(dot(Xb,
                                                            b.reshape(cshape)),
                                                        self.B_),
@@ -314,7 +317,8 @@ class RBFCurlFreeKernel(object):
     Curl-free Operator-Valued Kernel of the form:
 
     .. math::
-        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T).
+        X \mapsto K_X(Y) = 2 \gamma exp(-\gamma||X - Y||^2)(I - 2\gamma(X - Y)
+        (X - T)^T).
 
     Attributes
     ----------

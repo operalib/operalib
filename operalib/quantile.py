@@ -218,9 +218,9 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Solve the optimization problem
         if self.nc_const:
-            self._qp_nc(K, y)
+            self._qp_nc(K, y.reshape(-1, 1))
         else:
-            self._qp(K, y)
+            self._qp(K, y.reshape(-1, 1))
         return self
 
     def _qp_nc(self, K, y):

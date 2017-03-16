@@ -3,7 +3,7 @@
 regression.
 """
 
-from scipy.optimize import fmin_l_bfgs_b
+from scipy.optimize import minimize
 from numpy import eye, zeros
 
 from sklearn.base import BaseEstimator, RegressorMixin
@@ -26,7 +26,7 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
 
     def __init__(self, ovkernel='DGauss', lbda=1e-5,
                  A=None, gamma=1., D=1000, skew=0.,
-                 solver=fmin_l_bfgs_b, solver_params=None):
+                 solver='L-BFGS-B', solver_params=None):
         self.ovkernel = ovkernel
         self.lbda = lbda
         self.A = A
@@ -117,13 +117,13 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
         self.linop_ = self._get_kernel(X, y)
         self.phix_ = self.linop_.get_orff_map(X, self.D)
         risk = ORFFRidgeRisk(self.lbda)
-        self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
-                                         zeros(self.phix_.shape[1],
-                                               dtype=X.dtype),
-                                         args=(y.ravel(), self.phix_,
-                                               self.linop_),
-                                         **solver_params)
-        self.coefs_ = self.solver_res_[0]
+        self.solver_res_ = minimize(risk.functional_grad_val,
+                                    zeros(self.phix_.shape[1],
+                                          dtype=X.dtype),
+                                    args=(y.ravel(), self.phix_, self.linop_),
+                                    method=self.solver,
+                                    jac=True, options=solver_params)
+        self.coefs_ = self.solver_res_.x
         return self
 
     def predict(self, X):

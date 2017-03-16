@@ -7,7 +7,7 @@ regression.
 #         Maxime Sangnier <maxime.sangnier@gmail.com>
 # License: MIT
 
-from scipy.optimize import fmin_l_bfgs_b
+from scipy.optimize import minimize
 from scipy.sparse.linalg import LinearOperator
 from numpy import (reshape, eye, zeros, empty, dot, all, isnan, diag, number,
                    issubdtype)
@@ -166,7 +166,7 @@ class OVKRidge(BaseEstimator, RegressorMixin):
                  ovkernel='DGauss', lbda=1e-5, lbda_m=0.,
                  A=None, gamma=None, gamma_m=None, theta=0.7,
                  period='autocorr', autocorr_params=None,
-                 solver=fmin_l_bfgs_b, solver_params=None):
+                 solver='L-BFGS-B', solver_params=None):
         """Initialize OVK ridge regression model.
 
         Parameters
@@ -354,12 +354,13 @@ class OVKRidge(BaseEstimator, RegressorMixin):
         p = y.shape[1] if y.ndim > 1 else 1
         weight, zeronan = _SemisupLinop(self.lbda_m, is_sup, self.L_, p).gen()
 
-        self.solver_res_ = fmin_l_bfgs_b(risk.functional_grad_val,
-                                         zeros(Gram.shape[1]),
-                                         args=(y.ravel(), Gram, weight,
-                                               zeronan),
-                                         *solver_params)
-        self.dual_coefs_ = self.solver_res_[0]
+        self.solver_res_ = minimize(risk.functional_grad_val,
+                                    zeros(Gram.shape[1]),
+                                    args=(y.ravel(), Gram, weight, zeronan),
+                                    method=self.solver,
+                                    jac=True,
+                                    options=solver_params)
+        self.dual_coefs_ = self.solver_res_.x
         return self
 
     def predict(self, X):

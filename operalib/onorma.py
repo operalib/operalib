@@ -94,8 +94,8 @@ class ONORMA(BaseEstimator, RegressorMixin):
     >>> clf = ovk.ONORMA('DGauss', lbda=1.)
     >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     ONORMA(A=None, T=None, eta=1.0, gamma=None, kernel='DGauss', lbda=1.0,
-        learning_rate='invscaling', mu=0.2, power=0.5, random_state=0,
-        shuffle=True, truncation=None)
+           learning_rate='invscaling', mu=0.2, power=0.5, random_state=0,
+           shuffle=True, truncation=None)
     """
 
     def __init__(self, kernel='DGauss', lbda=1e-5,

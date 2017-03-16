@@ -141,8 +141,8 @@ class Quantile(BaseEstimator, RegressorMixin):
             raise ValueError('Probabilities must be in [0., 1.]')
 
     def _default_decomposable_op(self, y):
-        probs = np.asarray([self.probs_]).T  # 2D array
-        return rbf_kernel(probs, gamma=self.gamma_quantile) \
+        self.probs_ = np.asarray([self.probs_]).T  # 2D array
+        return rbf_kernel(self.probs_, gamma=self.gamma_quantile) \
             if self.gamma_quantile != np.inf else np.eye(self.probs_.size)
 
     def _get_kernel_map(self, X, y):
@@ -158,11 +158,11 @@ class Quantile(BaseEstimator, RegressorMixin):
                 kernel_params = {'A': self.A_, 'scalar_kernel': rbf_kernel,
                                  'scalar_kernel_params': {'gamma': self.gamma}}
             else:
-                raise NotImplemented('unsupported kernel')
+                raise NotImplementedError('unsupported kernel')
             # 2) Uses lookup table to select the right kernel from string
             ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.kernel](**kernel_params)
         else:
-            raise NotImplemented('unsupported kernel')
+            raise NotImplementedError('unsupported kernel')
         return ov_kernel(X)
 
     def _decision_function(self, X):
@@ -274,7 +274,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         q = matrix(-np.kron(y, np.ones(p)))  # Linear part of the objective
         G = matrix(np.r_[np.eye(n), -np.eye(n)])  # LHS of the inequ. constr.
         # RHS of the inequ.
-        h = matrix(np.r_[self.C * probs, self.C * (1 - probs)])
+        h = matrix(np.r_[self.C_ * probs, self.C_ * (1 - probs)])
         # LHS of the equ. constr.
         A = matrix(np.kron(np.ones(int(n / p)), np.eye(p)))
         b = matrix(np.zeros(p))  # RHS of the equality constraint

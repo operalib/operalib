@@ -214,7 +214,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.linop_ = self._get_kernel_map(X, y)
         K = self.linop_.Gram_dense(X)
 
-        self.C = 1. / self.lbda
+        self.C_ = 1. / self.lbda
 
         # Solve the optimization problem
         if self.nc_const:
@@ -246,7 +246,7 @@ class Quantile(BaseEstimator, RegressorMixin):
                          np.c_[-np.eye(n), np.kron(np.eye(m), D.T)],
                          np.c_[np.zeros((l, n)), -np.eye(l)]])
         # RHS of the inequality constraint
-        h = matrix(np.r_[self.C * probs, self.C * (1 - probs),
+        h = matrix(np.r_[self.C_ * probs, self.C_ * (1 - probs),
                    np.zeros(m * (p - 1))])
         # LHS of the equality constraint
         A = matrix(np.c_[np.kron(np.ones(m), np.eye(p)), np.zeros((p, l))])

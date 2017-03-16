@@ -170,7 +170,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         p = self.probs_.size
 
         pred = np.reshape(self.linop_(X) * self.coefs_, (n, p))
-        pred += self.intercept_
+        pred += np.asarray(self.intercept_).ravel()
 
         return pred.T if self.linop_.p > 1 else pred.T.ravel()
 
@@ -218,9 +218,9 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Solve the optimization problem
         if self.nc_const:
-            self._qp_nc(K, y.reshape(-1, 1))
+            self._qp_nc(K, y)
         else:
-            self._qp(K, y.reshape(-1, 1))
+            self._qp(K, y)
         return self
 
     def _qp_nc(self, K, y):
@@ -231,11 +231,12 @@ class Quantile(BaseEstimator, RegressorMixin):
         n = K.shape[0]  # Number of coefficients
         m = int(n / p)  # Number of training instances
         l = m * (p - 1)  # Number of non-crossing dual variables
-        probs = np.kron(np.ones(m), self.probs_)  # Quantiles levels
+        probs = np.kron(np.ones(m), self.probs_.ravel())  # Quantiles levels
 
         D = -np.eye(p) + np.diag(np.ones(p - 1), 1)  # Difference matrix
         D = np.delete(D, -1, 0)
         D = D.T[np.argsort(ind)].T
+        D = D.reshape((D.shape[0], D.shape[2]))
 
         # Quad. part of the objective function
         K = matrix(np.r_[np.c_[K, np.zeros((n, l))], np.zeros((l, n + l))])
@@ -247,7 +248,7 @@ class Quantile(BaseEstimator, RegressorMixin):
                          np.c_[np.zeros((l, n)), -np.eye(l)]])
         # RHS of the inequality constraint
         h = matrix(np.r_[self.C_ * probs, self.C_ * (1 - probs),
-                   np.zeros(m * (p - 1))])
+                   np.zeros((m * (p - 1)))])
         # LHS of the equality constraint
         A = matrix(np.c_[np.kron(np.ones(m), np.eye(p)), np.zeros((p, l))])
         # RHS of the equality constraint
@@ -274,7 +275,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         q = matrix(-np.kron(y, np.ones(p)))  # Linear part of the objective
         G = matrix(np.r_[np.eye(n), -np.eye(n)])  # LHS of the inequ. constr.
         # RHS of the inequ.
-        h = matrix(np.r_[self.C_ * probs, self.C_ * (1 - probs)])
+        h = matrix(np.r_[self.C_ * probs, 
+                         self.C_ * (1 - probs)].reshape((-1, 1)))
         # LHS of the equ. constr.
         A = matrix(np.kron(np.ones(int(n / p)), np.eye(p)))
         b = matrix(np.zeros(p))  # RHS of the equality constraint

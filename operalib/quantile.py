@@ -284,11 +284,10 @@ class Quantile(BaseEstimator, RegressorMixin):
         solvers.options['show_progress'] = self.verbose
         if self.tol:
             solvers.options['reltol'] = self.tol
-        sol = solvers.qp(K, q, G, h, A, b)  # Solve the dual opt. problem
+        self.sol_ = solvers.qp(K, q, G, h, A, b)  # Solve the dual opt. problem
 
         # Set coefs
         self.coefs_ = np.asarray(sol['x'])
-        self.sol = sol
 
         # Set the intercept
         self.intercept_ = 0.  # Erase the previous intercept before prediction

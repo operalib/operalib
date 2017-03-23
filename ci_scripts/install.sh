@@ -73,7 +73,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     virtualenv --system-site-packages testvenv
     source testvenv/bin/activate
     pip install -U pip
-    pip install -U nose nose-timer cython sklearn cvxopt
+    pip install -U nose nose-timer numpy cython scipy sklearn cvxopt
 
 elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     # Set up our own virtualenv environment to avoid travis' numpy.

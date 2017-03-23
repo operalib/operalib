@@ -18,8 +18,8 @@ dependencies:
   # Various dependencies
   pre:
     - sudo -E apt-get -yq remove texlive-binaries --purge
-    - sudo apt-get update
-    - sudo apt-get install libblas-dev libsuitesparse-dev libatlas-dev libatlas3gf-base
+    - sudo apt-get update && apt-get upgrade
+    - sudo apt-get install -f libblas-dev libsuitesparse-dev libatlas-dev libatlas3gf-base
     - sudo apt-get install build-essential python-dev python-setuptools
     # install numpy first as it is a compile time dependency for other packages
     - pip install --upgrade numpy

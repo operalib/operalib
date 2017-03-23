@@ -156,10 +156,7 @@ class OVKRidge(BaseEstimator, RegressorMixin):
     >>> X = rng.randn(n_samples, n_features)
     >>> clf = ovk.OVKRidge('DGauss', lbda=1.0)
     >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    OVKRidge(A=None, autocorr_params=None, gamma=None, kernel='DGauss',
-       lbda=1.0, period='autocorr',
-       solver=<function fmin_l_bfgs_b at ...>, solver_params=None,
-       theta=0.7)
+    OVKRidge(...)
     """
 
     def __init__(self,
@@ -293,12 +290,12 @@ class OVKRidge(BaseEstimator, RegressorMixin):
             elif self.ovkernel == 'CurlF':
                 kernel_params = {'gamma': self.gamma}
             else:
-                raise NotImplemented('unsupported kernel')
+                raise NotImplementedError('unsupported kernel')
             # 2) Uses lookup table to select the right kernel from string
             ovkernel = PAIRWISE_KERNEL_FUNCTIONS[self.ovkernel](
                 **kernel_params)
         else:
-            raise NotImplemented('unsupported kernel')
+            raise NotImplementedError('unsupported kernel')
         return ovkernel(X)
 
     def _decision_function(self, X):

@@ -6,28 +6,181 @@
 #         Maxime Sangnier <maxime.sangnier@gmail.com>
 # License: MIT
 
-from numpy import inner, dot
+from numpy import inner, maximum, sum, multiply, subtract, where
 from numpy.linalg import norm
 from numpy.ma import masked_invalid
 
-from .kernels import DecomposableKernel
+
+class ORFFHingeLoss(object):
+    """Define Hinge loss for ORFF models and its gradient."""
+
+    def __init__(self):
+        """Initialize Hhnge ORFF loss.
+
+        Parameters
+        ==========
+        """
+        pass
+
+    def __call__(self, coefs, ground_truth, phix, ker):
+        """Compute the hinge loss value for ORFF models.
+
+
+        Parameters
+        ----------
+        coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
+
+        ground_truth : {vector-like}
+            Targets samples
+
+        phix : {LinearOperator}
+            X ORFF mapping operator acting on the coefs
+
+        Returns
+        -------
+        float : Empirical ORFF hinge loss
+
+        """
+        pred = phix * coefs
+        return maximum(pred.reshape((-1, ker.p)).T -
+                       sum(multiply(ground_truth, pred).reshape((-1, ker.p)),
+                           axis=1).flat + 1 - ground_truth.reshape((-1,
+                                                                    ker.p)).T,
+                       0).sum(axis=0).mean()
+
+    def functional_grad(self, coefs, ground_truth, phix, ker):
+        pred = phix * coefs
+        mask = (pred.reshape((-1, ker.p)).T -
+                sum(multiply(ground_truth, pred).reshape((-1, ker.p)),
+                    axis=1).flat + 1 - ground_truth.reshape((-1,
+                                                             ker.p)).T > 0).T
+        temp = multiply(mask.sum(axis=1).flat,
+                        ground_truth.reshape((-1, ker.p)).T).T.flat
+        mask = multiply(mask, 1 - ground_truth.reshape((-1, ker.p))).flat
+        temp = phix.rmatvec(subtract(mask, temp))
+        return (temp / ground_truth.size * ker.p)
+
+    def functional_grad_val(self, coefs, ground_truth, phix, ker):
+        pred = phix * coefs
+        mrg = (pred.reshape((-1, ker.p)).T -
+               sum(multiply(ground_truth, pred).reshape((-1, ker.p)),
+                   axis=1).flat + 1 - ground_truth.reshape((-1, ker.p)).T).T
+        val = maximum(mrg, 0).sum(axis=1).mean()
+        mrg = mrg > 0
+        temp = multiply(mrg.sum(axis=1).flat,
+                        ground_truth.reshape((-1, ker.p)).T).T.flat
+        mrg = multiply(mrg, 1 - ground_truth.reshape((-1, ker.p))).flat
+        temp = phix.rmatvec(subtract(mrg, temp))
+        return (val, temp / ground_truth.size * ker.p)
+
+
+class ORFFLSLoss(object):
+    """Define Least squares loss for ORFF models and its gradient."""
+
+    def __init__(self):
+        """Initialize Least squares ORFF loss.
+
+        Parameters
+        ==========
+        """
+        pass
+
+    def __call__(self, coefs, ground_truth, phix, ker):
+        """Compute the Least squares loss value for ORFF models.
+
+
+        Parameters
+        ----------
+        coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
+
+        ground_truth : {vector-like}
+            Targets samples
+
+        phix : {LinearOperator}
+            X ORFF mapping operator acting on the coefs
+
+        Returns
+        -------
+        float : Empirical ORFF least square loss
+
+        """
+        pred = phix * coefs
+        res = pred - ground_truth
+        return norm(res) ** 2 / (2 * ground_truth.size)
+
+    def functional_grad(self, coefs, ground_truth, phix, ker):
+        """Compute the Least squares loss gradient for ORFF models.
+
+
+        Parameters
+        ----------
+        coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
+
+        ground_truth : {vector-like}
+            Targets samples
+
+        phix : {LinearOperator}
+            X ORFF mapping operator acting on the coefs
+
+        Returns
+        -------
+        float : Empirical ORFF least square loss gradient
+
+        """
+        pred = phix * coefs
+        res = pred - ground_truth
+        return phix.rmatvec(res) / ground_truth.size
+
+    def functional_grad_val(self, coefs, ground_truth, phix, ker):
+        """Compute the Least squares loss gradient and value for ORFF models.
+
+
+        Parameters
+        ----------
+        coefs : {vector-like}, shape = [n_samples1 * n_targets]
+            Coefficient to optimise
+
+        ground_truth : {vector-like}
+            Targets samples
+
+        phix : {LinearOperator}
+            X ORFF mapping operator acting on the coefs
+
+        Returns
+        -------
+        tuple : Empirical ORFF least square loss value and gradient
+
+        """
+        pred = phix * coefs
+        res = pred - ground_truth
+        return norm(res) ** 2 / (2 * ground_truth.size), \
+            phix.rmatvec(res) / ground_truth.size
 
 
 class ORFFRidgeRisk(object):
-    """Define ORFF ridge risk and its gradient."""
+    """Define Ridge risk for ORFF models and its gradient."""
 
-    def __init__(self, lbda):
+    def __init__(self, lbda, loss='LS'):
         """Initialize Empirical ORFF ridge risk.
 
         Parameters
         ----------
         lbda : {float}
             Small positive values of lbda improve the conditioning of the
-            problem and reduce the variance of the estimates.  Lbda corresponds
+            problem and reduce the variance of the estimates. Lbda corresponds
             to ``(2*C)^-1`` in other linear models such as LogisticRegression
             or LinearSVC.
         """
         self.lbda = lbda
+        if loss is 'LS':
+            self.loss = ORFFLSLoss()
+        elif loss is 'Hinge':
+            self.loss = ORFFHingeLoss()
+        else:
+            raise NotImplementedError('unsupported loss')
 
     def __call__(self, coefs, ground_truth, phix, ker):
         """Compute the Empirical ORFF ridge risk.
@@ -47,15 +200,8 @@ class ORFFRidgeRisk(object):
         -------
         float : Empirical ORFF ridge risk
         """
-        pred = phix * coefs
-        res = pred - ground_truth
-        np = ground_truth.size
-        if isinstance(ker, DecomposableKernel):
-            J = dot(ker.B_, ker.B_.T)
-            reg = inner(coefs, dot(coefs.reshape((-1, ker.r)), J).ravel())
-        else:
-            raise('Unsupported kernel')
-        return norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np)
+        return (self.loss(coefs, ground_truth, phix, ker) +
+                self.lbda * norm(coefs) ** 2 / (2 * ground_truth.size))
 
     def functional_grad(self, coefs, ground_truth, phix, ker):
         """Compute the gradient of the Empirical ORFF ridge risk.
@@ -75,15 +221,8 @@ class ORFFRidgeRisk(object):
         -------
         {vector-like} : gradient of the Empirical ORFF ridge risk
         """
-        pred = phix * coefs
-        res = pred - ground_truth
-        np = ground_truth.size
-        if isinstance(ker, DecomposableKernel):
-            J = dot(ker.B_, ker.B_.T)
-            reg_grad = dot(coefs.reshape((-1, ker.r)), J).ravel()
-        else:
-            raise('Unsupported kernel')
-        return phix.rmatvec(res) / np + self.lbda * reg_grad / np
+        return (self.loss.functional_grad(coefs, ground_truth, phix, ker) +
+                self.lbda * coefs / ground_truth.size)
 
     def functional_grad_val(self, coefs, ground_truth, phix, ker):
         """Compute the gradient and value of the Empirical ORFF ridge risk.
@@ -104,17 +243,12 @@ class ORFFRidgeRisk(object):
         Tuple{float, vector-like} : Empirical ORFF ridge risk and its gradient
         returned as a tuple.
         """
-        pred = phix * coefs
-        res = pred - ground_truth
-        np = ground_truth.size
-        if isinstance(ker, DecomposableKernel):
-            J = dot(ker.B_, ker.B_.T)
-            reg_grad = dot(coefs.reshape((-1, ker.r)), J).ravel()
-            reg = inner(coefs, reg_grad)
-        else:
-            raise('Unsupported kernel')
-        return (norm(res) ** 2 / (2 * np) + self.lbda * reg / (2 * np),
-                phix.rmatvec(res) / np + self.lbda * coefs / np)
+        val_loss, grad_loss = self.loss.functional_grad_val(coefs,
+                                                            ground_truth,
+                                                            phix, ker)
+        return (val_loss +
+                self.lbda * norm(coefs) ** 2 / (2 * ground_truth.size),
+                grad_loss + self.lbda * coefs / ground_truth.size)
 
 
 class OVKRidgeRisk(object):
@@ -160,7 +294,7 @@ class OVKRidgeRisk(object):
         pred = Gram * coefs
         reg = inner(coefs, pred)  # reg in rkhs
         vgt = masked_invalid(ground_truth)
-        vgt[vgt.mask] = pred[vgt.mask]
+        vgt[where(vgt.mask)] = pred[where(vgt.mask)]
         if weight is None or zeronan is None:
             obj = norm(pred - vgt) ** 2 / (2 * np)
         else:
@@ -200,7 +334,7 @@ class OVKRidgeRisk(object):
         np = ground_truth.size
         pred = Gram * coefs
         vgt = masked_invalid(ground_truth)
-        vgt[vgt.mask] = pred[vgt.mask]
+        vgt[where(vgt.mask)] = pred[where(vgt.mask)]
         if weight is None or zeronan is None:
             res = pred - vgt
         else:
@@ -234,7 +368,7 @@ class OVKRidgeRisk(object):
         np = ground_truth.size
         pred = Gram * coefs
         vgt = masked_invalid(ground_truth)
-        vgt[vgt.mask] = pred[vgt.mask]
+        vgt[where(vgt.mask)] = pred[where(vgt.mask)]
         reg = inner(coefs, pred)  # reg in rkhs
         if weight is None or zeronan is None:
             res = pred - vgt

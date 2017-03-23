@@ -1,6 +1,6 @@
 """Preprocessing."""
 
 
-from .simplex import sencode, sdecode
+from .simplex import SimplexCoding
 
-__all__ = ['sencode', 'sdecode']
+__all__ = ['SimplexCoding']

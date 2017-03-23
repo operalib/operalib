@@ -24,10 +24,11 @@ PAIRWISE_KERNEL_FUNCTIONS = {
 
 class ORFFRidge(BaseEstimator, RegressorMixin):
 
-    def __init__(self, ovkernel='DGauss', lbda=1e-5,
+    def __init__(self, ovkernel='DGauss', loss='LS', lbda=1e-5,
                  A=None, gamma=1., D=1000, skew=0.,
                  solver='L-BFGS-B', solver_params=None):
         self.ovkernel = ovkernel
+        self.loss = loss
         self.lbda = lbda
         self.A = A
         self.gamma = gamma
@@ -116,7 +117,7 @@ class ORFFRidge(BaseEstimator, RegressorMixin):
 
         self.linop_ = self._get_kernel(X, y)
         self.phix_ = self.linop_.get_orff_map(X, self.D)
-        risk = ORFFRidgeRisk(self.lbda)
+        risk = ORFFRidgeRisk(self.lbda, self.loss)
         self.solver_res_ = minimize(risk.functional_grad_val,
                                     zeros(self.phix_.shape[1],
                                           dtype=X.dtype),

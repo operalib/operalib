@@ -38,7 +38,7 @@ __credits__ = ['Romain Brault', 'Florence D\'Alche Buc',
                'Markus Heinonen', 'Tristan Tchilinguirian',
                'Alexandre Gramfort']
 __license__ = 'MIT'
-__version__ = '0.2b11'
+__version__ = '0.2b19'
 __maintainer__ = ['Romain Brault']
 __email__ = ['romain.brault@telecom-paristech.fr']
 __status__ = 'Beta'
@@ -58,7 +58,7 @@ if __OPERALIB_SETUP__:
 else:
     from .kernels import DecomposableKernel, RBFCurlFreeKernel, \
         RBFDivFreeKernel, DotProductKernel
-    from .risk import OVKRidgeRisk, ORFFRidgeRisk
+    from .risk import OVKRidgeRisk, ORFFRidgeRisk, ORFFLSLoss, ORFFHingeLoss
     from .learningrate import Constant, InvScaling
     from .ridge import OVKRidge
     from .onorma import ONORMA
@@ -70,11 +70,11 @@ else:
         toy_data_curl_free_mesh, mesh2array, array2mesh, \
         toy_data_div_free_field, toy_data_div_free_mesh
     from .datasets.quantile import toy_data_quantile
-    from .preprocessing.simplex import sencode, sdecode
+    from .preprocessing.simplex import SimplexCoding
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
                'DotProductKernel',
-               'OVKRidgeRisk', 'ORFFRidgeRisk',
+               'OVKRidgeRisk', 'ORFFRidgeRisk', 'ORFFLSLoss', 'ORFFHingeLoss',
                'Constant', 'InvScaling',
                'first_periodic_kernel',
                'get_period',
@@ -82,4 +82,4 @@ else:
                'toy_data_curl_free_field', 'toy_data_curl_free_mesh',
                'toy_data_div_free_field', 'toy_data_div_free_mesh',
                'mesh2array', 'array2mesh', 'toy_data_quantile',
-               'sencode', 'sdecode']
+               'SimplexCoding']

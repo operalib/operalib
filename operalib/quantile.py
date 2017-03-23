@@ -287,7 +287,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.sol_ = solvers.qp(K, q, G, h, A, b)  # Solve the dual opt. problem
 
         # Set coefs
-        self.coefs_ = np.asarray(sol['x'])
+        self.coefs_ = np.asarray(self.sol_['x'])
 
         # Set the intercept
         self.intercept_ = 0.  # Erase the previous intercept before prediction

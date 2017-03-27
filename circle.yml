@@ -17,7 +17,8 @@ dependencies:
 
   # Various dependencies
   pre:
-    - sudo -E apt-get -yq remove texlive-binaries --purge
+    - sudo apt-get clean
+    - sudo -E apt-get -yq remove texlive-binaries libblas-dev libsuitesparse-dev --purge
     - sudo apt-get update
     - sudo apt-get install -f libblas-dev libsuitesparse-dev libatlas-dev libatlas3gf-base
     - sudo apt-get install build-essential python-dev python-setuptools

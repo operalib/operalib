@@ -75,3 +75,4 @@ target/
 # Data
 *.data
 *.mat
+*.dat

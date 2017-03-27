@@ -38,7 +38,7 @@ __credits__ = ['Romain Brault', 'Florence D\'Alche Buc',
                'Markus Heinonen', 'Tristan Tchilinguirian',
                'Alexandre Gramfort']
 __license__ = 'MIT'
-__version__ = '0.2b19'
+__version__ = '0.2b21'
 __maintainer__ = ['Romain Brault']
 __email__ = ['romain.brault@telecom-paristech.fr']
 __status__ = 'Beta'

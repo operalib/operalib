@@ -111,12 +111,10 @@ def test_rff_ridge_hinge_grad():
     risk = ovk.ORFFRidgeRisk(0.01, 'Hinge')
     D = 100
     y = one_hot(randint(0, 3, X.shape[0]), 3)
-    # print(risk.functional_grad_val(rand(D * y.shape[1]), y.ravel(), K.get_orff_map(X, D), K))
     vl = check_grad(lambda *args: risk.functional_grad_val(*args)[0],
                     lambda *args: risk.functional_grad_val(*args)[1],
                     rand(D * y.shape[1]),
                     y.ravel(), K.get_orff_map(X, D), K)
-    print(vl)
     assert vl < 1e-3
 
 
@@ -134,3 +132,31 @@ def test_rff_grad_val_hinge():
     assert_allclose(v, vg[0])
     assert_allclose(g, vg[1])
 
+
+def test_rff_ridge_SCSVM():
+    K = ovk.DecomposableKernel(A=eye(2))
+    risk = ovk.ORFFRidgeRisk(0.01, 'SCSVM')
+    D = 100
+    y = one_hot(randint(0, 3, X.shape[0]), 3)
+    sc = ovk.preprocessing.SimplexCoding()
+    y = sc.fit_transform(y)
+    vl = check_grad(lambda *args: risk.functional_grad_val(*args)[0],
+                    lambda *args: risk.functional_grad_val(*args)[1],
+                    rand(D * y.shape[1]),
+                    y.ravel(), K.get_orff_map(X, D), K)
+    assert vl < 1e-3
+
+
+def test_rff_grad_val_SCSVM():
+    K = ovk.DecomposableKernel(A=eye(2))
+    risk = ovk.ORFFRidgeRisk(0.01, 'SCSVM')
+    y = one_hot(randint(0, 3, X.shape[0]), 3)
+    sv = ovk.preprocessing.SimplexCoding()
+    y = sv.fit_transform(y)
+    D = 100
+    C = rand(D * y.shape[1])
+    v = risk(C, y.ravel(), K.get_orff_map(X, D), K)
+    g = risk.functional_grad(C, y.ravel(), K.get_orff_map(X, D), K)
+    vg = risk.functional_grad_val(C, y.ravel(), K.get_orff_map(X, D), K)
+    assert_allclose(v, vg[0])
+    assert_allclose(g, vg[1])

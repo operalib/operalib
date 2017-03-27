@@ -6,9 +6,52 @@
 #         Maxime Sangnier <maxime.sangnier@gmail.com>
 # License: MIT
 
-from numpy import inner, maximum, sum, multiply, subtract, where
+from numpy import inner, maximum, sum, multiply, subtract, where, dot, isclose
 from numpy.linalg import norm
 from numpy.ma import masked_invalid
+
+from .preprocessing import SimplexCoding
+
+
+class ORFFSCSVMLoss(object):
+    """Define the Simplex Cone Support Vector Machine loss and its gradient."""
+
+    def __init__(self):
+        pass
+
+    def __call__(self, coefs, ground_truth, phix, ker):
+        pred = phix * coefs
+        simplex_operator = SimplexCoding.code(ker.p + 1)
+        pred = dot(pred.reshape((-1, ker.p)), simplex_operator)
+        mask = isclose(dot(ground_truth.reshape((-1, ker.p)),
+                           simplex_operator), 1)
+        margin = maximum(0, 1. / ker.p + pred)
+        margin[mask] = 0
+        return margin.reshape((-1, ker.p + 1)).sum(axis=1).mean()
+
+    def functional_grad(self, coefs, ground_truth, phix, ker):
+        pred = phix * coefs
+        simplex_operator = SimplexCoding.code(ker.p + 1)
+        pred = dot(pred.reshape((-1, ker.p)), simplex_operator)
+        mask = isclose(dot(ground_truth.reshape((-1, ker.p)),
+                           simplex_operator), 1)
+        margin = (1. / ker.p + pred) > 0
+        margin[mask] = 0
+        margin = dot(margin.reshape((-1, ker.p + 1)), simplex_operator.T)
+        return phix.rmatvec(margin.flat) / ground_truth.size * ker.p
+
+    def functional_grad_val(self, coefs, ground_truth, phix, ker):
+        pred = phix * coefs
+        simplex_operator = SimplexCoding.code(ker.p + 1)
+        pred = dot(pred.reshape((-1, ker.p)), simplex_operator)
+        mask = isclose(dot(ground_truth.reshape((-1, ker.p)),
+                           simplex_operator), 1)
+        margin = maximum(0, 1. / ker.p + pred)
+        margin[mask] = 0
+        margin = margin.reshape((-1, ker.p + 1))
+        return (margin.sum(axis=1).mean(),
+                phix.rmatvec(dot(margin > 0, simplex_operator.T).flat) /
+                ground_truth.size * ker.p)
 
 
 class ORFFHingeLoss(object):
@@ -179,6 +222,8 @@ class ORFFRidgeRisk(object):
             self.loss = ORFFLSLoss()
         elif loss is 'Hinge':
             self.loss = ORFFHingeLoss()
+        elif loss is 'SCSVM':
+            self.loss = ORFFSCSVMLoss()
         else:
             raise NotImplementedError('unsupported loss')
 

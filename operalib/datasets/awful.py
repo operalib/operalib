@@ -1,6 +1,9 @@
 """Simulate supervised and unsupervised."""
 
-from numpy import NaN, bool, float
+from numpy import NaN
+from numpy import bool as npbool
+from numpy import float as npfloat
+
 from numpy.random import multinomial, binomial
 
 
@@ -30,8 +33,8 @@ def awful(targets, p_unsup=.25, p_weaksup=.25, p_weaksup_inner=.25):
     awful_targets[awful_mask == 1, :] = NaN
     weaksup_mask = binomial(1, 1 - p_weaksup_inner,
                             awful_targets[awful_mask == 2,
-                                          :].shape).astype(float)
-    weaksup_mask[~weaksup_mask.astype(bool)] = NaN
+                                          :].shape).astype(npfloat)
+    weaksup_mask[~weaksup_mask.astype(npbool)] = NaN
     awful_targets[awful_mask == 2, :] = \
         awful_targets[awful_mask == 2, :] * weaksup_mask
 

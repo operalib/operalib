@@ -17,16 +17,19 @@ dependencies:
 
   # Various dependencies
   pre:
-    - sudo -E apt-get -yq remove texlive-binaries libblas-dev libsuitesparse-dev --purge
     - sudo apt-get update
-    - sudo apt-get install -f libblas-dev libsuitesparse-dev libatlas-dev libatlas3gf-base
+    - sudo apt-get install -f libblas-dev libsuitesparse-dev \
+                              libatlas-dev libatlas3gf-base
     - sudo apt-get install build-essential python-dev python-setuptools
     # install numpy first as it is a compile time dependency for other packages
     - pip install --upgrade numpy
-    - pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery
+    - pip install --upgrade scipy matplotlib setuptools nose coverage sphinx \
+                            pillow sphinx-gallery
     # Installing required packages for `make -C doc check command` to work.
     - sudo -E apt-get -yq update
-    - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
+    - sudo -E apt-get -yq --no-install-suggests --no-install-recommends \
+                          --force-yes install dvipng texlive-latex-base \
+                          texlive-latex-extra
     - pip install --upgrade cython numpydoc
     - pip install --upgrade scikit-learn
     - pip install --upgrade sphinx_rtd_theme
@@ -40,7 +43,8 @@ dependencies:
 test:
   # Grep error on the documentation
   override:
-    - cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
+    - cat ~/log.txt && if grep -q "Traceback (most recent call last):" \
+      ~/log.txt; then false; else true; fi
 deployment:
   push:
     branch: master

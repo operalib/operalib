@@ -34,7 +34,7 @@ env:
     - MODULE=operalib
   matrix:
     # This environment tests that scikit-learn can be built against
-    # versions of numpy, scipy with ATLAS that comes with Ubuntu Precise 12.04
+    # versions of numpy, scipy with ATLAS that comes with Ubuntu Thrusty 14.04
     - DISTRIB="ubuntu" PYTHON_VERSION="2.7" COVERAGE="true"
       CYTHON_VERSION="0.23.4" SCIKIT_VERSION="0.17"
       CACHED_BUILD_DIR="$HOME/operalib_build_ubuntu"
@@ -44,7 +44,7 @@ env:
       CYTHON_VERSION="0.23.4" SCIKIT_VERSION="0.17"
       CACHED_BUILD_DIR="$HOME/operalib_build_oldest"
     # This environment tests the newest supported anaconda env
-    - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true" INSTALL_MKL="true"
+    - DISTRIB="conda" PYTHON_VERSION="3.6" COVERAGE="true" INSTALL_MKL="true"
       NUMPY_VERSION="1.12.0" SCIPY_VERSION="0.19.0"
       CYTHON_VERSION="0.25.2" SCIKIT_VERSION="0.18.1"
       CACHED_BUILD_DIR="$HOME/operalib_build_latest"

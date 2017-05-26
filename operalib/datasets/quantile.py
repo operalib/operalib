@@ -27,7 +27,7 @@ def toy_data_quantile(n_points=50, probs=0.5, noise=1.):
     quantiles : {array}, shape = [n x n_quantiles]
         True conditional quantiles.
     """
-    probs = asarray(probs)
+    probs = asarray(probs, ndim=1)
 
     t_min, t_max = 0., 1.5  # Bounds for the input data
     t_down, t_up = 0., 1.5  # Bounds for the noise

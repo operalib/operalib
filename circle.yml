@@ -35,7 +35,7 @@ dependencies:
     - pip install --upgrade sphinx_rtd_theme
     - wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.3.tar.gz
     - tar -xf SuiteSparse-4.5.3.tar.gz
-    - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse
+    - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse-4.3.5
 
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code

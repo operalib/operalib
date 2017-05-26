@@ -5,7 +5,7 @@ from numpy.random import rand, randn
 from numpy import sort, sin, asarray, pi
 
 
-def toy_data_quantile(n_points=50, probs=None, noise=1.):
+def toy_data_quantile(n_points=50, probs=0.5, noise=1.):
     """Sine wave toy dataset.
 
     Parameters
@@ -13,8 +13,8 @@ def toy_data_quantile(n_points=50, probs=None, noise=1.):
     n : {integer}
         Number of samples to generate.
 
-    probs : {list}, shape = [n_quantiles]
-        Probabilities (quantiles levels).
+    probs : {list}, shape = [n_quantiles], default=0.5
+        Probabilities (quantiles levels)
 
     Returns
     -------
@@ -27,8 +27,7 @@ def toy_data_quantile(n_points=50, probs=None, noise=1.):
     quantiles : {array}, shape = [n x n_quantiles]
         True conditional quantiles.
     """
-    if probs is None:
-        probs = [.5]
+    probs = asarray(probs)
 
     t_min, t_max = 0., 1.5  # Bounds for the input data
     t_down, t_up = 0., 1.5  # Bounds for the noise

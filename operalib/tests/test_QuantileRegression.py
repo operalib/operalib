@@ -18,8 +18,8 @@ def test_valid_estimator():
 def test_learn_quantile():
     """Test OVK quantile estimator fit, predict."""
     probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-    x_train, y_train, z_train = ovk.toy_data_quantile(50)
-    x_test, y_test, z_test = ovk.toy_data_quantile(1000, probs=probs)
+    x_train, y_train, _ = ovk.toy_data_quantile(50)
+    x_test, y_test, _ = ovk.toy_data_quantile(1000, probs=probs)
 
     # Joint quantile regression
     lbda = 1e-2
@@ -30,10 +30,11 @@ def test_learn_quantile():
     ind = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
                        gamma=gamma, gamma_quantile=np.inf)
     # Independent quantile regression (with non-crossing constraints)
-    nc = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
-                      gamma=gamma, gamma_quantile=np.inf, nc_const=True)
+    non_crossing = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
+                                gamma=gamma, gamma_quantile=np.inf,
+                                nc_const=True)
 
     # Fit on training data
-    for reg in [joint, ind, nc]:
+    for reg in [joint, ind, non_crossing]:
         reg.fit(x_train, y_train)
         assert reg.score(x_test, y_test) > 0.5

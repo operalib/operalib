@@ -2,10 +2,10 @@
 
 from scipy.stats import norm
 from numpy.random import rand, randn
-from numpy import sort, sin, asarray, pi
+from numpy import sort, sin, array, pi
 
 
-def toy_data_quantile(n_points=50, probs=0.5, noise=1.):
+def toy_data_quantile(n_points=50, probs=[0.5], noise=1.):
     """Sine wave toy dataset.
 
     Parameters
@@ -27,7 +27,7 @@ def toy_data_quantile(n_points=50, probs=0.5, noise=1.):
     quantiles : {array}, shape = [n x n_quantiles]
         True conditional quantiles.
     """
-    probs = asarray(probs)
+    probs = array(probs, ndmin=1)
 
     t_min, t_max = 0., 1.5  # Bounds for the input data
     t_down, t_up = 0., 1.5  # Bounds for the noise
@@ -41,6 +41,6 @@ def toy_data_quantile(n_points=50, probs=0.5, noise=1.):
     # Gaussian noise with decreasing std
     add_noise = noise_std * randn(n_points)
     observations = pattern + add_noise
-    quantiles = [pattern + asarray([norm.ppf(p, loc=0., scale=abs(noise_c))
-                                    for noise_c in noise_std]) for p in probs]
+    quantiles = [pattern + array([norm.ppf(p, loc=0., scale=abs(noise_c))
+                                  for noise_c in noise_std]) for p in probs]
     return t_rand[:, None], observations, quantiles

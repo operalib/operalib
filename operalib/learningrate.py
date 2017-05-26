@@ -36,6 +36,15 @@ class Constant(object):
         """
         return self.eta
 
+    def get_rate(self, step):
+        r"""Return learning rate at time t.
+
+        Returns
+        -------
+        self.eta / t ** self.power : float
+        """
+        return self.__call__(step)
+
 
 class InvScaling(object):
     r"""Inverse scaling learnin rate.
@@ -74,3 +83,12 @@ class InvScaling(object):
         self.eta / t ** self.power : float
         """
         return float(self.eta) / step ** self.power
+
+    def get_rate(self, step):
+        r"""Return learning rate at time t.
+
+        Returns
+        -------
+        self.eta / t ** self.power : float
+        """
+        return self.__call__(step)

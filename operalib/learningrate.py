@@ -27,7 +27,7 @@ class Constant(object):
         """
         self.eta = eta
 
-    def __call__(self, t):
+    def __call__(self, step):
         r"""Return learning rate at time t.
 
         Returns
@@ -66,11 +66,11 @@ class InvScaling(object):
         self.eta = eta
         self.power = power
 
-    def __call__(self, t):
+    def __call__(self, step):
         r"""Return learning rate at time t.
 
         Returns
         -------
         self.eta / t ** self.power : float
         """
-        return float(self.eta) / t ** self.power
+        return float(self.eta) / step ** self.power

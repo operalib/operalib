@@ -25,6 +25,7 @@ addons:
       # only required by the DISTRIB="ubuntu" build:
       - python-scipy
 
+dist: trusty§
 env:
   global:
     # Directory where tests are run from

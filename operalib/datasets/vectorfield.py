@@ -115,16 +115,18 @@ def toy_data_div_free_mesh(n_points=1000, loc=25, space=0.5):
 
 
 def toy_data_curl_free_field(n_points=1000, loc=25, space=0.5):
-    (X, Y), (U, V) = toy_data_curl_free_mesh(n_points, loc, space)
+    (x_mesh, y_mesh), (u_mesh, v_mesh) = toy_data_curl_free_mesh(n_points,
+                                                                 loc, space)
 
-    X = mesh2array(X, Y)
-    y = mesh2array(U, V)
-    return X, y
+    x_grid = mesh2array(x_mesh, y_mesh)
+    y_grid = mesh2array(u_mesh, v_mesh)
+    return x_grid, y_grid
 
 
 def toy_data_div_free_field(n_points=1000, loc=25, space=0.5):
-    (X, Y), (U, V) = toy_data_div_free_mesh(n_points, loc, space)
+    (x_mesh, y_mesh), (u_mesh, v_mesh) = toy_data_div_free_mesh(n_points,
+                                                                loc, space)
 
-    X = mesh2array(X, Y)
-    y = mesh2array(U, V)
-    return X, y
+    x_grid = mesh2array(x_mesh, y_mesh)
+    y_grid = mesh2array(u_mesh, v_mesh)
+    return x_grid, y_grid

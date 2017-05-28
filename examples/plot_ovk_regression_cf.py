@@ -17,7 +17,7 @@ from sklearn.kernel_ridge import KernelRidge
 
 # Generate data
 np.random.seed(0)
-X, y = ovk.toy_data_curl_free_field(n=2000)
+X, y = ovk.toy_data_curl_free_field(n_points=2000)
 Xc = X.copy()
 yc = y.copy() + .05 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
 K = ovk.RBFCurlFreeKernel(1.)

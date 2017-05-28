@@ -56,8 +56,8 @@ if __OPERALIB_SETUP__:
     # We are not importing the rest of the scikit during the build
     # process, as it may not be compiled yet
 else:
-    from .kernels import DecomposableKernel, RBFCurlFreeKernel, \
-        RBFDivFreeKernel, DotProductKernel
+    from .kernels import (DecomposableKernel, RBFCurlFreeKernel,
+                          RBFDivFreeKernel, DotProductKernel)
     from .risk import OVKRidgeRisk, ORFFRidgeRisk, ORFFLSLoss, ORFFHingeLoss
     from .learningrate import Constant, InvScaling
     from .ridge import OVKRidge
@@ -66,9 +66,11 @@ else:
     from .quantile import Quantile
     from .metrics import first_periodic_kernel
     from .signal import get_period
-    from .datasets.vectorfield import toy_data_curl_free_field, \
-        toy_data_curl_free_mesh, mesh2array, array2mesh, \
-        toy_data_div_free_field, toy_data_div_free_mesh
+    from .datasets.vectorfield import (toy_data_curl_free_field,
+                                       toy_data_curl_free_mesh,
+                                       toy_data_div_free_field,
+                                       toy_data_div_free_mesh,
+                                       array2mesh, mesh2array)
     from .datasets.quantile import toy_data_quantile
     from .preprocessing.simplex import SimplexCoding
 
@@ -81,5 +83,6 @@ else:
                'OVKRidge', 'ORFFRidge', 'Quantile', 'ONORMA',
                'toy_data_curl_free_field', 'toy_data_curl_free_mesh',
                'toy_data_div_free_field', 'toy_data_div_free_mesh',
-               'mesh2array', 'array2mesh', 'toy_data_quantile',
+               'toy_data_quantile',
+               'array2mesh', 'mesh2array',
                'SimplexCoding']

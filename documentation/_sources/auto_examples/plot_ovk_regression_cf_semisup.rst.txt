@@ -95,7 +95,7 @@ regression on a semi-supervised dataset.
     U4, V4 = ovk.array2mesh(yp4)
 
     # Plotting
-    f, axarr = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(14, 7))
+    f, axarr = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(14, 14))
     axarr[0, 0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
                            linewidth=.5, cmap=plt.cm.jet, density=2,
                            arrowstyle=u'->')
@@ -123,7 +123,7 @@ regression on a semi-supervised dataset.
     f.suptitle('Vectorfield learning')
     plt.show()
 
-**Total running time of the script:** ( 0 minutes  35.477 seconds)
+**Total running time of the script:** ( 0 minutes  30.617 seconds)
 
 
 

@@ -67,7 +67,7 @@ X4, Y4 = ovk.array2mesh(X)
 U4, V4 = ovk.array2mesh(yp4)
 
 # Plotting
-f, axarr = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(14, 7))
+f, axarr = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(14, 14))
 axarr[0, 0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
                        linewidth=.5, cmap=plt.cm.jet, density=2,
                        arrowstyle=u'->')

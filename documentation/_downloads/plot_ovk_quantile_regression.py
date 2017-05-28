@@ -34,12 +34,12 @@ def main():
 
     print("Fitting...")
     methods = {'Joint':
-               Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=1e1,
+               Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8,
                         gamma_quantile=1e-2),
                'Independent': Quantile(probs=probs, kernel='DGauss', lbda=1e-2,
-                                       gamma=1e1, gamma_quantile=np.inf),
+                                       gamma=8, gamma_quantile=np.inf),
                'Non-crossing': Quantile(probs=probs, kernel='DGauss',
-                                        lbda=1e-2, gamma=1e1,
+                                        lbda=1e-2, gamma=8,
                                         gamma_quantile=np.inf, nc_const=True)}
     # Fit on training data
     for name, reg in methods.items():
@@ -53,8 +53,10 @@ def main():
     for i, method in enumerate(['Joint', 'Independent', 'Non-crossing']):
         plt.subplot(1, 3, i + 1)
         plt.plot(x_train, y_train, '.')
+        plt.gca().set_prop_cycle(None)
         for quantile in methods[method].predict(x_test):
             plt.plot(x_test, quantile, '-')
+        plt.gca().set_prop_cycle(None)
         for quantile in z_test:
             plt.plot(x_test, quantile, '--')
         plt.title(method)

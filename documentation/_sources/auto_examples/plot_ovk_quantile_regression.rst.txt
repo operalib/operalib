@@ -26,12 +26,12 @@ constraints.
 
     Creating dataset...
     Fitting...
-    Joint leaning time:  1.45082402229
-    Joint score  0.7703945361
-    Non-crossing leaning time:  1.71842598915
-    Non-crossing score  0.769973790545
-    Independent leaning time:  0.731910943985
-    Independent score  0.769375053019
+    Joint leaning time:  1.23248314857
+    Joint score  0.772247508934
+    Non-crossing leaning time:  2.28778195381
+    Non-crossing score  0.775238866983
+    Independent leaning time:  0.166631937027
+    Independent score  0.774746251586
 
 
 
@@ -66,12 +66,12 @@ constraints.
 
         print("Fitting...")
         methods = {'Joint':
-                   Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=1e1,
+                   Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8,
                             gamma_quantile=1e-2),
                    'Independent': Quantile(probs=probs, kernel='DGauss', lbda=1e-2,
-                                           gamma=1e1, gamma_quantile=np.inf),
+                                           gamma=8, gamma_quantile=np.inf),
                    'Non-crossing': Quantile(probs=probs, kernel='DGauss',
-                                            lbda=1e-2, gamma=1e1,
+                                            lbda=1e-2, gamma=8,
                                             gamma_quantile=np.inf, nc_const=True)}
         # Fit on training data
         for name, reg in methods.items():
@@ -85,8 +85,10 @@ constraints.
         for i, method in enumerate(['Joint', 'Independent', 'Non-crossing']):
             plt.subplot(1, 3, i + 1)
             plt.plot(x_train, y_train, '.')
+            plt.gca().set_prop_cycle(None)
             for quantile in methods[method].predict(x_test):
                 plt.plot(x_test, quantile, '-')
+            plt.gca().set_prop_cycle(None)
             for quantile in z_test:
                 plt.plot(x_test, quantile, '--')
             plt.title(method)
@@ -95,7 +97,7 @@ constraints.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  5.205 seconds)
+**Total running time of the script:** ( 0 minutes  4.979 seconds)
 
 
 

@@ -46,5 +46,5 @@ def first_periodic_kernel(X, Y=None, gamma=None, period=None):
     c = sqrt(pi / a) * (exp(- b ** 2 / (4 * a)) + 1)
     K = euclidean_distances(X, Y, squared=True)
 
-    # TODO: Optimize to avoid temporary
+    # TODO: Optimize to avoid temporary?
     return exp(-a * K) * (1 + cos(b * sqrt(K))) / c

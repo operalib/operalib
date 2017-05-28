@@ -87,7 +87,7 @@ regression.
     f.suptitle('Vectorfield learning')
     plt.show()
 
-**Total running time of the script:** ( 0 minutes  49.762 seconds)
+**Total running time of the script:** ( 0 minutes  52.055 seconds)
 
 
 

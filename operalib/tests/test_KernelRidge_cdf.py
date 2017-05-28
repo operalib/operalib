@@ -1,6 +1,7 @@
 """OVK learning, unit tests.
 
-The :mod:`sklearn.tests.test_ovkernelRidge` tests OVK ridge regression estimator.
+The :mod:`sklearn.tests.test_ovkernelRidge` tests OVK ridge regression
+estimator.
 """
 from numpy import NaN, bool
 from numpy.random import binomial

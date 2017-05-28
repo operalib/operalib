@@ -28,7 +28,7 @@ def mesh2array(X, Y):
     return arr
 
 
-def toy_data_curl_free_mesh(n=1000, loc=25, space=0.5):
+def toy_data_curl_free_mesh(n_points=1000, loc=25, space=0.5):
     """Curl-Free toy dataset.
 
     Generate a scalar field as mixture of five gaussians at location:
@@ -41,7 +41,7 @@ def toy_data_curl_free_mesh(n=1000, loc=25, space=0.5):
 
     Parameters
     ----------
-    n : {integer}
+    n_points : {integer}
         Number of samples to generate.
 
     loc: {float}
@@ -53,31 +53,24 @@ def toy_data_curl_free_mesh(n=1000, loc=25, space=0.5):
 
     Returns
     -------
-    X : {array}, shape = [n, n]
-        Mesh, X coordinates.
+    X, Y : pair{array}, {array}}, shape = [n, n]
+            Mesh, X, Y coordinates.
 
-    Y : {array}, shape = [n, n]
-        Mesh, Y coordinates.
-
-    U : {array}, shape = [n, n]
-        Mesh, X velocity as (X, Y) coordinates
-
-    V : {array}, shape = [n, n]
-        Mesh, Y velocity as (X, Y) coordinates
+    U, V : pair{{array}, {array}}, shape = [n, n]
+           Mesh, (U, V) velocity at (X, Y) coordinates
     """
-    xs = arange(-1, 1, 2. / sqrt(n))
-    ys = arange(-1, 1, 2. / sqrt(n))
-    X, Y = meshgrid(xs, ys)
-    field = _gaussian(X, Y, -space, 0, loc) + \
-        _gaussian(X, Y, space, 0, loc) - \
-        _gaussian(X, Y, 0, space, loc) - \
-        _gaussian(X, Y, 0, -space, loc)
-    V, U = gradient(field)
+    x_grid = arange(-1, 1, 2. / sqrt(n_points))
+    y_grid = arange(-1, 1, 2. / sqrt(n_points))
+    x_mesh, y_mesh = meshgrid(x_grid, y_grid)
+    field = _gaussian(x_mesh, y_mesh, -space, 0, loc) + \
+        _gaussian(x_mesh, y_mesh, space, 0, loc) - \
+        _gaussian(x_mesh, y_mesh, 0, space, loc) - \
+        _gaussian(x_mesh, y_mesh, 0, -space, loc)
 
-    return X, Y, U, V
+    return (x_mesh, y_mesh), gradient(field)
 
 
-def toy_data_div_free_mesh(n=1000, loc=25, space=0.5):
+def toy_data_div_free_mesh(n_points=1000, loc=25, space=0.5):
     """Divergence-Free toy dataset.
 
     Generate a scalar field as mixture of five gaussians at location:
@@ -91,7 +84,7 @@ def toy_data_div_free_mesh(n=1000, loc=25, space=0.5):
 
     Parameters
     ----------
-    n : {integer}
+    n_points : {integer}
         Number of samples to generate.
 
     loc: {float}
@@ -103,40 +96,34 @@ def toy_data_div_free_mesh(n=1000, loc=25, space=0.5):
 
     Returns
     -------
-    X : {array}, shape = [n, n]
-        Mesh, X coordinates.
+    X, Y : pair{array}, {array}}, shape = [n, n]
+            Mesh, X, Y coordinates.
 
-    Y : {array}, shape = [n, n]
-        Mesh, Y coordinates.
-
-    U : {array}, shape = [n, n]
-        Mesh, X velocity as (X, Y) coordinates
-
-    V : {array}, shape = [n, n]
-        Mesh, Y velocity as (X, Y) coordinates
+    U, V : pair{{array}, {array}}, shape = [n, n]
+           Mesh, (U, V) velocity at (X, Y) coordinates
     """
-    xs = arange(-1, 1, 2. / sqrt(n))
-    ys = arange(-1, 1, 2. / sqrt(n))
-    X, Y = meshgrid(xs, ys)
-    field = _gaussian(X, Y, -space, 0, loc) + \
-        _gaussian(X, Y, space, 0, loc) - \
-        _gaussian(X, Y, 0, space, loc) - \
-        _gaussian(X, Y, 0, -space, loc)
-    V, U = gradient(field)
+    x_grid = arange(-1, 1, 2. / sqrt(n_points))
+    y_grid = arange(-1, 1, 2. / sqrt(n_points))
+    x_mesh, y_mesh = meshgrid(x_grid, y_grid)
+    field = _gaussian(x_mesh, y_mesh, -space, 0, loc) + \
+        _gaussian(x_mesh, y_mesh, space, 0, loc) - \
+        _gaussian(x_mesh, y_mesh, 0, space, loc) - \
+        _gaussian(x_mesh, y_mesh, 0, -space, loc)
+    v_mesh, u_mesh = gradient(field)
 
-    return X, Y, V, -U
+    return (x_mesh, y_mesh), (v_mesh, -u_mesh)
 
 
-def toy_data_curl_free_field(n=1000, loc=25, space=0.5):
-    X, Y, U, V = toy_data_curl_free_mesh(n, loc, space)
+def toy_data_curl_free_field(n_points=1000, loc=25, space=0.5):
+    (X, Y), (U, V) = toy_data_curl_free_mesh(n_points, loc, space)
 
     X = mesh2array(X, Y)
     y = mesh2array(U, V)
     return X, y
 
 
-def toy_data_div_free_field(n=1000, loc=25, space=0.5):
-    X, Y, U, V = toy_data_div_free_mesh(n, loc, space)
+def toy_data_div_free_field(n_points=1000, loc=25, space=0.5):
+    (X, Y), (U, V) = toy_data_div_free_mesh(n_points, loc, space)
 
     X = mesh2array(X, Y)
     y = mesh2array(U, V)

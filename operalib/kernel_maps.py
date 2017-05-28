@@ -8,14 +8,14 @@ maps associated to the operator-valued kernel models defined in
 # License: MIT
 
 from scipy.sparse.linalg import LinearOperator
-from numpy import ravel, dot, reshape, transpose, asarray, subtract, eye, \
-    newaxis, apply_along_axis, kron, ones
+from numpy import (ravel, dot, reshape, transpose, asarray, subtract, eye,
+                   newaxis, apply_along_axis, kron, ones)
 from numpy.linalg import norm
 from sklearn.metrics.pairwise import rbf_kernel
 from distutils.version import LooseVersion
 
-from .kernels import DecomposableKernel, RBFCurlFreeKernel, RBFDivFreeKernel, \
-    DotProductKernel
+from .kernels import (DecomposableKernel, RBFCurlFreeKernel, RBFDivFreeKernel,
+                      DotProductKernel)
 
 import numpy
 if LooseVersion(numpy.__version__) < LooseVersion('1.8'):
@@ -68,11 +68,13 @@ class DotProductKernelMap(DotProductKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.DotProductKernel(mu=0.2, p=5)
     >>> Gram = K(X, X)
-    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> Gram
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <500x500 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 
@@ -123,12 +125,14 @@ class DotProductKernelMap(DotProductKernel):
         >>> X = np.random.randn(100, 10)
         >>> K = ovk.DotProductKernel(mu=0.2, p=5)
         >>> Gram = K(X, X)
-        >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        >>> Gram
+        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         <500x500 _CustomLinearOperator with dtype=float64>
         >>> C = np.random.randn(Gram.shape[0])
         >>> Kx = K(X)  # The kernel map.
         >>> Ky = K(X)
-        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)
+        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         True
         """
         # TODO: Check that Kx is compatible
@@ -234,11 +238,13 @@ class DecomposableKernelMap(DecomposableKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.DecomposableKernel(np.eye(2))
     >>> Gram = K(X, X)
-    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> Gram
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <200x200 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 
@@ -294,12 +300,14 @@ class DecomposableKernelMap(DecomposableKernel):
         >>> X = np.random.randn(100, 10)
         >>> K = ovk.DecomposableKernel(np.eye(2))
         >>> Gram = K(X, X)
-        >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        >>> Gram
+        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         <200x200 _CustomLinearOperator with dtype=float64>
         >>> C = np.random.randn(Gram.shape[0])
         >>> Kx = K(X)  # The kernel map.
         >>> Ky = K(X)
-        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        >>> np.allclose(Gram * C, (Kx.T * Ky) * C)
+        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         True
         """
         # TODO: Check that Kx is compatible
@@ -404,11 +412,13 @@ class RBFCurlFreeKernelMap(RBFCurlFreeKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.RBFCurlFreeKernel(1.)
     >>> Gram = K(X, X)
-    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> Gram
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <1000x1000 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 
@@ -554,11 +564,13 @@ class RBFDivFreeKernelMap(RBFDivFreeKernel):
     >>> X = np.random.randn(100, 10)
     >>> K = ovk.RBFDivFreeKernel(1.)
     >>> Gram = K(X, X)
-    >>> Gram  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> Gram
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     <1000x1000 _CustomLinearOperator with dtype=float64>
     >>> C = np.random.randn(Gram.shape[0])
     >>> Kx = K(X)  # The kernel map.
-    >>> np.allclose(Gram * C, Kx(X) * C)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> np.allclose(Gram * C, Kx(X) * C)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     True
     """
 

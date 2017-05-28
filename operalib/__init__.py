@@ -53,7 +53,7 @@ except NameError:
 
 if __OPERALIB_SETUP__:
     sys.stderr.write('Partial import of operalib during the build process.\n')
-    # We are not importing the rest of the scikit during the build
+    # We are not importing the rest of Operalib during the build
     # process, as it may not be compiled yet
 else:
     from .kernels import (DecomposableKernel, RBFCurlFreeKernel,

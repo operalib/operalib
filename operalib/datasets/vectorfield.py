@@ -53,10 +53,10 @@ def toy_data_curl_free_mesh(n_points=1000, loc=25, space=0.5):
 
     Returns
     -------
-    X, Y : pair{array}, {array}}, shape = [n, n]
+    X, Y : :rtype: (array, array), shape = [n, n]
             Mesh, X, Y coordinates.
 
-    U, V : pair{{array}, {array}}, shape = [n, n]
+    U, V : :rtype: (array, array), shape = [n, n]
            Mesh, (U, V) velocity at (X, Y) coordinates
     """
     x_grid = arange(-1, 1, 2. / sqrt(n_points))

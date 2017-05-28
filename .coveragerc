@@ -1,0 +1,5 @@
+[run]
+branch = True
+source = operalib
+include = */operalib/*
+omit = */setup.py

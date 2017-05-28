@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -37,8 +39,8 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/>
-        <link rel="prev" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/> 
+        <link rel="next" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/>
+        <link rel="prev" title="General examples" href="index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -47,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -87,13 +90,17 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Joint quantile regression with operator-valued kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_multiple_outputs.html">Multi-output Operator-valued kernel Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_onorma.html">Online Learning with Operator-Valued kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf_semisup.html">Vector-field Learning with structured output kernel</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -110,8 +117,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -120,25 +129,42 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="index.html">General examples</a> &raquo;</li>
-      
-    <li>Joint quantile regression with operator-valued kernels</li>
+        
+      <li>Joint quantile regression with operator-valued kernels</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/auto_examples/plot_ovk_quantile_regression.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/auto_examples/plot_ovk_quantile_regression.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -154,12 +180,12 @@ constraints.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
-<span class="n">joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.212819099426</span>
-<span class="n">joint</span> <span class="n">score</span>  <span class="mf">0.7703945361</span>
-<span class="n">independant</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.135488033295</span>
-<span class="n">independant</span> <span class="n">score</span>  <span class="mf">0.769375053019</span>
-<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.931074142456</span>
-<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span>  <span class="mf">0.769973790545</span>
+<span class="n">joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.706100940704</span>
+<span class="n">joint</span> <span class="n">score</span>  <span class="mf">0.644921165945</span>
+<span class="n">independant</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.463582992554</span>
+<span class="n">independant</span> <span class="n">score</span>  <span class="mf">0.666149295259</span>
+<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">3.46792387962</span>
+<span class="n">non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span>  <span class="mf">0.686367650476</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -224,27 +250,30 @@ constraints.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.184 seconds)</p>
-<div class="sphx-glr-footer container">
-<div class="sphx-glr-download container">
+<p><strong>Total running time of the script:</strong> ( 0 minutes  5.862 seconds)</p>
+<div class="sphx-glr-footer docutils container">
+<div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
-<div class="sphx-glr-download container">
+<div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_quantile_regression.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="http://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral float-right" title="Multi-output Operator-valued kernel Regression" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plot_ovk_regression_cf.html" class="btn btn-neutral float-right" title="Vector-field Learning with structured output kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plot_ovk_regression_cf.html" class="btn btn-neutral" title="Vector-field Learning with structured output kernel" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="General examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -278,7 +307,8 @@ constraints.</p>
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

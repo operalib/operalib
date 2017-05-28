@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference_papers/index.html">Reference papers</a></li>
@@ -102,8 +108,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -116,19 +124,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>operalib.risk</li>
+        
+      <li>operalib.risk</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -143,14 +168,300 @@
 <span class="c1">#         Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
 <span class="c1"># License: MIT</span>
 
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">inner</span><span class="p">,</span> <span class="n">maximum</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">isclose</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">norm</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">inner</span>
+<span class="kn">from</span> <span class="nn">numpy.ma</span> <span class="k">import</span> <span class="n">masked_invalid</span>
+
+<span class="kn">from</span> <span class="nn">.preprocessing</span> <span class="k">import</span> <span class="n">SimplexCoding</span>
 
 
-<div class="viewcode-block" id="KernelRidgeRisk"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk">[docs]</a><span class="k">class</span> <span class="nc">KernelRidgeRisk</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ORFFSCSVMLoss"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFSCSVMLoss">[docs]</a><span class="k">class</span> <span class="nc">ORFFSCSVMLoss</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Define the Simplex Cone Support Vector Machine loss and its gradient.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">simplex_operator</span> <span class="o">=</span> <span class="n">SimplexCoding</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span> <span class="n">simplex_operator</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">isclose</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span>
+                           <span class="n">simplex_operator</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="n">margin</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">margin</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">simplex_operator</span> <span class="o">=</span> <span class="n">SimplexCoding</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span> <span class="n">simplex_operator</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">isclose</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span>
+                           <span class="n">simplex_operator</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="n">pred</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">margin</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">margin</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">simplex_operator</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">phix</span><span class="o">.</span><span class="n">rmatvec</span><span class="p">(</span><span class="n">margin</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span>
+
+    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">simplex_operator</span> <span class="o">=</span> <span class="n">SimplexCoding</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span> <span class="n">simplex_operator</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">isclose</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span>
+                           <span class="n">simplex_operator</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="n">margin</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="n">margin</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">margin</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                <span class="n">phix</span><span class="o">.</span><span class="n">rmatvec</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">margin</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">simplex_operator</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span> <span class="o">/</span>
+                <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ORFFHingeLoss"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFHingeLoss">[docs]</a><span class="k">class</span> <span class="nc">ORFFHingeLoss</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Define Hinge loss for ORFF models and its gradient.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ORFFHingeLoss.__init__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFHingeLoss.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Hhnge ORFF loss.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ORFFHingeLoss.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFHingeLoss.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the hinge loss value for ORFF models.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float : Empirical ORFF hinge loss</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="k">return</span> <span class="n">maximum</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span>
+                       <span class="nb">sum</span><span class="p">(</span><span class="n">multiply</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span>
+                           <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                                    <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                       <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span>
+                <span class="nb">sum</span><span class="p">(</span><span class="n">multiply</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                             <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span><span class="p">,</span>
+                        <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flat</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)))</span><span class="o">.</span><span class="n">flat</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">phix</span><span class="o">.</span><span class="n">rmatvec</span><span class="p">(</span><span class="n">subtract</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">temp</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">temp</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">mrg</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span>
+               <span class="nb">sum</span><span class="p">(</span><span class="n">multiply</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)),</span>
+                   <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">mrg</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">mrg</span> <span class="o">=</span> <span class="n">mrg</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="n">mrg</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span><span class="p">,</span>
+                        <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flat</span>
+        <span class="n">mrg</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="n">mrg</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)))</span><span class="o">.</span><span class="n">flat</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">phix</span><span class="o">.</span><span class="n">rmatvec</span><span class="p">(</span><span class="n">subtract</span><span class="p">(</span><span class="n">mrg</span><span class="p">,</span> <span class="n">temp</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">temp</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">ker</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ORFFLSLoss"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFLSLoss">[docs]</a><span class="k">class</span> <span class="nc">ORFFLSLoss</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Define Least squares loss for ORFF models and its gradient.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ORFFLSLoss.__init__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFLSLoss.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Least squares ORFF loss.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ORFFLSLoss.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFLSLoss.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the Least squares loss value for ORFF models.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float : Empirical ORFF least square loss</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ORFFLSLoss.functional_grad"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFLSLoss.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the Least squares loss gradient for ORFF models.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float : Empirical ORFF least square loss gradient</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
+        <span class="k">return</span> <span class="n">phix</span><span class="o">.</span><span class="n">rmatvec</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span></div>
+
+<div class="viewcode-block" id="ORFFLSLoss.functional_grad_val"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFLSLoss.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the Least squares loss gradient and value for ORFF models.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple : Empirical ORFF least square loss value and gradient</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">phix</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> \
+            <span class="n">phix</span><span class="o">.</span><span class="n">rmatvec</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span></div></div>
+
+
+<div class="viewcode-block" id="ORFFRidgeRisk"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFRidgeRisk">[docs]</a><span class="k">class</span> <span class="nc">ORFFRidgeRisk</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Define Ridge risk for ORFF models and its gradient.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ORFFRidgeRisk.__init__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFRidgeRisk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;LS&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Empirical ORFF ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lbda : {float}</span>
+<span class="sd">            Small positive values of lbda improve the conditioning of the</span>
+<span class="sd">            problem and reduce the variance of the estimates. Lbda corresponds</span>
+<span class="sd">            to ``(2*C)^-1`` in other linear models such as LogisticRegression</span>
+<span class="sd">            or LinearSVC.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">=</span> <span class="n">lbda</span>
+        <span class="k">if</span> <span class="n">loss</span> <span class="ow">is</span> <span class="s1">&#39;LS&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">ORFFLSLoss</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">loss</span> <span class="ow">is</span> <span class="s1">&#39;Hinge&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">ORFFHingeLoss</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">loss</span> <span class="ow">is</span> <span class="s1">&#39;SCSVM&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">ORFFSCSVMLoss</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;unsupported loss&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ORFFRidgeRisk.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFRidgeRisk.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the Empirical ORFF ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float : Empirical ORFF ridge risk</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">)</span> <span class="o">+</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">norm</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ORFFRidgeRisk.functional_grad"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFRidgeRisk.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the gradient of the Empirical ORFF ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        {vector-like} : gradient of the Empirical ORFF ridge risk</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">functional_grad</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">)</span> <span class="o">+</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">coefs</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ORFFRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.ORFFRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the gradient and value of the Empirical ORFF ridge risk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefs : {vector-like}, shape = [n_samples1 * n_targets]</span>
+<span class="sd">            Coefficient to optimise</span>
+
+<span class="sd">        ground_truth : {vector-like}</span>
+<span class="sd">            Targets samples</span>
+
+<span class="sd">        phix : {LinearOperator}</span>
+<span class="sd">            X ORFF mapping operator acting on the coefs</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple{float, vector-like} : Empirical ORFF ridge risk and its gradient</span>
+<span class="sd">        returned as a tuple.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val_loss</span><span class="p">,</span> <span class="n">grad_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">functional_grad_val</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span>
+                                                            <span class="n">ground_truth</span><span class="p">,</span>
+                                                            <span class="n">phix</span><span class="p">,</span> <span class="n">ker</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">val_loss</span> <span class="o">+</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">norm</span><span class="p">(</span><span class="n">coefs</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+                <span class="n">grad_loss</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">coefs</span> <span class="o">/</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="OVKRidgeRisk"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.OVKRidgeRisk">[docs]</a><span class="k">class</span> <span class="nc">OVKRidgeRisk</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Define Kernel ridge risk and its gradient.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="KernelRidgeRisk.__init__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lbda</span><span class="p">):</span>
+<div class="viewcode-block" id="OVKRidgeRisk.__init__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.OVKRidgeRisk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lbda</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize Empirical kernel ridge risk.</span>
 
 <span class="sd">        Parameters</span>
@@ -163,7 +474,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">=</span> <span class="n">lbda</span></div>
 
-<div class="viewcode-block" id="KernelRidgeRisk.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+<div class="viewcode-block" id="OVKRidgeRisk.__call__"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.OVKRidgeRisk.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">,</span>
+                 <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zeronan</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
@@ -177,17 +489,34 @@
 <span class="sd">        Gram : {LinearOperator}</span>
 <span class="sd">            Gram matrix acting on the coefs</span>
 
+<span class="sd">        weight: {LinearOperator}</span>
+
+<span class="sd">        zeronan: {LinearOperator}</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float : Empirical OVK ridge risk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
         <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span></div>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>  <span class="c1"># reg in rkhs</span>
+        <span class="n">vgt</span> <span class="o">=</span> <span class="n">masked_invalid</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">)</span>
+        <span class="n">vgt</span><span class="p">[</span><span class="n">where</span><span class="p">(</span><span class="n">vgt</span><span class="o">.</span><span class="n">mask</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pred</span><span class="p">[</span><span class="n">where</span><span class="p">(</span><span class="n">vgt</span><span class="o">.</span><span class="n">mask</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">zeronan</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">pred</span> <span class="o">-</span> <span class="n">vgt</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wpred</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">pred</span>  <span class="c1"># sup x identity | unsup x lbda_m x L</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">zeronan</span> <span class="o">*</span> <span class="p">(</span><span class="n">wpred</span> <span class="o">-</span> <span class="n">vgt</span><span class="p">)</span>
+            <span class="n">wip</span> <span class="o">=</span> <span class="n">wpred</span> <span class="o">-</span> <span class="n">zeronan</span> <span class="o">*</span> <span class="n">wpred</span>  <span class="c1"># only unsup part of wpred</span>
+            <span class="n">lap</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">wip</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>  <span class="c1"># Laplacian part x lambda_m</span>
 
-<div class="viewcode-block" id="KernelRidgeRisk.functional_grad"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">zeronan</span> <span class="o">*</span> <span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>  <span class="c1"># Loss</span>
+            <span class="n">obj</span> <span class="o">+=</span> <span class="n">lap</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>  <span class="c1"># Laplacian regularization</span>
+        <span class="n">obj</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>  <span class="c1"># Regulariation</span>
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+<div class="viewcode-block" id="OVKRidgeRisk.functional_grad"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.OVKRidgeRisk.functional_grad">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">,</span>
+                        <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zeronan</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the gradient of the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
@@ -201,16 +530,26 @@
 <span class="sd">        Gram : {LinearOperator}</span>
 <span class="sd">            Gram matrix acting on the coefs</span>
 
+<span class="sd">        weight: {LinearOperator}</span>
+
+<span class="sd">        zeronan: {LinearOperator}</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        {vector-like} : gradient of the Empirical OVK ridge risk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
         <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">vgt</span> <span class="o">=</span> <span class="n">masked_invalid</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">)</span>
+        <span class="n">vgt</span><span class="p">[</span><span class="n">where</span><span class="p">(</span><span class="n">vgt</span><span class="o">.</span><span class="n">mask</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pred</span><span class="p">[</span><span class="n">where</span><span class="p">(</span><span class="n">vgt</span><span class="o">.</span><span class="n">mask</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">zeronan</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">vgt</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">zeronan</span> <span class="o">*</span> <span class="n">vgt</span>
         <span class="k">return</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span></div>
 
-<div class="viewcode-block" id="KernelRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.KernelRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">):</span>
+<div class="viewcode-block" id="OVKRidgeRisk.functional_grad_val"><a class="viewcode-back" href="../../modules/risk.html#operalib.risk.OVKRidgeRisk.functional_grad_val">[docs]</a>    <span class="k">def</span> <span class="nf">functional_grad_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">,</span> <span class="n">Gram</span><span class="p">,</span>
+                            <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zeronan</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the gradient and value of the Empirical OVK ridge risk.</span>
 
 <span class="sd">        Parameters</span>
@@ -224,19 +563,38 @@
 <span class="sd">        Gram : {LinearOperator}</span>
 <span class="sd">            Gram matrix acting on the coefs</span>
 
+<span class="sd">        L : array, shape = [n_samples_miss, n_samples_miss]</span>
+<span class="sd">            Graph Laplacian of data with missing targets (semi-supervised</span>
+<span class="sd">            learning).</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Tuple{float, vector-like} : Empirical OVK ridge risk and its gradient</span>
 <span class="sd">        returned as a tuple.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">ground_truth</span>
         <span class="n">np</span> <span class="o">=</span> <span class="n">ground_truth</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">),</span> <span class="n">Gram</span> <span class="o">*</span>
-                <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span><span class="p">)</span></div></div>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">coefs</span>
+        <span class="n">vgt</span> <span class="o">=</span> <span class="n">masked_invalid</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">)</span>
+        <span class="n">vgt</span><span class="p">[</span><span class="n">where</span><span class="p">(</span><span class="n">vgt</span><span class="o">.</span><span class="n">mask</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pred</span><span class="p">[</span><span class="n">where</span><span class="p">(</span><span class="n">vgt</span><span class="o">.</span><span class="n">mask</span><span class="p">)]</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>  <span class="c1"># reg in rkhs</span>
+        <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">zeronan</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">vgt</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wpred</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">pred</span>  <span class="c1"># sup x identity | unsup x lbda_m x L</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">wpred</span> <span class="o">-</span> <span class="n">zeronan</span> <span class="o">*</span> <span class="n">vgt</span>
+            <span class="n">wip</span> <span class="o">=</span> <span class="n">wpred</span> <span class="o">-</span> <span class="n">zeronan</span> <span class="o">*</span> <span class="n">wpred</span>  <span class="c1"># only unsup part of wpred</span>
+            <span class="n">lap</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">wip</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>  <span class="c1"># Laplacian part x lambda_m</span>
+
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">zeronan</span> <span class="o">*</span> <span class="n">res</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>  <span class="c1"># Loss</span>
+            <span class="n">obj</span> <span class="o">+=</span> <span class="n">lap</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>  <span class="c1"># Laplacian regularization</span>
+        <span class="n">obj</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">)</span>  <span class="c1"># Regulariation</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">,</span> <span class="n">Gram</span> <span class="o">*</span> <span class="n">res</span> <span class="o">/</span> <span class="n">np</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">*</span> <span class="n">pred</span> <span class="o">/</span> <span class="n">np</span></div></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -271,7 +629,8 @@
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>

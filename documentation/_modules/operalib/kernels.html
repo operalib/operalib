@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference_papers/index.html">Reference papers</a></li>
@@ -102,8 +108,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -116,19 +124,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>operalib.kernels</li>
+        
+      <li>operalib.kernels</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -143,16 +168,21 @@
 <span class="c1">#         the scikit-learn community.</span>
 <span class="c1"># License: MIT</span>
 
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">sqrt</span>
+
 <span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="k">import</span> <span class="n">rbf_kernel</span>
+<span class="kn">from</span> <span class="nn">sklearn.kernel_approximation</span> <span class="k">import</span> <span class="n">RBFSampler</span><span class="p">,</span> <span class="n">SkewedChi2Sampler</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">LinearOperator</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">svd</span>
 
 
 <div class="viewcode-block" id="DotProductKernel"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DotProductKernel">[docs]</a><span class="k">class</span> <span class="nc">DotProductKernel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dot product Operator-Valued Kernel of the form:</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,</span>
-<span class="sd">        y \rangle^2 I_p</span>
+<span class="sd">        x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle</span>
+<span class="sd">        x, y \rangle^2 I_p</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -198,7 +228,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span></div>
 
 <div class="viewcode-block" id="DotProductKernel.get_kernel_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DotProductKernel.get_kernel_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: Y \mapsto K(X, Y)</span>
@@ -219,7 +249,7 @@
         <span class="k">return</span> <span class="n">DotProductKernelMap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DotProductKernel.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DotProductKernel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: \begin{cases}</span>
@@ -254,7 +284,7 @@
 
 
 <div class="viewcode-block" id="DecomposableKernel"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DecomposableKernel">[docs]</a><span class="k">class</span> <span class="nc">DecomposableKernel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decomposable Operator-Valued Kernel of the form:</span>
 
 <span class="sd">    .. math::</span>
@@ -317,7 +347,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="DecomposableKernel.get_kernel_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DecomposableKernel.get_kernel_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: Y \mapsto K(X, Y)</span>
@@ -339,8 +369,78 @@
                                      <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel</span><span class="p">,</span>
                                      <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel_params</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DecomposableKernel.get_orff_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DecomposableKernel.get_orff_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_orff_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the Random Fourier Feature map associated with the data X.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K_x: Y \mapsto \tilde{\Phi}(X)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        \tilde{\Phi}(X) : Linear Operator, callable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compute_uv</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B_</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">s</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">])),</span> <span class="n">v</span><span class="p">[</span><span class="n">s</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">,</span> <span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel</span> <span class="ow">is</span> <span class="n">rbf_kernel</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Xb_&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel_params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span> <span class="o">=</span> <span class="n">RBFSampler</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span>
+                                   <span class="n">n_components</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel</span> <span class="ow">is</span> <span class="s1">&#39;skewed_chi2&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                                                   <span class="s1">&#39;Xb_&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">skew</span> <span class="o">=</span> <span class="mf">1.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">skew</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_kernel_params</span><span class="p">[</span><span class="s1">&#39;skew&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span> <span class="o">=</span> <span class="n">SkewedChi2Sampler</span><span class="p">(</span><span class="n">skewedness</span><span class="o">=</span><span class="n">skew</span><span class="p">,</span>
+                                          <span class="n">n_components</span><span class="o">=</span><span class="n">D</span><span class="p">,</span>
+                                          <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Xb_&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;ORFF map for kernel is not &#39;</span>
+                                      <span class="s1">&#39;implemented yet&#39;</span><span class="p">)</span>
+
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">n_components</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="p">:</span>
+            <span class="n">cshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">rshape</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">oshape</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">D</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="n">oshape</span><span class="p">,</span>
+                                  <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                                  <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="p">,</span>
+                                                           <span class="n">b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cshape</span><span class="p">)),</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">B_</span><span class="p">),</span>
+                                  <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                                        <span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rshape</span><span class="p">),</span>
+                                                            <span class="bp">self</span><span class="o">.</span><span class="n">B_</span><span class="o">.</span><span class="n">T</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">cshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">rshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">oshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">D</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="n">oshape</span><span class="p">,</span>
+                                  <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                                  <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span>
+                                                           <span class="n">b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cshape</span><span class="p">)),</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">B_</span><span class="p">),</span>
+                                  <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                                        <span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rshape</span><span class="p">),</span>
+                                                            <span class="bp">self</span><span class="o">.</span><span class="n">B_</span><span class="o">.</span><span class="n">T</span><span class="p">)))</span></div>
+
 <div class="viewcode-block" id="DecomposableKernel.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.DecomposableKernel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: \begin{cases}</span>
@@ -375,11 +475,12 @@
 
 
 <div class="viewcode-block" id="RBFCurlFreeKernel"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFCurlFreeKernel">[docs]</a><span class="k">class</span> <span class="nc">RBFCurlFreeKernel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Curl-free Operator-Valued Kernel of the form:</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T).</span>
+<span class="sd">        X \mapsto K_X(Y) = 2 \gamma exp(-\gamma||X - Y||^2)(I - 2\gamma(X - Y)</span>
+<span class="sd">        (X - T)^T).</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -417,7 +518,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span></div>
 
 <div class="viewcode-block" id="RBFCurlFreeKernel.get_kernel_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFCurlFreeKernel.get_kernel_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: Y \mapsto K(X, Y)</span>
@@ -437,8 +538,49 @@
         <span class="kn">from</span> <span class="nn">.kernel_maps</span> <span class="k">import</span> <span class="n">RBFCurlFreeKernelMap</span>
         <span class="k">return</span> <span class="n">RBFCurlFreeKernelMap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="RBFCurlFreeKernel.get_orff_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFCurlFreeKernel.get_orff_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_orff_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the Random Fourier Feature map associated with the data X.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K_x: Y \mapsto \tilde{\Phi}(X)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        \tilde{\Phi}(X) : Linear Operator, callable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Xb_&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span> <span class="o">=</span> <span class="n">RBFSampler</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+                                   <span class="n">n_components</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                          <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">*</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">random_weights_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                           <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">n_components</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                  <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">*</span> <span class="n">b</span><span class="p">),</span>
+                                  <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">r</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">Xb</span> <span class="o">=</span> <span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">*</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">random_weights_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="n">Xb</span> <span class="o">=</span> <span class="n">Xb</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                  <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span>
+                                  <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="RBFCurlFreeKernel.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFCurlFreeKernel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: \begin{cases}</span>
@@ -473,7 +615,7 @@
 
 
 <div class="viewcode-block" id="RBFDivFreeKernel"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel">[docs]</a><span class="k">class</span> <span class="nc">RBFDivFreeKernel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Divergence-free Operator-Valued Kernel of the form:</span>
 
 <span class="sd">    .. math::</span>
@@ -520,7 +662,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span></div>
 
 <div class="viewcode-block" id="RBFDivFreeKernel.get_kernel_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel.get_kernel_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_kernel_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: Y \mapsto K(X, Y)</span>
@@ -540,8 +682,52 @@
         <span class="kn">from</span> <span class="nn">.kernel_maps</span> <span class="k">import</span> <span class="n">RBFDivFreeKernelMap</span>
         <span class="k">return</span> <span class="n">RBFDivFreeKernelMap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="RBFDivFreeKernel.get_orff_map"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel.get_orff_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_orff_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the Random Fourier Feature map associated with the data X.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">               K_x: Y \mapsto \tilde{\Phi}(X)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : {array-like, sparse matrix}, shape = [n_samples, n_features]</span>
+<span class="sd">            Samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        \tilde{\Phi}(X) : Linear Operator, callable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;Xb_&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span> <span class="o">=</span> <span class="n">RBFSampler</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+                                   <span class="n">n_components</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                          <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">*</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">random_weights_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                           <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">n_components</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                  <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span> <span class="o">*</span> <span class="n">b</span><span class="p">),</span>
+                                  <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xb_</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">r</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="c1"># TODO:</span>
+            <span class="c1"># w = self.phi_.random_weights_.reshape((1, -1, Xb.shape[1]))</span>
+            <span class="c1"># wn = np.linalg.norm(w)</span>
+            <span class="c1"># Xb = (Xb.reshape((Xb.shape[0], 1, Xb.shape[1])) *</span>
+            <span class="c1">#       wn * np.eye()w np.dot(w.T, w) / wn)</span>
+            <span class="n">Xb</span> <span class="o">=</span> <span class="n">Xb</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                  <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span>
+                                  <span class="n">rmatvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">dot</span><span class="p">(</span><span class="n">Xb</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="RBFDivFreeKernel.__call__"><a class="viewcode-back" href="../../modules/kernels.html#operalib.kernels.RBFDivFreeKernel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the kernel map associated with the data X.</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">               K_x: \begin{cases}</span>
@@ -576,6 +762,9 @@
 </pre></div>
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -609,7 +798,8 @@
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>

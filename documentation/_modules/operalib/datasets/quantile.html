@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference_papers/index.html">Reference papers</a></li>
@@ -102,8 +108,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -116,19 +124,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>operalib.datasets.quantile</li>
+        
+      <li>operalib.datasets.quantile</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -139,10 +164,10 @@
 
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
 <span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">rand</span><span class="p">,</span> <span class="n">randn</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">sort</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">sort</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">pi</span>
 
 
-<div class="viewcode-block" id="toy_data_quantile"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_quantile">[docs]</a><span class="k">def</span> <span class="nf">toy_data_quantile</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">noise</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+<div class="viewcode-block" id="toy_data_quantile"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_quantile">[docs]</a><span class="k">def</span> <span class="nf">toy_data_quantile</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">noise</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sine wave toy dataset.</span>
 
 <span class="sd">    Parameters</span>
@@ -150,8 +175,8 @@
 <span class="sd">    n : {integer}</span>
 <span class="sd">        Number of samples to generate.</span>
 
-<span class="sd">    probs : {list}, shape = [n_quantiles]</span>
-<span class="sd">        Probabilities (quantiles levels).</span>
+<span class="sd">    probs : {list}, shape = [n_quantiles], default=0.5</span>
+<span class="sd">        Probabilities (quantiles levels)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -164,23 +189,28 @@
 <span class="sd">    quantiles : {array}, shape = [n x n_quantiles]</span>
 <span class="sd">        True conditional quantiles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">ndmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
     <span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span>  <span class="c1"># Bounds for the input data</span>
     <span class="n">t_down</span><span class="p">,</span> <span class="n">t_up</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span>  <span class="c1"># Bounds for the noise</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_max</span> <span class="o">-</span> <span class="n">t_min</span><span class="p">)</span> <span class="o">+</span> <span class="n">t_min</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">pattern</span> <span class="o">=</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>  <span class="c1"># Pattern of the signal</span>
-    <span class="n">enveloppe</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Enveloppe of the signal</span>
+    <span class="n">t_rand</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_max</span> <span class="o">-</span> <span class="n">t_min</span><span class="p">)</span> <span class="o">+</span> <span class="n">t_min</span>
+    <span class="n">t_rand</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">t_rand</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t_rand</span><span class="p">)</span>  <span class="c1"># Pattern of the signal</span>
+    <span class="n">enveloppe</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t_rand</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Enveloppe of the signal</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">*</span> <span class="n">enveloppe</span>
     <span class="c1"># Noise decreasing std (from noise+0.2 to 0.2)</span>
-    <span class="n">noise_std</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t_down</span><span class="p">)</span>
+    <span class="n">noise_std</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t_rand</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_up</span> <span class="o">-</span> <span class="n">t_down</span><span class="p">)</span>
     <span class="c1"># Gaussian noise with decreasing std</span>
-    <span class="n">add_noise</span> <span class="o">=</span> <span class="n">noise_std</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">add_noise</span> <span class="o">=</span> <span class="n">noise_std</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
     <span class="n">observations</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">+</span> <span class="n">add_noise</span>
-    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span> <span class="o">+</span> <span class="n">asarray</span><span class="p">([</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">noise_c</span><span class="p">))</span>
-                 <span class="k">for</span> <span class="n">noise_c</span> <span class="ow">in</span> <span class="n">noise_std</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">t</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">observations</span><span class="p">,</span> <span class="n">quantiles</span></div>
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span> <span class="o">+</span> <span class="n">array</span><span class="p">([</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">noise_c</span><span class="p">))</span>
+                                  <span class="k">for</span> <span class="n">noise_c</span> <span class="ow">in</span> <span class="n">noise_std</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">t_rand</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">observations</span><span class="p">,</span> <span class="n">quantiles</span></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -215,7 +245,8 @@
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../../_static/jquery.js"></script>

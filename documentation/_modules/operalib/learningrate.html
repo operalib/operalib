@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference_papers/index.html">Reference papers</a></li>
@@ -102,8 +108,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -116,19 +124,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>operalib.learningrate</li>
+        
+      <li>operalib.learningrate</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -145,7 +170,7 @@
 
 
 <div class="viewcode-block" id="Constant"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.Constant">[docs]</a><span class="k">class</span> <span class="nc">Constant</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;Constant learning rate.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Constant learning rate.</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">        t \mapsto eta</span>
@@ -156,7 +181,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Initialize constant learning rate.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize constant learning rate.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -164,18 +189,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return learning rate at time t.</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return learning rate at time t.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self.eta : float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span>
+
+<div class="viewcode-block" id="Constant.get_rate"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.Constant.get_rate">[docs]</a>    <span class="k">def</span> <span class="nf">get_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return learning rate at time t.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.eta / t ** self.power : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="InvScaling"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.InvScaling">[docs]</a><span class="k">class</span> <span class="nc">InvScaling</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;Inverse scaling learnin rate.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Inverse scaling learnin rate.</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">        t \mapsto eta0 * t^{-power}</span>
@@ -192,7 +226,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Initialize inverse scaling learnin rate.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize inverse scaling learnin rate.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -203,16 +237,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Return learning rate at time t.</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return learning rate at time t.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self.eta / t ** self.power : float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="p">)</span> <span class="o">/</span> <span class="n">t</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">power</span></div>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">power</span>
+
+<div class="viewcode-block" id="InvScaling.get_rate"><a class="viewcode-back" href="../../modules/learningrate.html#operalib.learningrate.InvScaling.get_rate">[docs]</a>    <span class="k">def</span> <span class="nf">get_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return learning rate at time t.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.eta / t ** self.power : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -247,7 +293,8 @@
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>

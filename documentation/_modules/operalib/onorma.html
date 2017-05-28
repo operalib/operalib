@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -45,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -85,7 +88,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference_papers/index.html">Reference papers</a></li>
@@ -102,8 +108,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -116,19 +124,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>operalib.onorma</li>
+        
+      <li>operalib.onorma</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -231,11 +256,11 @@
 <span class="sd">    &gt;&gt;&gt; clf = ovk.ONORMA(&#39;DGauss&#39;, lbda=1.)</span>
 <span class="sd">    &gt;&gt;&gt; clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS</span>
 <span class="sd">    ONORMA(A=None, T=None, eta=1.0, gamma=None, kernel=&#39;DGauss&#39;, lbda=1.0,</span>
-<span class="sd">        learning_rate=&#39;invscaling&#39;, mu=0.2, power=0.5, random_state=0,</span>
-<span class="sd">        shuffle=True, truncation=None)</span>
+<span class="sd">           learning_rate=&#39;invscaling&#39;, mu=0.2, power=0.5, random_state=0,</span>
+<span class="sd">           shuffle=True, truncation=None)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
                  <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;invscaling&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">power</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span>
                  <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -375,7 +400,9 @@
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;coefs_&#39;</span><span class="p">,</span> <span class="s1">&#39;t_&#39;</span><span class="p">,</span> <span class="s1">&#39;p_&#39;</span><span class="p">,</span>
                                <span class="s1">&#39;X_seen_&#39;</span><span class="p">,</span> <span class="s1">&#39;y_seen_&#39;</span><span class="p">],</span> <span class="n">all_or_any</span><span class="o">=</span><span class="nb">all</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decision_function</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
+        <span class="n">linop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ov_kernel_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">linop</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">linop</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pred</span></div>
 
 <div class="viewcode-block" id="ONORMA.partial_fit"><a class="viewcode-back" href="../../modules/onorma.html#operalib.onorma.ONORMA.partial_fit">[docs]</a>    <span class="k">def</span> <span class="nf">partial_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Partial fit of ONORMA model.</span>
@@ -484,6 +511,9 @@
 </pre></div>
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -517,7 +547,8 @@
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>

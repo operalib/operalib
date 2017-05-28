@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -101,8 +107,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -111,23 +119,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Module kernels</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Module kernels</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/modules/kernels.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/modules/kernels.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -192,6 +217,9 @@ outputs.</p>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="operalib.kernels.DecomposableKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_orff_map" title="operalib.kernels.DecomposableKernel.get_orff_map"><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;eps,&nbsp;random_state])</td>
+<td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
@@ -293,6 +321,29 @@ passed as callable object.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="operalib.kernels.DecomposableKernel.get_orff_map">
+<code class="descname">get_orff_map</code><span class="sig-paren">(</span><em>X</em>, <em>D=100</em>, <em>eps=1e-05</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DecomposableKernel.get_orff_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DecomposableKernel.get_orff_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Random Fourier Feature map associated with the data X.</p>
+<div class="math">
+<p><img src="../_images/math/b5a54a469bdeccecba52ab6b914ab3ac453a457c.png" alt="K_x: Y \mapsto \tilde{\Phi}(X)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>tilde{Phi}(X)</strong> : Linear Operator, callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -300,8 +351,8 @@ passed as callable object.</p>
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">DotProductKernel</code><span class="sig-paren">(</span><em>mu</em>, <em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#DotProductKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.DotProductKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dot product Operator-Valued Kernel of the form:</p>
 <div class="math">
-<p><img src="../_images/math/cccd2aa60ceb818ce8a79e52eae7223ef24f306e.png" alt="x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
-y \rangle^2 I_p"/></p>
+<p><img src="../_images/math/d942cc386f2f4a7fd5b56a051ed5ae4c5446c299.png" alt="x, y \mapsto K(x, y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle
+x, y \rangle^2 I_p"/></p>
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
@@ -449,7 +500,8 @@ K(X, Y) \enskip\text{otherwise}
 <em class="property">class </em><code class="descclassname">operalib.kernels.</code><code class="descname">RBFCurlFreeKernel</code><span class="sig-paren">(</span><em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFCurlFreeKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFCurlFreeKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Curl-free Operator-Valued Kernel of the form:</p>
 <div class="math">
-<p><img src="../_images/math/3ab6e4a66a0dd4d625704b62fa7d16b50cb3457e.png" alt="X \mapsto K_X(Y) = 2\gamma exp(-\gamma||X-Y||^2)(I-2\gamma(X-Y)(X-T)^T)."/></p>
+<p><img src="../_images/math/76f18df4b4110b5e823902effdb6e82640bf997b.png" alt="X \mapsto K_X(Y) = 2 \gamma exp(-\gamma||X - Y||^2)(I - 2\gamma(X - Y)
+(X - T)^T)."/></p>
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
@@ -491,6 +543,9 @@ K(X, Y) \enskip\text{otherwise}
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.get_kernel_map" title="operalib.kernels.RBFCurlFreeKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.get_orff_map" title="operalib.kernels.RBFCurlFreeKernel.get_orff_map"><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;random_state])</td>
+<td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
@@ -581,6 +636,29 @@ K(X, Y) \enskip\text{otherwise}
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="operalib.kernels.RBFCurlFreeKernel.get_orff_map">
+<code class="descname">get_orff_map</code><span class="sig-paren">(</span><em>X</em>, <em>D=100</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFCurlFreeKernel.get_orff_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFCurlFreeKernel.get_orff_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Random Fourier Feature map associated with the data X.</p>
+<div class="math">
+<p><img src="../_images/math/b5a54a469bdeccecba52ab6b914ab3ac453a457c.png" alt="K_x: Y \mapsto \tilde{\Phi}(X)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>tilde{Phi}(X)</strong> : Linear Operator, callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -633,6 +711,9 @@ K(X, Y) \enskip\text{otherwise}
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.get_kernel_map" title="operalib.kernels.RBFDivFreeKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.get_orff_map" title="operalib.kernels.RBFDivFreeKernel.get_orff_map"><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;random_state])</td>
+<td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
@@ -723,6 +804,29 @@ K(X, Y) \enskip\text{otherwise}
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="operalib.kernels.RBFDivFreeKernel.get_orff_map">
+<code class="descname">get_orff_map</code><span class="sig-paren">(</span><em>X</em>, <em>D=100</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernels.html#RBFDivFreeKernel.get_orff_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernels.RBFDivFreeKernel.get_orff_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Random Fourier Feature map associated with the data X.</p>
+<div class="math">
+<p><img src="../_images/math/b5a54a469bdeccecba52ab6b914ab3ac453a457c.png" alt="K_x: Y \mapsto \tilde{\Phi}(X)"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+<blockquote>
+<div><p>Samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>tilde{Phi}(X)</strong> : Linear Operator, callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <span class="target" id="module-operalib.kernel_maps"></span><p><a class="reference internal" href="#module-operalib.kernel_maps" title="operalib.kernel_maps"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernel_maps</span></code></a> implement some Operator-Valued Kernel
@@ -794,6 +898,9 @@ naturally inherit from DecomposableKernel.</p>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;eps,&nbsp;random_state])</td>
+<td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
 </table>
@@ -1199,6 +1306,9 @@ naturally inherit from RBFCurlFreeKernel</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;random_state])</td>
+<td>Return the Random Fourier Feature map associated with the data X.</td>
+</tr>
 </tbody>
 </table>
 <dl class="method">
@@ -1352,6 +1462,9 @@ naturally inherit from RBFCurlFreeKernel</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;random_state])</td>
+<td>Return the Random Fourier Feature map associated with the data X.</td>
+</tr>
 </tbody>
 </table>
 <dl class="method">
@@ -1440,6 +1553,9 @@ naturally inherit from RBFCurlFreeKernel</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1473,7 +1589,8 @@ naturally inherit from RBFCurlFreeKernel</p>
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

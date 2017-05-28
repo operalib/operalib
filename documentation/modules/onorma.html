@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -101,8 +107,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -111,23 +119,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Module ONORMA</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Module ONORMA</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/modules/onorma.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/modules/onorma.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -139,7 +164,7 @@
 Regularised Risk Minimization Algorithm (ONORMA)</p>
 <dl class="class">
 <dt id="operalib.onorma.ONORMA">
-<em class="property">class </em><code class="descclassname">operalib.onorma.</code><code class="descname">ONORMA</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>T=None</em>, <em>A=None</em>, <em>learning_rate='invscaling'</em>, <em>truncation=None</em>, <em>gamma=None</em>, <em>mu=0.2</em>, <em>eta=1.0</em>, <em>power=0.5</em>, <em>shuffle=True</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">operalib.onorma.</code><code class="descname">ONORMA</code><span class="sig-paren">(</span><em>kernel=’DGauss’</em>, <em>lbda=1e-05</em>, <em>T=None</em>, <em>A=None</em>, <em>learning_rate=’invscaling’</em>, <em>truncation=None</em>, <em>gamma=None</em>, <em>mu=0.2</em>, <em>eta=1.0</em>, <em>power=0.5</em>, <em>shuffle=True</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Operator-valued Naive Online Regularised Risk
 Minimization Algorithm .</p>
 <p>Operator-Valued kernel Operator-valued Naive Online Regularised Risk
@@ -160,10 +185,10 @@ setting</p>
 <p class="rubric">References</p>
 <ul class="simple">
 <li>Audiffren, Julien, and Hachem Kadri.
-&#8220;Online learning with multiple operator-valued kernels.&#8221;
+“Online learning with multiple operator-valued kernels.”
 arXiv preprint arXiv:1311.0222 (2013).</li>
 <li>Kivinen, Jyrki, Alexander J. Smola, and Robert C. Williamson.
-&#8220;Online learning with kernels.&#8221;
+“Online learning with kernels.”
 IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 </ul>
 <p class="rubric">Examples</p>
@@ -176,8 +201,8 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">ONORMA</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
 <span class="go">ONORMA(A=None, T=None, eta=1.0, gamma=None, kernel=&#39;DGauss&#39;, lbda=1.0,</span>
-<span class="go">    learning_rate=&#39;invscaling&#39;, mu=0.2, power=0.5, random_state=0,</span>
-<span class="go">    shuffle=True, truncation=None)</span>
+<span class="go">       learning_rate=&#39;invscaling&#39;, mu=0.2, power=0.5, random_state=0,</span>
+<span class="go">       shuffle=True, truncation=None)</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes</p>
@@ -229,7 +254,7 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.score" title="operalib.onorma.ONORMA.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
 <td>Returns the coefficient of determination R^2 of the prediction.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.set_params" title="operalib.onorma.ONORMA.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(\*\*params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.set_params" title="operalib.onorma.ONORMA.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
@@ -267,7 +292,7 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep: boolean, optional</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
 <blockquote>
 <div><p>If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
@@ -392,7 +417,7 @@ would get a R^2 score of 0.0.</p>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
-<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
+<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
 component of a nested object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -409,6 +434,9 @@ component of a nested object.</p>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -443,7 +471,8 @@ component of a nested object.</p>
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

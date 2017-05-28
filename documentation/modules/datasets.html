@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -101,8 +107,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -111,23 +119,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Module datasets</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Module datasets</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/modules/datasets.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/modules/datasets.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -151,7 +176,7 @@
 </ul>
 </dd>
 </dl>
-<p>whith variance equal to &#8216;space&#8217;. Then return the orthogonal of gradient of
+<p>whith variance equal to ‘space’. Then return the orthogonal of gradient of
 the field.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -208,7 +233,7 @@ the field.</p>
 </ul>
 </dd>
 </dl>
-<p>whith variance equal to &#8216;space&#8217;. Then return the gradient of the field.</p>
+<p>whith variance equal to ‘space’. Then return the gradient of the field.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -251,7 +276,7 @@ the field.</p>
 
 <dl class="function">
 <dt id="operalib.datasets.toy_data_quantile">
-<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_quantile</code><span class="sig-paren">(</span><em>n=50, probs=[0.5], noise=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/quantile.html#toy_data_quantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_quantile" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_quantile</code><span class="sig-paren">(</span><em>n_points=50, probs=[0.5], noise=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/quantile.html#toy_data_quantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_quantile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sine wave toy dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -261,9 +286,9 @@ the field.</p>
 <blockquote>
 <div><p>Number of samples to generate.</p>
 </div></blockquote>
-<p><strong>probs</strong> : {list}, shape = [n_quantiles]</p>
+<p><strong>probs</strong> : {list}, shape = [n_quantiles], default=0.5</p>
 <blockquote>
-<div><p>Probabilities (quantiles levels).</p>
+<div><p>Probabilities (quantiles levels)</p>
 </div></blockquote>
 </td>
 </tr>
@@ -285,9 +310,39 @@ the field.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="operalib.datasets.awful">
+<code class="descclassname">operalib.datasets.</code><code class="descname">awful</code><span class="sig-paren">(</span><em>targets</em>, <em>p_unsup=0.25</em>, <em>p_weaksup=0.25</em>, <em>p_weaksup_inner=0.25</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/awful.html#awful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.awful" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take a nice dataset and add some NaNs to simulate partially supervised.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : {array}, shape = [n_outputs, dim_outputs]</p>
+<blockquote>
+<div><p>Targets.</p>
+</div></blockquote>
+<p><strong>p_unsup</strong> : probability of a single target to be unsupervised</p>
+<p><strong>p_weaksup</strong> : probability of a single target to be weakly supervised</p>
+<p><strong>p_weaksup_inner</strong> : rate of weak supervision</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : {array}, shape = [n_outputs, dim_outputs]</p>
+<blockquote class="last">
+<div><p>Awful targets.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -322,7 +377,8 @@ the field.</p>
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

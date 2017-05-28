@@ -21,9 +21,12 @@ X, y = ovk.toy_data_curl_free_field(n=2000)
 Xc = X.copy()
 yc = y.copy() + .05 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
 K = ovk.RBFCurlFreeKernel(1.)
-Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=100)
+Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=500)
 
-regr_1 = ovk.Ridge(kernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+
+nan_mask = np.random.binomial(1, 0., ytr.shape[0]).astype(np.bool)
+ytr[nan_mask, :] = np.NaN
 
 # Learning with curl-free
 regr_1.fit(Xtr, ytr)
@@ -35,7 +38,7 @@ U1, V1 = ovk.array2mesh(yp1)
 
 # Learning with sklearn ridge
 regr_2 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=1.5)
-regr_2.fit(Xtr, ytr)
+regr_2.fit(Xtr[~nan_mask, :], ytr[~nan_mask, :])
 s2 = regr_2.score(Xte, yte)
 print('R2 independant ridge: ', s2)
 yp2 = regr_2.predict(X)
@@ -49,8 +52,11 @@ axarr[0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
 axarr[1].streamplot(X2, Y2, U2, V2, color=np.sqrt(U2**2 + V2**2),
                     linewidth=.5, cmap=plt.cm.jet, density=2, arrowstyle=u'->')
 axarr[0].set_ylim([-1, 1])
+axarr[0].set_xlim([-1, 1])
 axarr[0].set_title('Curl-Free Ridge, R2: ' + str(s1))
 axarr[1].set_ylim([-1, 1])
+axarr[1].set_xlim([-1, 1])
 axarr[1].set_title('Independant Ridge, R2: ' + str(s2))
+
 f.suptitle('Vectorfield learning')
 plt.show()

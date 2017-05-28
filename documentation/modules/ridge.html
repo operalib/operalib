@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference_papers/index.html">Reference papers</a></li>
@@ -101,8 +107,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">Operalib</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Operalib</a>
+        
       </nav>
 
 
@@ -111,23 +119,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Module Ridge</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Module Ridge</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/modules/ridge.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/modules/ridge.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -138,10 +163,11 @@
 <p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
 regression.</p>
 <dl class="class">
-<dt id="operalib.ridge.Ridge">
-<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">Ridge</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>A=None</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver=&lt;function fmin_l_bfgs_b&gt;</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKRidge">
+<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">OVKRidge</code><span class="sig-paren">(</span><em>ovkernel=’DGauss’</em>, <em>lbda=1e-05</em>, <em>lbda_m=0.0</em>, <em>A=None</em>, <em>gamma=None</em>, <em>gamma_m=None</em>, <em>theta=0.7</em>, <em>period=’autocorr’</em>, <em>autocorr_params=None</em>, <em>solver=’L-BFGS-B’</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Operator-Valued kernel ridge regression.</p>
-<p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
+<blockquote>
+<div><p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
 (linear least squares with l2-norm regularization) with the (OV)kernel
 trick. It learns a linear function in the space induced by the
 respective kernel and the data. For non-linear kernels, this corresponds to
@@ -154,26 +180,18 @@ OVKRR model can be done in closed-form and is typically faster for
 medium-sized datasets. On the other  hand, the learned model is non-sparse
 and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at
 prediction-time.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.Ridge</span></code></dt>
-<dd>Linear ridge regression.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.KernelRidge</span></code></dt>
-<dd>Kernel ridge regression.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.SVR</span></code></dt>
-<dd>Support Vector Regression implemented using libsvm.</dd>
-</dl>
+<p>Optimization problem solved for learning:
+.. math:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>\<span class="n">min_</span><span class="p">{</span><span class="n">h</span> \<span class="ow">in</span> \<span class="n">mathcal</span> <span class="n">H</span><span class="p">}</span><span class="o">~</span> 
+</pre></div>
 </div>
-<p class="rubric">References</p>
-<ul class="simple">
-<li>Micchelli, Charles A., and Massimiliano Pontil.
-&#8220;On learning vector-valued functions.&#8221; Neural computation
-17.1 (2005): 177-204.</li>
-<li>Alvarez, Mauricio A., Lorenzo Rosasco, and Neil D. Lawrence.
-&#8220;Kernels for vector-valued functions: A review.&#8221; arXiv preprint
-arXiv:1106.6251 (2011). APA</li>
-</ul>
+</div></blockquote>
+<p>rac{lambda}{2} |h|_{mathcal H}^2 +</p>
+<p>rac{1}{np} sum_{i=1}^n |y_j - h(x_i)|_{mathcal Y}^2 +</p>
+<dl class="docutils">
+<dt>rac{lambda_m}{2} sum_{i=1}^n W_{ij}</dt>
+<dd>|h(x_i) - h(x_j)|_{mathcal Y}^2</dd>
+</dl>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -181,35 +199,20 @@ arXiv:1106.6251 (2011). APA</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">Ridge</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">OVKRidge</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
-<span class="go">Ridge(A=None, autocorr_params=None, gamma=None, kernel=&#39;DGauss&#39;,</span>
-<span class="go">   lbda=1.0, period=&#39;autocorr&#39;,</span>
-<span class="go">   solver=&lt;function fmin_l_bfgs_b at ...&gt;, solver_params=None,</span>
-<span class="go">   theta=0.7)</span>
+<span class="go">OVKRidge(...)</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="9%" />
-<col width="91%" />
+<col width="2%" />
+<col width="98%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">dual_coef_</span></a></td>
-<td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
-</tr>
-<tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">linop_</span></a></td>
-<td>(callable) Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)</td>
-</tr>
-<tr class="row-odd"><td><a href="#id5"><span class="problematic" id="id6">A_</span></a></td>
-<td>(array, shape = [n_targets, n_targets]) Set when Linear operator used by the decomposable kernel is default or None.</td>
-</tr>
-<tr class="row-even"><td><a href="#id7"><span class="problematic" id="id8">period_</span></a></td>
-<td>(float) Set when period used by the First periodic kernel is &#8216;autocorr&#8217;.</td>
-</tr>
-<tr class="row-odd"><td><a href="#id9"><span class="problematic" id="id10">solver_res_</span></a></td>
-<td>(any) Raw results returned by the solver.</td>
+<td>(array, shape = [n_samples x n_targest]) Weight vector(s) in kernel space  <a href="#id3"><span class="problematic" id="id4">linop_</span></a> : callable Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)  <a href="#id5"><span class="problematic" id="id6">A_</span></a> : array, shape = [n_targets, n_targets] Set when Linear operator used by the decomposable kernel is default or None.  <a href="#id7"><span class="problematic" id="id8">L_</span></a> : array, shape = [n_samples_miss, n_samples_miss] Graph Laplacian of data with missing targets (semi-supervised learning).  <a href="#id9"><span class="problematic" id="id10">period_</span></a> : float Set when period used by the First periodic kernel is ‘autocorr’.  <a href="#id11"><span class="problematic" id="id12">solver_res_</span></a> : any Raw results returned by the solver.</td>
 </tr>
 </tbody>
 </table>
@@ -220,26 +223,26 @@ arXiv:1106.6251 (2011). APA</li>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.fit" title="operalib.ridge.Ridge.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.fit" title="operalib.ridge.OVKRidge.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
 <td>Fit OVK ridge regression model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.Ridge.get_params" title="operalib.ridge.Ridge.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.get_params" title="operalib.ridge.OVKRidge.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.predict" title="operalib.ridge.Ridge.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.predict" title="operalib.ridge.OVKRidge.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
 <td>Predict using the OVK ridge model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.Ridge.score" title="operalib.ridge.Ridge.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.score" title="operalib.ridge.OVKRidge.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
 <td>Returns the coefficient of determination R^2 of the prediction.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.Ridge.set_params" title="operalib.ridge.Ridge.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(\*\*params)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.set_params" title="operalib.ridge.OVKRidge.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="operalib.ridge.Ridge.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.fit" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKRidge.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit OVK ridge regression model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -251,7 +254,8 @@ arXiv:1106.6251 (2011). APA</li>
 </div></blockquote>
 <p><strong>y</strong> : {array-like}, shape = [n_samples] or [n_samples, n_targets]</p>
 <blockquote>
-<div><p>Target values.</p>
+<div><p>Target values. numpy.NaN for missing targets (semi-supervised
+learning).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -263,14 +267,14 @@ arXiv:1106.6251 (2011). APA</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.Ridge.get_params" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKRidge.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKRidge.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep: boolean, optional</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
 <blockquote>
 <div><p>If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
@@ -288,8 +292,8 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#Ridge.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.Ridge.predict" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKRidge.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict using the OVK ridge model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -312,8 +316,8 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.score">
-<code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.Ridge.score" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKRidge.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKRidge.score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coefficient of determination R^2 of the prediction.</p>
 <p>The coefficient R^2 is defined as (1 - u/v), where u is the regression
 sum of squares ((y_true - y_pred) ** 2).sum() and v is the residual
@@ -351,12 +355,12 @@ would get a R^2 score of 0.0.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="operalib.ridge.Ridge.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.Ridge.set_params" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKRidge.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKRidge.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
-<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
+<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
 component of a nested object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -373,6 +377,9 @@ component of a nested object.</p>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -407,7 +414,8 @@ component of a nested object.</p>
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

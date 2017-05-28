@@ -34,6 +34,9 @@ dependencies:
     - pip install --upgrade cython numpydoc
     - pip install --upgrade scikit-learn
     - pip install --upgrade sphinx_rtd_theme
+    - wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.4.tar.gz
+    - tar -xf SuiteSparse-4.5.4.tar.gz
+    - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse
 
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code

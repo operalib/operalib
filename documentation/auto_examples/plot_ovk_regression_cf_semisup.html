@@ -177,10 +177,10 @@
 regression on a semi-supervised dataset.</p>
 <img alt="../_images/sphx_glr_plot_ovk_regression_cf_semisup_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_cf_semisup_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">semisup</span> <span class="o">+</span> <span class="n">weak</span> <span class="n">ridge</span><span class="p">:</span>  <span class="mf">0.458350614468</span>
-<span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">weak</span> <span class="n">ridge</span><span class="p">:</span>  <span class="mf">0.407482674574</span>
-<span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">ridge</span><span class="p">:</span>  <span class="mf">0.148097041459</span>
-<span class="n">R2</span> <span class="n">independant</span> <span class="n">ridge</span><span class="p">:</span>  <span class="o">-</span><span class="mf">0.196312075931</span>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">semisup</span> <span class="o">+</span> <span class="n">weak</span> <span class="n">ridge</span><span class="p">:</span>  <span class="o">-</span><span class="mf">0.219095606632</span>
+<span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">weak</span> <span class="n">ridge</span><span class="p">:</span>  <span class="o">-</span><span class="mf">0.957745386205</span>
+<span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">ridge</span><span class="p">:</span>  <span class="o">-</span><span class="mf">1.05104789227</span>
+<span class="n">R2</span> <span class="n">independant</span> <span class="n">ridge</span><span class="p">:</span>  <span class="mf">0.00726626250174</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -194,7 +194,7 @@ regression on a semi-supervised dataset.</p>
 
 <span class="c1"># Generate data</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">toy_data_curl_free_field</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">toy_data_curl_free_field</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 <span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="c1"># Add some noise</span>
 <span class="n">yc</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mo">075</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -273,7 +273,7 @@ regression on a semi-supervised dataset.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  34.902 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  47.231 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ovk_regression_cf_semisup.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_regression_cf_semisup.py</span></code></a></div>

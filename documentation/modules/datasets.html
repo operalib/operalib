@@ -163,7 +163,7 @@
 <p>Synthetic dataset.</p>
 <dl class="function">
 <dt id="operalib.datasets.toy_data_div_free_mesh">
-<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_div_free_mesh</code><span class="sig-paren">(</span><em>n=1000</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_div_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_div_free_mesh" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_div_free_mesh</code><span class="sig-paren">(</span><em>n_points=1000</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_div_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_div_free_mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divergence-Free toy dataset.</p>
 <dl class="docutils">
 <dt>Generate a scalar field as mixture of five gaussians at location:</dt>
@@ -182,7 +182,7 @@ the field.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : {integer}</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : {integer}</p>
 <blockquote>
 <div><p>Number of samples to generate.</p>
 </div></blockquote>
@@ -196,21 +196,13 @@ the field.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : {array}, shape = [n, n]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : pair{array}, {array}}, shape = [n, n]</p>
 <blockquote>
-<div><p>Mesh, X coordinates.</p>
+<div><p>Mesh, X, Y coordinates.</p>
 </div></blockquote>
-<p><strong>Y</strong> : {array}, shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, Y coordinates.</p>
-</div></blockquote>
-<p><strong>U</strong> : {array}, shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, X velocity as (X, Y) coordinates</p>
-</div></blockquote>
-<p><strong>V</strong> : {array}, shape = [n, n]</p>
+<p><strong>U, V</strong> : pair{{array}, {array}}, shape = [n, n]</p>
 <blockquote class="last">
-<div><p>Mesh, Y velocity as (X, Y) coordinates</p>
+<div><p>Mesh, (U, V) velocity at (X, Y) coordinates</p>
 </div></blockquote>
 </td>
 </tr>
@@ -220,7 +212,7 @@ the field.</p>
 
 <dl class="function">
 <dt id="operalib.datasets.toy_data_curl_free_mesh">
-<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_curl_free_mesh</code><span class="sig-paren">(</span><em>n=1000</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_curl_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_curl_free_mesh" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_curl_free_mesh</code><span class="sig-paren">(</span><em>n_points=1000</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_curl_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_curl_free_mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Curl-Free toy dataset.</p>
 <dl class="docutils">
 <dt>Generate a scalar field as mixture of five gaussians at location:</dt>
@@ -238,7 +230,7 @@ the field.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : {integer}</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : {integer}</p>
 <blockquote>
 <div><p>Number of samples to generate.</p>
 </div></blockquote>
@@ -252,21 +244,13 @@ the field.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : {array}, shape = [n, n]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : :rtype: (array, array), shape = [n, n]</p>
 <blockquote>
-<div><p>Mesh, X coordinates.</p>
+<div><p>Mesh, X, Y coordinates.</p>
 </div></blockquote>
-<p><strong>Y</strong> : {array}, shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, Y coordinates.</p>
-</div></blockquote>
-<p><strong>U</strong> : {array}, shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, X velocity as (X, Y) coordinates</p>
-</div></blockquote>
-<p><strong>V</strong> : {array}, shape = [n, n]</p>
+<p><strong>U, V</strong> : :rtype: (array, array), shape = [n, n]</p>
 <blockquote class="last">
-<div><p>Mesh, Y velocity as (X, Y) coordinates</p>
+<div><p>Mesh, (U, V) velocity at (X, Y) coordinates</p>
 </div></blockquote>
 </td>
 </tr>

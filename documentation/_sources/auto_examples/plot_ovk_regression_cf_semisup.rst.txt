@@ -23,10 +23,10 @@ regression on a semi-supervised dataset.
 
  Out::
 
-    R2 curl-free semisup + weak ridge:  0.458350614468
-    R2 curl-free weak ridge:  0.407482674574
-    R2 curl-free ridge:  0.148097041459
-    R2 independant ridge:  -0.196312075931
+    R2 curl-free semisup + weak ridge:  -0.219095606632
+    R2 curl-free weak ridge:  -0.957745386205
+    R2 curl-free ridge:  -1.05104789227
+    R2 independant ridge:  0.00726626250174
 
 
 
@@ -45,7 +45,7 @@ regression on a semi-supervised dataset.
 
     # Generate data
     np.random.seed(0)
-    X, y = ovk.toy_data_curl_free_field(n=2000)
+    X, y = ovk.toy_data_curl_free_field(n_points=2000)
     Xc = X.copy()
     # Add some noise
     yc = y.copy() + .075 * np.random.randn(y.shape[0], y.shape[1])
@@ -123,7 +123,7 @@ regression on a semi-supervised dataset.
     f.suptitle('Vectorfield learning')
     plt.show()
 
-**Total running time of the script:** ( 0 minutes  34.902 seconds)
+**Total running time of the script:** ( 0 minutes  47.231 seconds)
 
 
 

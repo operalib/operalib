@@ -4,36 +4,50 @@ from numpy import NaN
 from numpy import bool as npbool
 from numpy import float as npfloat
 
-from numpy.random import multinomial, binomial
+from sklearn.utils import check_random_state
 
 
-def awful(targets, p_unsup=.25, p_weaksup=.25, p_weaksup_inner=.25):
+def awful(targets, p_unsup=.25, p_weaksup=.25, p_weaksup_inner=.25,
+          random_state=None):
     """Take a nice dataset and add some NaNs to simulate partially supervised.
 
     Parameters
     ----------
-    targets : array, shape = [n_outputs, dim_outputs]
-              Targets.
+    targets : array, shape = [n_samples, dim_target]
+        Targets.
 
-    p_unsup : probability of a single target to be unsupervised
+    p_unsup : float, default = .25
+        Probability of a single target to be unsupervised.
 
-    p_weaksup : probability of a single target to be weakly supervised
+    p_weaksup : float, default = .25
+        Probability of a single target to be weakly supervised.
 
-    p_weaksup_inner : rate of weak supervision
+    p_weaksup_inner : float, default = .25
+        Rate of weak supervision.
+
+    random_state : int, RandomState instance or None, optional (default=None)
+        If int, random_state is the seed used by the random number
+        generator; If RandomState instance, random_state is the
+        random number generator; If None, the random number
+        generator is the RandomState instance used by `np.random`.
 
     Returns
     -------
-    targets : array, shape = [n_outputs, dim_outputs]
-              Awful targets.
+    targets : array, shape = [n_samples, dim_target]
+        Awful targets.
     """
+    random_state_internal = check_random_state(random_state)
     awful_targets = targets.copy()
     p_sup = 1 - (p_unsup + p_weaksup)
-    awful_mask = multinomial(1, [p_sup, p_unsup, p_weaksup],
-                             size=targets.shape[0]).argmax(axis=1)
+    awful_mask = (random_state_internal
+                  .multinomial(1, [p_sup, p_unsup, p_weaksup],
+                               size=targets.shape[0])
+                  .argmax(axis=1))
     awful_targets[awful_mask == 1, :] = NaN
-    weaksup_mask = binomial(1, 1 - p_weaksup_inner,
-                            awful_targets[awful_mask == 2, :]
-                            .shape).astype(npfloat)
+    weaksup_mask = (random_state_internal
+                    .binomial(1, 1 - p_weaksup_inner,
+                              awful_targets[awful_mask == 2, :].shape)
+                    .astype(npfloat))
     weaksup_mask[~weaksup_mask.astype(npbool)] = NaN
     awful_targets[awful_mask == 2, :] = (awful_targets[awful_mask == 2, :] *
                                          weaksup_mask)

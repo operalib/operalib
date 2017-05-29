@@ -33,7 +33,7 @@ class SinePattern(BaseEstimator):
 
     References
     ----------
-    * Maxime Sangnier, Olivier Fercoq, Florence D’Alche-Buc
+    * Maxime Sangnier, Olivier Fercoq, Florence D'Alche-Buc
     "Joint quantile regression in vector-valued RKHSs." In Advances in Neural
     Information Processing Systems (2016, pp. 3693-3701).
     """

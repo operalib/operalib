@@ -18,7 +18,7 @@ else:
 
 def test_learn_cf():
     """Test ovk curl-free estimator fit."""
-    X, y = ovk.toy_data_curl_free_field(n=500)
+    X, y = ovk.toy_data_curl_free_field(n_samples=500)
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
 
@@ -29,7 +29,7 @@ def test_learn_cf():
 
 def test_learn_df():
     """Test ovk curl-free estimator fit."""
-    X, y = ovk.toy_data_div_free_field(n=500)
+    X, y = ovk.toy_data_div_free_field(n_samples=500)
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
 
@@ -40,7 +40,7 @@ def test_learn_df():
 
 def test_learn_cf_semi():
     """Test ovk curl-free estimator fit on semi-supervised data."""
-    X, y = ovk.toy_data_curl_free_field(n=500)
+    X, y = ovk.toy_data_curl_free_field(n_samples=500)
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
     nan_mask = binomial(1, 0.1, ytr.shape[0]).astype(bool)
@@ -53,7 +53,7 @@ def test_learn_cf_semi():
 
 def test_learn_df_semi():
     """Test ovk curl-free estimator fit on semi-supervised data.."""
-    X, y = ovk.toy_data_div_free_field(n=500)
+    X, y = ovk.toy_data_div_free_field(n_samples=500)
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, train_size=100)
     nan_mask = binomial(1, 0.1, ytr.shape[0]).astype(bool)

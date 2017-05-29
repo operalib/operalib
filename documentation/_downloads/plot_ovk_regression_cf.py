@@ -8,55 +8,84 @@ An example to illustrate structured learning with operator-valued kernels.
 We compare Operator-valued kernel (OVK) with scikit-learn multi-output ridge
 regression.
 """
+# Author: Romain Brault <ro.brault@gmail.com>
+# License: MIT
 
+# -*- coding: utf-8 -*-
 import operalib as ovk
-import numpy as np
+
 import matplotlib.pyplot as plt
+
+import numpy as np
+from numpy.random import RandomState
+
 from sklearn.model_selection import train_test_split
 from sklearn.kernel_ridge import KernelRidge
 
-# Generate data
-np.random.seed(0)
-X, y = ovk.toy_data_curl_free_field(n_points=2000)
-Xc = X.copy()
-yc = y.copy() + .05 * np.random.randn(y.shape[0], y.shape[1])  # Add some noise
-K = ovk.RBFCurlFreeKernel(1.)
-Xtr, Xte, ytr, yte = train_test_split(Xc, yc, train_size=500)
 
-regr_1 = ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.), lbda=0.0001)
+def main():
+    """Example of vector-field learning."""
 
-nan_mask = np.random.binomial(1, 0., ytr.shape[0]).astype(np.bool)
-ytr[nan_mask, :] = np.NaN
+    # Fix a seed
+    random_state = RandomState(0)
 
-# Learning with curl-free
-regr_1.fit(Xtr, ytr)
-s1 = regr_1.score(Xte, yte)
-print('R2 curl-free ridge: ', s1)
-yp1 = regr_1.predict(Xc)
-X1, Y1 = ovk.array2mesh(Xc)
-U1, V1 = ovk.array2mesh(yp1)
+    # Generate data
+    inputs, targets = ovk.toy_data_curl_free_field(n_samples=2000)
+    inputs_mesh = ovk.array2mesh(inputs)
 
-# Learning with sklearn ridge
-regr_2 = KernelRidge(kernel='rbf', alpha=0.0001, gamma=1.5)
-regr_2.fit(Xtr[~nan_mask, :], ytr[~nan_mask, :])
-s2 = regr_2.score(Xte, yte)
-print('R2 independant ridge: ', s2)
-yp2 = regr_2.predict(X)
-X2, Y2 = ovk.array2mesh(X)
-U2, V2 = ovk.array2mesh(yp2)
+    (inputs_train, inputs_test,
+     targets_train, targets_test) = train_test_split(inputs, targets,
+                                                     train_size=(inputs
+                                                                 .shape[0] -
+                                                                 40 ** 2),
+                                                     random_state=random_state)
+    # Add some noise
+    targets_train = (targets_train +
+                     .175 * random_state.randn(targets_train.shape[0],
+                                               targets_train.shape[1]))
 
-# Plotting
-f, axarr = plt.subplots(1, 2, sharex=True, sharey=True, figsize=(14, 7))
-axarr[0].streamplot(X1, Y1, U1, V1, color=np.sqrt(U1**2 + V1**2),
-                    linewidth=.5, cmap=plt.cm.jet, density=2, arrowstyle=u'->')
-axarr[1].streamplot(X2, Y2, U2, V2, color=np.sqrt(U2**2 + V2**2),
-                    linewidth=.5, cmap=plt.cm.jet, density=2, arrowstyle=u'->')
-axarr[0].set_ylim([-1, 1])
-axarr[0].set_xlim([-1, 1])
-axarr[0].set_title('Curl-Free Ridge, R2: ' + str(s1))
-axarr[1].set_ylim([-1, 1])
-axarr[1].set_xlim([-1, 1])
-axarr[1].set_title('Independant Ridge, R2: ' + str(s2))
+    regressor = {'CF':
+                 ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.),
+                              lbda=1e-4),
+                 'Indep':
+                 KernelRidge(kernel='rbf', gamma=.5, alpha=1e-4)}
 
-f.suptitle('Vectorfield learning')
-plt.show()
+    # Learning with curl-free
+    regressor['CF'].fit(inputs_train, targets_train)
+    score_cf = regressor['CF'].score(inputs_test, targets_test)
+    print('R2 curl-free ridge: ', score_cf)
+    targets_mesh_cf = ovk.array2mesh(regressor['CF'].predict(inputs))
+
+    # Learning with sklearn ridge
+    regressor['Indep'].fit(inputs_train, targets_train)
+    scode_id = regressor['Indep'].score(inputs_test, targets_test)
+    print('R2 independant ridge: ', scode_id)
+    targets_mesh_id = ovk.array2mesh(regressor['Indep'].predict(inputs))
+
+    # Plotting
+    # pylint: disable=E1101
+    fig, axarr = plt.subplots(1, 2, sharex=True, sharey=True, figsize=(14, 7))
+    axarr[0].streamplot(inputs_mesh[0], inputs_mesh[1],
+                        targets_mesh_cf[0], targets_mesh_cf[1],
+                        color=np.sqrt(targets_mesh_cf[0]**2 +
+                                      targets_mesh_cf[1]**2),
+                        linewidth=.5, cmap=plt.cm.jet, density=2,
+                        arrowstyle=u'->')
+    axarr[1].streamplot(inputs_mesh[0], inputs_mesh[1],
+                        targets_mesh_id[0], targets_mesh_id[1],
+                        color=np.sqrt(targets_mesh_id[0]**2 +
+                                      targets_mesh_id[1]**2),
+                        linewidth=.5, cmap=plt.cm.jet, density=2,
+                        arrowstyle=u'->')
+    axarr[0].set_ylim([-1, 1])
+    axarr[0].set_xlim([-1, 1])
+    axarr[0].set_title('Curl-Free Ridge, R2: ' + str(score_cf))
+    axarr[1].set_ylim([-1, 1])
+    axarr[1].set_xlim([-1, 1])
+    axarr[1].set_title('Independant Ridge, R2: ' + str(scode_id))
+
+    fig.suptitle('Vectorfield learning')
+    plt.show()
+
+if __name__ == '__main__':
+    main()

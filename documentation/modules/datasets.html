@@ -162,8 +162,67 @@
 <span id="module-datasets"></span><h1>Module datasets<a class="headerlink" href="#module-operalib.datasets" title="Permalink to this headline">¶</a></h1>
 <p>Synthetic dataset.</p>
 <dl class="function">
+<dt id="operalib.datasets.toy_data_curl_free_field">
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_curl_free_field</code><span class="sig-paren">(</span><em>n_samples</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_curl_free_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_curl_free_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Curl-Free toy dataset.</p>
+<dl class="docutils">
+<dt>Generate a scalar field as mixture of five gaussians at location:</dt>
+<dd><ul class="first last simple">
+<li>(0   , 0)</li>
+<li>(0   , loc)</li>
+<li>( loc, 0)</li>
+<li>(-loc, 0)</li>
+<li>(0   , -loc)</li>
+</ul>
+</dd>
+</dl>
+<p>whith variance equal to ‘space’. Then return the gradient of the field.
+The return result is a pair (inputs, targets) of arrays.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_samples</strong> : int</p>
+<blockquote>
+<div><p>Number of samples to generate.</p>
+</div></blockquote>
+<p><strong>loc: float, optional (default = 25.)</strong></p>
+<blockquote>
+<div><p>Centers of the Gaussians.</p>
+</div></blockquote>
+<p><strong>space: float, optional (default = .5)</strong></p>
+<blockquote>
+<div><p>Variance of the Gaussians.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<blockquote>
+<div><p>Array of evenly space points.</p>
+</div></blockquote>
+<p><strong>targets</strong> : array shape = [n_samples, 2]</p>
+<blockquote class="last">
+<div><p>Array corresponding to the velocity at the coordinates present in
+inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_curl_free_mesh</span></code></dt>
+<dd>Generate Curl-Free mesh.</dd>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
+<dd>Generate Divergence-Free mesh.</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="operalib.datasets.toy_data_div_free_mesh">
-<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_div_free_mesh</code><span class="sig-paren">(</span><em>n_points=1000</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_div_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_div_free_mesh" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_div_free_mesh</code><span class="sig-paren">(</span><em>n_samples</em>, <em>loc=25.0</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_div_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_div_free_mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divergence-Free toy dataset.</p>
 <dl class="docutils">
 <dt>Generate a scalar field as mixture of five gaussians at location:</dt>
@@ -177,68 +236,20 @@
 </dd>
 </dl>
 <p>whith variance equal to ‘space’. Then return the orthogonal of gradient of
-the field.</p>
+the field. The return result is a pair of meshes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : {integer}</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : int</p>
 <blockquote>
 <div><p>Number of samples to generate.</p>
 </div></blockquote>
-<p><strong>loc: {float}</strong></p>
+<p><strong>loc: float, optional (default = 25.)</strong></p>
 <blockquote>
 <div><p>Centers of the Gaussians.</p>
 </div></blockquote>
-<p><strong>space: {float}</strong></p>
-<blockquote>
-<div><p>Variance of the Gaussians.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : pair{array}, {array}}, shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, X, Y coordinates.</p>
-</div></blockquote>
-<p><strong>U, V</strong> : pair{{array}, {array}}, shape = [n, n]</p>
-<blockquote class="last">
-<div><p>Mesh, (U, V) velocity at (X, Y) coordinates</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="operalib.datasets.toy_data_curl_free_mesh">
-<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_curl_free_mesh</code><span class="sig-paren">(</span><em>n_points=1000</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_curl_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_curl_free_mesh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Curl-Free toy dataset.</p>
-<dl class="docutils">
-<dt>Generate a scalar field as mixture of five gaussians at location:</dt>
-<dd><ul class="first last simple">
-<li>(0   , 0)</li>
-<li>(0   , loc)</li>
-<li>( loc, 0)</li>
-<li>(-loc, 0)</li>
-<li>(0   , -loc)</li>
-</ul>
-</dd>
-</dl>
-<p>whith variance equal to ‘space’. Then return the gradient of the field.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : {integer}</p>
-<blockquote>
-<div><p>Number of samples to generate.</p>
-</div></blockquote>
-<p><strong>loc: {float}</strong></p>
-<blockquote>
-<div><p>Centers of the Gaussians.</p>
-</div></blockquote>
-<p><strong>space: {float}</strong></p>
+<p><strong>space: float, optional (default = .5)</strong></p>
 <blockquote>
 <div><p>Variance of the Gaussians.</p>
 </div></blockquote>
@@ -256,47 +267,236 @@ the field.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_curl_free_field</span></code></dt>
+<dd>Generate Curl-Free field.</dd>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_field</span></code></dt>
+<dd>Generate Divergence-Free field.</dd>
+</dl>
+</div>
 </dd></dl>
 
 <dl class="function">
-<dt id="operalib.datasets.array2mesh">
-<code class="descclassname">operalib.datasets.</code><code class="descname">array2mesh</code><span class="sig-paren">(</span><em>arr</em>, <em>side=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#array2mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.array2mesh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Array to mesh converter.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="operalib.datasets.mesh2array">
-<code class="descclassname">operalib.datasets.</code><code class="descname">mesh2array</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#mesh2array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.mesh2array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mesh to array converter.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="operalib.datasets.toy_data_quantile">
-<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_quantile</code><span class="sig-paren">(</span><em>n_points=50</em>, <em>probs=0.5</em>, <em>noise=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/quantile.html#toy_data_quantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_quantile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sine wave toy dataset.</p>
+<dt id="operalib.datasets.toy_data_div_free_field">
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_div_free_field</code><span class="sig-paren">(</span><em>n_samples</em>, <em>loc=25</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_div_free_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_div_free_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divergence-Free toy dataset.</p>
+<dl class="docutils">
+<dt>Generate a scalar field as mixture of five gaussians at location:</dt>
+<dd><ul class="first last simple">
+<li>(0   , 0)</li>
+<li>(0   , loc)</li>
+<li>( loc, 0)</li>
+<li>(-loc, 0)</li>
+<li>(0   , -loc)</li>
+</ul>
+</dd>
+</dl>
+<p>whith variance equal to ‘space’. Then return the orthogonal of gradient of
+the field. The return result is a pair (inputs, targets) of arrays.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : {integer}</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : int</p>
 <blockquote>
 <div><p>Number of samples to generate.</p>
 </div></blockquote>
-<p><strong>probs</strong> : {list}, shape = [n_quantiles], default=0.5</p>
+<p><strong>loc: float, optional (default = 25.)</strong></p>
 <blockquote>
-<div><p>Probabilities (quantiles levels)</p>
+<div><p>Centers of the Gaussians.</p>
+</div></blockquote>
+<p><strong>space: float, optional (default = .5)</strong></p>
+<blockquote>
+<div><p>Variance of the Gaussians.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : {array}, shape = [n]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<blockquote>
+<div><p>Array of evenly space points.</p>
+</div></blockquote>
+<p><strong>targets</strong> : array shape = [n_samples, 2]</p>
+<blockquote class="last">
+<div><p>Array corresponding to the velocity at the coordinates present in
+inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
+<dd>Generate Curl-Free mesh.</dd>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
+<dd>Generate Divergence-Free mesh.</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.datasets.toy_data_curl_free_mesh">
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_curl_free_mesh</code><span class="sig-paren">(</span><em>n_samples</em>, <em>loc=25.0</em>, <em>space=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#toy_data_curl_free_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_curl_free_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Curl-Free toy dataset.</p>
+<dl class="docutils">
+<dt>Generate a scalar field as mixture of five gaussians at location:</dt>
+<dd><ul class="first last simple">
+<li>(0   , 0)</li>
+<li>(0   , loc)</li>
+<li>( loc, 0)</li>
+<li>(-loc, 0)</li>
+<li>(0   , -loc)</li>
+</ul>
+</dd>
+</dl>
+<p>whith variance equal to ‘space’. Then return the gradient of the field.
+The return result is a pair meshes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_samples</strong> : int</p>
+<blockquote>
+<div><p>Number of samples to generate.</p>
+</div></blockquote>
+<p><strong>loc: float, optional (default = 25.)</strong></p>
+<blockquote>
+<div><p>Centers of the Gaussians.</p>
+</div></blockquote>
+<p><strong>space: float, optional (default = .5)</strong></p>
+<blockquote>
+<div><p>Variance of the Gaussians.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : :rtype: (array, array), shape = [n, n]</p>
+<blockquote>
+<div><p>Mesh, X, Y coordinates.</p>
+</div></blockquote>
+<p><strong>U, V</strong> : :rtype: (array, array), shape = [n, n]</p>
+<blockquote class="last">
+<div><p>Mesh, (U, V) velocity at (X, Y) coordinates</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_curl_free_field</span></code></dt>
+<dd>Generate Curl-Free field.</dd>
+<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_field</span></code></dt>
+<dd>Generate Divergence-Free field.</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.datasets.array2mesh">
+<code class="descclassname">operalib.datasets.</code><code class="descname">array2mesh</code><span class="sig-paren">(</span><em>inputs</em>, <em>side=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#array2mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.array2mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array to mesh converter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<blockquote>
+<div><p>The inputs array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>x_mesh</strong> : array, shape = [n_samples, n_samples]</p>
+<blockquote class="last">
+<div><blockquote>
+<div><p>The x_axis of the mesh corresponding to inputs.</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>y_mesh <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
+<dd><p class="first last">The y_axis of the mesh corresponding to inputs</p>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.datasets.mesh2array">
+<code class="descclassname">operalib.datasets.</code><code class="descname">mesh2array</code><span class="sig-paren">(</span><em>x_mesh</em>, <em>y_mesh</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#mesh2array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.mesh2array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mesh to array converter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_mesh</strong> : array, shape = [n_samples, n_samples]</p>
+<blockquote>
+<div><blockquote>
+<div><p>The x_axis mesh.</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>y_mesh <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
+<dd><p class="first last">The y_axis mesh.</p>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<blockquote class="last">
+<div><p>The inputs corresponding to the mesh (x_mesh, y_mesh).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="operalib.datasets.toy_data_quantile">
+<code class="descclassname">operalib.datasets.</code><code class="descname">toy_data_quantile</code><span class="sig-paren">(</span><em>n_samples=50</em>, <em>probs=0.5</em>, <em>pattern=SinePattern(enveloppe=(0.3333333333333333</em>, <em>1.0)</em>, <em>inputs_bound=(0.0</em>, <em>1.5)</em>, <em>random_state=&lt;mtrand.RandomState object&gt;</em>, <em>sine_period=1.0)</em>, <em>noise=(1.0</em>, <em>0.2</em>, <em>0.0</em>, <em>1.5)</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/quantile.html#toy_data_quantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.toy_data_quantile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine wave toy dataset.</p>
+<p>The target y is computed as a sine curve at of modulated by a sine
+envelope at 1/3 Hz and mean 1.  Moreover, this pattern is distorted with a
+random Gaussian noise with mean 0 and a linearly decreasing standard
+deviation from 1.2 at
+X = 0 to 0.2 at X = 1 .  5 .</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_samples</strong> : int</p>
+<blockquote>
+<div><p>Number of samples to generate.</p>
+</div></blockquote>
+<p><strong>probs</strong> : list or float, shape = [n_quantiles], default=0.5</p>
+<blockquote>
+<div><p>Probabilities (quantiles levels).</p>
+</div></blockquote>
+<p><strong>pattern</strong> : callable, default = SinePattern()</p>
+<blockquote>
+<div><p>Callable which generates n_sample 1D data (inputs and targets).</p>
+</div></blockquote>
+<p><strong>noise</strong> : :rtype: (float, float, float, float)</p>
+<blockquote>
+<div><p>Noise parameters (variance, shift, support_min, support_max).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n]</p>
 <blockquote>
 <div><p>Input data.</p>
 </div></blockquote>
-<p><strong>y</strong> : {array}, shape = [n]</p>
+<p><strong>targets</strong> : array, shape = [n]</p>
 <blockquote>
 <div><p>Targets.</p>
 </div></blockquote>
-<p><strong>quantiles</strong> : {array}, shape = [n x n_quantiles]</p>
+<p><strong>quantiles</strong> : array, shape = [n x n_quantiles]</p>
 <blockquote class="last">
 <div><p>True conditional quantiles.</p>
 </div></blockquote>
@@ -308,22 +508,38 @@ the field.</p>
 
 <dl class="function">
 <dt id="operalib.datasets.awful">
-<code class="descclassname">operalib.datasets.</code><code class="descname">awful</code><span class="sig-paren">(</span><em>targets</em>, <em>p_unsup=0.25</em>, <em>p_weaksup=0.25</em>, <em>p_weaksup_inner=0.25</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/awful.html#awful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.awful" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">awful</code><span class="sig-paren">(</span><em>targets</em>, <em>p_unsup=0.25</em>, <em>p_weaksup=0.25</em>, <em>p_weaksup_inner=0.25</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/awful.html#awful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.awful" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take a nice dataset and add some NaNs to simulate partially supervised.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : {array}, shape = [n_outputs, dim_outputs]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>targets</strong> : array, shape = [n_samples, dim_target]</p>
 <blockquote>
 <div><p>Targets.</p>
 </div></blockquote>
-<p><strong>p_unsup</strong> : probability of a single target to be unsupervised</p>
-<p><strong>p_weaksup</strong> : probability of a single target to be weakly supervised</p>
-<p><strong>p_weaksup_inner</strong> : rate of weak supervision</p>
+<p><strong>p_unsup</strong> : float, default = .25</p>
+<blockquote>
+<div><p>Probability of a single target to be unsupervised.</p>
+</div></blockquote>
+<p><strong>p_weaksup</strong> : float, default = .25</p>
+<blockquote>
+<div><p>Probability of a single target to be weakly supervised.</p>
+</div></blockquote>
+<p><strong>p_weaksup_inner</strong> : float, default = .25</p>
+<blockquote>
+<div><p>Rate of weak supervision.</p>
+</div></blockquote>
+<p><strong>random_state</strong> : int, RandomState instance or None, optional (default=None)</p>
+<blockquote>
+<div><p>If int, random_state is the seed used by the random number
+generator; If RandomState instance, random_state is the
+random number generator; If None, the random number
+generator is the RandomState instance used by <cite>np.random</cite>.</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : {array}, shape = [n_outputs, dim_outputs]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>targets</strong> : array, shape = [n_samples, dim_target]</p>
 <blockquote class="last">
 <div><p>Awful targets.</p>
 </div></blockquote>

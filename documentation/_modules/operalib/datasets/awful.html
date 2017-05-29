@@ -166,39 +166,53 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="nb">bool</span> <span class="k">as</span> <span class="n">npbool</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="nb">float</span> <span class="k">as</span> <span class="n">npfloat</span>
 
-<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">multinomial</span><span class="p">,</span> <span class="n">binomial</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">check_random_state</span>
 
 
-<div class="viewcode-block" id="awful"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.awful">[docs]</a><span class="k">def</span> <span class="nf">awful</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">p_unsup</span><span class="o">=.</span><span class="mi">25</span><span class="p">,</span> <span class="n">p_weaksup</span><span class="o">=.</span><span class="mi">25</span><span class="p">,</span> <span class="n">p_weaksup_inner</span><span class="o">=.</span><span class="mi">25</span><span class="p">):</span>
+<div class="viewcode-block" id="awful"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.awful">[docs]</a><span class="k">def</span> <span class="nf">awful</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">p_unsup</span><span class="o">=.</span><span class="mi">25</span><span class="p">,</span> <span class="n">p_weaksup</span><span class="o">=.</span><span class="mi">25</span><span class="p">,</span> <span class="n">p_weaksup_inner</span><span class="o">=.</span><span class="mi">25</span><span class="p">,</span>
+          <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Take a nice dataset and add some NaNs to simulate partially supervised.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    y : {array}, shape = [n_outputs, dim_outputs]</span>
+<span class="sd">    targets : array, shape = [n_samples, dim_target]</span>
 <span class="sd">        Targets.</span>
 
-<span class="sd">    p_unsup : probability of a single target to be unsupervised</span>
+<span class="sd">    p_unsup : float, default = .25</span>
+<span class="sd">        Probability of a single target to be unsupervised.</span>
 
-<span class="sd">    p_weaksup : probability of a single target to be weakly supervised</span>
+<span class="sd">    p_weaksup : float, default = .25</span>
+<span class="sd">        Probability of a single target to be weakly supervised.</span>
 
-<span class="sd">    p_weaksup_inner : rate of weak supervision</span>
+<span class="sd">    p_weaksup_inner : float, default = .25</span>
+<span class="sd">        Rate of weak supervision.</span>
+
+<span class="sd">    random_state : int, RandomState instance or None, optional (default=None)</span>
+<span class="sd">        If int, random_state is the seed used by the random number</span>
+<span class="sd">        generator; If RandomState instance, random_state is the</span>
+<span class="sd">        random number generator; If None, the random number</span>
+<span class="sd">        generator is the RandomState instance used by `np.random`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    y : {array}, shape = [n_outputs, dim_outputs]</span>
+<span class="sd">    targets : array, shape = [n_samples, dim_target]</span>
 <span class="sd">        Awful targets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">random_state_internal</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
     <span class="n">awful_targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">p_sup</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">p_unsup</span> <span class="o">+</span> <span class="n">p_weaksup</span><span class="p">)</span>
-    <span class="n">awful_mask</span> <span class="o">=</span> <span class="n">multinomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="n">p_sup</span><span class="p">,</span> <span class="n">p_unsup</span><span class="p">,</span> <span class="n">p_weaksup</span><span class="p">],</span>
-                             <span class="n">size</span><span class="o">=</span><span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">awful_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">random_state_internal</span>
+                  <span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="n">p_sup</span><span class="p">,</span> <span class="n">p_unsup</span><span class="p">,</span> <span class="n">p_weaksup</span><span class="p">],</span>
+                               <span class="n">size</span><span class="o">=</span><span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                  <span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">NaN</span>
-    <span class="n">weaksup_mask</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_weaksup_inner</span><span class="p">,</span>
-                            <span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span>
-                                          <span class="p">:]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">npfloat</span><span class="p">)</span>
+    <span class="n">weaksup_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">random_state_internal</span>
+                    <span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_weaksup_inner</span><span class="p">,</span>
+                              <span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">npfloat</span><span class="p">))</span>
     <span class="n">weaksup_mask</span><span class="p">[</span><span class="o">~</span><span class="n">weaksup_mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">npbool</span><span class="p">)]</span> <span class="o">=</span> <span class="n">NaN</span>
-    <span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> \
-        <span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">weaksup_mask</span>
+    <span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">awful_targets</span><span class="p">[</span><span class="n">awful_mask</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span>
+                                         <span class="n">weaksup_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">awful_targets</span></div>
 </pre></div>

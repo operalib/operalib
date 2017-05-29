@@ -40,7 +40,7 @@
     <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
         <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/>
-        <link rel="prev" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/> 
+        <link rel="prev" title="General examples" href="index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,10 +96,10 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Joint quantile regression with operator-valued kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_multiple_outputs.html">Multi-output Operator-valued kernel Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_onorma.html">Online Learning with Operator-Valued kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf_semisup.html">Vector-field Learning with structured output kernel</a></li>
 </ul>
 </li>
@@ -180,12 +180,12 @@ constraints.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
-<span class="n">Joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.791607141495</span>
-<span class="n">Joint</span> <span class="n">score</span>  <span class="mf">0.772247508934</span>
-<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">5.40742707253</span>
-<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span>  <span class="mf">0.775238866983</span>
-<span class="n">Independent</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.710999965668</span>
-<span class="n">Independent</span> <span class="n">score</span>  <span class="mf">0.774746251586</span>
+<span class="n">Joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.790019989014</span>
+<span class="n">Joint</span> <span class="n">score</span>  <span class="mf">0.764185189755</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">4.02944087982</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span>  <span class="mf">0.76533612013</span>
+<span class="n">Independent</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span>  <span class="mf">0.613391160965</span>
+<span class="n">Independent</span> <span class="n">score</span>  <span class="mf">0.764757522709</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -198,20 +198,19 @@ constraints.</p>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">operalib</span> <span class="kn">import</span> <span class="n">Quantile</span><span class="p">,</span> <span class="n">toy_data_quantile</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;example of multiple quantile regression.&quot;&quot;&quot;</span>
-    <span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Example of multiple quantile regression.&quot;&quot;&quot;</span>
 
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating dataset...&quot;</span><span class="p">)</span>
     <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
-    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-    <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span>
+                                               <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fitting...&quot;</span><span class="p">)</span>
     <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Joint&#39;</span><span class="p">:</span>
@@ -247,7 +246,7 @@ constraints.</p>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  8.820 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  6.644 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
@@ -270,7 +269,7 @@ constraints.</p>
         <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral float-right" title="Multi-output Operator-valued kernel Regression" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plot_ovk_regression_cf.html" class="btn btn-neutral" title="Vector-field Learning with structured output kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="General examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

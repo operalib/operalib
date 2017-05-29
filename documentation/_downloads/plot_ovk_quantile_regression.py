@@ -17,20 +17,19 @@ constraints.
 import time
 
 import numpy as np
-from numpy.random import seed
 import matplotlib.pyplot as plt
 
 from operalib import Quantile, toy_data_quantile
 
 
 def main():
-    """example of multiple quantile regression."""
-    seed(0)
+    """Example of multiple quantile regression."""
 
     print("Creating dataset...")
     probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-    x_train, y_train, _ = toy_data_quantile(50)
-    x_test, y_test, z_test = toy_data_quantile(1000, probs=probs)
+    x_train, y_train, _ = toy_data_quantile(50, random_state=0)
+    x_test, y_test, z_test = toy_data_quantile(1000, probs=probs,
+                                               random_state=1)
 
     print("Fitting...")
     methods = {'Joint':

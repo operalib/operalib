@@ -162,35 +162,88 @@
   <h1>Source code for operalib.datasets.vectorfield</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Synthetic datasets for vector-field learning.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">meshgrid</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="n">floor</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">meshgrid</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">hstack</span>
 
 
-<span class="k">def</span> <span class="nf">_gaussian</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">mean_X</span><span class="p">,</span> <span class="n">mean_Y</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">mean_X</span>
-    <span class="n">Yc</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">mean_Y</span>
-    <span class="k">return</span> <span class="n">pi</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">scale</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">Xc</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Yc</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">x_mesh_mean</span><span class="p">,</span> <span class="n">y_mesh_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a gaussian.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">        The inputs mesh x_axis.</span>
+
+<span class="sd">    y_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">        The inputs mesh y_axis.</span>
+
+<span class="sd">    x_mesh_mean :</span>
+<span class="sd">        The x_axis center of the Gaussian.</span>
+
+<span class="sd">    y_mesh_mean :</span>
+<span class="sd">        The y_axis center of the Gaussian.</span>
+
+<span class="sd">    scale :</span>
+<span class="sd">        The scale parameter of the Gaussian. Must be positive.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        field : array, shape = [n_samples, n_samples]</span>
+<span class="sd">            A scalar field with a Gaussian with some scale centered at</span>
+<span class="sd">            x_mesh_mean, y_mesh_mean.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x_mesh_centered</span> <span class="o">=</span> <span class="n">x_mesh</span> <span class="o">-</span> <span class="n">x_mesh_mean</span>
+    <span class="n">y_mesh_centered</span> <span class="o">=</span> <span class="n">y_mesh</span> <span class="o">-</span> <span class="n">y_mesh_mean</span>
+    <span class="k">return</span> <span class="n">pi</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">scale</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_mesh_centered</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span>
+                                        <span class="n">y_mesh_centered</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="array2mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.array2mesh">[docs]</a><span class="k">def</span> <span class="nf">array2mesh</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Array to mesh converter.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="array2mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.array2mesh">[docs]</a><span class="k">def</span> <span class="nf">array2mesh</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Array to mesh converter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        inputs : array, shape = [n_samples, 2]</span>
+<span class="sd">            The inputs array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        x_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">            The x_axis of the mesh corresponding to inputs.</span>
+
+<span class="sd">        y_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">            The y_axis of the mesh corresponding to inputs</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">side</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">side</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+    <span class="n">x_mesh</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
+    <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span></div>
-
-
-<div class="viewcode-block" id="mesh2array"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.mesh2array">[docs]</a><span class="k">def</span> <span class="nf">mesh2array</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Mesh to array converter.&quot;&quot;&quot;</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="n">empty</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">arr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-    <span class="n">arr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">arr</span></div>
+    <span class="k">return</span> <span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span></div>
 
 
-<div class="viewcode-block" id="toy_data_curl_free_mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_curl_free_mesh">[docs]</a><span class="k">def</span> <span class="nf">toy_data_curl_free_mesh</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<div class="viewcode-block" id="mesh2array"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.mesh2array">[docs]</a><span class="k">def</span> <span class="nf">mesh2array</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mesh to array converter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        x_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">            The x_axis mesh.</span>
+
+<span class="sd">        y_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">            The y_axis mesh.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        inputs : array, shape = [n_samples, 2]</span>
+<span class="sd">            The inputs corresponding to the mesh (x_mesh, y_mesh).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">hstack</span><span class="p">((</span><span class="n">x_mesh</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+                   <span class="n">y_mesh</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))))</span></div>
+
+
+<div class="viewcode-block" id="toy_data_curl_free_mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_curl_free_mesh">[docs]</a><span class="k">def</span> <span class="nf">toy_data_curl_free_mesh</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">25.</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Curl-Free toy dataset.</span>
 
 <span class="sd">    Generate a scalar field as mixture of five gaussians at location:</span>
@@ -200,16 +253,17 @@
 <span class="sd">        - (-loc, 0)</span>
 <span class="sd">        - (0   , -loc)</span>
 <span class="sd">    whith variance equal to &#39;space&#39;. Then return the gradient of the field.</span>
+<span class="sd">    The return result is a pair meshes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    n_points : {integer}</span>
+<span class="sd">    n_samples : int</span>
 <span class="sd">        Number of samples to generate.</span>
 
-<span class="sd">    loc: {float}</span>
+<span class="sd">    loc: float, optional (default = 25.)</span>
 <span class="sd">        Centers of the Gaussians.</span>
 
-<span class="sd">    space: {float}</span>
+<span class="sd">    space: float, optional (default = .5)</span>
 <span class="sd">        Variance of the Gaussians.</span>
 
 
@@ -220,19 +274,28 @@
 
 <span class="sd">    U, V : :rtype: (array, array), shape = [n, n]</span>
 <span class="sd">           Mesh, (U, V) velocity at (X, Y) coordinates</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    operalib.toy_data_curl_free_field</span>
+<span class="sd">        Generate Curl-Free field.</span>
+
+<span class="sd">    operalib.toy_data_div_free_field</span>
+<span class="sd">        Generate Divergence-Free field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_points</span><span class="p">))</span>
-    <span class="n">y_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_points</span><span class="p">))</span>
+    <span class="n">x_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
+    <span class="n">y_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
     <span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">meshgrid</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">)</span>
-    <span class="n">field</span> <span class="o">=</span> <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">+</span> \
-        <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">+</span>
+             <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span>
+             <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span>
+             <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">))</span>
+    <span class="n">v_mesh</span><span class="p">,</span> <span class="n">u_mesh</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="n">gradient</span><span class="p">(</span><span class="n">field</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="toy_data_div_free_mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_div_free_mesh">[docs]</a><span class="k">def</span> <span class="nf">toy_data_div_free_mesh</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<div class="viewcode-block" id="toy_data_div_free_mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_div_free_mesh">[docs]</a><span class="k">def</span> <span class="nf">toy_data_div_free_mesh</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">25.</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Divergence-Free toy dataset.</span>
 
 <span class="sd">    Generate a scalar field as mixture of five gaussians at location:</span>
@@ -242,56 +305,144 @@
 <span class="sd">        - (-loc, 0)</span>
 <span class="sd">        - (0   , -loc)</span>
 <span class="sd">    whith variance equal to &#39;space&#39;. Then return the orthogonal of gradient of</span>
-<span class="sd">    the field.</span>
+<span class="sd">    the field. The return result is a pair of meshes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    n_points : {integer}</span>
+<span class="sd">    n_points : int</span>
 <span class="sd">        Number of samples to generate.</span>
 
-<span class="sd">    loc: {float}</span>
+<span class="sd">    loc: float, optional (default = 25.)</span>
 <span class="sd">        Centers of the Gaussians.</span>
 
-<span class="sd">    space: {float}</span>
+<span class="sd">    space: float, optional (default = .5)</span>
 <span class="sd">        Variance of the Gaussians.</span>
 
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    X, Y : pair{array}, {array}}, shape = [n, n]</span>
+<span class="sd">    X, Y : :rtype: (array, array), shape = [n, n]</span>
 <span class="sd">            Mesh, X, Y coordinates.</span>
 
-<span class="sd">    U, V : pair{{array}, {array}}, shape = [n, n]</span>
+<span class="sd">    U, V : :rtype: (array, array), shape = [n, n]</span>
 <span class="sd">           Mesh, (U, V) velocity at (X, Y) coordinates</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    operalib.toy_data_curl_free_field</span>
+<span class="sd">        Generate Curl-Free field.</span>
+
+<span class="sd">    operalib.toy_data_div_free_field</span>
+<span class="sd">        Generate Divergence-Free field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_points</span><span class="p">))</span>
-    <span class="n">y_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_points</span><span class="p">))</span>
+    <span class="n">x_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
+    <span class="n">y_grid</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_samples</span><span class="p">))</span>
     <span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">meshgrid</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">)</span>
-    <span class="n">field</span> <span class="o">=</span> <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">+</span> \
-        <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span> \
-        <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="p">(</span><span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">+</span>
+             <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span>
+             <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span> <span class="o">-</span>
+             <span class="n">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">space</span><span class="p">,</span> <span class="n">loc</span><span class="p">))</span>
     <span class="n">v_mesh</span><span class="p">,</span> <span class="n">u_mesh</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="p">(</span><span class="n">v_mesh</span><span class="p">,</span> <span class="o">-</span><span class="n">u_mesh</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">toy_data_curl_free_field</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span> <span class="o">=</span> <span class="n">toy_data_curl_free_mesh</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span>
+<div class="viewcode-block" id="toy_data_curl_free_field"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_curl_free_field">[docs]</a><span class="k">def</span> <span class="nf">toy_data_curl_free_field</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Curl-Free toy dataset.</span>
+
+<span class="sd">    Generate a scalar field as mixture of five gaussians at location:</span>
+<span class="sd">        - (0   , 0)</span>
+<span class="sd">        - (0   , loc)</span>
+<span class="sd">        - ( loc, 0)</span>
+<span class="sd">        - (-loc, 0)</span>
+<span class="sd">        - (0   , -loc)</span>
+<span class="sd">    whith variance equal to &#39;space&#39;. Then return the gradient of the field.</span>
+<span class="sd">    The return result is a pair (inputs, targets) of arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_samples : int</span>
+<span class="sd">        Number of samples to generate.</span>
+
+<span class="sd">    loc: float, optional (default = 25.)</span>
+<span class="sd">        Centers of the Gaussians.</span>
+
+<span class="sd">    space: float, optional (default = .5)</span>
+<span class="sd">        Variance of the Gaussians.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    inputs : array, shape = [n_samples, 2]</span>
+<span class="sd">             Array of evenly space points.</span>
+
+<span class="sd">    targets : array shape = [n_samples, 2]</span>
+<span class="sd">              Array corresponding to the velocity at the coordinates present in</span>
+<span class="sd">              inputs.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    operalib.toy_data_curl_free_mesh</span>
+<span class="sd">        Generate Curl-Free mesh.</span>
+
+<span class="sd">    operalib.toy_data_div_free_mesh</span>
+<span class="sd">        Generate Divergence-Free mesh.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span> <span class="o">=</span> <span class="n">toy_data_curl_free_mesh</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span>
                                                                  <span class="n">loc</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
 
-    <span class="n">x_grid</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">)</span>
-    <span class="n">y_grid</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span></div>
 
 
-<span class="k">def</span> <span class="nf">toy_data_div_free_field</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span> <span class="o">=</span> <span class="n">toy_data_div_free_mesh</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span>
+<div class="viewcode-block" id="toy_data_div_free_field"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.toy_data_div_free_field">[docs]</a><span class="k">def</span> <span class="nf">toy_data_div_free_field</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Divergence-Free toy dataset.</span>
+
+<span class="sd">    Generate a scalar field as mixture of five gaussians at location:</span>
+<span class="sd">        - (0   , 0)</span>
+<span class="sd">        - (0   , loc)</span>
+<span class="sd">        - ( loc, 0)</span>
+<span class="sd">        - (-loc, 0)</span>
+<span class="sd">        - (0   , -loc)</span>
+<span class="sd">    whith variance equal to &#39;space&#39;. Then return the orthogonal of gradient of</span>
+<span class="sd">    the field. The return result is a pair (inputs, targets) of arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_points : int</span>
+<span class="sd">        Number of samples to generate.</span>
+
+<span class="sd">    loc: float, optional (default = 25.)</span>
+<span class="sd">        Centers of the Gaussians.</span>
+
+<span class="sd">    space: float, optional (default = .5)</span>
+<span class="sd">        Variance of the Gaussians.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    inputs : array, shape = [n_samples, 2]</span>
+<span class="sd">             Array of evenly space points.</span>
+
+<span class="sd">    targets : array shape = [n_samples, 2]</span>
+<span class="sd">              Array corresponding to the velocity at the coordinates present in</span>
+<span class="sd">              inputs.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    operalib.toy_data_div_free_mesh</span>
+<span class="sd">        Generate Curl-Free mesh.</span>
+
+<span class="sd">    operalib.toy_data_div_free_mesh</span>
+<span class="sd">        Generate Divergence-Free mesh.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">),</span> <span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span> <span class="o">=</span> <span class="n">toy_data_div_free_mesh</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span>
                                                                 <span class="n">loc</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
 
-    <span class="n">x_grid</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">)</span>
-    <span class="n">y_grid</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">mesh2array</span><span class="p">(</span><span class="n">u_mesh</span><span class="p">,</span> <span class="n">v_mesh</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span></div>
 </pre></div>
 
            </div>

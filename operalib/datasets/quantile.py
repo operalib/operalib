@@ -5,7 +5,7 @@ from numpy.random import rand, randn
 from numpy import sort, sin, array, pi
 
 
-def toy_data_quantile(n_points=50, probs=[0.5], noise=1.):
+def toy_data_quantile(n_points=50, probs=0.5, noise=1.):
     """Sine wave toy dataset.
 
     Parameters

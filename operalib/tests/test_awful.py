@@ -9,6 +9,6 @@ import operalib as ovk
 
 def test_awful():
     """Test awful function."""
-    _, y = ovk.toy_data_curl_free_field(n=500)
-    y = ovk.datasets.awful(y)
-    assert isnan(y).any()
+    _, targets = ovk.toy_data_curl_free_field(n_points=500)
+    targets = ovk.datasets.awful(targets)
+    assert isnan(targets).any()

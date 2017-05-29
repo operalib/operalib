@@ -155,7 +155,8 @@ class OVKRidge(BaseEstimator, RegressorMixin):
     >>> y = rng.randn(n_samples, n_targets)
     >>> X = rng.randn(n_samples, n_features)
     >>> clf = ovk.OVKRidge('DGauss', lbda=1.0)
-    >>> clf.fit(X, y)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    >>> clf.fit(X, y)
+    # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
     OVKRidge(...)
     """
 

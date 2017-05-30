@@ -112,6 +112,10 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.kernel_params = kernel_params
         self.verbose = verbose
 
+        self.probs_ = None
+        self.linop_ = None
+        self.reg_c_ = None
+
     def _validate_params(self):
         # check on self.kernel is performed in method __get_kernel
         if self.lbda < 0:
@@ -191,55 +195,63 @@ class Quantile(BaseEstimator, RegressorMixin):
         self._validate_params()
 
         self.linop_ = self._get_kernel_map(X, y)
-        K = self.linop_.Gram_dense(X)
+        gram = self.linop_.Gram_dense(X)
 
-        self.C = 1. / self.lbda
+        self.reg_c_ = 1. / self.lbda
 
         # Solve the optimization problem
         if self.nc_const:
-            self._qp_nc(K, y)
+            self._qp_nc(gram, y)
         else:
-            self._qp(K, y)
+            self._qp(gram, y)
         return self
 
-    def _qp_nc(self, K, y):
+    def _qp_nc(self, gram, targets):
         # Needed to sort constraints on quantiles levels
         ind = np.argsort(self.probs_)
 
-        p = np.size(self.probs_)  # Number of quantiles to predict
-        n = K.shape[0]  # Number of coefficients
-        m = int(n / p)  # Number of training instances
-        l = m * (p - 1)  # Number of non-crossing dual variables
-        probs = np.kron(np.ones(m), self.probs_)  # Quantiles levels
+        n_quantiles = np.size(self.probs_)  # Number of quantiles to predict
+        n_coefs = gram.shape[0]  # Number of coefficients
+        n_train = int(n_coefs / n_quantiles)  # Number of training instances
+        # Number of non-crossing dual variables
+        n_no_cross = n_train * (n_quantiles - 1)
+        probs = np.kron(np.ones(n_train), self.probs_)  # Quantiles levels
 
-        D = -np.eye(p) + np.diag(np.ones(p - 1), 1)  # Difference matrix
-        D = np.delete(D, -1, 0)
-        D = D.T[np.argsort(ind)].T
+        # Difference matrix
+        diff_mat = -np.eye(n_quantiles) + np.diag(np.ones(n_quantiles - 1), 1)
+        diff_mat = np.delete(diff_mat, -1, 0)
+        diff_mat = diff_mat.T[np.argsort(ind)].T
 
         # Quad. part of the objective function
-        K = matrix(np.r_[np.c_[K, np.zeros((n, l))], np.zeros((l, n + l))])
+        gram = matrix(np.r_[np.c_[gram, np.zeros((n_coefs, n_no_cross))],
+                            np.zeros((n_no_cross, n_coefs + n_no_cross))])
         # Linear part of the objective
-        q = matrix(np.r_[-np.kron(y, np.ones(p)), np.zeros(l)])
+        q_lin = matrix(np.r_[-np.kron(targets, np.ones(n_quantiles)),
+                             np.zeros(n_no_cross)])
         # LHS of the inequality constraint
-        G = matrix(np.r_[np.c_[np.eye(n), -np.kron(np.eye(m), D.T)],
-                         np.c_[-np.eye(n), np.kron(np.eye(m), D.T)],
-                         np.c_[np.zeros((l, n)), -np.eye(l)]])
+        g_lhs = matrix(np.r_[np.c_[np.eye(n_coefs),
+                                   -np.kron(np.eye(n_train), diff_mat.T)],
+                             np.c_[-np.eye(n_coefs),
+                                   np.kron(np.eye(n_train), diff_mat.T)],
+                             np.c_[np.zeros((n_no_cross, n_coefs)),
+                                   -np.eye(n_no_cross)]])
         # RHS of the inequality constraint
-        h = matrix(np.r_[self.C * probs, self.C * (1 - probs),
-                   np.zeros(m * (p - 1))])
+        h_rhs = matrix(np.r_[self.reg_c_ * probs, self.reg_c_ * (1 - probs),
+                             np.zeros(n_train * (n_quantiles - 1))])
         # LHS of the equality constraint
-        A = matrix(np.c_[np.kron(np.ones(m), np.eye(p)), np.zeros((p, l))])
-        # RHS of the equality constraint
-        b = matrix(np.zeros(p))
+        lhs_eqc = matrix(np.c_[np.kron(np.ones(n_train), np.eye(n_quantiles)),
+                               np.zeros((n_quantiles, n_no_cross))])
 
         solvers.options['show_progress'] = self.verbose
         if self.tol:
             solvers.options['reltol'] = self.tol
-        sol = solvers.qp(K, q, G, h, A, b)  # Solve the dual opt. problem
+        # Solve the dual optimization problem
+        sol = solvers.qp(gram, q_lin, g_lhs, h_rhs, lhs_eqc,
+                         matrix(np.zeros(n_quantiles)))
 
         # Set coefs
 #        self.coefs = np.reshape(sol['x'][:n], (m, p)).T
-        self.coefs_ = np.asarray(sol['x'][:n])
+        self.coefs_ = np.asarray(sol['x'][:n_coefs])
 
         # Set the intercept (the quantile property is not verified)
         self.intercept_ = np.asarray(sol['y']).squeeze()

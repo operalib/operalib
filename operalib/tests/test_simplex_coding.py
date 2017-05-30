@@ -33,9 +33,9 @@ def test_simplexcoding():
     inp = ["spam", "ham", "eggs", "ham", "0"]
     expected = array([[-1./3., -0.471, -0.816],
                       [-1./3., -0.471, 0.816],
-                      [-1./3., 0.943, 0],
+                      [-1./3., 0.943, 0.],
                       [-1./3., -0.471, 0.816],
-                      [1, 0, 0]])
+                      [1., 0., 0.]])
     got = scode.fit_transform(inp)
     assert_array_equal(scode.binarizer_.classes_, ['0', 'eggs', 'ham', 'spam'])
     assert_array_almost_equal(expected, got, decimal=1e-2)

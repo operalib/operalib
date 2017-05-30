@@ -6,15 +6,13 @@ detection usefull for periodic kernels.
 #         the scikit-learn community.
 # License: MIT
 
-from numpy import correlate, arange, zeros, mean, diff, hstack, finfo, \
-    where, ndarray, issubdtype, unsignedinteger, argsort, ones
+from numpy import (correlate, arange, zeros, mean, diff, hstack,
+                   where, ndarray, issubdtype, unsignedinteger, argsort, ones)
 
 from sklearn.externals.six.moves import xrange
 
-eps = finfo(float).eps
 
-
-def indexes(y, thres=0.05, min_dist=2):
+def indexes(targets, thres=0.05, min_dist=2):
     #     The MIT License (MIT)
 
     # Copyright (c) 2014 Lucas Hermann Negri
@@ -45,9 +43,9 @@ def indexes(y, thres=0.05, min_dist=2):
 
     Parameters
     ----------
-    y : ndarray (signed)
+    targets : array, (signed)
         1D amplitude data to search for peaks.
-    thres : float between [0., 1.]
+    thres : float, (between [0., 1.])
         Normalized threshold. Only the peaks with amplitude higher than the
         threshold will be detected.
     min_dist : int
@@ -59,41 +57,43 @@ def indexes(y, thres=0.05, min_dist=2):
     ndarray
         Array containing the indexes of the peaks that were detected
     """
-    if isinstance(y, ndarray) and issubdtype(y.dtype, unsignedinteger):
+    if isinstance(targets, ndarray) and issubdtype(targets.dtype,
+                                                   unsignedinteger):
         raise ValueError("y must be signed")
 
-    thres *= max(y) - min(y)
+    thres *= max(targets) - min(targets)
 
     # find the peaks by using the first order difference
-    dy = diff(y)
-    peaks = where((hstack([dy, 0.]) < 0.) &
-                  (hstack([0., dy]) > 0.) &
-                  (y > thres))[0]
+    d_targets = diff(targets)
+    peaks = where((hstack([d_targets, 0.]) < 0.) &
+                  (hstack([0., d_targets]) > 0.) &
+                  (targets > thres))[0]
 
     if peaks.size > 1 and min_dist > 1:
-        highest = peaks[argsort(y[peaks])][::-1]
-        rem = ones(y.size, dtype=bool)
+        highest = peaks[argsort(targets[peaks])][::-1]
+        rem = ones(targets.size, dtype=bool)
         rem[peaks] = False
 
         for peak in highest:
             if not rem[peak]:
-                sl = slice(max(0, peak - min_dist), peak + min_dist + 1)
-                rem[sl] = True
+                dst_to_pick = slice(max(0, peak - min_dist),
+                                    peak + min_dist + 1)
+                rem[dst_to_pick] = True
                 rem[peak] = False
 
-        peaks = arange(y.size)[~rem]
+        peaks = arange(targets.size)[~rem]
 
     return peaks
 
 
-def autocorrelation(x):
+def autocorrelation(data):
     """Autocorrelation routine.
 
-    Compute the autocorrelation of a given signal X.
+    Compute the autocorrelation of a given signal 'data'.
 
     Parameters
     ----------
-    x : ndarray
+    data : darray
         1D signal to compute the autocorrelation.
 
     Returns
@@ -101,30 +101,33 @@ def autocorrelation(x):
     ndarray
         the autocorrelation of the signal x.
     """
-    n = len(x)
-    variance = x.var()
-    x = x - x.mean()
-    r = correlate(x, x, mode='full')[-n:]
-    result = r / (variance * arange(n, 0, -1))
+    n_points = len(data)
+    variance = data.var()
+    data = data - data.mean()
+    corr = correlate(data, data, mode='full')[-n_points:]
+    result = corr / (variance * arange(n_points, 0, -1))
     return result
 
 
-def get_period(X, y, thres=0.05, min_dist=2):
+def get_period(inputs, targets, thres=0.05, min_dist=2):
     """Period detection routine.
 
-    Finds the period in *y* by taking its autocorrelation and its first order
-    difference. By using *thres* and *min_dist* parameters, it is possible to
-    reduce the number of detected peaks. *y* must be signed.
+    Finds the period in *targets* by taking its autocorrelation and its first
+    order difference. By using *thres* and *min_dist* parameters, it is
+    possible to reduce the number of detected peaks. *targets* must be signed.
 
     Parameters
     ----------
-    y : ndarray (signed)
+    inputs : ndarray
+        support of *targets*.
+
+    targets : ndarray (signed)
         1D amplitude data to search for peaks.
-    X : ndarray
-        support of y.
+
     thres : float between [0., 1.]
         Normalized threshold. Only the peaks with amplitude higher than the
         threshold will be detected.
+
     min_dist : int
         Minimum distance between each detected peak. The peak with the highest
         amplitude is preferred to satisfy this constraint.
@@ -132,11 +135,12 @@ def get_period(X, y, thres=0.05, min_dist=2):
     Returns
     -------
     float
-        a period estimation of the signal y = f(x).
+        a period estimation of the signal targets = f(inputs).
     """
-    Ts = zeros(y.shape[1])
-    for i in xrange(y.shape[1]):
-        cb = autocorrelation(y[:, i])
-        T = indexes(cb, thres=(thres / max(cb)), min_dist=min_dist)
-        Ts[i] = mean(diff(T.ravel()))
-    return mean(diff(T.ravel())) * mean(diff(X.ravel()))
+    spikes_mean_diff = zeros(targets.shape[1])
+    for i in xrange(targets.shape[1]):
+        auto_corr = autocorrelation(targets[:, i])
+        spikes = indexes(auto_corr, thres=(thres / max(auto_corr)),
+                         min_dist=min_dist)
+        spikes_mean_diff[i] = mean(diff(spikes.ravel()))
+    return mean(diff(spikes.ravel())) * mean(diff(inputs.ravel()))

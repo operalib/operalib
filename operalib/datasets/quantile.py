@@ -103,11 +103,11 @@ def toy_data_quantile(n_samples=50, probs=0.5, pattern=SinePattern(),
                       noise=(1., .2, 0., 1.5), random_state=None):
     """Sine wave toy dataset.
 
-    The target y is computed as a sine curve at of modulated by a sine
-    envelope at 1/3 Hz and mean 1.  Moreover, this pattern is distorted with a
-    random Gaussian noise with mean 0 and a linearly decreasing standard
-    deviation from 1.2 at
-    X = 0 to 0.2 at X = 1 .  5 .
+    The target y is computed as a sine curve at of modulated by a sine envelope
+    with some period (default 1/3Hz) and mean (default 1).  Moreover, this
+    pattern is distorted with a random Gaussian noise with mean 0 and a
+    linearly decreasing standard deviation (default from 1.2 at X = 0 to 0.2 at
+    X = 1 .  5).
 
     Parameters
     ----------
@@ -125,13 +125,13 @@ def toy_data_quantile(n_samples=50, probs=0.5, pattern=SinePattern(),
 
     Returns
     -------
-    inputs : array, shape = [n]
+    inputs : array, shape = [n_samples, 1]
              Input data.
 
-    targets : array, shape = [n]
+    targets : array, shape = [n_sample, 1]
               Targets.
 
-    quantiles : array, shape = [n x n_quantiles]
+    quantiles : array, shape = [n_samples x n_quantiles]
         True conditional quantiles.
     """
     probs = array(probs, ndmin=1)

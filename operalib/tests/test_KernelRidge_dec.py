@@ -40,7 +40,7 @@ y_t = dot(array([pi * sin(X_test).ravel(),
 def test_valid_estimator():
     """Test whether ovk.OVKRidge is a valid sklearn estimator."""
     from sklearn import __version__
-    # Adding patch revision number cause crash
+    # Adding patch revision number causes crash
     if LooseVersion(__version__) >= LooseVersion('0.18'):
         check_estimator(ovk.OVKRidge)
     else:

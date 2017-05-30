@@ -10,10 +10,11 @@ from sklearn.utils.validation import check_is_fitted
 class SimplexCoding(BaseEstimator, TransformerMixin):
     """Simplex coding."""
 
-    def __init__(self, binarizer=LabelBinarizer(neg_label=0, pos_label=1,
-                                                sparse_output=True)):
+    def __init__(self, binarizer=None):
         self.binarizer = binarizer
+
         self.simplex_operator_ = None
+        self.binarizer_ = None
 
     @staticmethod
     def _code_i(dimension):
@@ -51,10 +52,15 @@ class SimplexCoding(BaseEstimator, TransformerMixin):
         -------
         self : returns an instance of self.
         """
-
-        self.binarizer.fit(targets)
-        dimension = self.binarizer.classes_.size
-        self.simplex_operator_ = SimplexCoding.code(dimension)
+        if self.binarizer is None:
+            self.binarizer_ = LabelBinarizer(neg_label=0, pos_label=1,
+                                             sparse_output=True)
+        self.binarizer_.fit(targets)
+        dimension = self.binarizer_.classes_.size
+        if dimension > 2:
+            self.simplex_operator_ = SimplexCoding.code(dimension)
+        else:
+            self.simplex_operator_ = ones((1, 1))
         return self
 
     def transform(self, targets):
@@ -71,11 +77,20 @@ class SimplexCoding(BaseEstimator, TransformerMixin):
         -------
         Y : numpy array of shape [n_samples, n_classes - 1]
         """
-        check_is_fitted(self, 'simplex_operator_')
-        return self.binarizer.transform(targets).dot(
-            asarray(self.simplex_operator_).T)
+        check_is_fitted(self, 'simplex_operator_', 'binarizer_')
+        dimension = self.binarizer_.classes_.size
+        if dimension == 2:
+            return self.binarizer_.transform(targets).toarray()
+        else:
+            return self.binarizer_.transform(targets).dot(
+                asarray(self.simplex_operator_).T)
 
     def inverse_transform(self, targets):
         """Inverse transform."""
-        check_is_fitted(self, 'simplex_operator_')
-        return dot(targets, self.simplex_operator_).argmax(axis=1)
+        check_is_fitted(self, 'simplex_operator_', 'binarizer_')
+        dimension = self.binarizer_.classes_.size
+        if dimension == 2:
+            return self.binarizer_.inverse_transform(targets)
+        else:
+            return self.binarizer_.inverse_transform(
+                dot(targets, self.simplex_operator_))

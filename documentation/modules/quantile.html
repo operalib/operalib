@@ -218,7 +218,7 @@ References
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.quantile.Quantile.fit" title="operalib.quantile.Quantile.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.quantile.Quantile.fit" title="operalib.quantile.Quantile.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(inputs,&nbsp;targets)</td>
 <td>Fit joint quantile regression model.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#operalib.quantile.Quantile.get_params" title="operalib.quantile.Quantile.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
@@ -240,15 +240,15 @@ References
 </table>
 <dl class="method">
 <dt id="operalib.quantile.Quantile.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/quantile.html#Quantile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.quantile.Quantile.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>inputs</em>, <em>targets</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/quantile.html#Quantile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.quantile.Quantile.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit joint quantile regression model.
 Parameters
 ———-
-X : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
+inputs : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
 <blockquote>
 <div>Training data.</div></blockquote>
 <dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples]</span></dt>
+<dt>targets <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples]</span></dt>
 <dd>Target values.</dd>
 </dl>
 <p>self : returns an instance of self.</p>

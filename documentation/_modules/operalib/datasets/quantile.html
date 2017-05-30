@@ -188,10 +188,10 @@
 <span class="sd">        The (shift, period) of the enveloppe of the enveloppe.</span>
 
 <span class="sd">    random_state : int, RandomState instance or None, optional (default=None)</span>
-<span class="sd">        If int, random_state is the seed used by the random number</span>
-<span class="sd">        generator; If RandomState instance, random_state is the</span>
-<span class="sd">        random number generator; If None, the random number</span>
-<span class="sd">        generator is the RandomState instance used by `np.random`.</span>
+<span class="sd">        If int, random_state is the seed used by the random number generator;</span>
+<span class="sd">        If RandomState instance, random_state is the random number generator;</span>
+<span class="sd">        If None, the random number generator is the RandomState instance used</span>
+<span class="sd">        by `np.random`.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -265,11 +265,11 @@
                       <span class="n">noise</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sine wave toy dataset.</span>
 
-<span class="sd">    The target y is computed as a sine curve at of modulated by a sine</span>
-<span class="sd">    envelope at 1/3 Hz and mean 1.  Moreover, this pattern is distorted with a</span>
-<span class="sd">    random Gaussian noise with mean 0 and a linearly decreasing standard</span>
-<span class="sd">    deviation from 1.2 at</span>
-<span class="sd">    X = 0 to 0.2 at X = 1 .  5 .</span>
+<span class="sd">    The target y is computed as a sine curve at of modulated by a sine envelope</span>
+<span class="sd">    with some period (default 1/3Hz) and mean (default 1).  Moreover, this</span>
+<span class="sd">    pattern is distorted with a random Gaussian noise with mean 0 and a</span>
+<span class="sd">    linearly decreasing standard deviation (default from 1.2 at X = 0 to 0.2 at</span>
+<span class="sd">    X = 1 .  5).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -287,13 +287,13 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    inputs : array, shape = [n]</span>
+<span class="sd">    inputs : array, shape = [n_samples, 1]</span>
 <span class="sd">             Input data.</span>
 
-<span class="sd">    targets : array, shape = [n]</span>
+<span class="sd">    targets : array, shape = [n_sample, 1]</span>
 <span class="sd">              Targets.</span>
 
-<span class="sd">    quantiles : array, shape = [n x n_quantiles]</span>
+<span class="sd">    quantiles : array, shape = [n_samples x n_quantiles]</span>
 <span class="sd">        True conditional quantiles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">probs</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">ndmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>

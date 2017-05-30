@@ -164,6 +164,8 @@
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">meshgrid</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">hstack</span>
 
+<span class="c1"># pylint: disable=C0103</span>
+
 
 <span class="k">def</span> <span class="nf">_gaussian</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">x_mesh_mean</span><span class="p">,</span> <span class="n">y_mesh_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate a gaussian.</span>
@@ -197,27 +199,27 @@
                                         <span class="n">y_mesh_centered</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="array2mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.array2mesh">[docs]</a><span class="k">def</span> <span class="nf">array2mesh</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="array2mesh"><a class="viewcode-back" href="../../../modules/datasets.html#operalib.datasets.array2mesh">[docs]</a><span class="k">def</span> <span class="nf">array2mesh</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Array to mesh converter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        inputs : array, shape = [n_samples, 2]</span>
-<span class="sd">            The inputs array.</span>
+<span class="sd">    X : array, shape = [n_samples, 2]</span>
+<span class="sd">        The inputs array.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        x_mesh : array, shape = [n_samples, n_samples]</span>
-<span class="sd">            The x_axis of the mesh corresponding to inputs.</span>
+<span class="sd">    x_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">        The x_axis of the mesh corresponding to inputs.</span>
 
-<span class="sd">        y_mesh : array, shape = [n_samples, n_samples]</span>
-<span class="sd">            The y_axis of the mesh corresponding to inputs</span>
+<span class="sd">    y_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">        The y_axis of the mesh corresponding to inputs</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">side</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">side</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-    <span class="n">x_mesh</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
-    <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+    <span class="n">x_mesh</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
+    <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">side</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span></div>
 
@@ -227,16 +229,16 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        x_mesh : array, shape = [n_samples, n_samples]</span>
-<span class="sd">            The x_axis mesh.</span>
+<span class="sd">    x_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">        The x_axis mesh.</span>
 
-<span class="sd">        y_mesh : array, shape = [n_samples, n_samples]</span>
-<span class="sd">            The y_axis mesh.</span>
+<span class="sd">    y_mesh : array, shape = [n_samples, n_samples]</span>
+<span class="sd">        The y_axis mesh.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        inputs : array, shape = [n_samples, 2]</span>
-<span class="sd">            The inputs corresponding to the mesh (x_mesh, y_mesh).</span>
+<span class="sd">    inputs : array, shape = [n_samples, 2]</span>
+<span class="sd">        The inputs corresponding to the mesh (x_mesh, y_mesh).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">hstack</span><span class="p">((</span><span class="n">x_mesh</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
@@ -373,12 +375,12 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    inputs : array, shape = [n_samples, 2]</span>
-<span class="sd">             Array of evenly space points.</span>
+<span class="sd">    X : array, shape = [n_samples, 2]</span>
+<span class="sd">        Array of evenly space points.</span>
 
-<span class="sd">    targets : array shape = [n_samples, 2]</span>
-<span class="sd">              Array corresponding to the velocity at the coordinates present in</span>
-<span class="sd">              inputs.</span>
+<span class="sd">    y : array shape = [n_samples, 2]</span>
+<span class="sd">        Array corresponding to the velocity at the coordinates present in</span>
+<span class="sd">        inputs.</span>
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
@@ -422,12 +424,12 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    inputs : array, shape = [n_samples, 2]</span>
-<span class="sd">             Array of evenly space points.</span>
+<span class="sd">    X : array, shape = [n_samples, 2]</span>
+<span class="sd">        Array of evenly space points.</span>
 
-<span class="sd">    targets : array shape = [n_samples, 2]</span>
-<span class="sd">              Array corresponding to the velocity at the coordinates present in</span>
-<span class="sd">              inputs.</span>
+<span class="sd">    y : array shape = [n_samples, 2]</span>
+<span class="sd">        Array corresponding to the velocity at the coordinates present in</span>
+<span class="sd">        inputs.</span>
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>

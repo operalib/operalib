@@ -196,11 +196,11 @@ The return result is a pair (inputs, targets) of arrays.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 2]</p>
 <blockquote>
 <div><p>Array of evenly space points.</p>
 </div></blockquote>
-<p><strong>targets</strong> : array shape = [n_samples, 2]</p>
+<p><strong>y</strong> : array shape = [n_samples, 2]</p>
 <blockquote class="last">
 <div><p>Array corresponding to the velocity at the coordinates present in
 inputs.</p>
@@ -313,11 +313,11 @@ the field. The return result is a pair (inputs, targets) of arrays.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 2]</p>
 <blockquote>
 <div><p>Array of evenly space points.</p>
 </div></blockquote>
-<p><strong>targets</strong> : array shape = [n_samples, 2]</p>
+<p><strong>y</strong> : array shape = [n_samples, 2]</p>
 <blockquote class="last">
 <div><p>Array corresponding to the velocity at the coordinates present in
 inputs.</p>
@@ -397,28 +397,25 @@ The return result is a pair meshes.</p>
 
 <dl class="function">
 <dt id="operalib.datasets.array2mesh">
-<code class="descclassname">operalib.datasets.</code><code class="descname">array2mesh</code><span class="sig-paren">(</span><em>inputs</em>, <em>side=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#array2mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.array2mesh" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">array2mesh</code><span class="sig-paren">(</span><em>X</em>, <em>side=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/vectorfield.html#array2mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.array2mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Array to mesh converter.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 2]</p>
 <blockquote>
 <div><p>The inputs array.</p>
 </div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>x_mesh</strong> : array, shape = [n_samples, n_samples]</p>
-<blockquote class="last">
-<div><blockquote>
+<blockquote>
 <div><p>The x_axis of the mesh corresponding to inputs.</p>
 </div></blockquote>
-<dl class="docutils">
-<dt>y_mesh <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
-<dd><p class="first last">The y_axis of the mesh corresponding to inputs</p>
-</dd>
-</dl>
+<p><strong>y_mesh</strong> : array, shape = [n_samples, n_samples]</p>
+<blockquote class="last">
+<div><p>The y_axis of the mesh corresponding to inputs</p>
 </div></blockquote>
 </td>
 </tr>
@@ -436,14 +433,11 @@ The return result is a pair meshes.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_mesh</strong> : array, shape = [n_samples, n_samples]</p>
 <blockquote>
-<div><blockquote>
 <div><p>The x_axis mesh.</p>
 </div></blockquote>
-<dl class="docutils">
-<dt>y_mesh <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
-<dd><p class="first last">The y_axis mesh.</p>
-</dd>
-</dl>
+<p><strong>y_mesh</strong> : array, shape = [n_samples, n_samples]</p>
+<blockquote>
+<div><p>The y_axis mesh.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -488,11 +482,11 @@ X = 1 .  5).</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 1]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 1]</p>
 <blockquote>
 <div><p>Input data.</p>
 </div></blockquote>
-<p><strong>targets</strong> : array, shape = [n_sample, 1]</p>
+<p><strong>y</strong> : array, shape = [n_sample, 1]</p>
 <blockquote>
 <div><p>Targets.</p>
 </div></blockquote>
@@ -508,13 +502,13 @@ X = 1 .  5).</p>
 
 <dl class="function">
 <dt id="operalib.datasets.awful">
-<code class="descclassname">operalib.datasets.</code><code class="descname">awful</code><span class="sig-paren">(</span><em>targets</em>, <em>p_unsup=0.25</em>, <em>p_weaksup=0.25</em>, <em>p_weaksup_inner=0.25</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/awful.html#awful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.awful" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.datasets.</code><code class="descname">awful</code><span class="sig-paren">(</span><em>y</em>, <em>p_unsup=0.25</em>, <em>p_weaksup=0.25</em>, <em>p_weaksup_inner=0.25</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/awful.html#awful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.awful" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take a nice dataset and add some NaNs to simulate partially supervised.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>targets</strong> : array, shape = [n_samples, dim_target]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : array, shape = [n_samples, dim_target]</p>
 <blockquote>
 <div><p>Targets.</p>
 </div></blockquote>
@@ -539,7 +533,7 @@ generator is the RandomState instance used by <cite>np.random</cite>.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>targets</strong> : array, shape = [n_samples, dim_target]</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : array, shape = [n_samples, dim_target]</p>
 <blockquote class="last">
 <div><p>Awful targets.</p>
 </div></blockquote>

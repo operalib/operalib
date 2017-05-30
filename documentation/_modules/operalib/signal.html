@@ -168,15 +168,13 @@
 <span class="c1">#         the scikit-learn community.</span>
 <span class="c1"># License: MIT</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">correlate</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">hstack</span><span class="p">,</span> <span class="n">finfo</span><span class="p">,</span> \
-    <span class="n">where</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">issubdtype</span><span class="p">,</span> <span class="n">unsignedinteger</span><span class="p">,</span> <span class="n">argsort</span><span class="p">,</span> <span class="n">ones</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="p">(</span><span class="n">correlate</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">hstack</span><span class="p">,</span>
+                   <span class="n">where</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">issubdtype</span><span class="p">,</span> <span class="n">unsignedinteger</span><span class="p">,</span> <span class="n">argsort</span><span class="p">,</span> <span class="n">ones</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.externals.six.moves</span> <span class="k">import</span> <span class="n">xrange</span>
 
-<span class="n">eps</span> <span class="o">=</span> <span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
 
-
-<div class="viewcode-block" id="indexes"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.indexes">[docs]</a><span class="k">def</span> <span class="nf">indexes</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="indexes"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.indexes">[docs]</a><span class="k">def</span> <span class="nf">indexes</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="c1">#     The MIT License (MIT)</span>
 
     <span class="c1"># Copyright (c) 2014 Lucas Hermann Negri</span>
@@ -207,9 +205,9 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    y : ndarray (signed)</span>
+<span class="sd">    targets : array, (signed)</span>
 <span class="sd">        1D amplitude data to search for peaks.</span>
-<span class="sd">    thres : float between [0., 1.]</span>
+<span class="sd">    thres : float, (between [0., 1.])</span>
 <span class="sd">        Normalized threshold. Only the peaks with amplitude higher than the</span>
 <span class="sd">        threshold will be detected.</span>
 <span class="sd">    min_dist : int</span>
@@ -221,41 +219,43 @@
 <span class="sd">    ndarray</span>
 <span class="sd">        Array containing the indexes of the peaks that were detected</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">issubdtype</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">unsignedinteger</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">issubdtype</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                                                   <span class="n">unsignedinteger</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must be signed&quot;</span><span class="p">)</span>
 
-    <span class="n">thres</span> <span class="o">*=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">thres</span> <span class="o">*=</span> <span class="nb">max</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
 
     <span class="c1"># find the peaks by using the first order difference</span>
-    <span class="n">dy</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-    <span class="n">peaks</span> <span class="o">=</span> <span class="n">where</span><span class="p">((</span><span class="n">hstack</span><span class="p">([</span><span class="n">dy</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">&amp;</span>
-                  <span class="p">(</span><span class="n">hstack</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dy</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">&amp;</span>
-                  <span class="p">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">thres</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">d_targets</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">where</span><span class="p">((</span><span class="n">hstack</span><span class="p">([</span><span class="n">d_targets</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">&amp;</span>
+                  <span class="p">(</span><span class="n">hstack</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">d_targets</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">&amp;</span>
+                  <span class="p">(</span><span class="n">targets</span> <span class="o">&gt;</span> <span class="n">thres</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">peaks</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">min_dist</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">highest</span> <span class="o">=</span> <span class="n">peaks</span><span class="p">[</span><span class="n">argsort</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">peaks</span><span class="p">])][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">rem</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">highest</span> <span class="o">=</span> <span class="n">peaks</span><span class="p">[</span><span class="n">argsort</span><span class="p">(</span><span class="n">targets</span><span class="p">[</span><span class="n">peaks</span><span class="p">])][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">rem</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">rem</span><span class="p">[</span><span class="n">peaks</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">peak</span> <span class="ow">in</span> <span class="n">highest</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">rem</span><span class="p">[</span><span class="n">peak</span><span class="p">]:</span>
-                <span class="n">sl</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">peak</span> <span class="o">-</span> <span class="n">min_dist</span><span class="p">),</span> <span class="n">peak</span> <span class="o">+</span> <span class="n">min_dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">rem</span><span class="p">[</span><span class="n">sl</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">dst_to_pick</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">peak</span> <span class="o">-</span> <span class="n">min_dist</span><span class="p">),</span>
+                                    <span class="n">peak</span> <span class="o">+</span> <span class="n">min_dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">rem</span><span class="p">[</span><span class="n">dst_to_pick</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">rem</span><span class="p">[</span><span class="n">peak</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-        <span class="n">peaks</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">)[</span><span class="o">~</span><span class="n">rem</span><span class="p">]</span>
+        <span class="n">peaks</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">size</span><span class="p">)[</span><span class="o">~</span><span class="n">rem</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">peaks</span></div>
 
 
-<div class="viewcode-block" id="autocorrelation"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.autocorrelation">[docs]</a><span class="k">def</span> <span class="nf">autocorrelation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="autocorrelation"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.autocorrelation">[docs]</a><span class="k">def</span> <span class="nf">autocorrelation</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Autocorrelation routine.</span>
 
-<span class="sd">    Compute the autocorrelation of a given signal X.</span>
+<span class="sd">    Compute the autocorrelation of a given signal &#39;data&#39;.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : ndarray</span>
+<span class="sd">    data : darray</span>
 <span class="sd">        1D signal to compute the autocorrelation.</span>
 
 <span class="sd">    Returns</span>
@@ -263,30 +263,33 @@
 <span class="sd">    ndarray</span>
 <span class="sd">        the autocorrelation of the signal x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">variance</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">correlate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)[</span><span class="o">-</span><span class="n">n</span><span class="p">:]</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="p">(</span><span class="n">variance</span> <span class="o">*</span> <span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">n_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">correlate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)[</span><span class="o">-</span><span class="n">n_points</span><span class="p">:]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">/</span> <span class="p">(</span><span class="n">variance</span> <span class="o">*</span> <span class="n">arange</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="get_period"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.get_period">[docs]</a><span class="k">def</span> <span class="nf">get_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="get_period"><a class="viewcode-back" href="../../modules/signal.html#operalib.signal.get_period">[docs]</a><span class="k">def</span> <span class="nf">get_period</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Period detection routine.</span>
 
-<span class="sd">    Finds the period in *y* by taking its autocorrelation and its first order</span>
-<span class="sd">    difference. By using *thres* and *min_dist* parameters, it is possible to</span>
-<span class="sd">    reduce the number of detected peaks. *y* must be signed.</span>
+<span class="sd">    Finds the period in *targets* by taking its autocorrelation and its first</span>
+<span class="sd">    order difference. By using *thres* and *min_dist* parameters, it is</span>
+<span class="sd">    possible to reduce the number of detected peaks. *targets* must be signed.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    y : ndarray (signed)</span>
+<span class="sd">    inputs : ndarray</span>
+<span class="sd">        support of *targets*.</span>
+
+<span class="sd">    targets : ndarray (signed)</span>
 <span class="sd">        1D amplitude data to search for peaks.</span>
-<span class="sd">    X : ndarray</span>
-<span class="sd">        support of y.</span>
+
 <span class="sd">    thres : float between [0., 1.]</span>
 <span class="sd">        Normalized threshold. Only the peaks with amplitude higher than the</span>
 <span class="sd">        threshold will be detected.</span>
+
 <span class="sd">    min_dist : int</span>
 <span class="sd">        Minimum distance between each detected peak. The peak with the highest</span>
 <span class="sd">        amplitude is preferred to satisfy this constraint.</span>
@@ -294,14 +297,15 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
-<span class="sd">        a period estimation of the signal y = f(x).</span>
+<span class="sd">        a period estimation of the signal targets = f(inputs).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Ts</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">cb</span> <span class="o">=</span> <span class="n">autocorrelation</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
-        <span class="n">T</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="p">(</span><span class="n">thres</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">cb</span><span class="p">)),</span> <span class="n">min_dist</span><span class="o">=</span><span class="n">min_dist</span><span class="p">)</span>
-        <span class="n">Ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
-    <span class="k">return</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span> <span class="o">*</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span></div>
+    <span class="n">spikes_mean_diff</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">auto_corr</span> <span class="o">=</span> <span class="n">autocorrelation</span><span class="p">(</span><span class="n">targets</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">spikes</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">(</span><span class="n">auto_corr</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="p">(</span><span class="n">thres</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">auto_corr</span><span class="p">)),</span>
+                         <span class="n">min_dist</span><span class="o">=</span><span class="n">min_dist</span><span class="p">)</span>
+        <span class="n">spikes_mean_diff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span> <span class="o">*</span> <span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span></div>
 </pre></div>
 
            </div>

@@ -26,11 +26,11 @@ constraints.
 
     Creating dataset...
     Fitting...
-    Joint leaning time:  1.27595591545
+    Joint leaning time:  1.17229604721
     Joint score  0.764185189755
-    Non-crossing leaning time:  1.57026314735
+    Non-crossing leaning time:  2.84124708176
     Non-crossing score  0.76533612013
-    Independent leaning time:  0.907452106476
+    Independent leaning time:  0.164071798325
     Independent score  0.764757522709
 
 
@@ -96,7 +96,7 @@ constraints.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  5.078 seconds)
+**Total running time of the script:** ( 0 minutes  5.272 seconds)
 
 
 

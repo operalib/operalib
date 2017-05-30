@@ -164,14 +164,14 @@
 detection usefull for periodic kernels.</p>
 <dl class="function">
 <dt id="operalib.signal.autocorrelation">
-<code class="descclassname">operalib.signal.</code><code class="descname">autocorrelation</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#autocorrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.autocorrelation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.signal.</code><code class="descname">autocorrelation</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#autocorrelation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.autocorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Autocorrelation routine.</p>
-<p>Compute the autocorrelation of a given signal X.</p>
+<p>Compute the autocorrelation of a given signal ‘data’.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : darray</p>
 <blockquote>
 <div><p>1D signal to compute the autocorrelation.</p>
 </div></blockquote>
@@ -189,22 +189,22 @@ detection usefull for periodic kernels.</p>
 
 <dl class="function">
 <dt id="operalib.signal.get_period">
-<code class="descclassname">operalib.signal.</code><code class="descname">get_period</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>thres=0.05</em>, <em>min_dist=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.get_period" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.signal.</code><code class="descname">get_period</code><span class="sig-paren">(</span><em>inputs</em>, <em>targets</em>, <em>thres=0.05</em>, <em>min_dist=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.get_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Period detection routine.</p>
-<p>Finds the period in <em>y</em> by taking its autocorrelation and its first order
-difference. By using <em>thres</em> and <em>min_dist</em> parameters, it is possible to
-reduce the number of detected peaks. <em>y</em> must be signed.</p>
+<p>Finds the period in <em>targets</em> by taking its autocorrelation and its first
+order difference. By using <em>thres</em> and <em>min_dist</em> parameters, it is
+possible to reduce the number of detected peaks. <em>targets</em> must be signed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray (signed)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : ndarray</p>
+<blockquote>
+<div><p>support of <em>targets</em>.</p>
+</div></blockquote>
+<p><strong>targets</strong> : ndarray (signed)</p>
 <blockquote>
 <div><p>1D amplitude data to search for peaks.</p>
-</div></blockquote>
-<p><strong>X</strong> : ndarray</p>
-<blockquote>
-<div><p>support of y.</p>
 </div></blockquote>
 <p><strong>thres</strong> : float between [0., 1.]</p>
 <blockquote>
@@ -220,7 +220,7 @@ amplitude is preferred to satisfy this constraint.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">float</p>
 <blockquote class="last">
-<div><p>a period estimation of the signal y = f(x).</p>
+<div><p>a period estimation of the signal targets = f(inputs).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -230,7 +230,7 @@ amplitude is preferred to satisfy this constraint.</p>
 
 <dl class="function">
 <dt id="operalib.signal.indexes">
-<code class="descclassname">operalib.signal.</code><code class="descname">indexes</code><span class="sig-paren">(</span><em>y</em>, <em>thres=0.05</em>, <em>min_dist=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#indexes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.indexes" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">operalib.signal.</code><code class="descname">indexes</code><span class="sig-paren">(</span><em>targets</em>, <em>thres=0.05</em>, <em>min_dist=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/signal.html#indexes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.signal.indexes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Peak detection routine.</p>
 <p>Finds the peaks in <em>y</em> by taking its first order difference. By using
 <em>thres</em> and <em>min_dist</em> parameters, it is possible to reduce the number of
@@ -239,11 +239,11 @@ detected peaks. <em>y</em> must be signed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray (signed)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>targets</strong> : array, (signed)</p>
 <blockquote>
 <div><p>1D amplitude data to search for peaks.</p>
 </div></blockquote>
-<p><strong>thres</strong> : float between [0., 1.]</p>
+<p><strong>thres</strong> : float, (between [0., 1.])</p>
 <blockquote>
 <div><p>Normalized threshold. Only the peaks with amplitude higher than the
 threshold will be detected.</p>

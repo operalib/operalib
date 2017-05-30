@@ -174,7 +174,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         X = check_array(X)
         return self._decision_function(X)
 
-    def fit(self, inputs, targets):
+    def fit(self, X, y):
         """Fit joint quantile regression model.
         Parameters
         ----------
@@ -186,21 +186,20 @@ class Quantile(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        inputs, targets = check_X_y(inputs, targets, ['csr', 'csc', 'coo'],
-                                    y_numeric=True)
+        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'], y_numeric=True)
         self.probs_ = np.array(self.probs, ndmin=1, copy=False)
         self._validate_params()
 
-        self.linop_ = self._get_kernel_map(inputs, targets)
-        K = self.linop_.Gram_dense(inputs)
+        self.linop_ = self._get_kernel_map(X, y)
+        K = self.linop_.Gram_dense(X)
 
         self.C = 1. / self.lbda
 
         # Solve the optimization problem
         if self.nc_const:
-            self._qp_nc(K, targets)
+            self._qp_nc(K, y)
         else:
-            self._qp(K, targets)
+            self._qp(K, y)
         return self
 
     def _qp_nc(self, K, y):

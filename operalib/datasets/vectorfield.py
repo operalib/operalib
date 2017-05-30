@@ -2,6 +2,8 @@
 
 from numpy import arange, sqrt, meshgrid, pi, exp, gradient, floor, hstack
 
+# pylint: disable=C0103
+
 
 def _gaussian(x_mesh, y_mesh, x_mesh_mean, y_mesh_mean, scale=1):
     """Generate a gaussian.
@@ -35,27 +37,27 @@ def _gaussian(x_mesh, y_mesh, x_mesh_mean, y_mesh_mean, scale=1):
                                         y_mesh_centered ** 2)) / sqrt(scale)
 
 
-def array2mesh(inputs, side=None):
+def array2mesh(X, side=None):
     """Array to mesh converter.
 
     Parameters
     ----------
-        inputs : array, shape = [n_samples, 2]
-            The inputs array.
+    X : array, shape = [n_samples, 2]
+        The inputs array.
 
     Returns
     -------
-        x_mesh : array, shape = [n_samples, n_samples]
-            The x_axis of the mesh corresponding to inputs.
+    x_mesh : array, shape = [n_samples, n_samples]
+        The x_axis of the mesh corresponding to inputs.
 
-        y_mesh : array, shape = [n_samples, n_samples]
-            The y_axis of the mesh corresponding to inputs
+    y_mesh : array, shape = [n_samples, n_samples]
+        The y_axis of the mesh corresponding to inputs
 
     """
     if side is None:
-        side = int(floor(sqrt(inputs.shape[0])))
-    x_mesh = inputs[:, 0].reshape((side, side))
-    y_mesh = inputs[:, 1].reshape((side, side))
+        side = int(floor(sqrt(X.shape[0])))
+    x_mesh = X[:, 0].reshape((side, side))
+    y_mesh = X[:, 1].reshape((side, side))
 
     return x_mesh, y_mesh
 
@@ -65,16 +67,16 @@ def mesh2array(x_mesh, y_mesh):
 
     Parameters
     ----------
-        x_mesh : array, shape = [n_samples, n_samples]
-            The x_axis mesh.
+    x_mesh : array, shape = [n_samples, n_samples]
+        The x_axis mesh.
 
-        y_mesh : array, shape = [n_samples, n_samples]
-            The y_axis mesh.
+    y_mesh : array, shape = [n_samples, n_samples]
+        The y_axis mesh.
 
     Returns
     -------
-        inputs : array, shape = [n_samples, 2]
-            The inputs corresponding to the mesh (x_mesh, y_mesh).
+    inputs : array, shape = [n_samples, 2]
+        The inputs corresponding to the mesh (x_mesh, y_mesh).
 
     """
     return hstack((x_mesh.ravel().reshape((-1, 1)),
@@ -211,12 +213,12 @@ def toy_data_curl_free_field(n_samples, loc=25, space=0.5):
 
     Returns
     -------
-    inputs : array, shape = [n_samples, 2]
-             Array of evenly space points.
+    X : array, shape = [n_samples, 2]
+        Array of evenly space points.
 
-    targets : array shape = [n_samples, 2]
-              Array corresponding to the velocity at the coordinates present in
-              inputs.
+    y : array shape = [n_samples, 2]
+        Array corresponding to the velocity at the coordinates present in
+        inputs.
 
     See also
     --------
@@ -260,12 +262,12 @@ def toy_data_div_free_field(n_samples, loc=25, space=0.5):
 
     Returns
     -------
-    inputs : array, shape = [n_samples, 2]
-             Array of evenly space points.
+    X : array, shape = [n_samples, 2]
+        Array of evenly space points.
 
-    targets : array shape = [n_samples, 2]
-              Array corresponding to the velocity at the coordinates present in
-              inputs.
+    y : array shape = [n_samples, 2]
+        Array corresponding to the velocity at the coordinates present in
+        inputs.
 
     See also
     --------

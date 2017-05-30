@@ -125,11 +125,11 @@ def toy_data_quantile(n_samples=50, probs=0.5, pattern=SinePattern(),
 
     Returns
     -------
-    inputs : array, shape = [n_samples, 1]
-             Input data.
+    X : array, shape = [n_samples, 1]
+        Input data.
 
-    targets : array, shape = [n_sample, 1]
-              Targets.
+    y : array, shape = [n_sample, 1]
+        Targets.
 
     quantiles : array, shape = [n_samples x n_quantiles]
         True conditional quantiles.

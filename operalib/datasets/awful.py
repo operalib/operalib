@@ -6,14 +6,16 @@ from numpy import float as npfloat
 
 from sklearn.utils import check_random_state
 
+# pylint: disable=C0103
 
-def awful(targets, p_unsup=.25, p_weaksup=.25, p_weaksup_inner=.25,
+
+def awful(y, p_unsup=.25, p_weaksup=.25, p_weaksup_inner=.25,
           random_state=None):
     """Take a nice dataset and add some NaNs to simulate partially supervised.
 
     Parameters
     ----------
-    targets : array, shape = [n_samples, dim_target]
+    y : array, shape = [n_samples, dim_target]
         Targets.
 
     p_unsup : float, default = .25
@@ -33,15 +35,15 @@ def awful(targets, p_unsup=.25, p_weaksup=.25, p_weaksup_inner=.25,
 
     Returns
     -------
-    targets : array, shape = [n_samples, dim_target]
+    y : array, shape = [n_samples, dim_target]
         Awful targets.
     """
     random_state_internal = check_random_state(random_state)
-    awful_targets = targets.copy()
+    awful_targets = y.copy()
     p_sup = 1 - (p_unsup + p_weaksup)
     awful_mask = (random_state_internal
                   .multinomial(1, [p_sup, p_unsup, p_weaksup],
-                               size=targets.shape[0])
+                               size=y.shape[0])
                   .argmax(axis=1))
     awful_targets[awful_mask == 1, :] = NaN
     weaksup_mask = (random_state_internal

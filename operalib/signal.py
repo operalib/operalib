@@ -6,6 +6,7 @@ detection usefull for periodic kernels.
 #         the scikit-learn community.
 # License: MIT
 
+# pylint: disable=E0611,E0401
 from numpy import (correlate, arange, zeros, mean, diff, hstack,
                    where, ndarray, issubdtype, unsignedinteger, argsort, ones)
 

@@ -6,6 +6,8 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils.validation import check_is_fitted
 
+# pylint: disable=W0201
+
 
 class SimplexCoding(BaseEstimator, TransformerMixin):
     """Simplex coding."""
@@ -13,8 +15,8 @@ class SimplexCoding(BaseEstimator, TransformerMixin):
     def __init__(self, binarizer=None):
         self.binarizer = binarizer
 
-        self.simplex_operator_ = None
-        self.binarizer_ = None
+        # self.simplex_operator_ = None
+        # self.binarizer_ = None
 
     @staticmethod
     def _code_i(dimension):

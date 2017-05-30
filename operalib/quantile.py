@@ -129,7 +129,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         return rbf_kernel(probs, gamma=self.gamma_quantile) \
             if self.gamma_quantile != np.inf else np.eye(self.probs_.size)
 
-    def _get_kernel_map(self, X, y):
+    def _get_kernel_map(self, inputs, targets):
         # When adding a new kernel, update this table and the _get_kernel_map
         # method
         if callable(self.kernel):
@@ -138,7 +138,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         elif type(self.kernel) is str:
             # 1) check string and assign the right parameters
             if self.kernel == 'DGauss':
-                self.A_ = self._default_decomposable_op(y)
+                self.A_ = self._default_decomposable_op(targets)
                 kernel_params = {'A': self.A_, 'scalar_kernel': rbf_kernel,
                                  'scalar_kernel_params': {'gamma': self.gamma}}
             else:
@@ -147,13 +147,13 @@ class Quantile(BaseEstimator, RegressorMixin):
             ov_kernel = PAIRWISE_KERNEL_FUNCTIONS[self.kernel](**kernel_params)
         else:
             raise NotImplementedError('unsupported kernel')
-        return ov_kernel(X)
+        return ov_kernel(inputs)
 
     def _decision_function(self, X):
-        n = X.shape[0]
+        n_samples = X.shape[0]
         p = self.probs_.size
 
-        pred = np.reshape(self.linop_(X) * self.coefs_, (n, p))
+        pred = np.reshape(self.linop_(X) * self.coefs_, (n_samples, p))
         pred += self.intercept_
 
         return pred.T if self.linop_.p > 1 else pred.T.ravel()
@@ -174,32 +174,33 @@ class Quantile(BaseEstimator, RegressorMixin):
         X = check_array(X)
         return self._decision_function(X)
 
-    def fit(self, X, y):
+    def fit(self, inputs, targets):
         """Fit joint quantile regression model.
         Parameters
         ----------
-        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+        inputs : {array-like, sparse matrix}, shape = [n_samples, n_features]
             Training data.
-        y : {array-like}, shape = [n_samples]
+        targets : {array-like}, shape = [n_samples]
             Target values.
         Returns
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, ['csr', 'csc', 'coo'], y_numeric=True)
+        inputs, targets = check_X_y(inputs, targets, ['csr', 'csc', 'coo'],
+                                    y_numeric=True)
         self.probs_ = np.array(self.probs, ndmin=1, copy=False)
         self._validate_params()
 
-        self.linop_ = self._get_kernel_map(X, y)
-        K = self.linop_.Gram_dense(X)
+        self.linop_ = self._get_kernel_map(inputs, targets)
+        K = self.linop_.Gram_dense(inputs)
 
         self.C = 1. / self.lbda
 
         # Solve the optimization problem
         if self.nc_const:
-            self._qp_nc(K, y)
+            self._qp_nc(K, targets)
         else:
-            self._qp(K, y)
+            self._qp(K, targets)
         return self
 
     def _qp_nc(self, K, y):

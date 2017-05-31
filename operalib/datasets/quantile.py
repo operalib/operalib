@@ -149,4 +149,4 @@ def toy_data_quantile(n_samples=50, probs=0.5, pattern=SinePattern(),
     observations = targets + add_noise
     quantiles = [targets + array([norm.ppf(p, loc=0., scale=abs(noise_c))
                                   for noise_c in noise_std]) for p in probs]
-    return inputs, observations, quantiles
+    return inputs, observations.ravel(), quantiles

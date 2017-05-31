@@ -33,15 +33,17 @@ def main():
 
     print("Fitting...")
     methods = {'Joint':
-               Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8,
+               Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
                         gamma_quantile=1e-2),
-               'Independent': Quantile(probs=probs, kernel='DGauss', lbda=1e-2,
-                                       gamma=8, gamma_quantile=np.inf),
+               'Independent': Quantile(probs=probs, kernel='DGauss',
+                                       lbda=1e-2, gamma=8.,
+                                       gamma_quantile=np.inf),
                'Non-crossing': Quantile(probs=probs, kernel='DGauss',
-                                        lbda=1e-2, gamma=8,
+                                        lbda=1e-2, gamma=8.,
                                         gamma_quantile=np.inf, nc_const=True)}
     # Fit on training data
-    for name, reg in methods.items():
+    for name, reg in sorted(methods.items()):
+        print(name)
         start = time.time()
         reg.fit(x_train, y_train)
         print(name + ' leaning time: ', time.time() - start)

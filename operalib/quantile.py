@@ -170,7 +170,7 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         pred = reshape(self.linop_(X) * self.model_['coefs'],
                        (n_samples, n_quantiles))
-        pred += self.model_['intercept']
+        pred += self.model_['intercept'].squeeze()
 
         return pred.T if self.linop_.p > 1 else pred.T.ravel()
 

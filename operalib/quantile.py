@@ -26,8 +26,7 @@ PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
     'DPeriodic': DecomposableKernel, }
 
-# pylint
-# : disable=C0103,E1101
+# pylint: disable=C0103,W0201,R0902,R0913
 
 
 class Quantile(BaseEstimator, RegressorMixin):
@@ -122,12 +121,10 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.kernel_params = kernel_params
         self.verbose = verbose
 
-        self.linop_ = None
-        self.reg_c_ = None
-        self.sol_ = None
-        self.coefs_ = None
-        self.intercept_ = None
-        self.A_ = None
+        # self.linop_ = None
+        # self.reg_c_ = None
+        # self.sol_ = None
+        # self.model_ = None
 
     def _validate_params(self):
         # check on self.kernel is performed in method __get_kernel
@@ -138,13 +135,14 @@ class Quantile(BaseEstimator, RegressorMixin):
         if self.gamma is not None:
             if self.gamma < 0:
                 raise ValueError('sigma must be positive or default (None)')
-        if (self.probs < 0).any() or (self.probs > 1).any():
+        probs = asarray(self.probs).reshape(-1, 1)
+        if (probs < 0).any() or (probs > 1).any():
             raise ValueError('Probabilities must be in [0., 1.]')
 
     def _default_decomposable_op(self):
         probs = asarray(self.probs).reshape((1, -1))  # 2D array
-        return rbf_kernel(probs.T, gamma=self.gamma_quantile) \
-            if self.gamma_quantile != npinf else eye(len(self.probs))
+        return (rbf_kernel(probs.T, gamma=self.gamma_quantile)
+                if self.gamma_quantile != npinf else eye(len(self.probs)))
 
     def _get_kernel_map(self, inputs):
         # When adding a new kernel, update this table and the _get_kernel_map
@@ -155,8 +153,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         elif isinstance(self.kernel, str):
             # 1) check string and assign the right parameters
             if self.kernel == 'DGauss':
-                self.A_ = self._default_decomposable_op()
-                kernel_params = {'A': self.A_, 'scalar_kernel': rbf_kernel,
+                kernel_params = {'A': self._default_decomposable_op(),
+                                 'scalar_kernel': rbf_kernel,
                                  'scalar_kernel_params': {'gamma': self.gamma}}
             else:
                 raise NotImplementedError('unsupported kernel')
@@ -170,8 +168,9 @@ class Quantile(BaseEstimator, RegressorMixin):
         n_samples = X.shape[0]
         n_quantiles = len(self.probs)
 
-        pred = reshape(self.linop_(X) * self.coefs_, (n_samples, n_quantiles))
-        pred += self.intercept_
+        pred = reshape(self.linop_(X) * self.model_['coefs'],
+                       (n_samples, n_quantiles))
+        pred += self.model_['intercept']
 
         return pred.T if self.linop_.p > 1 else pred.T.ravel()
 
@@ -188,8 +187,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         y : {array}, shape = [n_samples, n_quantiles]
             Returns predicted values for each prescribed quantile level.
         """
-        check_is_fitted(self, ['coefs_', 'intercept_', 'linop_'],
-                        all_or_any=all)
+        check_is_fitted(self, ['model_', 'linop_'], all_or_any=all)
         X = check_array(X)
         return self._decision_function(X)
 
@@ -263,11 +261,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.sol_ = solvers.qp(gram, q_lin, g_lhs, h_rhs, lhs_eqc,
                                matrix(zeros(n_quantiles)))
 
-        # Set coefs
-        self.coefs_ = asarray(self.sol_['x'][:n_coefs])
-
-        # Set the intercept (the quantile property is not verified)
-        self.intercept_ = asarray(self.sol_['y']).squeeze()
+        self.model_ = {'coefs': asarray(self.sol_['x'][:n_coefs]),
+                       'intercept': asarray(self.sol_['y']).squeeze()}
 
     def _qp(self, gram, targets, probs):
         n_quantiles = probs.size  # Number of quantiles to predict
@@ -296,14 +291,16 @@ class Quantile(BaseEstimator, RegressorMixin):
                                matrix(zeros(n_quantiles)))
 
         # Set coefs
-        self.coefs_ = asarray(self.sol_['x'])
+        coefs = asarray(self.sol_['x'])
 
         # Set the intercept
-        self.intercept_ = 0.  # Erase the previous intercept before prediction
-        self.intercept_ = [percentile(targets - pred, 100. * prob) for
-                           (pred, prob) in zip(self.predict(self.linop_.X),
-                                               probs)]
-        self.intercept_ = asarray(self.intercept_).squeeze()
+
+        # Erase the previous intercept before prediction
+        self.model_ = {'coefs': coefs, 'intercept': 0}
+        intercept = [percentile(targets - pred, 100. * prob) for
+                     (pred, prob) in zip(self.predict(self.linop_.X), probs)]
+        intercept = asarray(intercept).squeeze()
+        self.model_ = {'coefs': coefs, 'intercept': intercept}
 
     @staticmethod
     def pinball_loss(y_true, y_pred, probs):
@@ -347,7 +344,6 @@ class Quantile(BaseEstimator, RegressorMixin):
         l : {float}
             Average pinball score (the higher, the better).
         """
-        check_is_fitted(self, ['coefs_', 'intercept_', 'linop_'],
-                        all_or_any=all)
+        check_is_fitted(self, ['model_', 'linop_'], all_or_any=all)
         X, y = check_X_y(X, y)
         return 1 - Quantile.pinball_loss(y, self.predict(X), self.probs).mean()

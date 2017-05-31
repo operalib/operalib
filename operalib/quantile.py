@@ -166,7 +166,7 @@ class Quantile(BaseEstimator, RegressorMixin):
 
     def _decision_function(self, X):
         n_samples = X.shape[0]
-        n_quantiles = len(self.probs)
+        n_quantiles = asarray(self.probs).reshape((-1, 1)).size
 
         pred = reshape(self.linop_(X) * self.model_['coefs'],
                        (n_samples, n_quantiles))

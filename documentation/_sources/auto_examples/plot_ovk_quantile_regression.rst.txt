@@ -26,12 +26,15 @@ constraints.
 
     Creating dataset...
     Fitting...
-    Joint leaning time:  0.946311950684
-    Joint score  0.764185189755
-    Non-crossing leaning time:  5.02617001534
-    Non-crossing score  0.76533612013
-    Independent leaning time:  0.627557039261
+    Independent
+    Independent leaning time:  0.863507986069
     Independent score  0.764757522709
+    Joint
+    Joint leaning time:  0.788805961609
+    Joint score  0.764185189755
+    Non-crossing
+    Non-crossing leaning time:  4.99693918228
+    Non-crossing score  0.76533612013
 
 
 
@@ -65,15 +68,17 @@ constraints.
 
         print("Fitting...")
         methods = {'Joint':
-                   Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8,
+                   Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
                             gamma_quantile=1e-2),
-                   'Independent': Quantile(probs=probs, kernel='DGauss', lbda=1e-2,
-                                           gamma=8, gamma_quantile=np.inf),
+                   'Independent': Quantile(probs=probs, kernel='DGauss',
+                                           lbda=1e-2, gamma=8.,
+                                           gamma_quantile=np.inf),
                    'Non-crossing': Quantile(probs=probs, kernel='DGauss',
-                                            lbda=1e-2, gamma=8,
+                                            lbda=1e-2, gamma=8.,
                                             gamma_quantile=np.inf, nc_const=True)}
         # Fit on training data
-        for name, reg in methods.items():
+        for name, reg in sorted(methods.items()):
+            print(name)
             start = time.time()
             reg.fit(x_train, y_train)
             print(name + ' leaning time: ', time.time() - start)
@@ -96,7 +101,7 @@ constraints.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  7.764 seconds)
+**Total running time of the script:** ( 0 minutes  7.967 seconds)
 
 
 

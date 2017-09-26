@@ -164,7 +164,7 @@
 regression.</p>
 <dl class="class">
 <dt id="operalib.ridge.OVKRidge">
-<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">OVKRidge</code><span class="sig-paren">(</span><em>ovkernel=’DGauss’</em>, <em>lbda=1e-05</em>, <em>lbda_m=0.0</em>, <em>A=None</em>, <em>gamma=None</em>, <em>gamma_m=None</em>, <em>theta=0.7</em>, <em>period=’autocorr’</em>, <em>autocorr_params=None</em>, <em>solver=’L-BFGS-B’</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">OVKRidge</code><span class="sig-paren">(</span><em>ovkernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>lbda_m=0.0</em>, <em>A=None</em>, <em>gamma=None</em>, <em>gamma_m=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver='L-BFGS-B'</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Operator-Valued kernel ridge regression.</p>
 <blockquote>
 <div><p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
@@ -212,8 +212,8 @@ prediction-time.</p>
 <col width="98%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">dual_coef_</span></a></td>
-<td>(array, shape = [n_samples x n_targest]) Weight vector(s) in kernel space  <a href="#id3"><span class="problematic" id="id4">linop_</span></a> : callable Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)  <a href="#id5"><span class="problematic" id="id6">A_</span></a> : array, shape = [n_targets, n_targets] Set when Linear operator used by the decomposable kernel is default or None.  <a href="#id7"><span class="problematic" id="id8">L_</span></a> : array, shape = [n_samples_miss, n_samples_miss] Graph Laplacian of data with missing targets (semi-supervised learning).  <a href="#id9"><span class="problematic" id="id10">period_</span></a> : float Set when period used by the First periodic kernel is ‘autocorr’.  <a href="#id11"><span class="problematic" id="id12">solver_res_</span></a> : any Raw results returned by the solver.</td>
+<tr class="row-odd"><td><strong>dual_coef_</strong></td>
+<td>(array, shape = [n_samples x n_targest]) Weight vector(s) in kernel space  <a href="#id1"><span class="problematic" id="id2">linop_</span></a> : callable Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)  <a href="#id3"><span class="problematic" id="id4">A_</span></a> : array, shape = [n_targets, n_targets] Set when Linear operator used by the decomposable kernel is default or None.  <a href="#id5"><span class="problematic" id="id6">L_</span></a> : array, shape = [n_samples_miss, n_samples_miss] Graph Laplacian of data with missing targets (semi-supervised learning).  <a href="#id7"><span class="problematic" id="id8">period_</span></a> : float Set when period used by the First periodic kernel is ‘autocorr’.  <a href="#id9"><span class="problematic" id="id10">solver_res_</span></a> : any Raw results returned by the solver.</td>
 </tr>
 </tbody>
 </table>
@@ -320,10 +320,10 @@ contained subobjects that are estimators.</p>
 <dt id="operalib.ridge.OVKRidge.score">
 <code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKRidge.score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coefficient of determination R^2 of the prediction.</p>
-<p>The coefficient R^2 is defined as (1 - u/v), where u is the regression
-sum of squares ((y_true - y_pred) ** 2).sum() and v is the residual
+<p>The coefficient R^2 is defined as (1 - u/v), where u is the residual
+sum of squares ((y_true - y_pred) ** 2).sum() and v is the total
 sum of squares ((y_true - y_true.mean()) ** 2).sum().
-Best possible score is 1.0 and it can be negative (because the
+The best possible score is 1.0 and it can be negative (because the
 model can be arbitrarily worse). A constant model that always
 predicts the expected value of y, disregarding the input features,
 would get a R^2 score of 0.0.</p>

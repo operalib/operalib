@@ -164,7 +164,7 @@
 Regularised Risk Minimization Algorithm (ONORMA)</p>
 <dl class="class">
 <dt id="operalib.onorma.ONORMA">
-<em class="property">class </em><code class="descclassname">operalib.onorma.</code><code class="descname">ONORMA</code><span class="sig-paren">(</span><em>kernel=’DGauss’</em>, <em>lbda=1e-05</em>, <em>T=None</em>, <em>A=None</em>, <em>learning_rate=’invscaling’</em>, <em>truncation=None</em>, <em>gamma=None</em>, <em>mu=0.2</em>, <em>eta=1.0</em>, <em>power=0.5</em>, <em>shuffle=True</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">operalib.onorma.</code><code class="descname">ONORMA</code><span class="sig-paren">(</span><em>kernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>T=None</em>, <em>A=None</em>, <em>learning_rate='invscaling'</em>, <em>truncation=None</em>, <em>gamma=None</em>, <em>mu=0.2</em>, <em>eta=1.0</em>, <em>power=0.5</em>, <em>shuffle=True</em>, <em>random_state=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/onorma.html#ONORMA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.onorma.ONORMA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Operator-valued Naive Online Regularised Risk
 Minimization Algorithm .</p>
 <p>Operator-Valued kernel Operator-valued Naive Online Regularised Risk
@@ -208,26 +208,26 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="5%" />
-<col width="95%" />
+<col width="8%" />
+<col width="92%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">coef_</span></a></td>
+<tr class="row-odd"><td><strong>coef_</strong></td>
 <td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
 </tr>
-<tr class="row-even"><td><a href="#id3"><span class="problematic" id="id4">linop_</span></a></td>
+<tr class="row-even"><td><strong>linop_</strong></td>
 <td>(callable) Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)</td>
 </tr>
-<tr class="row-odd"><td><a href="#id5"><span class="problematic" id="id6">A_</span></a></td>
+<tr class="row-odd"><td><strong>A_</strong></td>
 <td>(array, shape = [n_targets, n_targets]) Set when Linear operator used by the decomposable kernel is default or None.</td>
 </tr>
-<tr class="row-even"><td><a href="#id7"><span class="problematic" id="id8">T_</span></a></td>
+<tr class="row-even"><td><strong>T_</strong></td>
 <td>(integer) Total number of iterations</td>
 </tr>
-<tr class="row-odd"><td><a href="#id9"><span class="problematic" id="id10">n_</span></a></td>
+<tr class="row-odd"><td><strong>n_</strong></td>
 <td>(integer) Total number of datapoints</td>
 </tr>
-<tr class="row-even"><td><a href="#id11"><span class="problematic" id="id12">p_</span></a></td>
+<tr class="row-even"><td><strong>p_</strong></td>
 <td>(integer) Dimensionality of the outputs</td>
 </tr>
 </tbody>
@@ -376,10 +376,10 @@ be omitted in the subsequent calls.</p>
 <dt id="operalib.onorma.ONORMA.score">
 <code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.onorma.ONORMA.score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coefficient of determination R^2 of the prediction.</p>
-<p>The coefficient R^2 is defined as (1 - u/v), where u is the regression
-sum of squares ((y_true - y_pred) ** 2).sum() and v is the residual
+<p>The coefficient R^2 is defined as (1 - u/v), where u is the residual
+sum of squares ((y_true - y_pred) ** 2).sum() and v is the total
 sum of squares ((y_true - y_true.mean()) ** 2).sum().
-Best possible score is 1.0 and it can be negative (because the
+The best possible score is 1.0 and it can be negative (because the
 model can be arbitrarily worse). A constant model that always
 predicts the expected value of y, disregarding the input features,
 would get a R^2 score of 0.0.</p>

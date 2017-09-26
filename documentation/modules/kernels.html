@@ -190,17 +190,17 @@ outputs.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="15%" />
-<col width="85%" />
+<col width="17%" />
+<col width="83%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>A</td>
+<tr class="row-odd"><td><strong>A</strong></td>
 <td>({array, LinearOperator}, shape = [n_targets, n_targets]) Linear operator acting on the outputs</td>
 </tr>
-<tr class="row-even"><td>scalar_kernel</td>
+<tr class="row-even"><td><strong>scalar_kernel</strong></td>
 <td>({callable}) Callable which associate to the training points X the Gram matrix.</td>
 </tr>
-<tr class="row-odd"><td>scalar_kernel_params</td>
+<tr class="row-odd"><td><strong>scalar_kernel_params</strong></td>
 <td>({mapping of string to any}) Additional parameters (keyword arguments) for kernel function passed as callable object.</td>
 </tr>
 </tbody>
@@ -373,14 +373,14 @@ x, y \rangle^2 I_p"/></p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="3%" />
-<col width="97%" />
+<col width="5%" />
+<col width="95%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>mu</td>
+<tr class="row-odd"><td><strong>mu</strong></td>
 <td>({array, LinearOperator}, shape = [n_targets, n_targets]) Tradeoff between shared and independant components</td>
 </tr>
-<tr class="row-even"><td>p</td>
+<tr class="row-even"><td><strong>p</strong></td>
 <td>({Int}) dimension of the targets (n_targets).</td>
 </tr>
 </tbody>
@@ -522,11 +522,11 @@ K(X, Y) \enskip\text{otherwise}
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="86%" />
+<col width="23%" />
+<col width="78%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>gamma</td>
+<tr class="row-odd"><td><strong>gamma</strong></td>
 <td>({float}) RBF kernel parameter.</td>
 </tr>
 </tbody>
@@ -690,11 +690,11 @@ K(X, Y) \enskip\text{otherwise}
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="86%" />
+<col width="23%" />
+<col width="78%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>gamma</td>
+<tr class="row-odd"><td><strong>gamma</strong></td>
 <td>({float}) RBF kernel parameter.</td>
 </tr>
 </tbody>
@@ -867,20 +867,20 @@ naturally inherit from DecomposableKernel.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="3%" />
-<col width="97%" />
+<col width="6%" />
+<col width="94%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>n</td>
+<tr class="row-odd"><td><strong>n</strong></td>
 <td>({Int}) Number of samples.</td>
 </tr>
-<tr class="row-even"><td>d</td>
+<tr class="row-even"><td><strong>d</strong></td>
 <td>({Int}) Number of features.</td>
 </tr>
-<tr class="row-odd"><td>X</td>
+<tr class="row-odd"><td><strong>X</strong></td>
 <td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
 </tr>
-<tr class="row-even"><td>Gs</td>
+<tr class="row-even"><td><strong>Gs</strong></td>
 <td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix associated with the scalar kernel.</td>
 </tr>
 </tbody>
@@ -1079,20 +1079,20 @@ naturally inherit from DecomposableKernel.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="3%" />
-<col width="97%" />
+<col width="6%" />
+<col width="94%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>n</td>
+<tr class="row-odd"><td><strong>n</strong></td>
 <td>({Int}) Number of samples.</td>
 </tr>
-<tr class="row-even"><td>d</td>
+<tr class="row-even"><td><strong>d</strong></td>
 <td>({Int}) Number of features.</td>
 </tr>
-<tr class="row-odd"><td>X</td>
+<tr class="row-odd"><td><strong>X</strong></td>
 <td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
 </tr>
-<tr class="row-even"><td>Gs</td>
+<tr class="row-even"><td><strong>Gs</strong></td>
 <td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix associated with the scalar kernel.</td>
 </tr>
 </tbody>
@@ -1282,20 +1282,20 @@ naturally inherit from RBFCurlFreeKernel</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="4%" />
-<col width="96%" />
+<col width="7%" />
+<col width="93%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>n</td>
+<tr class="row-odd"><td><strong>n</strong></td>
 <td>({Int}) Number of samples.</td>
 </tr>
-<tr class="row-even"><td>d</td>
+<tr class="row-even"><td><strong>d</strong></td>
 <td>({Int}) Number of features.</td>
 </tr>
-<tr class="row-odd"><td>X</td>
+<tr class="row-odd"><td><strong>X</strong></td>
 <td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
 </tr>
-<tr class="row-even"><td>Gs</td>
+<tr class="row-even"><td><strong>Gs</strong></td>
 <td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix.</td>
 </tr>
 </tbody>
@@ -1440,20 +1440,20 @@ naturally inherit from RBFCurlFreeKernel</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="4%" />
-<col width="96%" />
+<col width="7%" />
+<col width="93%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>n</td>
+<tr class="row-odd"><td><strong>n</strong></td>
 <td>({Int}) Number of samples.</td>
 </tr>
-<tr class="row-even"><td>d</td>
+<tr class="row-even"><td><strong>d</strong></td>
 <td>({Int}) Number of features.</td>
 </tr>
-<tr class="row-odd"><td>X</td>
+<tr class="row-odd"><td><strong>X</strong></td>
 <td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
 </tr>
-<tr class="row-even"><td>Gs</td>
+<tr class="row-even"><td><strong>Gs</strong></td>
 <td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix.</td>
 </tr>
 </tbody>

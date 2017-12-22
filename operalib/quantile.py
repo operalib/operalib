@@ -40,10 +40,11 @@ class Quantile(BaseEstimator, RegressorMixin):
 
     Attributes
     ----------
-    coefs : array-like, shape (n_samples*n_probs)
-        Dual coefficients of the kernel machine
-    intercept : array-like, shape (n_probs)
-        Vector of intercepts
+    model : dict
+        coefs : {array-like}, shape [n_samples*n_probs, 1]
+            Dual coefficients of the kernel machine
+        intercept : {array-like}, shape [n_probs]
+            Vector of intercepts
 
     References
     ----------
@@ -83,13 +84,13 @@ class Quantile(BaseEstimator, RegressorMixin):
     """
 
     def __init__(self, kernel='DGauss', probs=0.5, lbda=1e-5, gamma=None,
-                 gamma_quantile=0., tol=None, nc_const=False,
+                 gamma_quantile=0., eps=0., tol=None, nc_const=False,
                  kernel_params=None, verbose=False):
         """Initialize quantile regression model.
 
         Parameters
         ----------
-        probs : {list}, default=[0.5]
+        probs : {float, list}, default=0.5
             Probabilities (quantiles levels).
         kernel : {string, callable}, default='DGauss'
             Kernel mapping used internally. A callable should accept two
@@ -103,6 +104,9 @@ class Quantile(BaseEstimator, RegressorMixin):
             Ignored by other kernels.
         gamma_quantile : {float}, default=None.
             Gamma parameter for the output Gaussian kernel.
+        eps : {float}, default=0
+            Threshold for the epsilon-loss (data sparse regression, only
+            without non-crossing constraints)
         tol : {float}, default=None
             Optimization tolerance (None leads to the default value of the
             solver).
@@ -120,6 +124,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.kernel = kernel
         self.gamma = gamma
         self.gamma_quantile = gamma_quantile
+        self.eps = eps
         self.tol = tol
         self.nc_const = nc_const
         self.kernel_params = kernel_params
@@ -209,6 +214,9 @@ class Quantile(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
+        if self.eps > 0 and self.nc_const:
+            raise UserWarning("eps is considered null because you chose to "
+                              "enfoce non-crossing constraints.")
         X, y = check_X_y(X, y, ['csr', 'csc', 'coo'], y_numeric=True)
         self._validate_params()
 
@@ -221,7 +229,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         if self.nc_const:
             self._qp_nc(gram, y, probs)
         else:
-            self._qp(gram, y, probs)
+            self._coneqp(gram, y, probs)
         return self
 
     def _qp_nc(self, gram, targets, probs):
@@ -296,6 +304,89 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Set coefs
         coefs = asarray(self.sol_['x'])
+
+        # Set the intercept
+
+        # Erase the previous intercept before prediction
+        self.model_ = {'coefs': coefs, 'intercept': 0}
+        intercept = [percentile(targets - pred, 100. * prob) for
+                     (pred, prob) in zip(self.predict(self.linop_.X), probs)]
+        intercept = asarray(intercept).squeeze()
+        self.model_ = {'coefs': coefs, 'intercept': intercept}
+
+    def _coneqp(self, gram, targets, probs):
+        n_quantiles = probs.size  # Number of quantiles to predict
+        n_coefs = gram.shape[0]  # Number of variables
+        n_samples = n_coefs // n_quantiles
+        # Quantiles levels
+        probs = kron(ones(int(n_coefs / n_quantiles)), probs.squeeze())
+
+        solvers.options['show_progress'] = self.verbose
+        if self.tol:
+            solvers.options['reltol'] = self.tol
+
+        if self.eps == 0:
+            # Quadratic part of the objective
+            gram = matrix(gram)
+            # Linear part of the objective
+            q_lin = matrix(-kron(targets, ones(n_quantiles)))
+
+            # LHS of the inequality constraint
+            g_lhs = matrix(r_[eye(n_coefs), -eye(n_coefs)])
+            # RHS of the inequality
+            h_rhs = matrix(r_[self.reg_c_ * probs, self.reg_c_ * (1 - probs)])
+            # LHS of the equality constraint
+            lhs_eqc = matrix(kron(ones(n_samples), eye(n_quantiles)))
+
+            # Solve the dual optimization problem
+            self.sol_ = solvers.qp(gram, q_lin, g_lhs, h_rhs, lhs_eqc,
+                                   matrix(zeros(n_quantiles)))
+
+            # Set coefs
+            coefs = asarray(self.sol_['x'])
+        else:
+            def build_lhs(m, p):
+                # m: n_samples
+                # p: n_quantiles
+                n = m*p  # n_variables
+
+                # Get the norm bounds (m last variables)
+                A = zeros(p+1)
+                A[0] = -1
+                A = kron(eye(m), A).T
+                # Get the m p-long vectors
+                B = kron(eye(m), c_[zeros(p), eye(p)].T)
+                # Box constraint
+                C = c_[r_[eye(n), -eye(n)], zeros((2*n, m))]
+                # Set everything together
+                C = r_[C, c_[B, A]]
+                return C
+
+            # Quadratic part of the objective
+            gram = matrix(r_[c_[gram, zeros((n_coefs, n_samples))],
+                             zeros((n_samples, n_coefs+n_samples))])
+            # Linear part of the objective
+            q_lin = matrix(r_[-kron(targets, ones(n_quantiles)),
+                              ones(n_samples)*self.eps])
+
+            # LHS of the inequality constraint
+            g_lhs = matrix(build_lhs(n_samples, n_quantiles))
+            # RHS of the inequality
+            h_rhs = matrix(r_[self.reg_c_ * probs, self.reg_c_ * (1-probs),
+                              zeros(n_samples * (n_quantiles+1))])
+            # LHS of the equality constraint
+            lhs_eqc = matrix(c_[kron(ones(n_samples),
+                                eye(n_quantiles)),
+                                zeros((n_quantiles, n_samples))])
+            # Parameters of the optimization problem
+            dims = {'l': 2*n_coefs, 'q': [n_quantiles+1]*n_samples, 's': []}
+
+            # Solve the dual optimization problem
+            self.sol_ = solvers.coneqp(gram, q_lin, g_lhs, h_rhs, dims,
+                                       lhs_eqc, matrix(zeros(n_quantiles)))
+
+            # Set coefs
+            coefs = asarray(self.sol_['x'][:n_coefs])
 
         # Set the intercept
 

@@ -40,7 +40,10 @@ class Quantile(BaseEstimator, RegressorMixin):
 
     Attributes
     ----------
-    TODO !
+    coefs : array-like, shape (n_samples*n_probs)
+        Dual coefficients of the kernel machine
+    intercept : array-like, shape (n_probs)
+        Vector of intercepts
 
     References
     ----------
@@ -50,7 +53,7 @@ class Quantile(BaseEstimator, RegressorMixin):
       "Quantile Regression", Cambridge University Press, Cambridge, New York,
       2005.
     * M. Sangnier, O. Fercoq and F. d'Alche-Buc
-      "Joint quantile regression in vector-valued RKHSs", hal-01272327, 2016.
+      "Joint quantile regression in vector-valued RKHSs." In Advances in Neural
     See also
     --------
 
@@ -83,6 +86,7 @@ class Quantile(BaseEstimator, RegressorMixin):
                  gamma_quantile=0., tol=None, nc_const=False,
                  kernel_params=None, verbose=False):
         """Initialize quantile regression model.
+
         Parameters
         ----------
         probs : {list}, default=[0.5]

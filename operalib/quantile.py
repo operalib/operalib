@@ -219,6 +219,7 @@ class Quantile(BaseEstimator, RegressorMixin):
             raise UserWarning("eps is considered null because you chose to "
                               "enfoce non-crossing constraints.")
         X, y = check_X_y(X, y, ['csr', 'csc', 'coo'], y_numeric=True)
+        y = asarray(y).flatten()
         self._validate_params()
 
         self.linop_ = self._get_kernel_map(X)

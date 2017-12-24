@@ -202,10 +202,11 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    coefs : array-like, shape (n_samples*n_probs)</span>
-<span class="sd">        Dual coefficients of the kernel machine</span>
-<span class="sd">    intercept : array-like, shape (n_probs)</span>
-<span class="sd">        Vector of intercepts</span>
+<span class="sd">    model : dict</span>
+<span class="sd">        coefs : {array-like}, shape [n_samples*n_probs, 1]</span>
+<span class="sd">            Dual coefficients of the kernel machine</span>
+<span class="sd">        intercept : {array-like}, shape [n_probs]</span>
+<span class="sd">            Vector of intercepts</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -245,13 +246,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nc_const</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nc_const</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">kernel_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize quantile regression model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        probs : {list}, default=[0.5]</span>
+<span class="sd">        probs : {float, list}, default=0.5</span>
 <span class="sd">            Probabilities (quantiles levels).</span>
 <span class="sd">        kernel : {string, callable}, default=&#39;DGauss&#39;</span>
 <span class="sd">            Kernel mapping used internally. A callable should accept two</span>
@@ -265,6 +266,9 @@
 <span class="sd">            Ignored by other kernels.</span>
 <span class="sd">        gamma_quantile : {float}, default=None.</span>
 <span class="sd">            Gamma parameter for the output Gaussian kernel.</span>
+<span class="sd">        eps : {float}, default=0</span>
+<span class="sd">            Threshold for the epsilon-loss (data sparse regression, only</span>
+<span class="sd">            without non-crossing constraints)</span>
 <span class="sd">        tol : {float}, default=None</span>
 <span class="sd">            Optimization tolerance (None leads to the default value of the</span>
 <span class="sd">            solver).</span>
@@ -282,6 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_quantile</span> <span class="o">=</span> <span class="n">gamma_quantile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tol</span> <span class="o">=</span> <span class="n">tol</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nc_const</span> <span class="o">=</span> <span class="n">nc_const</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kernel_params</span> <span class="o">=</span> <span class="n">kernel_params</span>
@@ -371,6 +376,9 @@
 <span class="sd">        -------</span>
 <span class="sd">        self : returns an instance of self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nc_const</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s2">&quot;eps is considered null because you chose to &quot;</span>
+                              <span class="s2">&quot;enfoce non-crossing constraints.&quot;</span><span class="p">)</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;csr&#39;</span><span class="p">,</span> <span class="s1">&#39;csc&#39;</span><span class="p">,</span> <span class="s1">&#39;coo&#39;</span><span class="p">],</span> <span class="n">y_numeric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
 
@@ -383,7 +391,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nc_const</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_qp_nc</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_qp</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coneqp</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">_qp_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gram</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">probs</span><span class="p">):</span>
@@ -458,6 +466,89 @@
 
         <span class="c1"># Set coefs</span>
         <span class="n">coefs</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Set the intercept</span>
+
+        <span class="c1"># Erase the previous intercept before prediction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;coefs&#39;</span><span class="p">:</span> <span class="n">coefs</span><span class="p">,</span> <span class="s1">&#39;intercept&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="n">intercept</span> <span class="o">=</span> <span class="p">[</span><span class="n">percentile</span><span class="p">(</span><span class="n">targets</span> <span class="o">-</span> <span class="n">pred</span><span class="p">,</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">prob</span><span class="p">)</span> <span class="k">for</span>
+                     <span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linop_</span><span class="o">.</span><span class="n">X</span><span class="p">),</span> <span class="n">probs</span><span class="p">)]</span>
+        <span class="n">intercept</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">intercept</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;coefs&#39;</span><span class="p">:</span> <span class="n">coefs</span><span class="p">,</span> <span class="s1">&#39;intercept&#39;</span><span class="p">:</span> <span class="n">intercept</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_coneqp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gram</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">probs</span><span class="p">):</span>
+        <span class="n">n_quantiles</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">size</span>  <span class="c1"># Number of quantiles to predict</span>
+        <span class="n">n_coefs</span> <span class="o">=</span> <span class="n">gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Number of variables</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_coefs</span> <span class="o">//</span> <span class="n">n_quantiles</span>
+        <span class="c1"># Quantiles levels</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">kron</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_coefs</span> <span class="o">/</span> <span class="n">n_quantiles</span><span class="p">)),</span> <span class="n">probs</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+
+        <span class="n">solvers</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;show_progress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+            <span class="n">solvers</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;reltol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Quadratic part of the objective</span>
+            <span class="n">gram</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">gram</span><span class="p">)</span>
+            <span class="c1"># Linear part of the objective</span>
+            <span class="n">q_lin</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="o">-</span><span class="n">kron</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">ones</span><span class="p">(</span><span class="n">n_quantiles</span><span class="p">)))</span>
+
+            <span class="c1"># LHS of the inequality constraint</span>
+            <span class="n">g_lhs</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r_</span><span class="p">[</span><span class="n">eye</span><span class="p">(</span><span class="n">n_coefs</span><span class="p">),</span> <span class="o">-</span><span class="n">eye</span><span class="p">(</span><span class="n">n_coefs</span><span class="p">)])</span>
+            <span class="c1"># RHS of the inequality</span>
+            <span class="n">h_rhs</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reg_c_</span> <span class="o">*</span> <span class="n">probs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg_c_</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">probs</span><span class="p">)])</span>
+            <span class="c1"># LHS of the equality constraint</span>
+            <span class="n">lhs_eqc</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">kron</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">),</span> <span class="n">eye</span><span class="p">(</span><span class="n">n_quantiles</span><span class="p">)))</span>
+
+            <span class="c1"># Solve the dual optimization problem</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sol_</span> <span class="o">=</span> <span class="n">solvers</span><span class="o">.</span><span class="n">qp</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">q_lin</span><span class="p">,</span> <span class="n">g_lhs</span><span class="p">,</span> <span class="n">h_rhs</span><span class="p">,</span> <span class="n">lhs_eqc</span><span class="p">,</span>
+                                   <span class="n">matrix</span><span class="p">(</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_quantiles</span><span class="p">)))</span>
+
+            <span class="c1"># Set coefs</span>
+            <span class="n">coefs</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">build_lhs</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+                <span class="c1"># m: n_samples</span>
+                <span class="c1"># p: n_quantiles</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="n">p</span>  <span class="c1"># n_variables</span>
+
+                <span class="c1"># Get the norm bounds (m last variables)</span>
+                <span class="n">A</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">A</span> <span class="o">=</span> <span class="n">kron</span><span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                <span class="c1"># Get the m p-long vectors</span>
+                <span class="n">B</span> <span class="o">=</span> <span class="n">kron</span><span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">c_</span><span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">eye</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                <span class="c1"># Box constraint</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">r_</span><span class="p">[</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="o">-</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)],</span> <span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))]</span>
+                <span class="c1"># Set everything together</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="n">r_</span><span class="p">[</span><span class="n">C</span><span class="p">,</span> <span class="n">c_</span><span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">]]</span>
+                <span class="k">return</span> <span class="n">C</span>
+
+            <span class="c1"># Quadratic part of the objective</span>
+            <span class="n">gram</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r_</span><span class="p">[</span><span class="n">c_</span><span class="p">[</span><span class="n">gram</span><span class="p">,</span> <span class="n">zeros</span><span class="p">((</span><span class="n">n_coefs</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">))],</span>
+                             <span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_coefs</span><span class="o">+</span><span class="n">n_samples</span><span class="p">))])</span>
+            <span class="c1"># Linear part of the objective</span>
+            <span class="n">q_lin</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r_</span><span class="p">[</span><span class="o">-</span><span class="n">kron</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">ones</span><span class="p">(</span><span class="n">n_quantiles</span><span class="p">)),</span>
+                              <span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">])</span>
+
+            <span class="c1"># LHS of the inequality constraint</span>
+            <span class="n">g_lhs</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">build_lhs</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_quantiles</span><span class="p">))</span>
+            <span class="c1"># RHS of the inequality</span>
+            <span class="n">h_rhs</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reg_c_</span> <span class="o">*</span> <span class="n">probs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg_c_</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">probs</span><span class="p">),</span>
+                              <span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_quantiles</span><span class="o">+</span><span class="mi">1</span><span class="p">))])</span>
+            <span class="c1"># LHS of the equality constraint</span>
+            <span class="n">lhs_eqc</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">c_</span><span class="p">[</span><span class="n">kron</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">),</span>
+                                <span class="n">eye</span><span class="p">(</span><span class="n">n_quantiles</span><span class="p">)),</span>
+                                <span class="n">zeros</span><span class="p">((</span><span class="n">n_quantiles</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">))])</span>
+            <span class="c1"># Parameters of the optimization problem</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_coefs</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">n_quantiles</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">n_samples</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+            <span class="c1"># Solve the dual optimization problem</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sol_</span> <span class="o">=</span> <span class="n">solvers</span><span class="o">.</span><span class="n">coneqp</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">q_lin</span><span class="p">,</span> <span class="n">g_lhs</span><span class="p">,</span> <span class="n">h_rhs</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span>
+                                       <span class="n">lhs_eqc</span><span class="p">,</span> <span class="n">matrix</span><span class="p">(</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_quantiles</span><span class="p">)))</span>
+
+            <span class="c1"># Set coefs</span>
+            <span class="n">coefs</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][:</span><span class="n">n_coefs</span><span class="p">])</span>
 
         <span class="c1"># Set the intercept</span>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Joint quantile regression with operator-valued kernels &mdash; Operalib 0.1.0 documentation</title>
+  <title>Data sparse quantile regression with operator-valued kernels &mdash; Operalib 0.1.0 documentation</title>
   
 
   
@@ -39,8 +39,8 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/>
-        <link rel="prev" title="General examples" href="index.html"/> 
+        <link rel="next" title="Online Learning with Operator-Valued kernels" href="plot_ovk_onorma.html"/>
+        <link rel="prev" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,9 +96,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Joint quantile regression with operator-valued kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ovk_quantile_regression.html">Joint quantile regression with operator-valued kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_multiple_outputs.html">Multi-output Operator-valued kernel Regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_ovk_sparse_quantile_regression.html">Data sparse quantile regression with operator-valued kernels</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data sparse quantile regression with operator-valued kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_onorma.html">Online Learning with Operator-Valued kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf.html">Vector-field Learning with structured output kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_ovk_regression_cf_semisup.html">Vector-field Learning with structured output kernel</a></li>
@@ -152,13 +152,13 @@
         
           <li><a href="index.html">General examples</a> &raquo;</li>
         
-      <li>Joint quantile regression with operator-valued kernels</li>
+      <li>Data sparse quantile regression with operator-valued kernels</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/auto_examples/plot_ovk_quantile_regression.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/auto_examples/plot_ovk_sparse_quantile_regression.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -171,25 +171,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="joint-quantile-regression-with-operator-valued-kernels">
-<span id="sphx-glr-auto-examples-plot-ovk-quantile-regression-py"></span><h1>Joint quantile regression with operator-valued kernels<a class="headerlink" href="#joint-quantile-regression-with-operator-valued-kernels" title="Permalink to this headline">¶</a></h1>
-<p>An example to illustrate joint quantile regression with operator-valued
+  <div class="section" id="data-sparse-quantile-regression-with-operator-valued-kernels">
+<span id="sphx-glr-auto-examples-plot-ovk-sparse-quantile-regression-py"></span><h1>Data sparse quantile regression with operator-valued kernels<a class="headerlink" href="#data-sparse-quantile-regression-with-operator-valued-kernels" title="Permalink to this headline">¶</a></h1>
+<p>An example to illustrate data sparse quantile regression with operator-valued
 kernels.</p>
-<p>We compare quantile regression estimation with and without non-crossing
-constraints.</p>
-<img alt="../_images/sphx_glr_plot_ovk_quantile_regression_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_quantile_regression_001.png" />
+<p>We compare quantile regression with several levels of data sparsity.</p>
+<img alt="../_images/sphx_glr_plot_ovk_sparse_quantile_regression_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_sparse_quantile_regression_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
-<span class="n">Independent</span>
-<span class="p">(</span><span class="s1">&#39;Independent leaning time: &#39;</span><span class="p">,</span> <span class="mf">0.4218559265136719</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Independent score &#39;</span><span class="p">,</span> <span class="mf">0.76475752270917441</span><span class="p">)</span>
-<span class="n">Joint</span>
-<span class="p">(</span><span class="s1">&#39;Joint leaning time: &#39;</span><span class="p">,</span> <span class="mf">0.8610479831695557</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Joint score &#39;</span><span class="p">,</span> <span class="mf">0.76418518975484095</span><span class="p">)</span>
-<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span>
-<span class="p">(</span><span class="s1">&#39;Non-crossing leaning time: &#39;</span><span class="p">,</span> <span class="mf">2.121446132659912</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Non-crossing score &#39;</span><span class="p">,</span> <span class="mf">0.76533612012985985</span><span class="p">)</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">sparse</span> <span class="n">QR</span>
+<span class="p">(</span><span class="s1">&#39;Non-sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">0.8281979560852051</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Non-sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.76418518975484095</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Non-sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">Sparse</span> <span class="n">QR</span>
+<span class="p">(</span><span class="s1">&#39;Sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">3.3095948696136475</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.77142563877579229</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -211,33 +209,36 @@ constraints.</p>
     <span class="sd">&quot;&quot;&quot;Example of multiple quantile regression.&quot;&quot;&quot;</span>
 
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating dataset...&quot;</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
     <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
     <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span>
                                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fitting...&quot;</span><span class="p">)</span>
-    <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Joint&#39;</span><span class="p">:</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Non-sparse QR&#39;</span><span class="p">:</span>
                <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
                         <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">),</span>
-               <span class="s1">&#39;Independent&#39;</span><span class="p">:</span> <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span>
-                                       <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
-                                       <span class="n">gamma_quantile</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
-               <span class="s1">&#39;Non-crossing&#39;</span><span class="p">:</span> <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span>
-                                        <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
-                                        <span class="n">gamma_quantile</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">nc_const</span><span class="o">=</span><span class="bp">True</span><span class="p">)}</span>
+                <span class="s1">&#39;Sparse QR&#39;</span><span class="p">:</span>
+               <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
+                        <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mi">2</span><span class="p">)}</span>
     <span class="c1"># Fit on training data</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+        <span class="n">coefs</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">model_</span><span class="p">[</span><span class="s2">&quot;coefs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">probs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">n_sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
+                      <span class="n">reg</span><span class="o">.</span><span class="n">lbda</span> <span class="o">/</span> <span class="n">y_train</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; leaning time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; score &#39;</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; num of support vectors &#39;</span><span class="p">,</span> <span class="n">n_sv</span><span class="p">)</span>
 
     <span class="c1"># Plot the estimated conditional quantiles</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;Joint&#39;</span><span class="p">,</span> <span class="s1">&#39;Independent&#39;</span><span class="p">,</span> <span class="s1">&#39;Non-crossing&#39;</span><span class="p">]):</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">methods</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_prop_cycle</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">):</span>
@@ -246,18 +247,24 @@ constraints.</p>
         <span class="k">for</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="n">z_test</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+
+        <span class="n">coefs</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">model_</span><span class="p">[</span><span class="s2">&quot;coefs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+                                                        <span class="n">probs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Norm of dual coefs for each point&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  4.746 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  5.310 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_sparse_quantile_regression.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_quantile_regression.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_sparse_quantile_regression.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -272,10 +279,10 @@ constraints.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral float-right" title="Multi-output Operator-valued kernel Regression" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plot_ovk_onorma.html" class="btn btn-neutral float-right" title="Online Learning with Operator-Valued kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="General examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_ovk_regression_multiple_outputs.html" class="btn btn-neutral" title="Multi-output Operator-valued kernel Regression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

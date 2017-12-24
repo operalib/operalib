@@ -18,7 +18,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-from opera import Quantile, toy_data_quantile
+from operalib import Quantile, toy_data_quantile
 
 
 def main():

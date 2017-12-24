@@ -25,9 +25,8 @@ def main():
     """Example of multiple quantile regression."""
 
     print("Creating dataset...")
-    probs = np.linspace(0.85, 0.95, 3)  # Quantile levels of interest
     probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-    x_train, y_train, _ = toy_data_quantile(50, random_state=0)
+    x_train, y_train, _ = toy_data_quantile(100, random_state=0)
     x_test, y_test, z_test = toy_data_quantile(1000, probs=probs,
                                                random_state=1)
 
@@ -37,7 +36,7 @@ def main():
                         gamma_quantile=1e-2),
                 'Sparse QR':
                Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
-                        gamma_quantile=1e-2, eps=2)}
+                        gamma_quantile=1e-2, eps=2.5)}
     # Fit on training data
     for name, reg in sorted(methods.items()):
         print(name)
@@ -60,9 +59,10 @@ def main():
         for quantile in methods[method].predict(x_test):
             plt.plot(x_test, quantile, '-')
         plt.gca().set_prop_cycle(None)
-        for quantile in z_test:
-            plt.plot(x_test, quantile, '--')
+        for prob, quantile in zip(probs, z_test):
+            plt.plot(x_test, quantile, '--', label="theoretical {0:0.2f}".format(prob))
         plt.title(method)
+        plt.legend(fontsize=8)
 
         coefs = methods[method].model_["coefs"].reshape(y_train.size,
                                                         probs.size)

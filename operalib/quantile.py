@@ -144,7 +144,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         if self.gamma is not None:
             if self.gamma < 0:
                 raise ValueError('sigma must be positive or default (None)')
-        probs = asarray(self.probs).reshape(-1, 1)
+        # probs = asarray(self.probs).reshape(-1, 1)
+        probs = asarray(self.probs).flatten()
         if (probs < 0).any() or (probs > 1).any():
             raise ValueError('Probabilities must be in [0., 1.]')
 
@@ -225,7 +226,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         self.reg_c_ = 1. / self.lbda
 
         # Solve the optimization problem
-        probs = asarray(self.probs).reshape((-1, 1))
+        # probs = asarray(self.probs).reshape((-1, 1))
+        probs = asarray(self.probs).flatten()
         if self.nc_const:
             self._qp_nc(gram, y, probs)
         else:
@@ -280,7 +282,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         n_quantiles = probs.size  # Number of quantiles to predict
         n_coefs = gram.shape[0]  # Number of variables
         # Quantiles levels
-        probs = kron(ones(int(n_coefs / n_quantiles)), probs.squeeze())
+        kronprobs = kron(ones(int(n_coefs / n_quantiles)), probs.squeeze())
 
         # Quadratic part of the objective
         gram = matrix(gram)
@@ -290,7 +292,8 @@ class Quantile(BaseEstimator, RegressorMixin):
         # LHS of the inequality constraint
         g_lhs = matrix(r_[eye(n_coefs), -eye(n_coefs)])
         # RHS of the inequality
-        h_rhs = matrix(r_[self.reg_c_ * probs, self.reg_c_ * (1 - probs)])
+        h_rhs = matrix(r_[self.reg_c_ * kronprobs,
+                          self.reg_c_ * (1 - kronprobs)])
         # LHS of the equality constraint
         lhs_eqc = matrix(kron(ones(int(n_coefs / n_quantiles)),
                               eye(n_quantiles)))
@@ -309,8 +312,11 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Erase the previous intercept before prediction
         self.model_ = {'coefs': coefs, 'intercept': 0}
+        predictions = self.predict(self.linop_.X)
+        if predictions.ndim < 2:
+            predictions = predictions.reshape(1, -1)  # 2D array
         intercept = [percentile(targets - pred, 100. * prob) for
-                     (pred, prob) in zip(self.predict(self.linop_.X), probs)]
+                     (pred, prob) in zip(predictions, probs)]
         intercept = asarray(intercept).squeeze()
         self.model_ = {'coefs': coefs, 'intercept': intercept}
 
@@ -319,7 +325,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         n_coefs = gram.shape[0]  # Number of variables
         n_samples = n_coefs // n_quantiles
         # Quantiles levels
-        probs = kron(ones(int(n_coefs / n_quantiles)), probs.squeeze())
+        kronprobs = kron(ones(int(n_coefs / n_quantiles)), probs.squeeze())
 
         solvers.options['show_progress'] = self.verbose
         if self.tol:
@@ -334,7 +340,8 @@ class Quantile(BaseEstimator, RegressorMixin):
             # LHS of the inequality constraint
             g_lhs = matrix(r_[eye(n_coefs), -eye(n_coefs)])
             # RHS of the inequality
-            h_rhs = matrix(r_[self.reg_c_ * probs, self.reg_c_ * (1 - probs)])
+            h_rhs = matrix(r_[self.reg_c_ * kronprobs,
+                              self.reg_c_ * (1 - kronprobs)])
             # LHS of the equality constraint
             lhs_eqc = matrix(kron(ones(n_samples), eye(n_quantiles)))
 
@@ -372,7 +379,8 @@ class Quantile(BaseEstimator, RegressorMixin):
             # LHS of the inequality constraint
             g_lhs = matrix(build_lhs(n_samples, n_quantiles))
             # RHS of the inequality
-            h_rhs = matrix(r_[self.reg_c_ * probs, self.reg_c_ * (1-probs),
+            h_rhs = matrix(r_[self.reg_c_ * kronprobs,
+                              self.reg_c_ * (1-kronprobs),
                               zeros(n_samples * (n_quantiles+1))])
             # LHS of the equality constraint
             lhs_eqc = matrix(c_[kron(ones(n_samples),
@@ -392,8 +400,11 @@ class Quantile(BaseEstimator, RegressorMixin):
 
         # Erase the previous intercept before prediction
         self.model_ = {'coefs': coefs, 'intercept': 0}
+        predictions = self.predict(self.linop_.X)
+        if predictions.ndim < 2:
+            predictions = predictions.reshape(1, -1)  # 2D array
         intercept = [percentile(targets - pred, 100. * prob) for
-                     (pred, prob) in zip(self.predict(self.linop_.X), probs)]
+                     (pred, prob) in zip(predictions, probs)]
         intercept = asarray(intercept).squeeze()
         self.model_ = {'coefs': coefs, 'intercept': intercept}
 

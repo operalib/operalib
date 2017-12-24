@@ -26,13 +26,13 @@ We compare quantile regression with several levels of data sparsity.
     Creating dataset...
     Fitting...
     Non-sparse QR
-    ('Non-sparse QR leaning time: ', 0.8281979560852051)
-    ('Non-sparse QR score ', 0.76418518975484095)
-    ('Non-sparse QR num of support vectors ', 50)
+    ('Non-sparse QR leaning time: ', 5.413886070251465)
+    ('Non-sparse QR score ', 0.78495619238981929)
+    ('Non-sparse QR num of support vectors ', 100)
     Sparse QR
-    ('Sparse QR leaning time: ', 3.3095948696136475)
-    ('Sparse QR score ', 0.77142563877579229)
-    ('Sparse QR num of support vectors ', 14)
+    ('Sparse QR leaning time: ', 10.782748937606812)
+    ('Sparse QR score ', 0.76306350941894741)
+    ('Sparse QR num of support vectors ', 25)
 
 
 
@@ -59,9 +59,8 @@ We compare quantile regression with several levels of data sparsity.
         """Example of multiple quantile regression."""
 
         print("Creating dataset...")
-        probs = np.linspace(0.85, 0.95, 3)  # Quantile levels of interest
         probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-        x_train, y_train, _ = toy_data_quantile(50, random_state=0)
+        x_train, y_train, _ = toy_data_quantile(100, random_state=0)
         x_test, y_test, z_test = toy_data_quantile(1000, probs=probs,
                                                    random_state=1)
 
@@ -71,7 +70,7 @@ We compare quantile regression with several levels of data sparsity.
                             gamma_quantile=1e-2),
                     'Sparse QR':
                    Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
-                            gamma_quantile=1e-2, eps=2)}
+                            gamma_quantile=1e-2, eps=2.5)}
         # Fit on training data
         for name, reg in sorted(methods.items()):
             print(name)
@@ -94,9 +93,10 @@ We compare quantile regression with several levels of data sparsity.
             for quantile in methods[method].predict(x_test):
                 plt.plot(x_test, quantile, '-')
             plt.gca().set_prop_cycle(None)
-            for quantile in z_test:
-                plt.plot(x_test, quantile, '--')
+            for prob, quantile in zip(probs, z_test):
+                plt.plot(x_test, quantile, '--', label="theoretical {0:0.2f}".format(prob))
             plt.title(method)
+            plt.legend(fontsize=8)
 
             coefs = methods[method].model_["coefs"].reshape(y_train.size,
                                                             probs.size)
@@ -108,7 +108,7 @@ We compare quantile regression with several levels of data sparsity.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  5.310 seconds)
+**Total running time of the script:** ( 0 minutes  17.442 seconds)
 
 
 

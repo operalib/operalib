@@ -26,15 +26,18 @@ constraints.
 
     Creating dataset...
     Fitting...
+    Default
+    ('Default leaning time: ', 0.08938789367675781)
+    ('Default score ', 0.69465633108206226)
     Independent
-    ('Independent leaning time: ', 0.4218559265136719)
-    ('Independent score ', 0.76475752270917441)
+    ('Independent leaning time: ', 1.7798569202423096)
+    ('Independent score ', 0.78161497022207449)
     Joint
-    ('Joint leaning time: ', 0.8610479831695557)
-    ('Joint score ', 0.76418518975484095)
+    ('Joint leaning time: ', 5.14880108833313)
+    ('Joint score ', 0.78495619238981929)
     Non-crossing
-    ('Non-crossing leaning time: ', 2.121446132659912)
-    ('Non-crossing score ', 0.76533612012985985)
+    ('Non-crossing leaning time: ', 9.747724056243896)
+    ('Non-crossing score ', 0.781666772691613)
 
 
 
@@ -62,12 +65,13 @@ constraints.
 
         print("Creating dataset...")
         probs = np.linspace(0.1, 0.9, 5)  # Quantile levels of interest
-        x_train, y_train, _ = toy_data_quantile(50, random_state=0)
+        x_train, y_train, _ = toy_data_quantile(100, random_state=0)
         x_test, y_test, z_test = toy_data_quantile(1000, probs=probs,
                                                    random_state=1)
 
         print("Fitting...")
-        methods = {'Joint':
+        methods = {'Default': Quantile(),
+                    'Joint':
                    Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
                             gamma_quantile=1e-2),
                    'Independent': Quantile(probs=probs, kernel='DGauss',
@@ -86,22 +90,27 @@ constraints.
 
         # Plot the estimated conditional quantiles
         plt.figure(figsize=(12, 7))
-        for i, method in enumerate(['Joint', 'Independent', 'Non-crossing']):
-            plt.subplot(1, 3, i + 1)
+        for i, method in enumerate(sorted(methods.keys())):
+            plt.subplot(1, 4, i + 1)
             plt.plot(x_train, y_train, '.')
             plt.gca().set_prop_cycle(None)
-            for quantile in methods[method].predict(x_test):
-                plt.plot(x_test, quantile, '-')
+            predictions = methods[method].predict(x_test)
+            if predictions.ndim < 2:
+                plt.plot(x_test, predictions, '-')
+            else:
+                for quantile in predictions:
+                    plt.plot(x_test, quantile, '-')
             plt.gca().set_prop_cycle(None)
-            for quantile in z_test:
-                plt.plot(x_test, quantile, '--')
+            for prob, quantile in zip(probs, z_test):
+                plt.plot(x_test, quantile, '--', label="theoretical {0:0.2f}".format(prob))
             plt.title(method)
+            plt.legend(fontsize=8)
         plt.show()
 
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  4.746 seconds)
+**Total running time of the script:** ( 0 minutes  18.683 seconds)
 
 
 

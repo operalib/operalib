@@ -181,13 +181,13 @@ kernels.</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
 <span class="n">Non</span><span class="o">-</span><span class="n">sparse</span> <span class="n">QR</span>
-<span class="p">(</span><span class="s1">&#39;Non-sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">0.8281979560852051</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Non-sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.76418518975484095</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Non-sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Non-sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">5.413886070251465</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Non-sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.78495619238981929</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Non-sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">Sparse</span> <span class="n">QR</span>
-<span class="p">(</span><span class="s1">&#39;Sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">3.3095948696136475</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.77142563877579229</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">10.782748937606812</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.76306350941894741</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;Sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -209,9 +209,8 @@ kernels.</p>
     <span class="sd">&quot;&quot;&quot;Example of multiple quantile regression.&quot;&quot;&quot;</span>
 
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating dataset...&quot;</span><span class="p">)</span>
-    <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
     <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Quantile levels of interest</span>
-    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">z_test</span> <span class="o">=</span> <span class="n">toy_data_quantile</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span>
                                                <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
@@ -221,7 +220,7 @@ kernels.</p>
                         <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">),</span>
                 <span class="s1">&#39;Sparse QR&#39;</span><span class="p">:</span>
                <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
-                        <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mi">2</span><span class="p">)}</span>
+                        <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)}</span>
     <span class="c1"># Fit on training data</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -244,9 +243,10 @@ kernels.</p>
         <span class="k">for</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">):</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_prop_cycle</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="n">z_test</span><span class="p">:</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">prob</span><span class="p">,</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">z_test</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;theoretical {0:0.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prob</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
         <span class="n">coefs</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">model_</span><span class="p">[</span><span class="s2">&quot;coefs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
                                                         <span class="n">probs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
@@ -259,7 +259,7 @@ kernels.</p>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  5.310 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  17.442 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_sparse_quantile_regression.py</span></code></a></div>

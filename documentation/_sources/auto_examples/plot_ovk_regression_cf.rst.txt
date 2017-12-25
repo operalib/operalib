@@ -116,7 +116,7 @@ regression.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  27.615 seconds)
+**Total running time of the script:** ( 0 minutes  9.454 seconds)
 
 
 

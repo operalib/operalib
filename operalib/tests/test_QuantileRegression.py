@@ -33,6 +33,9 @@ def test_learn_quantile():
     non_crossing = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
                                 gamma=gamma, gamma_quantile=np.inf,
                                 nc_const=True)
+    # Sparse quantile regression
+    joint = ovk.Quantile(probs=probs, kernel='DGauss', lbda=lbda,
+                         gamma=gamma, gamma_quantile=1e-2, eps=1)
 
     # Fit on training data
     for reg in [joint, ind, non_crossing]:

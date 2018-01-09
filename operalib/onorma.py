@@ -330,7 +330,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
         -------
         self : returns an instance of self.
         """
-        X, y = check_X_y(X, y, None, y_numeric=True, multi_output=True)
+        X, y = check_X_y(X, y, False, y_numeric=True, multi_output=True)
         self._validate_params()
         self.T_ = X.shape[0] if self.T is None else self.T
 

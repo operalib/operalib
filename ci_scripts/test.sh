@@ -7,7 +7,7 @@ mkdir -p $TEST_DIR
 cd $TEST_DIR
 
 if [[ "$COVERAGE" == "true" ]]; then
-    nosetests -s --with-coverage --cover-package=$MODULE $MODULE
+    ny.test $MODULE --doctest-modules --cov-report term --cov=$MODULE
 else
-    nosetests -s $MODULE
+    py.test $MODULE
 fi

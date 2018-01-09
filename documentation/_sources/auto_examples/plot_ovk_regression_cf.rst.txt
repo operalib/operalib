@@ -23,8 +23,8 @@ regression.
 
  Out::
 
-    ('R2 curl-free ridge: ', 0.76958525956242696)
-    ('R2 independant ridge: ', 0.63015333401036688)
+    ('R2 curl-free ridge: ', 0.769585259562427)
+    ('R2 independant ridge: ', 0.6301533340103669)
 
 
 
@@ -116,7 +116,7 @@ regression.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  9.454 seconds)
+**Total running time of the script:** ( 0 minutes  41.160 seconds)
 
 
 

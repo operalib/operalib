@@ -23,10 +23,10 @@ regression on a semi-supervised dataset.
 
  Out::
 
-    ('R2 curl-free semisup + weak ridge: ', 0.86234309925000574)
-    ('R2 curl-free weak ridge: ', 0.60215343199424598)
-    ('R2 curl-free ridge: ', 0.56867877940948586)
-    ('R2 independant ridge: ', -0.80854731218609144)
+    ('R2 curl-free semisup + weak ridge: ', 0.8623430992500057)
+    ('R2 curl-free weak ridge: ', 0.602153431994246)
+    ('R2 curl-free ridge: ', 0.5686787794094859)
+    ('R2 independant ridge: ', -0.8085473121860914)
 
 
 
@@ -173,7 +173,7 @@ regression on a semi-supervised dataset.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  36.922 seconds)
+**Total running time of the script:** ( 0 minutes  51.389 seconds)
 
 
 

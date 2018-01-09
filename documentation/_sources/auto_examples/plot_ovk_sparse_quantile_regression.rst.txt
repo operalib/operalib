@@ -26,11 +26,11 @@ We compare quantile regression with several levels of data sparsity.
     Creating dataset...
     Fitting...
     Non-sparse QR
-    ('Non-sparse QR leaning time: ', 5.496417045593262)
+    ('Non-sparse QR leaning time: ', 5.294620037078857)
     ('Non-sparse QR score ', 0.7849561923898193)
     ('Non-sparse QR num of support vectors ', 100)
     Sparse QR
-    ('Sparse QR leaning time: ', 11.397488832473755)
+    ('Sparse QR leaning time: ', 11.011943101882935)
     ('Sparse QR score ', 0.7630635094189474)
     ('Sparse QR num of support vectors ', 25)
 
@@ -108,7 +108,7 @@ We compare quantile regression with several levels of data sparsity.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  18.246 seconds)
+**Total running time of the script:** ( 0 minutes  17.609 seconds)
 
 
 

@@ -27,16 +27,16 @@ constraints.
     Creating dataset...
     Fitting...
     Default
-    ('Default leaning time: ', 0.09438514709472656)
+    ('Default leaning time: ', 0.1033329963684082)
     ('Default score ', 0.5335868250609177)
     Independent
-    ('Independent leaning time: ', 2.0681979656219482)
+    ('Independent leaning time: ', 2.1077499389648438)
     ('Independent score ', 0.5697215810767537)
     Joint
-    ('Joint leaning time: ', 4.504461050033569)
+    ('Joint leaning time: ', 4.097848176956177)
     ('Joint score ', 0.5712579219355465)
     Non-crossing
-    ('Non-crossing leaning time: ', 8.232595920562744)
+    ('Non-crossing leaning time: ', 9.744436979293823)
     ('Non-crossing score ', 0.5707150248785774)
 
 
@@ -110,7 +110,7 @@ constraints.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  16.763 seconds)
+**Total running time of the script:** ( 0 minutes  17.881 seconds)
 
 
 

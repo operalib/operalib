@@ -199,7 +199,9 @@ class Quantile(BaseEstimator, RegressorMixin):
         """
         check_is_fitted(self, ['model_', 'linop_'], all_or_any=all)
         X = check_array(X)
-        return self._decision_function(X)
+        y = self._decision_function(X)
+        y[y < 1e-9] = 0 # Stability hack
+        return y
 
     def fit(self, X, y):
         """Fit joint quantile regression model.

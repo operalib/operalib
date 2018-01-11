@@ -56,7 +56,7 @@ from distutils.version import LooseVersion
 if LooseVersion(sphinx.__version__) < LooseVersion('1.4'):
     extensions.append('sphinx.ext.pngmath')
 else:
-    extensions.append('sphinx.ext.imgmath')
+    pass
 
 sphinx_gallery_conf = {
     # path to your examples scripts

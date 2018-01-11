@@ -54,7 +54,7 @@ matrix:
   fast_finish: true
   allow_failures:
     # allow failures for DISTRIB=scipy-dev-wheels
-    - python: "3.5"
+    - python: "3.6"
 
   include:
     # This environment tests operalib against numpy and scipy master

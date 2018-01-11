@@ -65,7 +65,7 @@ matrix:
     # https://github.com/travis-ci/apt-package-whitelist/issues/2407
     # Once libatlas3gf-base is on the whitelist it will be possible to replace
     # the before_install step with and addons/apt/packages declaration.
-    -  python: "3.5"
+    -  python: "3.6"
        env: DISTRIB="scipy-dev-wheels"
             CACHED_BUILD_DIR="$HOME/operalib_build_numpy_dev"
        sudo: True

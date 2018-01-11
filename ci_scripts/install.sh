@@ -55,7 +55,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
             numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION numpy scipy \
             cython=$CYTHON_VERSION scikit-learn libgfortran mkl cvxopt
     else
-        conda create -n testenv --yes python=$PYTHON_VERSION pip pytest \
+        conda create -n testenv --yes python=$PYTHON_VERSION pip nose pytest \
             pytest-cov \
             numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION cython=$CYTHON_VERSION \
             scikit-learn libgfortran cvxopt

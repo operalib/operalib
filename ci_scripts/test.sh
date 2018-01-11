@@ -7,7 +7,7 @@ mkdir -p $TEST_DIR
 cd $TEST_DIR
 
 if [[ "$COVERAGE" == "true" ]]; then
-    py.test $MODULE --doctest-modules --cov-report=html --cov=$MODULE
+    py.test -v -x --doctest-modules --ignore=setup.py --pep8 --cov=$MODULE
 else
-    py.test $MODULE
+    py.test -v -x --doctest-modules --ignore=setup.py --pep8
 fi

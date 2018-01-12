@@ -7,7 +7,7 @@ Operator-Valued Kernels.
 #          the scikit-learn community.
 # License: MIT
 from numpy import (asarray, eye, reshape, argsort, kron, ones, diag, delete,
-                   zeros, r_, c_, percentile, fmax)
+                   zeros, r_, c_, percentile, fmax, abs)
 from numpy import inf as npinf
 from numpy import sum as npsum
 
@@ -200,7 +200,7 @@ class Quantile(BaseEstimator, RegressorMixin):
         check_is_fitted(self, ['model_', 'linop_'], all_or_any=all)
         X = check_array(X)
         y = self._decision_function(X)
-        y[y < 1e-9] = 0 # Stability hack
+        y[abs(y) < 1e-9] = 0 # Stability hack
         return y
 
     def fit(self, X, y):

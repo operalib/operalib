@@ -3,8 +3,8 @@
 .. |Travis| image:: https://travis-ci.org/operalib/operalib.svg?branch=master
 .. _Travis: https://travis-ci.org/operalib/operalib
 
-.. |Coveralls| image:: https://coveralls.io/repos/github/operalib/operalib/badge.svg?branch=master
-.. _Coveralls: https://coveralls.io/github/operalib/operalib?branch=master
+.. |Codecov| image:: https://codecov.io/gh/operalib/operalib/branch/master/graph/badge.svg
+.. _Codecov: https://codecov.io/gh/operalib/operalib
 
 .. |CircleCI| image:: https://circleci.com/gh/operalib/operalib/tree/master.svg?style=shield&circle-token=:circle-token
 .. _CircleCI: https://circleci.com/gh/operalib/operalib
@@ -20,7 +20,7 @@
 
 Operalib
 ========
-|PyPi|_ |Travis|_ |Coveralls|_ |CircleCI|_ |Python27|_ |Python35|_
+|PyPi|_ |Travis|_ |Codecov|_ |CircleCI|_ |Python27|_ |Python35|_
 
 Operalib is a library for structured learning and prediction for
 `python <https://www.python.org>`_ based on operator-valued kernels (OVKs).
@@ -70,7 +70,7 @@ You can check the latest sources with the command::
 
     git clone https://github.com/operalib/operalib
 
-or if you have write privileges::
+or through ssh, instead of https, if you have write privileges::
 
     git clone git@github.com:operalib/operalib.git
 

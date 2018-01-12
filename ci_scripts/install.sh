@@ -93,7 +93,7 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
 fi
 
 if [[ "$COVERAGE" == "true" ]]; then
-    pip install coverage coveralls
+    pip install coverage codecov
 fi
 
 if [ ! -d "$CACHED_BUILD_DIR" ]; then

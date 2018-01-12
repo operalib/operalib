@@ -3,8 +3,8 @@
 .. |Travis| image:: https://travis-ci.org/operalib/operalib.svg?branch=master
 .. _Travis: https://travis-ci.org/operalib/operalib
 
-.. |Coveralls| image:: https://coveralls.io/repos/github/operalib/operalib/badge.svg?branch=master
-.. _Coveralls: https://coveralls.io/github/operalib/operalib?branch=master
+.. |Codecov| image:: https://codecov.io/gh/operalib/operalib/branch/master/graph/badge.svg
+.. _Codecov: https://codecov.io/gh/operalib/operalib
 
 .. |CircleCI| image:: https://circleci.com/gh/operalib/operalib/tree/master.svg?style=shield&circle-token=:circle-token
 .. _CircleCI: https://circleci.com/gh/operalib/operalib

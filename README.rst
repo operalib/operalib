@@ -20,7 +20,7 @@
 
 Operalib
 ========
-|PyPi|_ |Travis|_ |Coveralls|_ |CircleCI|_ |Python27|_ |Python35|_
+|PyPi|_ |Travis|_ |Codecov|_ |CircleCI|_ |Python27|_ |Python35|_
 
 Operalib is a library for structured learning and prediction for
 `python <https://www.python.org>`_ based on operator-valued kernels (OVKs).

@@ -33,7 +33,7 @@ def main():
 
     print("Fitting...")
     methods = {'Default': Quantile(),
-                'Joint':
+               'Joint':
                Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
                         gamma_quantile=1e-2),
                'Independent': Quantile(probs=probs, kernel='DGauss',
@@ -47,8 +47,8 @@ def main():
         print(name)
         start = time.time()
         reg.fit(x_train, y_train)
-        print(name + ' leaning time: ', time.time() - start)
-        print(name + ' score ', reg.score(x_test, y_test))
+        print('%s leaning time: %.4f s' % (name, time.time() - start))
+        print('%s score %.5f' % (name, reg.score(x_test, y_test)))
 
     # Plot the estimated conditional quantiles
     plt.figure(figsize=(12, 7))
@@ -64,10 +64,12 @@ def main():
                 plt.plot(x_test, quantile, '-')
         plt.gca().set_prop_cycle(None)
         for prob, quantile in zip(probs, z_test):
-            plt.plot(x_test, quantile, '--', label="theoretical {0:0.2f}".format(prob))
+            plt.plot(x_test, quantile, '--',
+                     label="theoretical {0:0.2f}".format(prob))
         plt.title(method)
         plt.legend(fontsize=8)
     plt.show()
+
 
 if __name__ == '__main__':
     main()

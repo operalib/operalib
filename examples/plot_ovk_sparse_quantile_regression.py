@@ -34,7 +34,7 @@ def main():
     methods = {'Non-sparse QR':
                Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
                         gamma_quantile=1e-2),
-                'Sparse QR':
+               'Sparse QR':
                Quantile(probs=probs, kernel='DGauss', lbda=1e-2, gamma=8.,
                         gamma_quantile=1e-2, eps=2.5)}
     # Fit on training data
@@ -46,9 +46,9 @@ def main():
         coefs = reg.model_["coefs"].reshape(y_train.size, probs.size)
         n_sv = np.sum(np.linalg.norm(coefs, axis=1) *
                       reg.lbda / y_train.size > 1e-5)
-        print(name + ' leaning time: ', time.time() - start)
-        print(name + ' score ', reg.score(x_test, y_test))
-        print(name + ' num of support vectors ', n_sv)
+        print('%s learning time: %.3f s' % (name, time.time() - start))
+        print('%s score %.5f' % (name, reg.score(x_test, y_test)))
+        print('%s num of support vectors %d' % (name, n_sv))
 
     # Plot the estimated conditional quantiles
     plt.figure(figsize=(12, 7))
@@ -70,6 +70,7 @@ def main():
         plt.plot(np.linalg.norm(coefs, axis=1))
         plt.title("Norm of dual coefs for each point")
     plt.show()
+
 
 if __name__ == '__main__':
     main()

@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -160,7 +153,7 @@
             
   <div class="section" id="module-onorma">
 <h1>Module ONORMA<a class="headerlink" href="#module-onorma" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-operalib.onorma"></span><p><a class="reference internal" href="ridge.html#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-valued Naive Online
+<span class="target" id="module-operalib.onorma"></span><p><a class="reference internal" href="ridge.html#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.ridge</span></code></a> implements Operator-valued Naive Online
 Regularised Risk Minimization Algorithm (ONORMA)</p>
 <dl class="class">
 <dt id="operalib.onorma.ONORMA">
@@ -174,11 +167,11 @@ setting</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.Ridge</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.Ridge</span></code></dt>
 <dd>Linear ridge regression.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.KernelRidge</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.KernelRidge</span></code></dt>
 <dd>Kernel ridge regression.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">sklearn.SVR</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.SVR</span></code></dt>
 <dd>Support Vector Regression implemented using libsvm.</dd>
 </dl>
 </div>
@@ -192,7 +185,7 @@ arXiv preprint arXiv:1311.0222 (2013).</li>
 IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 </ul>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_targets</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -205,30 +198,33 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <span class="go">       shuffle=True, truncation=None)</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="92%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>coef_</strong></td>
-<td>(array, shape = [n_features] or [n_targets, n_features]) Weight vector(s) in kernel space</td>
-</tr>
-<tr class="row-even"><td><strong>linop_</strong></td>
-<td>(callable) Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)</td>
-</tr>
-<tr class="row-odd"><td><strong>A_</strong></td>
-<td>(array, shape = [n_targets, n_targets]) Set when Linear operator used by the decomposable kernel is default or None.</td>
-</tr>
-<tr class="row-even"><td><strong>T_</strong></td>
-<td>(integer) Total number of iterations</td>
-</tr>
-<tr class="row-odd"><td><strong>n_</strong></td>
-<td>(integer) Total number of datapoints</td>
-</tr>
-<tr class="row-even"><td><strong>p_</strong></td>
-<td>(integer) Dimensionality of the outputs</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>coef_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_features] or [n_targets, n_features]</span></dt>
+<dd><p class="first last">Weight vector(s) in kernel space</p>
+</dd>
+<dt><strong>linop_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
+<dd><p class="first last">Callable which associate to the training points X the Gram matrix (the
+Gram matrix being a LinearOperator)</p>
+</dd>
+<dt><strong>A_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Set when Linear operator used by the decomposable kernel is default or
+None.</p>
+</dd>
+<dt><strong>T_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">integer</span></dt>
+<dd><p class="first last">Total number of iterations</p>
+</dd>
+<dt><strong>n_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">integer</span></dt>
+<dd><p class="first last">Total number of datapoints</p>
+</dd>
+<dt><strong>p_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">integer</span></dt>
+<dd><p class="first last">Dimensionality of the outputs</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -239,22 +235,22 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.fit" title="operalib.onorma.ONORMA.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.fit" title="operalib.onorma.ONORMA.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
 <td>Fit ONORMA model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.get_params" title="operalib.onorma.ONORMA.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.get_params" title="operalib.onorma.ONORMA.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.partial_fit" title="operalib.onorma.ONORMA.partial_fit"><code class="xref py py-obj docutils literal"><span class="pre">partial_fit</span></code></a>(X,&nbsp;y)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.partial_fit" title="operalib.onorma.ONORMA.partial_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partial_fit</span></code></a>(X,&nbsp;y)</td>
 <td>Partial fit of ONORMA model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.predict" title="operalib.onorma.ONORMA.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.predict" title="operalib.onorma.ONORMA.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(X)</td>
 <td>Predict using ONORMA model.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.score" title="operalib.onorma.ONORMA.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.onorma.ONORMA.score" title="operalib.onorma.ONORMA.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
 <td>Returns the coefficient of determination R^2 of the prediction.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.set_params" title="operalib.onorma.ONORMA.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.onorma.ONORMA.set_params" title="operalib.onorma.ONORMA.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
@@ -267,17 +263,20 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Training data.</p>
-</div></blockquote>
-<p><strong>y</strong> : {array-like}, shape = [n_samples] or [n_samples, n_targets]</p>
-<blockquote>
-<div><p>Target values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Training data.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Target values.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>self</strong> : returns an instance of self.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">returns an instance of self.</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -292,17 +291,19 @@ IEEE transactions on signal processing 52.8 (2004): 2165-2176.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
-<blockquote>
-<div><p>If True, will return the parameters for this estimator and
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>deep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
+<dd><p class="first last">If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -319,29 +320,30 @@ Must call</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Training data.</p>
-</div></blockquote>
-<p><strong>y</strong> : {array-like}, shape = [n_samples] or [n_samples, n_targets]</p>
-<blockquote>
-<div><p>Target values.</p>
-</div></blockquote>
-<p><strong>n</strong> : {integer}</p>
-<blockquote>
-<div><p>Total number of data.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Training data.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Target values.</p>
+</dd>
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{integer}</span></dt>
+<dd><p class="first last">Total number of data.
 This argument is required for the first call to partial_fit and can
 be omitted in the subsequent calls.</p>
-</div></blockquote>
-<p><strong>p</strong> : {integer}</p>
-<blockquote>
-<div><p>Dimensionality of the outputs.
+</dd>
+<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{integer}</span></dt>
+<dd><p class="first last">Dimensionality of the outputs.
 This argument is required for the first call to partial_fit and can
 be omitted in the subsequent calls.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>self</strong> : returns an instance of self.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">returns an instance of self.</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -356,16 +358,18 @@ be omitted in the subsequent calls.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>C</strong> : {array}, shape = [n_samples] or [n_samples, n_targets]</p>
-<blockquote class="last">
-<div><p>Returns predicted values.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>C</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Returns predicted values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -387,24 +391,24 @@ would get a R^2 score of 0.0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape = (n_samples, n_features)</p>
-<blockquote>
-<div><p>Test samples.</p>
-</div></blockquote>
-<p><strong>y</strong> : array-like, shape = (n_samples) or (n_samples, n_outputs)</p>
-<blockquote>
-<div><p>True values for X.</p>
-</div></blockquote>
-<p><strong>sample_weight</strong> : array-like, shape = [n_samples], optional</p>
-<blockquote>
-<div><p>Sample weights.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_samples, n_features)</span></dt>
+<dd><p class="first last">Test samples.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_samples) or (n_samples, n_outputs)</span></dt>
+<dd><p class="first last">True values for X.</p>
+</dd>
+<dt><strong>sample_weight</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = [n_samples], optional</span></dt>
+<dd><p class="first last">Sample weights.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>score</strong> : float</p>
-<blockquote class="last">
-<div><p>R^2 of self.predict(X) wrt. y.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>score</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">R^2 of self.predict(X) wrt. y.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -417,13 +421,17 @@ would get a R^2 score of 0.0.</p>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
-<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
+<code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
 component of a nested object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -435,9 +443,7 @@ component of a nested object.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -450,7 +456,7 @@ component of a nested object.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -469,6 +475,7 @@ component of a nested object.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -486,14 +493,11 @@ component of a nested object.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

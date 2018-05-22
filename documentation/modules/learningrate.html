@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -160,7 +153,7 @@
             
   <div class="section" id="module-learnin-rate">
 <h1>Module Learnin Rate<a class="headerlink" href="#module-learnin-rate" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-operalib.learningrate"></span><p><a class="reference internal" href="#module-operalib.learningrate" title="operalib.learningrate"><code class="xref py py-mod docutils literal"><span class="pre">operalib.learningrate</span></code></a> implements the learning rate for (Stochastic)
+<span class="target" id="module-operalib.learningrate"></span><p><a class="reference internal" href="#module-operalib.learningrate" title="operalib.learningrate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.learningrate</span></code></a> implements the learning rate for (Stochastic)
 gradient descent algorithms</p>
 <dl class="class">
 <dt id="operalib.learningrate.Constant">
@@ -168,15 +161,15 @@ gradient descent algorithms</p>
 <dd><p>Constant learning rate.</p>
 <div class="math">
 <p><img src="../_images/math/be167800146bd9d1b34b429cbce5f285b8f16834.png" alt="t \mapsto eta"/></p>
-</div><p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="28%" />
-<col width="72%" />
-</colgroup>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>eta</strong></td>
-<td>(float default 1.)</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>eta</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float default 1.</span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -187,10 +180,10 @@ gradient descent algorithms</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(step)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>(step)</td>
 <td>Return learning rate at time t.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.learningrate.Constant.get_rate" title="operalib.learningrate.Constant.get_rate"><code class="xref py py-obj docutils literal"><span class="pre">get_rate</span></code></a>(step)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.learningrate.Constant.get_rate" title="operalib.learningrate.Constant.get_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rate</span></code></a>(step)</td>
 <td>Return learning rate at time t.</td>
 </tr>
 </tbody>
@@ -203,7 +196,11 @@ gradient descent algorithms</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>self.eta / t ** self.power</strong> : float</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self.eta / t ** self.power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -221,11 +218,18 @@ gradient descent algorithms</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>eta0</strong> : float, default 1.</p>
-<p><strong>power</strong> : float, default 1.</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>eta0</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default 1.</span></dt>
+<dd></dd>
+<dt><strong>power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default 1.</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>InvScaling</strong> : Callable</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>InvScaling</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Callable</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -237,10 +241,10 @@ gradient descent algorithms</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(step)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>(step)</td>
 <td>Return learning rate at time t.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.learningrate.InvScaling.get_rate" title="operalib.learningrate.InvScaling.get_rate"><code class="xref py py-obj docutils literal"><span class="pre">get_rate</span></code></a>(step)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.learningrate.InvScaling.get_rate" title="operalib.learningrate.InvScaling.get_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rate</span></code></a>(step)</td>
 <td>Return learning rate at time t.</td>
 </tr>
 </tbody>
@@ -253,7 +257,11 @@ gradient descent algorithms</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>self.eta / t ** self.power</strong> : float</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self.eta / t ** self.power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -265,9 +273,7 @@ gradient descent algorithms</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -280,7 +286,7 @@ gradient descent algorithms</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -299,6 +305,7 @@ gradient descent algorithms</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -316,14 +323,11 @@ gradient descent algorithms</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

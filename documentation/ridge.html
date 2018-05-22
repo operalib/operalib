@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="index.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -161,7 +154,7 @@
   <div class="section" id="operalib">
 <h1>Operalib<a class="headerlink" href="#operalib" title="Permalink to this headline">¶</a></h1>
 <p>The documentation of Operalib.</p>
-<span class="target" id="module-operalib.metrics"></span><p><a class="reference internal" href="#module-operalib.metrics" title="operalib.metrics"><code class="xref py py-mod docutils literal"><span class="pre">operalib.metrics</span></code></a> define upplementary metrics not
+<span class="target" id="module-operalib.metrics"></span><p><a class="reference internal" href="#module-operalib.metrics" title="operalib.metrics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.metrics</span></code></a> define upplementary metrics not
 available in scikit-learn</p>
 <dl class="function">
 <dt id="operalib.metrics.first_periodic_kernel">
@@ -171,21 +164,26 @@ available in scikit-learn</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array of shape (n_samples_X, n_features)</p>
-<p><strong>Y</strong> : array of shape (n_samples_Y, n_features)</p>
-<p><strong>gamma</strong> : float, default None</p>
-<blockquote>
-<div><p>If None, default to 1.0 / n_samples_X</p>
-</div></blockquote>
-<p><strong>period</strong> : float, default None</p>
-<blockquote>
-<div><p>If None, default to 2 * pi.</p>
-<p>This parameter should not be default as
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array of shape (n_samples_X, n_features)</span></dt>
+<dd></dd>
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array of shape (n_samples_Y, n_features)</span></dt>
+<dd></dd>
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd><p class="first last">If None, default to 1.0 / n_samples_X</p>
+</dd>
+<dt><strong>period</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd><p class="first">If None, default to 2 * pi.</p>
+<p class="last">This parameter should not be default as
 wrong estimation lead to poor learning score.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>kernel_matrix</strong> : array of shape (n_samples_X, n_samples_Y)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>kernel_matrix</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array of shape (n_samples_X, n_samples_Y)</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -196,9 +194,7 @@ wrong estimation lead to poor learning score.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -211,7 +207,7 @@ wrong estimation lead to poor learning score.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -230,6 +226,7 @@ wrong estimation lead to poor learning score.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -247,14 +244,11 @@ wrong estimation lead to poor learning score.</p>
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -160,7 +153,7 @@
             
   <div class="section" id="module-operalib.signal">
 <span id="module-signal"></span><h1>Module signal<a class="headerlink" href="#module-operalib.signal" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="#module-operalib.signal" title="operalib.signal"><code class="xref py py-mod docutils literal"><span class="pre">operalib.signal</span></code></a> implements signal preprocessing routines such as period
+<p><a class="reference internal" href="#module-operalib.signal" title="operalib.signal"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.signal</span></code></a> implements signal preprocessing routines such as period
 detection usefull for periodic kernels.</p>
 <dl class="function">
 <dt id="operalib.signal.autocorrelation">
@@ -171,16 +164,18 @@ detection usefull for periodic kernels.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : darray</p>
-<blockquote>
-<div><p>1D signal to compute the autocorrelation.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">darray</span></dt>
+<dd><p class="first last">1D signal to compute the autocorrelation.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
-<blockquote class="last">
-<div><p>the autocorrelation of the signal x.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ndarray</strong></dt>
+<dd><p class="first last">the autocorrelation of the signal x.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -198,30 +193,29 @@ possible to reduce the number of detected peaks. <em>targets</em> must be signed
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : ndarray</p>
-<blockquote>
-<div><p>support of <em>targets</em>.</p>
-</div></blockquote>
-<p><strong>targets</strong> : ndarray (signed)</p>
-<blockquote>
-<div><p>1D amplitude data to search for peaks.</p>
-</div></blockquote>
-<p><strong>thres</strong> : float between [0., 1.]</p>
-<blockquote>
-<div><p>Normalized threshold. Only the peaks with amplitude higher than the
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>inputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd><p class="first last">support of <em>targets</em>.</p>
+</dd>
+<dt><strong>targets</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray (signed)</span></dt>
+<dd><p class="first last">1D amplitude data to search for peaks.</p>
+</dd>
+<dt><strong>thres</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float between [0., 1.]</span></dt>
+<dd><p class="first last">Normalized threshold. Only the peaks with amplitude higher than the
 threshold will be detected.</p>
-</div></blockquote>
-<p><strong>min_dist</strong> : int</p>
-<blockquote>
-<div><p>Minimum distance between each detected peak. The peak with the highest
+</dd>
+<dt><strong>min_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Minimum distance between each detected peak. The peak with the highest
 amplitude is preferred to satisfy this constraint.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">float</p>
-<blockquote class="last">
-<div><p>a period estimation of the signal targets = f(inputs).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">a period estimation of the signal targets = f(inputs).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -239,26 +233,26 @@ detected peaks. <em>y</em> must be signed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>targets</strong> : array, (signed)</p>
-<blockquote>
-<div><p>1D amplitude data to search for peaks.</p>
-</div></blockquote>
-<p><strong>thres</strong> : float, (between [0., 1.])</p>
-<blockquote>
-<div><p>Normalized threshold. Only the peaks with amplitude higher than the
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>targets</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, (signed)</span></dt>
+<dd><p class="first last">1D amplitude data to search for peaks.</p>
+</dd>
+<dt><strong>thres</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, (between [0., 1.])</span></dt>
+<dd><p class="first last">Normalized threshold. Only the peaks with amplitude higher than the
 threshold will be detected.</p>
-</div></blockquote>
-<p><strong>min_dist</strong> : int</p>
-<blockquote>
-<div><p>Minimum distance between each detected peak. The peak with the highest
+</dd>
+<dt><strong>min_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Minimum distance between each detected peak. The peak with the highest
 amplitude is preferred to satisfy this constraint.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ndarray</p>
-<blockquote class="last">
-<div><p>Array containing the indexes of the peaks that were detected</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ndarray</strong></dt>
+<dd><p class="first last">Array containing the indexes of the peaks that were detected</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -269,9 +263,7 @@ amplitude is preferred to satisfy this constraint.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -284,7 +276,7 @@ amplitude is preferred to satisfy this constraint.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -303,6 +295,7 @@ amplitude is preferred to satisfy this constraint.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -320,14 +313,11 @@ amplitude is preferred to satisfy this constraint.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

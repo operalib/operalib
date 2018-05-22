@@ -25,29 +25,20 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
-        <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf_semisup.html"/>
-        <link rel="prev" title="Online Learning with Operator-Valued kernels" href="plot_ovk_onorma.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf_semisup.html" />
+    <link rel="prev" title="Online Learning with Operator-Valued kernels" href="plot_ovk_onorma.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -117,7 +108,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -125,9 +116,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -178,14 +170,14 @@
 regression.</p>
 <img alt="../_images/sphx_glr_plot_ovk_regression_cf_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_regression_cf_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;R2 curl-free ridge: &#39;</span><span class="p">,</span> <span class="mf">0.769585259562427</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;R2 independant ridge: &#39;</span><span class="p">,</span> <span class="mf">0.6301533340103669</span><span class="p">)</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R2</span> <span class="n">curl</span><span class="o">-</span><span class="n">free</span> <span class="n">ridge</span><span class="p">:</span> <span class="mf">0.76959</span>
+<span class="n">R2</span> <span class="n">independent</span> <span class="n">ridge</span><span class="p">:</span> <span class="mf">0.63015</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Romain Brault &lt;ro.brault@gmail.com&gt;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Author: Romain Brault &lt;ro.brault@gmail.com&gt;</span>
 <span class="c1"># License: MIT</span>
 
 <span class="c1"># -*- coding: utf-8 -*-</span>
@@ -210,12 +202,9 @@ regression.</p>
     <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">toy_data_curl_free_field</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
     <span class="n">inputs_mesh</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 
-    <span class="p">(</span><span class="n">inputs_train</span><span class="p">,</span> <span class="n">inputs_test</span><span class="p">,</span>
-     <span class="n">targets_train</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span>
-                                                     <span class="n">train_size</span><span class="o">=</span><span class="p">(</span><span class="n">inputs</span>
-                                                                 <span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span>
-                                                                 <span class="mi">40</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
-                                                     <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="n">inputs_train</span><span class="p">,</span> <span class="n">inputs_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span> <span class="n">targets_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">40</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
     <span class="c1"># Add some noise</span>
     <span class="n">targets_train</span> <span class="o">=</span> <span class="p">(</span><span class="n">targets_train</span> <span class="o">+</span>
                      <span class="o">.</span><span class="mi">175</span> <span class="o">*</span> <span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">targets_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -230,13 +219,13 @@ regression.</p>
     <span class="c1"># Learning with curl-free</span>
     <span class="n">regressor</span><span class="p">[</span><span class="s1">&#39;CF&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">inputs_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
     <span class="n">score_cf</span> <span class="o">=</span> <span class="n">regressor</span><span class="p">[</span><span class="s1">&#39;CF&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">inputs_test</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;R2 curl-free ridge: &#39;</span><span class="p">,</span> <span class="n">score_cf</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;R2 curl-free ridge: </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">score_cf</span><span class="p">)</span>
     <span class="n">targets_mesh_cf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">regressor</span><span class="p">[</span><span class="s1">&#39;CF&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
 
     <span class="c1"># Learning with sklearn ridge</span>
     <span class="n">regressor</span><span class="p">[</span><span class="s1">&#39;Indep&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">inputs_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
     <span class="n">scode_id</span> <span class="o">=</span> <span class="n">regressor</span><span class="p">[</span><span class="s1">&#39;Indep&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">inputs_test</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;R2 independant ridge: &#39;</span><span class="p">,</span> <span class="n">scode_id</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;R2 independent ridge: </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">scode_id</span><span class="p">)</span>
     <span class="n">targets_mesh_id</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">array2mesh</span><span class="p">(</span><span class="n">regressor</span><span class="p">[</span><span class="s1">&#39;Indep&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
 
     <span class="c1"># Plotting</span>
@@ -256,33 +245,32 @@ regression.</p>
                         <span class="n">arrowstyle</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;-&gt;&#39;</span><span class="p">)</span>
     <span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
     <span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Curl-Free Ridge, R2: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">score_cf</span><span class="p">))</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Curl-Free Ridge, R2: </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">score_cf</span><span class="p">)</span>
     <span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
     <span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Independant Ridge, R2: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scode_id</span><span class="p">))</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Independent Ridge, R2: </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">scode_id</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Vectorfield learning&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  11.120 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  13.882 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_regression_cf.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_regression_cf.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_regression_cf.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_regression_cf.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_regression_cf.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_regression_cf.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_regression_cf.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_regression_cf.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -304,7 +292,7 @@ regression.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -323,6 +311,7 @@ regression.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -340,14 +329,11 @@ regression.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

@@ -26,26 +26,18 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="#"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="index.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,7 +99,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Operalib</a>
@@ -115,9 +107,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -203,6 +196,8 @@
 </li>
         <li><a href="modules/risk.html#operalib.risk.ORFFRidgeRisk.__call__">(operalib.risk.ORFFRidgeRisk method)</a>
 </li>
+        <li><a href="modules/risk.html#operalib.risk.ORFFSCSVMLoss.__call__">(operalib.risk.ORFFSCSVMLoss method)</a>
+</li>
         <li><a href="modules/risk.html#operalib.risk.OVKRidgeRisk.__call__">(operalib.risk.OVKRidgeRisk method)</a>
 </li>
       </ul></li>
@@ -228,6 +223,8 @@
         <li><a href="modules/risk.html#operalib.risk.ORFFLSLoss.__init__">(operalib.risk.ORFFLSLoss method)</a>
 </li>
         <li><a href="modules/risk.html#operalib.risk.ORFFRidgeRisk.__init__">(operalib.risk.ORFFRidgeRisk method)</a>
+</li>
+        <li><a href="modules/risk.html#operalib.risk.ORFFSCSVMLoss.__init__">(operalib.risk.ORFFSCSVMLoss method)</a>
 </li>
         <li><a href="modules/risk.html#operalib.risk.OVKRidgeRisk.__init__">(operalib.risk.OVKRidgeRisk method)</a>
 </li>
@@ -548,9 +545,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -563,7 +558,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -582,6 +577,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -599,14 +595,11 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

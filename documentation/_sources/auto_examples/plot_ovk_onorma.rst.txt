@@ -23,11 +23,11 @@ kernels.
 
     Generating Data
     Fitting Independent...
-    ('Independent training time:', 14.541427850723267)
-    ('Independent MSE:', 0.04226707218312939)
+    Independent training time: 8.957 s
+    Independent MSE: 0.042
     Fitting Joint...
-    ('Joint training time:', 8.370354175567627)
-    ('Joint MSE:', 0.04160101333623572)
+    Joint training time: 6.076 s
+    Joint MSE: 0.042
 
 
 
@@ -87,8 +87,8 @@ kernels.
                                   y[t, :]) ** 2
         est.partial_fit(X[t, :], y[t, :])
     err_ci = np.cumsum(err_i) / (np.arange(n) + 1)
-    print('Independent training time:', time.time() - start)
-    print('Independent MSE:', err_ci[-1])
+    print('Independent training time: %.3f s' % (time.time() - start))
+    print('Independent MSE: %.3f' % err_ci[-1])
     plt.semilogy(np.linspace(0, 100, err_ci.size), err_ci, label='Independent')
 
     est = ovk.ONORMA('DGauss', A=.9 * np.eye(p) + 0.1 * np.ones((p, p)), gamma=.1,
@@ -103,8 +103,8 @@ kernels.
                                   y[t, :]) ** 2
         est.partial_fit(X[t, :], y[t, :])
     err_cj = np.cumsum(err_j) / (np.arange(n) + 1)
-    print('Joint training time:', time.time() - start)
-    print('Joint MSE:', err_cj[-1])
+    print('Joint training time: %.3f s' % (time.time() - start))
+    print('Joint MSE: %.3f' % err_cj[-1])
     plt.semilogy(np.linspace(0, 100, err_cj.size), err_cj, label='Joint')
 
     plt.ylim(4e-2, 1.2e-1)
@@ -114,7 +114,7 @@ kernels.
     plt.legend()
     plt.show()
 
-**Total running time of the script:** ( 0 minutes  23.000 seconds)
+**Total running time of the script:** ( 0 minutes  15.076 seconds)
 
 
 

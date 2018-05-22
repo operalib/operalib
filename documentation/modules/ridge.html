@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -160,7 +153,7 @@
             
   <div class="section" id="module-operalib.ridge">
 <span id="module-ridge"></span><h1>Module Ridge<a class="headerlink" href="#module-operalib.ridge" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
+<p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
 regression.</p>
 <dl class="class">
 <dt id="operalib.ridge.OVKRidge">
@@ -182,7 +175,7 @@ and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at
 prediction-time.</p>
 <p>Optimization problem solved for learning:
 .. math:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>\<span class="n">min_</span><span class="p">{</span><span class="n">h</span> \<span class="ow">in</span> \<span class="n">mathcal</span> <span class="n">H</span><span class="p">}</span><span class="o">~</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">min_</span><span class="p">{</span><span class="n">h</span> \<span class="ow">in</span> \<span class="n">mathcal</span> <span class="n">H</span><span class="p">}</span><span class="o">~</span> 
 </pre></div>
 </div>
 </div></blockquote>
@@ -193,7 +186,7 @@ prediction-time.</p>
 <dd>|h(x_i) - h(x_j)|_{mathcal Y}^2</dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_targets</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -205,15 +198,38 @@ prediction-time.</p>
 <span class="go">OVKRidge(...)</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="2%" />
-<col width="98%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>dual_coef_</strong></td>
-<td>(array, shape = [n_samples x n_targest]) Weight vector(s) in kernel space  <a href="#id1"><span class="problematic" id="id2">linop_</span></a> : callable Callable which associate to the training points X the Gram matrix (the Gram matrix being a LinearOperator)  <a href="#id3"><span class="problematic" id="id4">A_</span></a> : array, shape = [n_targets, n_targets] Set when Linear operator used by the decomposable kernel is default or None.  <a href="#id5"><span class="problematic" id="id6">L_</span></a> : array, shape = [n_samples_miss, n_samples_miss] Graph Laplacian of data with missing targets (semi-supervised learning).  <a href="#id7"><span class="problematic" id="id8">period_</span></a> : float Set when period used by the First periodic kernel is ‘autocorr’.  <a href="#id9"><span class="problematic" id="id10">solver_res_</span></a> : any Raw results returned by the solver.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dual_coef_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples x n_targest]</span></dt>
+<dd><blockquote class="first">
+<div><p>Weight vector(s) in kernel space</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt><a href="#id1"><span class="problematic" id="id2">linop_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
+<dd><p class="first last">Callable which associate to the training points X the Gram matrix (the
+Gram matrix being a LinearOperator)</p>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">A_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Set when Linear operator used by the decomposable kernel is default or
+None.</p>
+</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">L_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples_miss, n_samples_miss]</span></dt>
+<dd><p class="first last">Graph Laplacian of data with missing targets (semi-supervised
+learning).</p>
+</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">period_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Set when period used by the First periodic kernel is ‘autocorr’.</p>
+</dd>
+<dt><a href="#id9"><span class="problematic" id="id10">solver_res_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">any</span></dt>
+<dd><p class="first last">Raw results returned by the solver.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -224,19 +240,19 @@ prediction-time.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.fit" title="operalib.ridge.OVKRidge.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.fit" title="operalib.ridge.OVKRidge.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
 <td>Fit OVK ridge regression model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.get_params" title="operalib.ridge.OVKRidge.get_params"><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.get_params" title="operalib.ridge.OVKRidge.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.predict" title="operalib.ridge.OVKRidge.predict"><code class="xref py py-obj docutils literal"><span class="pre">predict</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.predict" title="operalib.ridge.OVKRidge.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(X)</td>
 <td>Predict using the OVK ridge model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.score" title="operalib.ridge.OVKRidge.score"><code class="xref py py-obj docutils literal"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.score" title="operalib.ridge.OVKRidge.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
 <td>Returns the coefficient of determination R^2 of the prediction.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.set_params" title="operalib.ridge.OVKRidge.set_params"><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKRidge.set_params" title="operalib.ridge.OVKRidge.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
@@ -249,18 +265,21 @@ prediction-time.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Training data.</p>
-</div></blockquote>
-<p><strong>y</strong> : {array-like}, shape = [n_samples] or [n_samples, n_targets]</p>
-<blockquote>
-<div><p>Target values. numpy.NaN for missing targets (semi-supervised
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Training data.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Target values. numpy.NaN for missing targets (semi-supervised
 learning).</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>self</strong> : returns an instance of self.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">returns an instance of self.</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -275,17 +294,19 @@ learning).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
-<blockquote>
-<div><p>If True, will return the parameters for this estimator and
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>deep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
+<dd><p class="first last">If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -300,16 +321,18 @@ contained subobjects that are estimators.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>C</strong> : {array}, shape = [n_samples] or [n_samples, n_targets]</p>
-<blockquote class="last">
-<div><p>Returns predicted values.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>C</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Returns predicted values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -331,24 +354,24 @@ would get a R^2 score of 0.0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape = (n_samples, n_features)</p>
-<blockquote>
-<div><p>Test samples.</p>
-</div></blockquote>
-<p><strong>y</strong> : array-like, shape = (n_samples) or (n_samples, n_outputs)</p>
-<blockquote>
-<div><p>True values for X.</p>
-</div></blockquote>
-<p><strong>sample_weight</strong> : array-like, shape = [n_samples], optional</p>
-<blockquote>
-<div><p>Sample weights.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_samples, n_features)</span></dt>
+<dd><p class="first last">Test samples.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_samples) or (n_samples, n_outputs)</span></dt>
+<dd><p class="first last">True values for X.</p>
+</dd>
+<dt><strong>sample_weight</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = [n_samples], optional</span></dt>
+<dd><p class="first last">Sample weights.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>score</strong> : float</p>
-<blockquote class="last">
-<div><p>R^2 of self.predict(X) wrt. y.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>score</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">R^2 of self.predict(X) wrt. y.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -361,13 +384,17 @@ would get a R^2 score of 0.0.</p>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
-<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
+<code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
 component of a nested object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -379,9 +406,7 @@ component of a nested object.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -394,7 +419,7 @@ component of a nested object.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -413,6 +438,7 @@ component of a nested object.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -430,14 +456,11 @@ component of a nested object.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

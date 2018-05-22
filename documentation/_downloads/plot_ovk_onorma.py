@@ -56,8 +56,8 @@ for t in range(1, n):
                               y[t, :]) ** 2
     est.partial_fit(X[t, :], y[t, :])
 err_ci = np.cumsum(err_i) / (np.arange(n) + 1)
-print('Independent training time:', time.time() - start)
-print('Independent MSE:', err_ci[-1])
+print('Independent training time: %.3f s' % (time.time() - start))
+print('Independent MSE: %.3f' % err_ci[-1])
 plt.semilogy(np.linspace(0, 100, err_ci.size), err_ci, label='Independent')
 
 est = ovk.ONORMA('DGauss', A=.9 * np.eye(p) + 0.1 * np.ones((p, p)), gamma=.1,
@@ -72,8 +72,8 @@ for t in range(1, n):
                               y[t, :]) ** 2
     est.partial_fit(X[t, :], y[t, :])
 err_cj = np.cumsum(err_j) / (np.arange(n) + 1)
-print('Joint training time:', time.time() - start)
-print('Joint MSE:', err_cj[-1])
+print('Joint training time: %.3f s' % (time.time() - start))
+print('Joint MSE: %.3f' % err_cj[-1])
 plt.semilogy(np.linspace(0, 100, err_cj.size), err_cj, label='Joint')
 
 plt.ylim(4e-2, 1.2e-1)

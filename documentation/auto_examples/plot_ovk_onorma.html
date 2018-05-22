@@ -25,29 +25,20 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
-        <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html"/>
-        <link rel="prev" title="Data sparse quantile regression with operator-valued kernels" href="plot_ovk_sparse_quantile_regression.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vector-field Learning with structured output kernel" href="plot_ovk_regression_cf.html" />
+    <link rel="prev" title="Data sparse quantile regression with operator-valued kernels" href="plot_ovk_sparse_quantile_regression.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -117,7 +108,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -125,9 +116,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -177,19 +169,19 @@
 kernels.</p>
 <img alt="../_images/sphx_glr_plot_ovk_onorma_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_onorma_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Generating</span> <span class="n">Data</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Generating</span> <span class="n">Data</span>
 <span class="n">Fitting</span> <span class="n">Independent</span><span class="o">...</span>
-<span class="p">(</span><span class="s1">&#39;Independent training time:&#39;</span><span class="p">,</span> <span class="mf">14.541427850723267</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Independent MSE:&#39;</span><span class="p">,</span> <span class="mf">0.04226707218312939</span><span class="p">)</span>
+<span class="n">Independent</span> <span class="n">training</span> <span class="n">time</span><span class="p">:</span> <span class="mf">8.957</span> <span class="n">s</span>
+<span class="n">Independent</span> <span class="n">MSE</span><span class="p">:</span> <span class="mf">0.042</span>
 <span class="n">Fitting</span> <span class="n">Joint</span><span class="o">...</span>
-<span class="p">(</span><span class="s1">&#39;Joint training time:&#39;</span><span class="p">,</span> <span class="mf">8.370354175567627</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Joint MSE:&#39;</span><span class="p">,</span> <span class="mf">0.04160101333623572</span><span class="p">)</span>
+<span class="n">Joint</span> <span class="n">training</span> <span class="n">time</span><span class="p">:</span> <span class="mf">6.076</span> <span class="n">s</span>
+<span class="n">Joint</span> <span class="n">MSE</span><span class="p">:</span> <span class="mf">0.042</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">operalib</span> <span class="kn">as</span> <span class="nn">ovk</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
@@ -238,8 +230,8 @@ kernels.</p>
                               <span class="n">y</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">est</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:])</span>
 <span class="n">err_ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">err_i</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Independent training time:&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Independent MSE:&#39;</span><span class="p">,</span> <span class="n">err_ci</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Independent training time: </span><span class="si">%.3f</span><span class="s1"> s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Independent MSE: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">err_ci</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">err_ci</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">err_ci</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Independent&#39;</span><span class="p">)</span>
 
 <span class="n">est</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">ONORMA</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">A</span><span class="o">=.</span><span class="mi">9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">)),</span> <span class="n">gamma</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span>
@@ -254,8 +246,8 @@ kernels.</p>
                               <span class="n">y</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="n">est</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:])</span>
 <span class="n">err_cj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">err_j</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Joint training time:&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Joint MSE:&#39;</span><span class="p">,</span> <span class="n">err_cj</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Joint training time: </span><span class="si">%.3f</span><span class="s1"> s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Joint MSE: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">err_cj</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">err_cj</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">err_cj</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Joint&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">4e-2</span><span class="p">,</span> <span class="mf">1.2e-1</span><span class="p">)</span>
@@ -266,21 +258,19 @@ kernels.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  23.000 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  15.076 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_onorma.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_onorma.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_onorma.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_onorma.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_onorma.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_onorma.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_onorma.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_onorma.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -302,7 +292,7 @@ kernels.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -321,6 +311,7 @@ kernels.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -338,14 +329,11 @@ kernels.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -160,7 +153,7 @@
             
   <div class="section" id="module-operalib.kernels">
 <span id="module-kernels"></span><h1>Module kernels<a class="headerlink" href="#module-operalib.kernels" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernels</span></code></a> implements some Operator-Valued Kernel
+<p><a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.kernels</span></code></a> implements some Operator-Valued Kernel
 models.</p>
 <dl class="class">
 <dt id="operalib.kernels.DecomposableKernel">
@@ -173,12 +166,12 @@ outputs.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">DecomposableKernelMap</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">DecomposableKernelMap</span></code></dt>
 <dd>Decomposable Kernel map</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -187,21 +180,23 @@ outputs.</p>
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="17%" />
-<col width="83%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>A</strong></td>
-<td>({array, LinearOperator}, shape = [n_targets, n_targets]) Linear operator acting on the outputs</td>
-</tr>
-<tr class="row-even"><td><strong>scalar_kernel</strong></td>
-<td>({callable}) Callable which associate to the training points X the Gram matrix.</td>
-</tr>
-<tr class="row-odd"><td><strong>scalar_kernel_params</strong></td>
-<td>({mapping of string to any}) Additional parameters (keyword arguments) for kernel function passed as callable object.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>A</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array, LinearOperator}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Linear operator acting on the outputs</p>
+</dd>
+<dt><strong>scalar_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{callable}</span></dt>
+<dd><p class="first last">Callable which associate to the training points X the Gram matrix.</p>
+</dd>
+<dt><strong>scalar_kernel_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{mapping of string to any}</span></dt>
+<dd><p class="first last">Additional parameters (keyword arguments) for kernel function passed as
+callable object.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -212,13 +207,13 @@ outputs.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.__call__" title="operalib.kernels.DecomposableKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.__call__" title="operalib.kernels.DecomposableKernel.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="operalib.kernels.DecomposableKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_kernel_map" title="operalib.kernels.DecomposableKernel.get_kernel_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_orff_map" title="operalib.kernels.DecomposableKernel.get_orff_map"><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;eps,&nbsp;random_state])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DecomposableKernel.get_orff_map" title="operalib.kernels.DecomposableKernel.get_orff_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;eps,&nbsp;random_state])</td>
 <td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
@@ -236,27 +231,28 @@ K(X, Y) \enskip\text{otherwise.}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
-<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
-<blockquote>
-<div><blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples2, n_features],</span></dt>
+<dd><blockquote class="first">
 <div><p>default = None</p>
 </div></blockquote>
-<p>Samples.</p>
-</div></blockquote>
+<p class="last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
-<blockquote class="last">
-<div><div class="math">
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DecomposableKernelMap, callable or LinearOperator</span></dt>
+<dd><div class="first last math">
 <p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise}
 \end{cases}"/></p>
-</div></div></blockquote>
+</div></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -271,19 +267,18 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : {array, LinearOperator}, shape = [n_targets, n_targets]</p>
-<blockquote>
-<div><p>Linear operator acting on the outputs</p>
-</div></blockquote>
-<p><strong>scalar_kernel</strong> : {callable}</p>
-<blockquote>
-<div><p>Callable which associate to the training points X the Gram matrix.</p>
-</div></blockquote>
-<p><strong>scalar_kernel_params</strong> : {mapping of string to any}, optional</p>
-<blockquote class="last">
-<div><p>Additional parameters (keyword arguments) for kernel function
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>A</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array, LinearOperator}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Linear operator acting on the outputs</p>
+</dd>
+<dt><strong>scalar_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{callable}</span></dt>
+<dd><p class="first last">Callable which associate to the training points X the Gram matrix.</p>
+</dd>
+<dt><strong>scalar_kernel_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{mapping of string to any}, optional</span></dt>
+<dd><p class="first last">Additional parameters (keyword arguments) for kernel function
 passed as callable object.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -306,16 +301,21 @@ passed as callable object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
-<div class="last math">
-<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
-</div></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DecomposableKernelMap, callable</span></dt>
+<dd></dd>
+<dt><strong>.. math::</strong></dt>
+<dd><p class="first last">K_x: Y mapsto K(X, Y).</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -331,13 +331,17 @@ passed as callable object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>tilde{Phi}(X)</strong> : Linear Operator, callable</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tilde{Phi}(X)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Linear Operator, callable</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -356,12 +360,12 @@ x, y \rangle^2 I_p"/></p>
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">DotProductKernelMap</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotProductKernelMap</span></code></dt>
 <dd>Dot Product Kernel Map</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DotProductKernel</span><span class="p">(</span><span class="n">mu</span><span class="o">=.</span><span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -370,18 +374,19 @@ x, y \rangle^2 I_p"/></p>
 <span class="go">&lt;500x500 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="5%" />
-<col width="95%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>mu</strong></td>
-<td>({array, LinearOperator}, shape = [n_targets, n_targets]) Tradeoff between shared and independant components</td>
-</tr>
-<tr class="row-even"><td><strong>p</strong></td>
-<td>({Int}) dimension of the targets (n_targets).</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>mu</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array, LinearOperator}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Tradeoff between shared and independant components</p>
+</dd>
+<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">dimension of the targets (n_targets).</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -392,10 +397,10 @@ x, y \rangle^2 I_p"/></p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DotProductKernel.__call__" title="operalib.kernels.DotProductKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.DotProductKernel.__call__" title="operalib.kernels.DotProductKernel.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DotProductKernel.get_kernel_map" title="operalib.kernels.DotProductKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.DotProductKernel.get_kernel_map" title="operalib.kernels.DotProductKernel.get_kernel_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
 </tbody>
@@ -413,27 +418,28 @@ K(X, Y) \enskip\text{otherwise.}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
-<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
-<blockquote>
-<div><blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples2, n_features],</span></dt>
+<dd><blockquote class="first">
 <div><p>default = None</p>
 </div></blockquote>
-<p>Samples.</p>
-</div></blockquote>
+<p class="last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DotProductKernelMap, callable or LinearOperator</p>
-<blockquote class="last">
-<div><div class="math">
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DotProductKernelMap, callable or LinearOperator</span></dt>
+<dd><div class="first last math">
 <p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
 Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
 K(X, Y) \enskip\text{otherwise}
 \end{cases}"/></p>
-</div></div></blockquote>
+</div></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -448,14 +454,14 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>mu</strong> : {float}</p>
-<blockquote>
-<div><p>Tradeoff between shared and independant components.</p>
-</div></blockquote>
-<p><strong>p</strong> : {integer}</p>
-<blockquote class="last">
-<div><p>dimension of the targets (n_targets).</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>mu</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}</span></dt>
+<dd><p class="first last">Tradeoff between shared and independant components.</p>
+</dd>
+<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{integer}</span></dt>
+<dd><p class="first last">dimension of the targets (n_targets).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -478,16 +484,21 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DotProductKernelMap, callable</p>
-<div class="last math">
-<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
-</div></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DotProductKernelMap, callable</span></dt>
+<dd></dd>
+<dt><strong>.. math::</strong></dt>
+<dd><p class="first last">K_x: Y mapsto K(X, Y).</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -505,12 +516,12 @@ K(X, Y) \enskip\text{otherwise}
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">RBFCurlFreeKernelMap</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">RBFCurlFreeKernelMap</span></code></dt>
 <dd>Curl-free Kernel map</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
@@ -519,15 +530,16 @@ K(X, Y) \enskip\text{otherwise}
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="23%" />
-<col width="78%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>gamma</strong></td>
-<td>({float}) RBF kernel parameter.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}</span></dt>
+<dd><p class="first last">RBF kernel parameter.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -538,13 +550,13 @@ K(X, Y) \enskip\text{otherwise}
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.__call__" title="operalib.kernels.RBFCurlFreeKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.__call__" title="operalib.kernels.RBFCurlFreeKernel.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.get_kernel_map" title="operalib.kernels.RBFCurlFreeKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.get_kernel_map" title="operalib.kernels.RBFCurlFreeKernel.get_kernel_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.get_orff_map" title="operalib.kernels.RBFCurlFreeKernel.get_orff_map"><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;random_state])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFCurlFreeKernel.get_orff_map" title="operalib.kernels.RBFCurlFreeKernel.get_orff_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;random_state])</td>
 <td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
@@ -562,26 +574,30 @@ K(X, Y) \enskip\text{otherwise.}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
-<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
-<blockquote>
-<div><blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples2, n_features],</span></dt>
+<dd><blockquote class="first">
 <div><p>default = None</p>
 </div></blockquote>
-<p>Samples.</p>
-</div></blockquote>
+<p class="last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
-<div class="last math">
-<p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
-Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
-K(X, Y) \enskip\text{otherwise}
-\end{cases}"/></p>
-</div></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DecomposableKernelMap, callable or LinearOperator</span></dt>
+<dd></dd>
+<dt><strong>.. math::</strong></dt>
+<dd><p class="first last">K_x: begin{cases}
+Y mapsto K(X, Y) enskiptext{if } Y text{is None,} \
+K(X, Y) enskiptext{otherwise}
+end{cases}</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -595,10 +611,11 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>gamma</strong> : {float}, shape = [n_targets, n_targets]</p>
-<blockquote class="last">
-<div><p>RBF kernel parameter.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">RBF kernel parameter.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -621,16 +638,21 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
-<div class="last math">
-<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
-</div></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DecomposableKernelMap, callable</span></dt>
+<dd></dd>
+<dt><strong>.. math::</strong></dt>
+<dd><p class="first last">K_x: Y mapsto K(X, Y).</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -646,13 +668,17 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>tilde{Phi}(X)</strong> : Linear Operator, callable</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tilde{Phi}(X)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Linear Operator, callable</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -673,12 +699,12 @@ K(X, Y) \enskip\text{otherwise}
 </div><div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">RBFDivFreeKernelMap</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">RBFDivFreeKernelMap</span></code></dt>
 <dd>Divergence-free Kernel map</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFDivFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
@@ -687,15 +713,16 @@ K(X, Y) \enskip\text{otherwise}
 <span class="go">&lt;200x200 _CustomLinearOperator with dtype=float64&gt;</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="23%" />
-<col width="78%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>gamma</strong></td>
-<td>({float}) RBF kernel parameter.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}</span></dt>
+<dd><p class="first last">RBF kernel parameter.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -706,13 +733,13 @@ K(X, Y) \enskip\text{otherwise}
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.__call__" title="operalib.kernels.RBFDivFreeKernel.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.__call__" title="operalib.kernels.RBFDivFreeKernel.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(X[,&nbsp;Y])</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.get_kernel_map" title="operalib.kernels.RBFDivFreeKernel.get_kernel_map"><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code></a>(X)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.get_kernel_map" title="operalib.kernels.RBFDivFreeKernel.get_kernel_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code></a>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.get_orff_map" title="operalib.kernels.RBFDivFreeKernel.get_orff_map"><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;random_state])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernels.RBFDivFreeKernel.get_orff_map" title="operalib.kernels.RBFDivFreeKernel.get_orff_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orff_map</span></code></a>(X[,&nbsp;D,&nbsp;random_state])</td>
 <td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
@@ -730,26 +757,30 @@ K(X, Y) \enskip\text{otherwise.}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
-<p><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples2, n_features],</p>
-<blockquote>
-<div><blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples2, n_features],</span></dt>
+<dd><blockquote class="first">
 <div><p>default = None</p>
 </div></blockquote>
-<p>Samples.</p>
-</div></blockquote>
+<p class="last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable or LinearOperator</p>
-<div class="last math">
-<p><img src="../_images/math/037c7292ca7d81fb0fe3810397d826098f9a79e1.png" alt="K_x: \begin{cases}
-Y \mapsto K(X, Y) \enskip\text{if } Y \text{is None,} \\
-K(X, Y) \enskip\text{otherwise}
-\end{cases}"/></p>
-</div></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DecomposableKernelMap, callable or LinearOperator</span></dt>
+<dd></dd>
+<dt><strong>.. math::</strong></dt>
+<dd><p class="first last">K_x: begin{cases}
+Y mapsto K(X, Y) enskiptext{if } Y text{is None,} \
+K(X, Y) enskiptext{otherwise}
+end{cases}</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -763,10 +794,11 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>gamma</strong> : {float}, shape = [n_targets, n_targets]</p>
-<blockquote class="last">
-<div><p>RBF kernel parameter.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">RBF kernel parameter.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -789,16 +821,21 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K_x</strong> : DecomposableKernelMap, callable</p>
-<div class="last math">
-<p><img src="../_images/math/e0239853362586882010855756d95ffac636d0cb.png" alt="K_x: Y \mapsto K(X, Y)."/></p>
-</div></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K_x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DecomposableKernelMap, callable</span></dt>
+<dd></dd>
+<dt><strong>.. math::</strong></dt>
+<dd><p class="first last">K_x: Y mapsto K(X, Y).</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -814,13 +851,17 @@ K(X, Y) \enskip\text{otherwise}
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : {array-like, sparse matrix}, shape = [n_samples, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>tilde{Phi}(X)</strong> : Linear Operator, callable</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tilde{Phi}(X)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Linear Operator, callable</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -829,9 +870,9 @@ K(X, Y) \enskip\text{otherwise}
 
 </dd></dl>
 
-<span class="target" id="module-operalib.kernel_maps"></span><p><a class="reference internal" href="#module-operalib.kernel_maps" title="operalib.kernel_maps"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernel_maps</span></code></a> implement some Operator-Valued Kernel
+<span class="target" id="module-operalib.kernel_maps"></span><p><a class="reference internal" href="#module-operalib.kernel_maps" title="operalib.kernel_maps"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.kernel_maps</span></code></a> implement some Operator-Valued Kernel
 maps associated to the operator-valued kernel models defined in
-<a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal"><span class="pre">operalib.kernels</span></code></a>.</p>
+<a class="reference internal" href="#module-operalib.kernels" title="operalib.kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.kernels</span></code></a>.</p>
 <dl class="class">
 <dt id="operalib.kernel_maps.DecomposableKernelMap">
 <em class="property">class </em><code class="descclassname">operalib.kernel_maps.</code><code class="descname">DecomposableKernelMap</code><span class="sig-paren">(</span><em>X</em>, <em>A</em>, <em>scalar_kernel</em>, <em>scalar_kernel_params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/kernel_maps.html#DecomposableKernelMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.kernel_maps.DecomposableKernelMap" title="Permalink to this definition">¶</a></dt>
@@ -844,12 +885,12 @@ naturally inherit from DecomposableKernel.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">DecomposableKernel</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">DecomposableKernel</span></code></dt>
 <dd>Decomposable Kernel</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -864,24 +905,25 @@ naturally inherit from DecomposableKernel.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="6%" />
-<col width="94%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>n</strong></td>
-<td>({Int}) Number of samples.</td>
-</tr>
-<tr class="row-even"><td><strong>d</strong></td>
-<td>({Int}) Number of features.</td>
-</tr>
-<tr class="row-odd"><td><strong>X</strong></td>
-<td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
-</tr>
-<tr class="row-even"><td><strong>Gs</strong></td>
-<td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix associated with the scalar kernel.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of samples.</p>
+</dd>
+<dt><strong>d</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of features.</p>
+</dd>
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>Gs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n, n]</span></dt>
+<dd><p class="first last">Gram matrix associated with the scalar kernel.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -892,16 +934,16 @@ naturally inherit from DecomposableKernel.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.Gram_dense" title="operalib.kernel_maps.DecomposableKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.Gram_dense" title="operalib.kernel_maps.DecomposableKernelMap.Gram_dense"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gram_dense</span></code></a>(X)</td>
 <td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="operalib.kernel_maps.DecomposableKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.DecomposableKernelMap.__call__" title="operalib.kernel_maps.DecomposableKernelMap.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(Y)</td>
 <td>Return the Gram matrix associated with the data Y as a linear operator.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;eps,&nbsp;random_state])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;eps,&nbsp;random_state])</td>
 <td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
@@ -916,16 +958,18 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -948,16 +992,18 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">LinearOperator</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -972,23 +1018,21 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></p>
-<blockquote>
-<div><p>Support samples.</p>
-</div></blockquote>
-<p><strong>A</strong> : {array, LinearOperator}, shape = [n_targets, n_targets]</p>
-<blockquote>
-<div><p>Linear operator acting on the outputs</p>
-</div></blockquote>
-<p><strong>scalar_kernel</strong> : {callable}</p>
-<blockquote>
-<div><p>Callable which associate to the training points X the Gram matrix.</p>
-</div></blockquote>
-<p><strong>scalar_kernel_params</strong> : {mapping of string to any}, optional</p>
-<blockquote class="last">
-<div><p>Additional parameters (keyword arguments) for kernel function
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>A</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array, LinearOperator}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Linear operator acting on the outputs</p>
+</dd>
+<dt><strong>scalar_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{callable}</span></dt>
+<dd><p class="first last">Callable which associate to the training points X the Gram matrix.</p>
+</dd>
+<dt><strong>scalar_kernel_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{mapping of string to any}, optional</span></dt>
+<dd><p class="first last">Additional parameters (keyword arguments) for kernel function
 passed as callable object.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1008,23 +1052,25 @@ passed as callable object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ky</strong> : {DecomposableKernelMap}</p>
-<blockquote>
-<div><p>Compatible kernel Map (e.g. same kernel but different support data
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Ky</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{DecomposableKernelMap}</span></dt>
+<dd><p class="first last">Compatible kernel Map (e.g. same kernel but different support data
 X).</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">LinearOperator</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DecomposableKernel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -1056,12 +1102,12 @@ naturally inherit from DecomposableKernel.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">DotProductKernel</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotProductKernel</span></code></dt>
 <dd>Dot Product Kernel</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DotProductKernel</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -1076,24 +1122,25 @@ naturally inherit from DecomposableKernel.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="6%" />
-<col width="94%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>n</strong></td>
-<td>({Int}) Number of samples.</td>
-</tr>
-<tr class="row-even"><td><strong>d</strong></td>
-<td>({Int}) Number of features.</td>
-</tr>
-<tr class="row-odd"><td><strong>X</strong></td>
-<td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
-</tr>
-<tr class="row-even"><td><strong>Gs</strong></td>
-<td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix associated with the scalar kernel.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of samples.</p>
+</dd>
+<dt><strong>d</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of features.</p>
+</dd>
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>Gs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n, n]</span></dt>
+<dd><p class="first last">Gram matrix associated with the scalar kernel.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1104,13 +1151,13 @@ naturally inherit from DecomposableKernel.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DotProductKernelMap.Gram_dense" title="operalib.kernel_maps.DotProductKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.DotProductKernelMap.Gram_dense" title="operalib.kernel_maps.DotProductKernelMap.Gram_dense"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gram_dense</span></code></a>(X)</td>
 <td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.DotProductKernelMap.__call__" title="operalib.kernel_maps.DotProductKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.DotProductKernelMap.__call__" title="operalib.kernel_maps.DotProductKernelMap.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(Y)</td>
 <td>Return the Gram matrix associated with the data Y as a linear operator.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
 </tbody>
@@ -1125,16 +1172,18 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1157,16 +1206,18 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">LinearOperator</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1181,18 +1232,17 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></p>
-<blockquote>
-<div><p>Support samples.</p>
-</div></blockquote>
-<p><strong>mu</strong> : {float}, between 0. and 1.</p>
-<blockquote>
-<div><p>Linear operator acting on the outputs</p>
-</div></blockquote>
-<p><strong>p</strong> : {integer}</p>
-<blockquote class="last">
-<div><p>Dimension of the output</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>mu</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}, between 0. and 1.</span></dt>
+<dd><p class="first last">Linear operator acting on the outputs</p>
+</dd>
+<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{integer}</span></dt>
+<dd><p class="first last">Dimension of the output</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1212,23 +1262,25 @@ naturally inherit from DecomposableKernel.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Ky</strong> : {DotProductKernelMap}</p>
-<blockquote>
-<div><p>Compatible kernel Map (e.g. same kernel but different support data
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Ky</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{DotProductKernelMap}</span></dt>
+<dd><p class="first last">Compatible kernel Map (e.g. same kernel but different support data
 X).</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">LinearOperator</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">DotProductKernel</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -1259,12 +1311,12 @@ naturally inherit from RBFCurlFreeKernel</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">RBFCurlFreeKernel</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">RBFCurlFreeKernel</span></code></dt>
 <dd>Curl-free Kernel</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFCurlFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
@@ -1279,24 +1331,25 @@ naturally inherit from RBFCurlFreeKernel</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="7%" />
-<col width="93%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>n</strong></td>
-<td>({Int}) Number of samples.</td>
-</tr>
-<tr class="row-even"><td><strong>d</strong></td>
-<td>({Int}) Number of features.</td>
-</tr>
-<tr class="row-odd"><td><strong>X</strong></td>
-<td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
-</tr>
-<tr class="row-even"><td><strong>Gs</strong></td>
-<td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of samples.</p>
+</dd>
+<dt><strong>d</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of features.</p>
+</dd>
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>Gs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n, n]</span></dt>
+<dd><p class="first last">Gram matrix.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1307,16 +1360,16 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense" title="operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense" title="operalib.kernel_maps.RBFCurlFreeKernelMap.Gram_dense"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gram_dense</span></code></a>(X)</td>
 <td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__" title="operalib.kernel_maps.RBFCurlFreeKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.RBFCurlFreeKernelMap.__call__" title="operalib.kernel_maps.RBFCurlFreeKernelMap.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(Y)</td>
 <td>Return the Gram matrix associated with the data Y as a linear operator.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;random_state])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;random_state])</td>
 <td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
@@ -1331,16 +1384,18 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1363,16 +1418,18 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">LinearOperator</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1387,14 +1444,14 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></p>
-<blockquote>
-<div><p>Support samples.</p>
-</div></blockquote>
-<p><strong>gamma</strong> : {float}, shape = [n_targets, n_targets]</p>
-<blockquote class="last">
-<div><p>RBF kernel parameter.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">RBF kernel parameter.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1417,12 +1474,12 @@ naturally inherit from RBFCurlFreeKernel</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">RBFDivFreeKernel</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">RBFDivFreeKernel</span></code></dt>
 <dd>Divergence-free Kernel</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">RBFDivFreeKernel</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
@@ -1437,24 +1494,25 @@ naturally inherit from RBFCurlFreeKernel</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="7%" />
-<col width="93%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td><strong>n</strong></td>
-<td>({Int}) Number of samples.</td>
-</tr>
-<tr class="row-even"><td><strong>d</strong></td>
-<td>({Int}) Number of features.</td>
-</tr>
-<tr class="row-odd"><td><strong>X</strong></td>
-<td>({array-like, sparse matrix}, shape = [n_samples, n_features]) Support samples.</td>
-</tr>
-<tr class="row-even"><td><strong>Gs</strong></td>
-<td>({array-like, sparse matrix}, shape = [n, n]) Gram matrix.</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of samples.</p>
+</dd>
+<dt><strong>d</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{Int}</span></dt>
+<dd><p class="first last">Number of features.</p>
+</dd>
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>Gs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n, n]</span></dt>
+<dd><p class="first last">Gram matrix.</p>
+</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1465,16 +1523,16 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense" title="operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense"><code class="xref py py-obj docutils literal"><span class="pre">Gram_dense</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense" title="operalib.kernel_maps.RBFDivFreeKernelMap.Gram_dense"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gram_dense</span></code></a>(X)</td>
 <td>Return the dense Gram matrix associated with the data Y.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.__call__" title="operalib.kernel_maps.RBFDivFreeKernelMap.__call__"><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code></a>(Y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.kernel_maps.RBFDivFreeKernelMap.__call__" title="operalib.kernel_maps.RBFDivFreeKernelMap.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(Y)</td>
 <td>Return the Gram matrix associated with the data Y as a linear operator.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_kernel_map</span></code>(X)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_kernel_map</span></code>(X)</td>
 <td>Return the kernel map associated with the data X.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;random_state])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orff_map</span></code>(X[,&nbsp;D,&nbsp;random_state])</td>
 <td>Return the Random Fourier Feature map associated with the data X.</td>
 </tr>
 </tbody>
@@ -1489,16 +1547,18 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : {array-like}</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1521,16 +1581,18 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : {array-like, sparse matrix}, shape = [n_samples1, n_features]</p>
-<blockquote>
-<div><p>Samples.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples1, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K(X, Y)</strong> : LinearOperator</p>
-<blockquote class="last">
-<div><p>Returns K(X, Y).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K(X, Y)</strong> <span class="classifier-delimiter">:</span> <span class="classifier">LinearOperator</span></dt>
+<dd><p class="first last">Returns K(X, Y).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1545,14 +1607,14 @@ naturally inherit from RBFCurlFreeKernel</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></p>
-<blockquote>
-<div><p>Support samples.</p>
-</div></blockquote>
-<p><strong>gamma</strong> : {float}, shape = [n_targets, n_targets]</p>
-<blockquote class="last">
-<div><p>RBF kernel parameter.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X: {array-like, sparse matrix}, shape = [n_samples1, n_features]</strong></dt>
+<dd><p class="first last">Support samples.</p>
+</dd>
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{float}, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">RBF kernel parameter.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -1565,9 +1627,7 @@ naturally inherit from RBFCurlFreeKernel</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1580,7 +1640,7 @@ naturally inherit from RBFCurlFreeKernel</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1599,6 +1659,7 @@ naturally inherit from RBFCurlFreeKernel</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1616,14 +1677,11 @@ naturally inherit from RBFCurlFreeKernel</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

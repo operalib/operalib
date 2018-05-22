@@ -25,29 +25,20 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
-        <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/>
-        <link rel="prev" title="General examples" href="index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html" />
+    <link rel="prev" title="General examples" href="index.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -117,7 +108,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -125,9 +116,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -179,26 +171,26 @@ kernels.</p>
 constraints.</p>
 <img alt="../_images/sphx_glr_plot_ovk_quantile_regression_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_quantile_regression_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
 <span class="n">Default</span>
-<span class="p">(</span><span class="s1">&#39;Default leaning time: &#39;</span><span class="p">,</span> <span class="mf">0.14877986907958984</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Default score &#39;</span><span class="p">,</span> <span class="mf">0.6946563310820623</span><span class="p">)</span>
+<span class="n">Default</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.1001</span> <span class="n">s</span>
+<span class="n">Default</span> <span class="n">score</span> <span class="mf">0.69466</span>
 <span class="n">Independent</span>
-<span class="p">(</span><span class="s1">&#39;Independent leaning time: &#39;</span><span class="p">,</span> <span class="mf">5.061130046844482</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Independent score &#39;</span><span class="p">,</span> <span class="mf">0.7816149702220745</span><span class="p">)</span>
+<span class="n">Independent</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span> <span class="mf">2.4904</span> <span class="n">s</span>
+<span class="n">Independent</span> <span class="n">score</span> <span class="mf">0.78161</span>
 <span class="n">Joint</span>
-<span class="p">(</span><span class="s1">&#39;Joint leaning time: &#39;</span><span class="p">,</span> <span class="mf">5.648059844970703</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Joint score &#39;</span><span class="p">,</span> <span class="mf">0.7849561923898193</span><span class="p">)</span>
+<span class="n">Joint</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span> <span class="mf">4.6159</span> <span class="n">s</span>
+<span class="n">Joint</span> <span class="n">score</span> <span class="mf">0.78496</span>
 <span class="n">Non</span><span class="o">-</span><span class="n">crossing</span>
-<span class="p">(</span><span class="s1">&#39;Non-crossing leaning time: &#39;</span><span class="p">,</span> <span class="mf">10.125373125076294</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Non-crossing score &#39;</span><span class="p">,</span> <span class="mf">0.781666772691613</span><span class="p">)</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">leaning</span> <span class="n">time</span><span class="p">:</span> <span class="mf">10.2542</span> <span class="n">s</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">crossing</span> <span class="n">score</span> <span class="mf">0.78167</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Author: Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
 <span class="c1"># License: MIT</span>
 
 <span class="c1"># -*- coding: utf-8 -*-</span>
@@ -221,7 +213,7 @@ constraints.</p>
 
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fitting...&quot;</span><span class="p">)</span>
     <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Default&#39;</span><span class="p">:</span> <span class="n">Quantile</span><span class="p">(),</span>
-                <span class="s1">&#39;Joint&#39;</span><span class="p">:</span>
+               <span class="s1">&#39;Joint&#39;</span><span class="p">:</span>
                <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
                         <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">),</span>
                <span class="s1">&#39;Independent&#39;</span><span class="p">:</span> <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span>
@@ -235,8 +227,8 @@ constraints.</p>
         <span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; leaning time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; score &#39;</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> leaning time: </span><span class="si">%.4f</span><span class="s1"> s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> score </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)))</span>
 
     <span class="c1"># Plot the estimated conditional quantiles</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
@@ -252,30 +244,30 @@ constraints.</p>
                 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_prop_cycle</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">prob</span><span class="p">,</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">z_test</span><span class="p">):</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;theoretical {0:0.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prob</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span>
+                     <span class="n">label</span><span class="o">=</span><span class="s2">&quot;theoretical {0:0.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prob</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  22.997 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  19.308 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_quantile_regression.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_quantile_regression.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_quantile_regression.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_quantile_regression.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -297,7 +289,7 @@ constraints.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -316,6 +308,7 @@ constraints.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -333,14 +326,11 @@ constraints.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

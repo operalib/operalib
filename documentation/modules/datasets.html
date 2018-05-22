@@ -25,26 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -106,7 +98,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -114,9 +106,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -182,29 +175,28 @@ The return result is a pair (inputs, targets) of arrays.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_samples</strong> : int</p>
-<blockquote>
-<div><p>Number of samples to generate.</p>
-</div></blockquote>
-<p><strong>loc: float, optional (default = 25.)</strong></p>
-<blockquote>
-<div><p>Centers of the Gaussians.</p>
-</div></blockquote>
-<p><strong>space: float, optional (default = .5)</strong></p>
-<blockquote>
-<div><p>Variance of the Gaussians.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n_samples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of samples to generate.</p>
+</dd>
+<dt><strong>loc: float, optional (default = 25.)</strong></dt>
+<dd><p class="first last">Centers of the Gaussians.</p>
+</dd>
+<dt><strong>space: float, optional (default = .5)</strong></dt>
+<dd><p class="first last">Variance of the Gaussians.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 2]</p>
-<blockquote>
-<div><p>Array of evenly space points.</p>
-</div></blockquote>
-<p><strong>y</strong> : array shape = [n_samples, 2]</p>
-<blockquote class="last">
-<div><p>Array corresponding to the velocity at the coordinates present in
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, 2]</span></dt>
+<dd><p class="first last">Array of evenly space points.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array shape = [n_samples, 2]</span></dt>
+<dd><p class="first last">Array corresponding to the velocity at the coordinates present in
 inputs.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -212,9 +204,9 @@ inputs.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_curl_free_mesh</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_curl_free_mesh</span></code></dt>
 <dd>Generate Curl-Free mesh.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
 <dd>Generate Divergence-Free mesh.</dd>
 </dl>
 </div>
@@ -241,28 +233,27 @@ the field. The return result is a pair of meshes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : int</p>
-<blockquote>
-<div><p>Number of samples to generate.</p>
-</div></blockquote>
-<p><strong>loc: float, optional (default = 25.)</strong></p>
-<blockquote>
-<div><p>Centers of the Gaussians.</p>
-</div></blockquote>
-<p><strong>space: float, optional (default = .5)</strong></p>
-<blockquote>
-<div><p>Variance of the Gaussians.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n_points</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of samples to generate.</p>
+</dd>
+<dt><strong>loc: float, optional (default = 25.)</strong></dt>
+<dd><p class="first last">Centers of the Gaussians.</p>
+</dd>
+<dt><strong>space: float, optional (default = .5)</strong></dt>
+<dd><p class="first last">Variance of the Gaussians.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : :rtype: (array, array), shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, X, Y coordinates.</p>
-</div></blockquote>
-<p><strong>U, V</strong> : :rtype: (array, array), shape = [n, n]</p>
-<blockquote class="last">
-<div><p>Mesh, (U, V) velocity at (X, Y) coordinates</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X, Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">:rtype: (array, array), shape = [n, n]</span></dt>
+<dd><p class="first last">Mesh, X, Y coordinates.</p>
+</dd>
+<dt><strong>U, V</strong> <span class="classifier-delimiter">:</span> <span class="classifier">:rtype: (array, array), shape = [n, n]</span></dt>
+<dd><p class="first last">Mesh, (U, V) velocity at (X, Y) coordinates</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -270,9 +261,9 @@ the field. The return result is a pair of meshes.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_curl_free_field</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_curl_free_field</span></code></dt>
 <dd>Generate Curl-Free field.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_field</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_div_free_field</span></code></dt>
 <dd>Generate Divergence-Free field.</dd>
 </dl>
 </div>
@@ -299,29 +290,28 @@ the field. The return result is a pair (inputs, targets) of arrays.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_points</strong> : int</p>
-<blockquote>
-<div><p>Number of samples to generate.</p>
-</div></blockquote>
-<p><strong>loc: float, optional (default = 25.)</strong></p>
-<blockquote>
-<div><p>Centers of the Gaussians.</p>
-</div></blockquote>
-<p><strong>space: float, optional (default = .5)</strong></p>
-<blockquote>
-<div><p>Variance of the Gaussians.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n_points</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of samples to generate.</p>
+</dd>
+<dt><strong>loc: float, optional (default = 25.)</strong></dt>
+<dd><p class="first last">Centers of the Gaussians.</p>
+</dd>
+<dt><strong>space: float, optional (default = .5)</strong></dt>
+<dd><p class="first last">Variance of the Gaussians.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 2]</p>
-<blockquote>
-<div><p>Array of evenly space points.</p>
-</div></blockquote>
-<p><strong>y</strong> : array shape = [n_samples, 2]</p>
-<blockquote class="last">
-<div><p>Array corresponding to the velocity at the coordinates present in
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, 2]</span></dt>
+<dd><p class="first last">Array of evenly space points.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array shape = [n_samples, 2]</span></dt>
+<dd><p class="first last">Array corresponding to the velocity at the coordinates present in
 inputs.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -329,9 +319,9 @@ inputs.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
 <dd>Generate Curl-Free mesh.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_div_free_mesh</span></code></dt>
 <dd>Generate Divergence-Free mesh.</dd>
 </dl>
 </div>
@@ -358,28 +348,27 @@ The return result is a pair meshes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_samples</strong> : int</p>
-<blockquote>
-<div><p>Number of samples to generate.</p>
-</div></blockquote>
-<p><strong>loc: float, optional (default = 25.)</strong></p>
-<blockquote>
-<div><p>Centers of the Gaussians.</p>
-</div></blockquote>
-<p><strong>space: float, optional (default = .5)</strong></p>
-<blockquote>
-<div><p>Variance of the Gaussians.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n_samples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of samples to generate.</p>
+</dd>
+<dt><strong>loc: float, optional (default = 25.)</strong></dt>
+<dd><p class="first last">Centers of the Gaussians.</p>
+</dd>
+<dt><strong>space: float, optional (default = .5)</strong></dt>
+<dd><p class="first last">Variance of the Gaussians.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : :rtype: (array, array), shape = [n, n]</p>
-<blockquote>
-<div><p>Mesh, X, Y coordinates.</p>
-</div></blockquote>
-<p><strong>U, V</strong> : :rtype: (array, array), shape = [n, n]</p>
-<blockquote class="last">
-<div><p>Mesh, (U, V) velocity at (X, Y) coordinates</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X, Y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">:rtype: (array, array), shape = [n, n]</span></dt>
+<dd><p class="first last">Mesh, X, Y coordinates.</p>
+</dd>
+<dt><strong>U, V</strong> <span class="classifier-delimiter">:</span> <span class="classifier">:rtype: (array, array), shape = [n, n]</span></dt>
+<dd><p class="first last">Mesh, (U, V) velocity at (X, Y) coordinates</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -387,9 +376,9 @@ The return result is a pair meshes.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_curl_free_field</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_curl_free_field</span></code></dt>
 <dd>Generate Curl-Free field.</dd>
-<dt><code class="xref py py-obj docutils literal"><span class="pre">operalib.toy_data_div_free_field</span></code></dt>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">operalib.toy_data_div_free_field</span></code></dt>
 <dd>Generate Divergence-Free field.</dd>
 </dl>
 </div>
@@ -403,20 +392,21 @@ The return result is a pair meshes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 2]</p>
-<blockquote>
-<div><p>The inputs array.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, 2]</span></dt>
+<dd><p class="first last">The inputs array.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>x_mesh</strong> : array, shape = [n_samples, n_samples]</p>
-<blockquote>
-<div><p>The x_axis of the mesh corresponding to inputs.</p>
-</div></blockquote>
-<p><strong>y_mesh</strong> : array, shape = [n_samples, n_samples]</p>
-<blockquote class="last">
-<div><p>The y_axis of the mesh corresponding to inputs</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>x_mesh</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
+<dd><p class="first last">The x_axis of the mesh corresponding to inputs.</p>
+</dd>
+<dt><strong>y_mesh</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
+<dd><p class="first last">The y_axis of the mesh corresponding to inputs</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -431,20 +421,21 @@ The return result is a pair meshes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_mesh</strong> : array, shape = [n_samples, n_samples]</p>
-<blockquote>
-<div><p>The x_axis mesh.</p>
-</div></blockquote>
-<p><strong>y_mesh</strong> : array, shape = [n_samples, n_samples]</p>
-<blockquote>
-<div><p>The y_axis mesh.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>x_mesh</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
+<dd><p class="first last">The x_axis mesh.</p>
+</dd>
+<dt><strong>y_mesh</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, n_samples]</span></dt>
+<dd><p class="first last">The y_axis mesh.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array, shape = [n_samples, 2]</p>
-<blockquote class="last">
-<div><p>The inputs corresponding to the mesh (x_mesh, y_mesh).</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>inputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, 2]</span></dt>
+<dd><p class="first last">The inputs corresponding to the mesh (x_mesh, y_mesh).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -464,36 +455,33 @@ X = 1 .  5).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_samples</strong> : int</p>
-<blockquote>
-<div><p>Number of samples to generate.</p>
-</div></blockquote>
-<p><strong>probs</strong> : list or float, shape = [n_quantiles], default=0.5</p>
-<blockquote>
-<div><p>Probabilities (quantiles levels).</p>
-</div></blockquote>
-<p><strong>pattern</strong> : callable, default = SinePattern()</p>
-<blockquote>
-<div><p>Callable which generates n_sample 1D data (inputs and targets).</p>
-</div></blockquote>
-<p><strong>noise</strong> : :rtype: (float, float, float, float)</p>
-<blockquote>
-<div><p>Noise parameters (variance, shift, support_min, support_max).</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>n_samples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of samples to generate.</p>
+</dd>
+<dt><strong>probs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or float, shape = [n_quantiles], default=0.5</span></dt>
+<dd><p class="first last">Probabilities (quantiles levels).</p>
+</dd>
+<dt><strong>pattern</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable, default = SinePattern()</span></dt>
+<dd><p class="first last">Callable which generates n_sample 1D data (inputs and targets).</p>
+</dd>
+<dt><strong>noise</strong> <span class="classifier-delimiter">:</span> <span class="classifier">:rtype: (float, float, float, float)</span></dt>
+<dd><p class="first last">Noise parameters (variance, shift, support_min, support_max).</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape = [n_samples, 1]</p>
-<blockquote>
-<div><p>Input data.</p>
-</div></blockquote>
-<p><strong>y</strong> : array, shape = [n_sample, 1]</p>
-<blockquote>
-<div><p>Targets.</p>
-</div></blockquote>
-<p><strong>quantiles</strong> : array, shape = [n_samples x n_quantiles]</p>
-<blockquote class="last">
-<div><p>True conditional quantiles.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, 1]</span></dt>
+<dd><p class="first last">Input data.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_sample, 1]</span></dt>
+<dd><p class="first last">Targets.</p>
+</dd>
+<dt><strong>quantiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples x n_quantiles]</span></dt>
+<dd><p class="first last">True conditional quantiles.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -508,35 +496,33 @@ X = 1 .  5).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : array, shape = [n_samples, dim_target]</p>
-<blockquote>
-<div><p>Targets.</p>
-</div></blockquote>
-<p><strong>p_unsup</strong> : float, default = .25</p>
-<blockquote>
-<div><p>Probability of a single target to be unsupervised.</p>
-</div></blockquote>
-<p><strong>p_weaksup</strong> : float, default = .25</p>
-<blockquote>
-<div><p>Probability of a single target to be weakly supervised.</p>
-</div></blockquote>
-<p><strong>p_weaksup_inner</strong> : float, default = .25</p>
-<blockquote>
-<div><p>Rate of weak supervision.</p>
-</div></blockquote>
-<p><strong>random_state</strong> : int, RandomState instance or None, optional (default=None)</p>
-<blockquote>
-<div><p>If int, random_state is the seed used by the random number
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, dim_target]</span></dt>
+<dd><p class="first last">Targets.</p>
+</dd>
+<dt><strong>p_unsup</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default = .25</span></dt>
+<dd><p class="first last">Probability of a single target to be unsupervised.</p>
+</dd>
+<dt><strong>p_weaksup</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default = .25</span></dt>
+<dd><p class="first last">Probability of a single target to be weakly supervised.</p>
+</dd>
+<dt><strong>p_weaksup_inner</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default = .25</span></dt>
+<dd><p class="first last">Rate of weak supervision.</p>
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, RandomState instance or None, optional (default=None)</span></dt>
+<dd><p class="first last">If int, random_state is the seed used by the random number
 generator; If RandomState instance, random_state is the
 random number generator; If None, the random number
 generator is the RandomState instance used by <cite>np.random</cite>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : array, shape = [n_samples, dim_target]</p>
-<blockquote class="last">
-<div><p>Awful targets.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, dim_target]</span></dt>
+<dd><p class="first last">Awful targets.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -547,9 +533,7 @@ generator is the RandomState instance used by <cite>np.random</cite>.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -562,7 +546,7 @@ generator is the RandomState instance used by <cite>np.random</cite>.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -581,6 +565,7 @@ generator is the RandomState instance used by <cite>np.random</cite>.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -598,14 +583,11 @@ generator is the RandomState instance used by <cite>np.random</cite>.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

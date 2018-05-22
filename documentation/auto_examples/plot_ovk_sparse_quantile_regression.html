@@ -25,29 +25,20 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Operalib 0.1.0 documentation" href="../index.html"/>
-        <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Online Learning with Operator-Valued kernels" href="plot_ovk_onorma.html"/>
-        <link rel="prev" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Online Learning with Operator-Valued kernels" href="plot_ovk_onorma.html" />
+    <link rel="prev" title="Multi-output Operator-valued kernel Regression" href="plot_ovk_regression_multiple_outputs.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -117,7 +108,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Operalib</a>
@@ -125,9 +116,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -178,22 +170,22 @@ kernels.</p>
 <p>We compare quantile regression with several levels of data sparsity.</p>
 <img alt="../_images/sphx_glr_plot_ovk_sparse_quantile_regression_001.png" class="align-center" src="../_images/sphx_glr_plot_ovk_sparse_quantile_regression_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Creating</span> <span class="n">dataset</span><span class="o">...</span>
 <span class="n">Fitting</span><span class="o">...</span>
 <span class="n">Non</span><span class="o">-</span><span class="n">sparse</span> <span class="n">QR</span>
-<span class="p">(</span><span class="s1">&#39;Non-sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">5.662158966064453</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Non-sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.7849561923898193</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Non-sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">sparse</span> <span class="n">QR</span> <span class="n">learning</span> <span class="n">time</span><span class="p">:</span> <span class="mf">5.407</span> <span class="n">s</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">sparse</span> <span class="n">QR</span> <span class="n">score</span> <span class="mf">0.78496</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">sparse</span> <span class="n">QR</span> <span class="n">num</span> <span class="n">of</span> <span class="n">support</span> <span class="n">vectors</span> <span class="mi">100</span>
 <span class="n">Sparse</span> <span class="n">QR</span>
-<span class="p">(</span><span class="s1">&#39;Sparse QR leaning time: &#39;</span><span class="p">,</span> <span class="mf">9.921729803085327</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Sparse QR score &#39;</span><span class="p">,</span> <span class="mf">0.7630635094189474</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;Sparse QR num of support vectors &#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">Sparse</span> <span class="n">QR</span> <span class="n">learning</span> <span class="n">time</span><span class="p">:</span> <span class="mf">9.633</span> <span class="n">s</span>
+<span class="n">Sparse</span> <span class="n">QR</span> <span class="n">score</span> <span class="mf">0.76306</span>
+<span class="n">Sparse</span> <span class="n">QR</span> <span class="n">num</span> <span class="n">of</span> <span class="n">support</span> <span class="n">vectors</span> <span class="mi">25</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Author: Maxime Sangnier &lt;maxime.sangnier@gmail.com&gt;</span>
 <span class="c1"># License: MIT</span>
 
 <span class="c1"># -*- coding: utf-8 -*-</span>
@@ -218,7 +210,7 @@ kernels.</p>
     <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Non-sparse QR&#39;</span><span class="p">:</span>
                <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
                         <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">),</span>
-                <span class="s1">&#39;Sparse QR&#39;</span><span class="p">:</span>
+               <span class="s1">&#39;Sparse QR&#39;</span><span class="p">:</span>
                <span class="n">Quantile</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">8.</span><span class="p">,</span>
                         <span class="n">gamma_quantile</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)}</span>
     <span class="c1"># Fit on training data</span>
@@ -230,9 +222,9 @@ kernels.</p>
         <span class="n">coefs</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">model_</span><span class="p">[</span><span class="s2">&quot;coefs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">probs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="n">n_sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
                       <span class="n">reg</span><span class="o">.</span><span class="n">lbda</span> <span class="o">/</span> <span class="n">y_train</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; leaning time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; score &#39;</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; num of support vectors &#39;</span><span class="p">,</span> <span class="n">n_sv</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> learning time: </span><span class="si">%.3f</span><span class="s1"> s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> score </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> num of support vectors </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">n_sv</span><span class="p">))</span>
 
     <span class="c1"># Plot the estimated conditional quantiles</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
@@ -255,25 +247,24 @@ kernels.</p>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Norm of dual coefs for each point&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
+
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  16.870 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  16.215 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_sparse_quantile_regression.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ovk_sparse_quantile_regression.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_sparse_quantile_regression.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_ovk_sparse_quantile_regression.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ovk_sparse_quantile_regression.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -295,7 +286,7 @@ kernels.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -314,6 +305,7 @@ kernels.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -331,14 +323,11 @@ kernels.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

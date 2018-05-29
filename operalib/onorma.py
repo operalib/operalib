@@ -261,16 +261,6 @@ class ONORMA(BaseEstimator, RegressorMixin):
         y : {array-like}, shape = [n_samples] or [n_samples, n_targets]
             Target values.
 
-        n : {integer}
-            Total number of data.
-            This argument is required for the first call to partial_fit and can
-            be omitted in the subsequent calls.
-
-        p : {integer}
-            Dimensionality of the outputs.
-            This argument is required for the first call to partial_fit and can
-            be omitted in the subsequent calls.
-
         Returns
         -------
         self : returns an instance of self.

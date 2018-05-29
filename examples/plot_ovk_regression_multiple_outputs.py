@@ -25,7 +25,7 @@ print(__doc__)
 
 seed = 123
 np.random.seed(seed)
-print("seed", seed)
+print("seed = %d" % seed)
 
 # Create a random dataset
 print("Creating dataset...")
@@ -52,12 +52,12 @@ start = time.time()
 A = np.eye(2)
 regr_1 = ovk.OVKRidge('DPeriodic', lbda=0.01, period=6, theta=.995, A=A)
 regr_1.fit(X, y)
-print("Leaning time DPeriodic ID: ", time.time() - start)
+print("Leaning time DPeriodic ID: %.3f s" % (time.time() - start))
 
 start = time.time()
 regr_2 = DecisionTreeRegressor(max_depth=100)
 regr_2.fit(X, y)
-print("Leaning time Trees: ", time.time() - start)
+print("Leaning time Trees: %.3f s" % (time.time() - start))
 
 
 # Predict
@@ -65,18 +65,18 @@ print("Predicting...")
 X_test = np.arange(-100.0, 100.0, .5)[:, np.newaxis]
 start = time.time()
 y_1 = regr_1.predict(X_test)
-print("Test time DPeriodic ID: ", time.time() - start)
+print("Test time DPeriodic ID: %.3f s" % (time.time() - start))
 
 start = time.time()
 y_2 = regr_2.predict(X_test)
-print("Test time Trees: ", time.time() - start)
+print("Test time Trees:  %.3f s" % (time.time() - start))
 
 # Ground truth
 y_t = np.dot(np.array([np.pi * np.sin(X_test).ravel(),
                        np.pi * np.cos(X_test).ravel()]).T, U)
 
-print("R2 OVK ID: ", regr_1.score(X_test, y_t))
-print("R2 Trees: ", regr_2.score(X_test, y_t))
+print("R2 OVK ID: %.5f" % regr_1.score(X_test, y_t))
+print("R2 Trees: %.5f" % regr_2.score(X_test, y_t))
 
 # Plot
 print("plotting")

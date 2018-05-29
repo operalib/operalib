@@ -34,12 +34,9 @@ def main():
     inputs, targets = ovk.toy_data_curl_free_field(n_samples=2000)
     inputs_mesh = ovk.array2mesh(inputs)
 
-    (inputs_train, inputs_test,
-     targets_train, targets_test) = train_test_split(inputs, targets,
-                                                     train_size=(inputs
-                                                                 .shape[0] -
-                                                                 40 ** 2),
-                                                     random_state=random_state)
+    inputs_train, inputs_test, targets_train, targets_test = train_test_split(
+        inputs, targets, train_size=(inputs.shape[0] - 40 ** 2),
+        random_state=random_state)
 
     # Add unlabelled data
     targets_train = ovk.datasets.awful(targets_train, .85, .1, .5,
@@ -47,7 +44,7 @@ def main():
     sup_mask = ~np.any(np.isnan(targets_train), axis=1)
     weaksup_mask = ~np.all(np.isnan(targets_train), axis=1)
 
-    scores = {'CF weak semisup': 0, 'CF weak': 0, 'CF': 0, 'Indep': 0}
+    scores = {'CF weak semisup': 0., 'CF weak': 0., 'CF': 0., 'Indep': 0.}
     regressor = {'CF weak semisup':
                  ovk.OVKRidge(ovkernel=ovk.RBFCurlFreeKernel(gamma=2.),
                               lbda=0.0001, gamma_m=1., lbda_m=0.0001),
@@ -68,7 +65,8 @@ def main():
     regressor['CF weak semisup'].fit(inputs_train, targets_train)
     scores['CF weak semisup'] = (regressor['CF weak semisup']
                                  .score(inputs_test, targets_test))
-    print('R2 curl-free semisup + weak ridge: ', scores['CF weak semisup'])
+    print('R2 curl-free semisup + weak ridge: %.5f' %
+          scores['CF weak semisup'])
     targets_mesh['CF weak semisup'] = ovk.array2mesh(
         regressor['CF weak semisup'].predict(inputs))
 
@@ -76,21 +74,21 @@ def main():
     regressor['CF weak'].fit(inputs_train[weaksup_mask, :],
                              targets_train[weaksup_mask, :])
     scores['CF weak'] = regressor['CF weak'].score(inputs_test, targets_test)
-    print('R2 curl-free weak ridge: ', scores['CF weak'])
+    print('R2 curl-free weak ridge: %.5f' % scores['CF weak'])
     targets_mesh['CF weak'] = ovk.array2mesh(
         regressor['CF weak'].predict(inputs))
 
     # Learning with curl-free
     regressor['CF'].fit(inputs_train[sup_mask, :], targets_train[sup_mask, :])
     scores['CF'] = regressor['CF'].score(inputs_test, targets_test)
-    print('R2 curl-free ridge: ', scores['CF'])
+    print('R2 curl-free ridge: %.5f' % scores['CF'])
     targets_mesh['CF'] = ovk.array2mesh(regressor['CF'].predict(inputs))
 
     # Learning with sklearn ridge
     regressor['Indep'].fit(inputs_train[sup_mask, :],
                            targets_train[sup_mask, :])
     scores['Indep'] = regressor['Indep'].score(inputs_test, targets_test)
-    print('R2 independant ridge: ', scores['Indep'])
+    print('R2 independent ridge: %.5f' % scores['Indep'])
     targets_mesh['Indep'] = ovk.array2mesh(regressor['Indep'].predict(inputs))
 
     # Plotting
@@ -125,22 +123,20 @@ def main():
                            arrowstyle=u'->')
     axarr[0, 0].set_ylim([-1, 1])
     axarr[0, 0].set_xlim([-1, 1])
-    axarr[0, 0].set_title('Curl-free semisup + weak ridge: ' +
-                          str(scores['CF weak semisup']))
+    axarr[0, 0].set_title('Curl-free semisup + weak ridge, R2: %.5f' %
+                          scores['CF weak semisup'])
     axarr[0, 1].set_ylim([-1, 1])
     axarr[0, 1].set_xlim([-1, 1])
-    axarr[0, 1].set_title('Curl-free weak ridge, R2: ' +
-                          str(scores['CF weak']))
+    axarr[0, 1].set_title('Curl-free weak ridge, R2: %5f' % scores['CF weak'])
     axarr[1, 0].set_ylim([-1, 1])
     axarr[1, 0].set_xlim([-1, 1])
-    axarr[1, 0].set_title('Curl-free ridge, R2: ' +
-                          str(scores['CF']))
+    axarr[1, 0].set_title('Curl-free ridge, R2: %.5f' % scores['CF'])
     axarr[1, 1].set_ylim([-1, 1])
     axarr[1, 1].set_xlim([-1, 1])
-    axarr[1, 1].set_title('Independant ridge, R2: ' +
-                          str(scores['Indep']))
+    axarr[1, 1].set_title('Independant ridge, R2: %.5f' % scores['Indep'])
     fig.suptitle('Vectorfield learning')
     plt.show()
+
 
 if __name__ == '__main__':
     main()

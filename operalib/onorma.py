@@ -39,7 +39,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
     Operator-Valued kernel Operator-valued Naive Online Regularised Risk
     Minimization Algorithm (ONORMA) extends the standard kernel-based
     online learning algorithm NORMA from scalar-valued to operator-valued
-    setting
+    setting. The truncation is currently not implemented.
 
     Attributes
     ----------

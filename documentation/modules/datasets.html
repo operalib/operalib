@@ -488,47 +488,6 @@ X = 1 .  5).</p>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="operalib.datasets.awful">
-<code class="descclassname">operalib.datasets.</code><code class="descname">awful</code><span class="sig-paren">(</span><em>y</em>, <em>p_unsup=0.25</em>, <em>p_weaksup=0.25</em>, <em>p_weaksup_inner=0.25</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/datasets/awful.html#awful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.datasets.awful" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take a nice dataset and add some NaNs to simulate partially supervised.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, dim_target]</span></dt>
-<dd><p class="first last">Targets.</p>
-</dd>
-<dt><strong>p_unsup</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default = .25</span></dt>
-<dd><p class="first last">Probability of a single target to be unsupervised.</p>
-</dd>
-<dt><strong>p_weaksup</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default = .25</span></dt>
-<dd><p class="first last">Probability of a single target to be weakly supervised.</p>
-</dd>
-<dt><strong>p_weaksup_inner</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, default = .25</span></dt>
-<dd><p class="first last">Rate of weak supervision.</p>
-</dd>
-<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, RandomState instance or None, optional (default=None)</span></dt>
-<dd><p class="first last">If int, random_state is the seed used by the random number
-generator; If RandomState instance, random_state is the
-random number generator; If None, the random number
-generator is the RandomState instance used by <cite>np.random</cite>.</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples, dim_target]</span></dt>
-<dd><p class="first last">Awful targets.</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 
 

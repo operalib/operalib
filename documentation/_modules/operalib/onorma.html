@@ -173,6 +173,7 @@
 <span class="c1"># method</span>
 <span class="n">PAIRWISE_KERNEL_FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;DGauss&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span>
+    <span class="s1">&#39;DotProduct&#39;</span><span class="p">:</span> <span class="n">DotProductKernel</span><span class="p">,</span>
     <span class="s1">&#39;DPeriodic&#39;</span><span class="p">:</span> <span class="n">DecomposableKernel</span><span class="p">,</span>
     <span class="s1">&#39;DotProduct&#39;</span><span class="p">:</span> <span class="n">DotProductKernel</span><span class="p">}</span>
 
@@ -276,6 +277,10 @@
 <span class="sd">            Linear operator used by the decomposable kernel. If default is</span>
 <span class="sd">            None, wich is set to identity matrix of size y.shape[1] when</span>
 <span class="sd">            fitting.</span>
+
+<span class="sd">        mu : {array, LinearOperator}, shape = [n_targets, n_targets]</span>
+<span class="sd">            Tradeoff between shared and independant components in the Dot</span>
+<span class="sd">            Product kernel.</span>
 
 <span class="sd">        learning_rate : {Callable}</span>
 <span class="sd">            Learning rate, a function that return the step size at given step</span>
@@ -456,7 +461,7 @@
             <span class="c1"># Update weights</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ravel</span><span class="p">(</span>
                 <span class="n">eta_t</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decision_function</span><span class="p">(</span><span class="n">Xtt</span><span class="p">)</span> <span class="o">-</span> <span class="n">ytt</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">eta_t</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coefs_</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">t_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_</span><span class="p">]</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">eta_t</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbda</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
             <span class="c1"># Update seen data</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span> <span class="o">=</span> <span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X_seen_</span><span class="p">,</span> <span class="n">Xtt</span><span class="p">))</span>

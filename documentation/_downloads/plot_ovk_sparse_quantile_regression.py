@@ -60,7 +60,8 @@ def main():
             plt.plot(x_test, quantile, '-')
         plt.gca().set_prop_cycle(None)
         for prob, quantile in zip(probs, z_test):
-            plt.plot(x_test, quantile, '--', label="theoretical {0:0.2f}".format(prob))
+            plt.plot(x_test, quantile, '--',
+                     label="theoretical {0:0.2f}".format(prob))
         plt.title(method)
         plt.legend(fontsize=8)
 

@@ -40,7 +40,7 @@ def test_learn_ONORMA_Joint():
     """Test ONORMA joint estimator partial_fit, predict."""
     est = ovk.ONORMA('DGauss', A=.8 * np.eye(p) + .2 * np.ones((p, p)),
                      gamma=.25, learning_rate='invscaling',
-                     eta=1., power=.25, lbda=0.00001)
+                     eta=1., power=.5, lbda=0.00001)
     err = np.empty(n)
     err[0] = np.linalg.norm(y[0, :]) ** 2
     est.partial_fit(X[0, :].reshape(1, -1), y[0, :])
@@ -55,7 +55,7 @@ def test_learn_ONORMA_Joint():
 def test_learn_ONORMA_Indep():
     """Test ONORMA independant estimator partial_fit, predict."""
     est = ovk.ONORMA('DGauss', A=np.eye(p),
-                     gamma=.25, learning_rate=ovk.InvScaling(1., .25),
+                     gamma=.25, learning_rate=ovk.InvScaling(1.),
                      lbda=0.00001)
     err = np.empty(n)
     err[0] = np.linalg.norm(y[0, :]) ** 2
@@ -71,7 +71,7 @@ def test_learn_ONORMA_Indep():
 def test_learn_ONORMA_fit():
     """Test ONORMA independant estimator fit, predict."""
     est = ovk.ONORMA('DGauss', A=np.eye(p),
-                     gamma=.25, learning_rate=ovk.InvScaling(1., .25),
+                     gamma=.25, learning_rate=ovk.InvScaling(2.),
                      lbda=0.00001)
     est.fit(X, y)
     assert est.score(X, y) >= 0.5
@@ -79,8 +79,8 @@ def test_learn_ONORMA_fit():
 
 def test_learn_ONORMA_dot_fit():
     """Test ONORMA DotProduct kernel estimator fit, predict."""
-    est = ovk.ONORMA('DotProduct', mu=.2,
-                     gamma=.25, learning_rate=ovk.InvScaling(.05, .25),
+    est = ovk.ONORMA('DotProduct', mu=.4,
+                     learning_rate=ovk.InvScaling(.05, .25),
                      lbda=0.00001)
     est.fit(X, y)
-    assert est.score(X, y) >= 0.5
+    assert est.score(X, y) >= 0.25

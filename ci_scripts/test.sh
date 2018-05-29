@@ -6,7 +6,7 @@ mkdir -p $TEST_DIR
 
 cd $TEST_DIR
 
-flake8
+flake8 -v
 if [[ "$COVERAGE" == "true" ]]; then
     py.test -v -x --ignore=setup.py --pyargs $MODULE --cov=$MODULE
 else

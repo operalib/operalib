@@ -63,7 +63,7 @@ class InvScaling(object):
     InvScaling : Callable
     """
 
-    def __init__(self, eta=1, power=1.):
+    def __init__(self, eta=1, power=.5):
         r"""Initialize inverse scaling learnin rate.
 
         Parameters

@@ -21,6 +21,7 @@ from .learningrate import Constant, InvScaling
 # method
 PAIRWISE_KERNEL_FUNCTIONS = {
     'DGauss': DecomposableKernel,
+    'DotProduct': DotProductKernel,
     'DPeriodic': DecomposableKernel,
     'DotProduct': DotProductKernel}
 
@@ -124,6 +125,10 @@ class ONORMA(BaseEstimator, RegressorMixin):
             Linear operator used by the decomposable kernel. If default is
             None, wich is set to identity matrix of size y.shape[1] when
             fitting.
+
+        mu : {array, LinearOperator}, shape = [n_targets, n_targets]
+            Tradeoff between shared and independant components in the Dot
+            Product kernel.
 
         learning_rate : {Callable}
             Learning rate, a function that return the step size at given step
@@ -304,7 +309,7 @@ class ONORMA(BaseEstimator, RegressorMixin):
             # Update weights
             self.coefs_[self.t_ * self.p_:(self.t_ + 1) * self.p_] = -ravel(
                 eta_t * (self._decision_function(Xtt) - ytt))
-            self.coefs_[:self.t_ * self.p_] *= (1. - eta_t * self.lbda)
+            self.coefs_[:self.t_ * self.p_] *= (1. - eta_t * self.lbda / 2)
 
             # Update seen data
             self.X_seen_ = vstack((self.X_seen_, Xtt))

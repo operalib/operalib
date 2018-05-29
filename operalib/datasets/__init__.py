@@ -5,10 +5,11 @@ from .vectorfield import (toy_data_curl_free_field,
                           toy_data_div_free_mesh, array2mesh, mesh2array,
                           toy_data_curl_free_mesh, toy_data_div_free_field)
 from .quantile import toy_data_quantile
+from .structure import toy_data_multitask
 from .awful import awful
 
 __all__ = ['toy_data_curl_free_field', 'toy_data_div_free_mesh',
            'toy_data_div_free_field', 'toy_data_curl_free_mesh',
            'array2mesh', 'mesh2array',
-           'toy_data_quantile',
+           'toy_data_quantile', 'toy_data_multitask'
            'awful']

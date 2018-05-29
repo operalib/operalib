@@ -163,7 +163,7 @@ Minimization Algorithm .</p>
 <p>Operator-Valued kernel Operator-valued Naive Online Regularised Risk
 Minimization Algorithm (ONORMA) extends the standard kernel-based
 online learning algorithm NORMA from scalar-valued to operator-valued
-setting</p>
+setting. The truncation is currently not implemented.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
@@ -326,16 +326,6 @@ Must call</p>
 </dd>
 <dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
 <dd><p class="first last">Target values.</p>
-</dd>
-<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{integer}</span></dt>
-<dd><p class="first last">Total number of data.
-This argument is required for the first call to partial_fit and can
-be omitted in the subsequent calls.</p>
-</dd>
-<dt><strong>p</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{integer}</span></dt>
-<dd><p class="first last">Dimensionality of the outputs.
-This argument is required for the first call to partial_fit and can
-be omitted in the subsequent calls.</p>
 </dd>
 </dl>
 </td>

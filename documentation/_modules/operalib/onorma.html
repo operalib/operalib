@@ -191,7 +191,7 @@
 <span class="sd">    Operator-Valued kernel Operator-valued Naive Online Regularised Risk</span>
 <span class="sd">    Minimization Algorithm (ONORMA) extends the standard kernel-based</span>
 <span class="sd">    online learning algorithm NORMA from scalar-valued to operator-valued</span>
-<span class="sd">    setting</span>
+<span class="sd">    setting. The truncation is currently not implemented.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -412,16 +412,6 @@
 
 <span class="sd">        y : {array-like}, shape = [n_samples] or [n_samples, n_targets]</span>
 <span class="sd">            Target values.</span>
-
-<span class="sd">        n : {integer}</span>
-<span class="sd">            Total number of data.</span>
-<span class="sd">            This argument is required for the first call to partial_fit and can</span>
-<span class="sd">            be omitted in the subsequent calls.</span>
-
-<span class="sd">        p : {integer}</span>
-<span class="sd">            Dimensionality of the outputs.</span>
-<span class="sd">            This argument is required for the first call to partial_fit and can</span>
-<span class="sd">            be omitted in the subsequent calls.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

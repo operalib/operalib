@@ -34,8 +34,7 @@ class DotProductKernelMap(DotProductKernel):
         x \mapsto K_X(y) = \mu \langle x, y \rangle 1_p + (1-\mu) \langle x,
         y \rangle^2 I_p
 
-    This class just fixes the support data X to the kernel. Hence it
-    naturally inherit from DecomposableKernel.
+    This class just fixes the support data X to the kernel.
 
     Attributes
     ----------

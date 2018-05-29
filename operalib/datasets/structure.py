@@ -1,7 +1,8 @@
 """ Synthetic datasets for strutured learning."""
 
 from sklearn.utils import check_random_state
-from numpy import zeros, diag, mean, dot, hstack, ones
+from numpy import zeros, diag, dot, hstack, ones
+
 
 def _phi(X):
     return hstack((X[:, 0:1] ** 2,
@@ -30,6 +31,4 @@ def toy_data_multitask(n_samples, input_dim, output_dim, random_state=None):
                                output_dim)
     y = dot(_phi(X), w.T)
 
-    # Link components to a common mean.
-    #y = .5 * y + 0.5 * mean(y, axis=1).reshape(-1, 1)
     return X, y

@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 
 import time
 
-from sklearn.preprocessing import StandardScaler
 
 n = 5000
 d = 20
@@ -56,7 +55,7 @@ print('    MSE: %.3f' % err_cj[-1])
 plt.semilogy(np.linspace(0, 100, err_cj.size), err_cj,
              label=r'Independent DotProduct Kernel: $\mu$={}'.format(mu))
 
-mu=.2
+mu = .2
 est = ovk.ONORMA('DotProduct', mu=mu,
                  learning_rate=ovk.InvScaling(0.05), lbda=0.01)
 print('Fitting Joint DotProductKernel, mu={}.'.format(mu))
@@ -74,7 +73,6 @@ print('    MSE: %.3f' % err_cj[-1])
 plt.semilogy(np.linspace(0, 100, err_cj.size), err_cj,
              label=r'Joint DotProduct Kernel: $\mu$={}'.format(mu))
 
-#plt.ylim(4e-2, 1.2e-1)
 plt.title('Online learning with ONORMA')
 plt.xlabel('Size of the Training set (%)')
 plt.ylabel('MSE')

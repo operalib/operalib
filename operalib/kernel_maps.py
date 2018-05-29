@@ -146,8 +146,8 @@ class DotProductKernelMap(DotProductKernel):
         return dot(X, self.X.T)
 
     def _dot(self, Gs, c):
-        #return ravel(dot((self.mu * kron(Gs, ones((self.p, self.p))) +
-                         #(1 - self.mu) * kron(Gs ** 2, eye(self.p))), c))
+        # return ravel(dot((self.mu * kron(Gs, ones((self.p, self.p))) +
+        #                   (1 - self.mu) * kron(Gs ** 2, eye(self.p))), c))
         cr = c.reshape((self.X.shape[0], -1))
         p1 = dot(dot(Gs, cr), ones((self.p, self.p)))
         p2 = dot(dot(Gs ** 2, cr), eye(self.p))

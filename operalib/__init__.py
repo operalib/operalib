@@ -60,7 +60,7 @@ else:
                           RBFDivFreeKernel, DotProductKernel)
     from .risk import OVKRidgeRisk, ORFFRidgeRisk, ORFFLSLoss, ORFFHingeLoss
     from .learningrate import Constant, InvScaling
-    from .ridge import OVKRidge
+    from .ridge import OVKRidge, OVKDecomposableRidge
     from .onorma import ONORMA
     from .orff import ORFFRidge
     from .quantile import Quantile
@@ -72,6 +72,7 @@ else:
                                        toy_data_div_free_mesh,
                                        array2mesh, mesh2array)
     from .datasets.quantile import toy_data_quantile
+    from .datasets.structure import toy_data_multitask
     from .preprocessing.simplex import SimplexCoding
 
     __all__ = ['DecomposableKernel', 'RBFCurlFreeKernel', 'RBFDivFreeKernel',
@@ -81,8 +82,9 @@ else:
                'first_periodic_kernel',
                'get_period',
                'OVKRidge', 'ORFFRidge', 'Quantile', 'ONORMA',
+               'OVKDecomposableRidge',
                'toy_data_curl_free_field', 'toy_data_curl_free_mesh',
                'toy_data_div_free_field', 'toy_data_div_free_mesh',
-               'toy_data_quantile',
+               'toy_data_quantile', 'toy_data_multitask',
                'array2mesh', 'mesh2array',
                'SimplexCoding']

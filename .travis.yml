@@ -17,6 +17,10 @@ addons:
       - libfftw3-dev
       - libglpk-dev
 
+      # gcc (libgfortran)
+      - gcc
+      - gcc-dev
+
       # sklearn
       - libatlas3gf-base
       - libatlas-dev
@@ -77,6 +81,7 @@ before_install:
   - tar -xf SuiteSparse-4.5.3.tar.gz
   - export CVXOPT_SUITESPARSE_SRC_DIR=$(pwd)/SuiteSparse]
   - popd
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64/
 install: source ci_scripts/install.sh
 script: bash ci_scripts/test.sh
 after_success: source ci_scripts/success.sh

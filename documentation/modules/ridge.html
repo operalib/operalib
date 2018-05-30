@@ -156,8 +156,8 @@
 <p><a class="reference internal" href="#module-operalib.ridge" title="operalib.ridge"><code class="xref py py-mod docutils literal notranslate"><span class="pre">operalib.ridge</span></code></a> implements Operator-Valued Kernel ridge
 regression.</p>
 <dl class="class">
-<dt id="operalib.ridge.OVKRidge">
-<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">OVKRidge</code><span class="sig-paren">(</span><em>ovkernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>lbda_m=0.0</em>, <em>A=None</em>, <em>gamma=None</em>, <em>gamma_m=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver='L-BFGS-B'</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge" title="Permalink to this definition">¶</a></dt>
+<dt id="operalib.ridge.OVKDecomposableRidge">
+<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">OVKDecomposableRidge</code><span class="sig-paren">(</span><em>input_kernel='Gauss'</em>, <em>A=None</em>, <em>lbda=1e-05</em>, <em>gamma=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKDecomposableRidge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKDecomposableRidge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Operator-Valued kernel ridge regression.</p>
 <blockquote>
 <div><p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
@@ -165,14 +165,14 @@ regression.</p>
 trick. It learns a linear function in the space induced by the
 respective kernel and the data. For non-linear kernels, this corresponds to
 a non-linear function in the original space.</p>
-<p>The form of the model learned by OVKRR is identical to support vector
-regression (SVR). However, different loss functions are used: OVKRR uses
-squared error loss while support vector regression uses epsilon-insensitive
-loss, both combined with l2 regularization. In contrast to SVR, fitting a
-OVKRR model can be done in closed-form and is typically faster for
-medium-sized datasets. On the other  hand, the learned model is non-sparse
-and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at
-prediction-time.</p>
+<p>This is a simplyfied version of OVKRidge Handelling only the decomposable
+kernel. This allows to rewrite the optimality condition as a sylvester
+system of equation and reduce the complexity to
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">mathcal</span><span class="p">{</span><span class="n">O</span><span class="p">}(</span><span class="n">n</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> \<span class="n">mathcal</span><span class="p">{</span><span class="n">O</span><span class="p">}(</span><span class="n">p</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where n is the number of training points and p the number of outputs.</p>
 <p>Optimization problem solved for learning:
 .. math:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">min_</span><span class="p">{</span><span class="n">h</span> \<span class="ow">in</span> \<span class="n">mathcal</span> <span class="n">H</span><span class="p">}</span><span class="o">~</span> 
@@ -216,14 +216,262 @@ Gram matrix being a LinearOperator)</p>
 <dd><p class="first last">Set when Linear operator used by the decomposable kernel is default or
 None.</p>
 </dd>
-<dt><a href="#id5"><span class="problematic" id="id6">L_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples_miss, n_samples_miss]</span></dt>
+<dt><a href="#id5"><span class="problematic" id="id6">period_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Set when period used by the First periodic kernel is ‘autocorr’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKDecomposableRidge.fit" title="operalib.ridge.OVKDecomposableRidge.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X,&nbsp;y)</td>
+<td>Fit OVK ridge regression model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKDecomposableRidge.get_params" title="operalib.ridge.OVKDecomposableRidge.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKDecomposableRidge.predict" title="operalib.ridge.OVKDecomposableRidge.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(X)</td>
+<td>Predict using the OVK ridge model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#operalib.ridge.OVKDecomposableRidge.score" title="operalib.ridge.OVKDecomposableRidge.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X,&nbsp;y[,&nbsp;sample_weight])</td>
+<td>Returns the coefficient of determination R^2 of the prediction.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#operalib.ridge.OVKDecomposableRidge.set_params" title="operalib.ridge.OVKDecomposableRidge.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<td>Set the parameters of this estimator.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="operalib.ridge.OVKDecomposableRidge.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKDecomposableRidge.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKDecomposableRidge.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit OVK ridge regression model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Training data.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Target values. numpy.NaN for missing targets (semi-supervised
+learning).</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">returns an instance of self.</span></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.ridge.OVKDecomposableRidge.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKDecomposableRidge.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>deep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
+<dd><p class="first last">If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.ridge.OVKDecomposableRidge.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKDecomposableRidge.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKDecomposableRidge.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict using the OVK ridge model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array-like, sparse matrix}, shape = [n_samples, n_features]</span></dt>
+<dd><p class="first last">Samples.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>C</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{array}, shape = [n_samples] or [n_samples, n_targets]</span></dt>
+<dd><p class="first last">Returns predicted values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.ridge.OVKDecomposableRidge.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKDecomposableRidge.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the coefficient of determination R^2 of the prediction.</p>
+<p>The coefficient R^2 is defined as (1 - u/v), where u is the residual
+sum of squares ((y_true - y_pred) ** 2).sum() and v is the total
+sum of squares ((y_true - y_true.mean()) ** 2).sum().
+The best possible score is 1.0 and it can be negative (because the
+model can be arbitrarily worse). A constant model that always
+predicts the expected value of y, disregarding the input features,
+would get a R^2 score of 0.0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_samples, n_features)</span></dt>
+<dd><p class="first last">Test samples.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_samples) or (n_samples, n_outputs)</span></dt>
+<dd><p class="first last">True values for X.</p>
+</dd>
+<dt><strong>sample_weight</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = [n_samples], optional</span></dt>
+<dd><p class="first last">Sample weights.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>score</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">R^2 of self.predict(X) wrt. y.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="operalib.ridge.OVKDecomposableRidge.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#operalib.ridge.OVKDecomposableRidge.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.</p>
+<p>The method works on simple estimators as well as on nested objects
+(such as pipelines). The latter have parameters of the form
+<code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
+component of a nested object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="operalib.ridge.OVKRidge">
+<em class="property">class </em><code class="descclassname">operalib.ridge.</code><code class="descname">OVKRidge</code><span class="sig-paren">(</span><em>ovkernel='DGauss'</em>, <em>lbda=1e-05</em>, <em>lbda_m=0.0</em>, <em>A=None</em>, <em>gamma=None</em>, <em>gamma_m=None</em>, <em>theta=0.7</em>, <em>period='autocorr'</em>, <em>autocorr_params=None</em>, <em>solver='L-BFGS-B'</em>, <em>solver_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/operalib/ridge.html#OVKRidge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#operalib.ridge.OVKRidge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Operator-Valued kernel ridge regression.</p>
+<blockquote>
+<div><p>Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
+(linear least squares with l2-norm regularization) with the (OV)kernel
+trick. It learns a linear function in the space induced by the
+respective kernel and the data. For non-linear kernels, this corresponds to
+a non-linear function in the original space.</p>
+<p>Let n be the number of training points and p the number of outputs. This
+algorithm has a complexity per iterations of
+… math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">mathcal</span><span class="p">{</span><span class="n">O</span><span class="p">}(</span><span class="n">pn</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> \<span class="n">mathcal</span><span class="p">{</span><span class="n">O</span><span class="p">}(</span><span class="n">p</span><span class="o">^</span><span class="mi">2</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for the decomposable kernel. Hence, when the number of outputs is large,
+the solver OVKDecomposableRidge should be faster.</p>
+<p>The form of the model learned by OVKRR is identical to support vector
+regression (SVR). However, different loss functions are used: OVKRR uses
+squared error loss while support vector regression uses epsilon-insensitive
+loss, both combined with l2 regularization. In contrast to SVR, fitting a
+OVKRR model can be done in closed-form and is typically faster for
+medium-sized datasets. On the other  hand, the learned model is non-sparse
+and thus slower than SVR, which learns a sparse model for epsilon &gt; 0, at
+prediction-time.</p>
+<p>Optimization problem solved for learning:
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">min_</span><span class="p">{</span><span class="n">h</span> \<span class="ow">in</span> \<span class="n">mathcal</span> <span class="n">H</span><span class="p">}</span><span class="o">~</span> 
+</pre></div>
+</div>
+</div></blockquote>
+<p>rac{lambda}{2} |h|_{mathcal H}^2 +</p>
+<p>rac{1}{np} sum_{i=1}^n |y_j - h(x_i)|_{mathcal Y}^2 +</p>
+<dl class="docutils">
+<dt>rac{lambda_m}{2} sum_{i=1}^n W_{ij}</dt>
+<dd>|h(x_i) - h(x_j)|_{mathcal Y}^2</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">operalib</span> <span class="k">as</span> <span class="nn">ovk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_targets</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ovk</span><span class="o">.</span><span class="n">OVKRidge</span><span class="p">(</span><span class="s1">&#39;DGauss&#39;</span><span class="p">,</span> <span class="n">lbda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="go">OVKRidge(...)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dual_coef_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples x n_targest]</span></dt>
+<dd><blockquote class="first">
+<div><p>Weight vector(s) in kernel space</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt><a href="#id7"><span class="problematic" id="id8">linop_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
+<dd><p class="first last">Callable which associate to the training points X the Gram matrix (the
+Gram matrix being a LinearOperator)</p>
+</dd>
+<dt><a href="#id9"><span class="problematic" id="id10">A_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_targets, n_targets]</span></dt>
+<dd><p class="first last">Set when Linear operator used by the decomposable kernel is default or
+None.</p>
+</dd>
+<dt><a href="#id11"><span class="problematic" id="id12">L_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = [n_samples_miss, n_samples_miss]</span></dt>
 <dd><p class="first last">Graph Laplacian of data with missing targets (semi-supervised
 learning).</p>
 </dd>
-<dt><a href="#id7"><span class="problematic" id="id8">period_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dt><a href="#id13"><span class="problematic" id="id14">period_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
 <dd><p class="first last">Set when period used by the First periodic kernel is ‘autocorr’.</p>
 </dd>
-<dt><a href="#id9"><span class="problematic" id="id10">solver_res_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">any</span></dt>
+<dt><a href="#id15"><span class="problematic" id="id16">solver_res_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">any</span></dt>
 <dd><p class="first last">Raw results returned by the solver.</p>
 </dd>
 </dl>

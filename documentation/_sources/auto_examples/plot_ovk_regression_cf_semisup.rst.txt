@@ -169,7 +169,7 @@ regression on a semi-supervised dataset.
     if __name__ == '__main__':
         main()
 
-**Total running time of the script:** ( 0 minutes  58.032 seconds)
+**Total running time of the script:** ( 0 minutes  41.186 seconds)
 
 
 

@@ -73,7 +73,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     source testvenv/bin/activate
     pip install -U pip
     pip install -U nose pytest pytest-cov numpy cython scipy sklearn cvxopt \
-        flake8
+        flake8 python-tk
 
 elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     # Set up our own virtualenv environment to avoid travis' numpy.

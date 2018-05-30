@@ -14,7 +14,7 @@ dist: trusty
 env:
   global:
     # Directory where tests are run from
-    - TEST_DIR=/tmp/sklearn
+    - TEST_DIR=/tmp/operalib
     - OMP_NUM_THREADS=4
     - OPENBLAS_NUM_THREADS=4
 

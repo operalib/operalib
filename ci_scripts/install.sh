@@ -22,6 +22,13 @@ echo 'List files from cached directories'
 echo 'pip:'
 ls $HOME/.cache/pip
 
+export CC=/usr/lib/ccache/gcc
+export CXX=/usr/lib/ccache/g++
+# Useful for debugging how ccache is used
+# export CCACHE_LOGFILE=/tmp/ccache.log
+# ~60M is used by .ccache when compiling from scratch at the time of writing
+ccache --max-size 100M --show-stats
+
 if [[ "$DISTRIB" == "conda" ]]; then
     # Deactivate the travis-provided virtual environment and setup a
     # conda-based environment instead
@@ -47,19 +54,29 @@ if [[ "$DISTRIB" == "conda" ]]; then
     conda update --yes conda
     popd
 
-    # Configure the conda environment and put it in the path using the
-    # provided versions
+    TO_INSTALL="python=$PYTHON_VERSION pip pytest pytest-cov \
+                numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION \
+                cython=$CYTHON_VERSION" cvxopt sklearn
+
     if [[ "$INSTALL_MKL" == "true" ]]; then
-        conda create -n testenv --yes python=$PYTHON_VERSION pip nose pytest \
-            pytest-cov flake8 \
-            numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION numpy scipy \
-            cython=$CYTHON_VERSION scikit-learn libgfortran mkl cvxopt
+        TO_INSTALL="$TO_INSTALL mkl"
     else
-        conda create -n testenv --yes python=$PYTHON_VERSION pip nose pytest \
-            pytest-cov flake8 \
-            numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION cython=$CYTHON_VERSION \
-            scikit-learn libgfortran cvxopt
+        TO_INSTALL="$TO_INSTALL nomkl"
     fi
+
+    if [[ -n "$PANDAS_VERSION" ]]; then
+        TO_INSTALL="$TO_INSTALL pandas=$PANDAS_VERSION"
+    fi
+
+    if [[ -n "$PYAMG_VERSION" ]]; then
+        TO_INSTALL="$TO_INSTALL pyamg=$PYAMG_VERSION"
+    fi
+
+    if [[ -n "$PILLOW_VERSION" ]]; then
+        TO_INSTALL="$TO_INSTALL pillow=$PILLOW_VERSION"
+    fi
+
+    conda create -n testenv --yes $TO_INSTALL
     source activate testenv
 
 elif [[ "$DISTRIB" == "ubuntu" ]]; then
@@ -89,20 +106,31 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     pip install pytest pytest-cov
 fi
 
-if [[ "$COVERAGE" == "true" ]]; then
-    pip install coverage codecov
+if [[ "$TEST_DOCSTRINGS" == "true" ]]; then
+    pip install sphinx numpydoc  # numpydoc requires sphinx
 fi
 
-if [ ! -d "$CACHED_BUILD_DIR" ]; then
-    mkdir -p "$CACHED_BUILD_DIR"
+if [[ "$SKIP_TESTS" == "true" && "$CHECK_PYTEST_SOFT_DEPENDENCY" != "true" ]]; then
+    echo "No need to build operalib"
+else
+    # Build scikit-learn in the install.sh script to collapse the verbose
+    # build output in the travis output when it succeeds.
+    python --version
+    python -c "import numpy; print('numpy %s' % numpy.__version__)"
+    python -c "import scipy; print('scipy %s' % scipy.__version__)"
+    python -c "\
+try:
+    import pandas
+    print('pandas %s' % pandas.__version__)
+except ImportError:
+    pass
+"
+    python setup.py develop
+    ccache --show-stats
+    # Useful for debugging how ccache is used
+    # cat $CCACHE_LOGFILE
 fi
 
-rsync -av --exclude '.git/' --exclude='testvenv/' \
-      "$TRAVIS_BUILD_DIR" "$CACHED_BUILD_DIR"
-
-cd "$CACHED_BUILD_DIR"/operalib
-
-python --version
-python -c "import numpy; print('numpy %s' % numpy.__version__)"
-python -c "import scipy; print('scipy %s' % scipy.__version__)"
-python setup.py develop
+if [[ "$RUN_FLAKE8" == "true" ]]; then
+    conda install flake8 -y
+fi

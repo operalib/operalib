@@ -106,6 +106,10 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     pip install pytest pytest-cov
 fi
 
+if [[ "$COVERAGE" == "true" ]]; then
+    pip install coverage codecov
+fi
+
 if [[ "$TEST_DOCSTRINGS" == "true" ]]; then
     pip install sphinx numpydoc  # numpydoc requires sphinx
 fi

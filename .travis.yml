@@ -17,7 +17,7 @@ env:
     - TEST_DIR=/tmp/operalib
     - OMP_NUM_THREADS=4
     - OPENBLAS_NUM_THREADS=4
-
+    - MODULE=operalib
 matrix:
   include:
     # This environment tests that scikit-learn can be built against

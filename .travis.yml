@@ -42,7 +42,7 @@ matrix:
     # This environment tests the newest supported Anaconda release (5.0.0)
     # It also runs tests requiring Pandas and PyAMG
     - env: DISTRIB="conda" PYTHON_VERSION="3.6" INSTALL_MKL="true"
-           NUMPY_VERSION="1.12" SCIPY_VERSION="1.0" PANDAS_VERSION="0.20"
+           NUMPY_VERSION="1.14" SCIPY_VERSION="1.0" PANDAS_VERSION="0.20"
            CYTHON_VERSION="0.26" PYAMG_VERSION="3.3" PILLOW_VERSION="4.3"
            COVERAGE=true
            CHECK_PYTEST_SOFT_DEPENDENCY="true" TEST_DOCSTRINGS="true"

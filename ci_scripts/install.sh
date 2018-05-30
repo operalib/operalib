@@ -73,7 +73,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     source testvenv/bin/activate
     pip install -U pip
     pip install -U nose pytest pytest-cov numpy cython scipy sklearn cvxopt \
-        flake8 python-tk
+        flake8
 
 elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     # Set up our own virtualenv environment to avoid travis' numpy.
@@ -83,14 +83,11 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     source ~/testvenv/bin/activate
     pip install --upgrade pip setuptools
 
-    # We use the default Python virtualenv provided by travis
-    echo "Installing numpy master wheel and sklearn master git"
-    pip install --pre --upgrade --no-index --timeout=60 \
-        --trusted-host travis-dev-wheels.scipy.org \
-        -f https://travis-dev-wheels.scipy.org/ numpy scipy
-    pip install nose pytest pytest-cov cython cvxopt flake8
-    pip install --pre --upgrade --no-index --timeout=360 \
-        git+https://github.com/scikit-learn/scikit-learn
+    echo "Installing numpy and scipy master wheels"
+    dev_url=https://7933911d6844c6c53a7d-47bd50c35cd79bd838daf386af554a83.ssl.cf2.rackcdn.com
+    pip install --pre --upgrade --timeout=60 -f $dev_url numpy scipy cvxopt \
+        cython pytest-cov sklearn nose flake8
+    pip install pytest pytest-cov
 fi
 
 if [[ "$COVERAGE" == "true" ]]; then

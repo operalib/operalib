@@ -56,7 +56,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
 
     TO_INSTALL="python=$PYTHON_VERSION pip pytest pytest-cov \
                 numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION \
-                cython=$CYTHON_VERSION cvxopt scikit-learn"
+                cython=$CYTHON_VERSION scikit-learn"
 
     if [[ "$INSTALL_MKL" == "true" ]]; then
         TO_INSTALL="$TO_INSTALL mkl"
@@ -78,6 +78,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
 
     conda create -n testenv --yes $TO_INSTALL
     source activate testenv
+    pip install cvxopt
 
 elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # At the time of writing numpy 1.9.1 is included in the travis

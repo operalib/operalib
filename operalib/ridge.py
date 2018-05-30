@@ -311,7 +311,6 @@ class OVKDecomposableRidge(BaseEstimator, RegressorMixin):
         return self._decision_function(X)
 
 
-
 class OVKRidge(BaseEstimator, RegressorMixin):
     """Operator-Valued kernel ridge regression.
 

@@ -24,6 +24,7 @@ addons:
 
       # only required by the DISTRIB="ubuntu" build:
       - python-scipy
+      - python-tk
 
 dist: trusty§
 env:

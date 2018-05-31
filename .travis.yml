@@ -48,18 +48,31 @@ matrix:
            COVERAGE=true
            CHECK_PYTEST_SOFT_DEPENDENCY="true" TEST_DOCSTRINGS="true"
       if: type != cron
+      addons:
+        apt:
+          packages:
+            - libblas-dev
+            - liblapack-dev
     # flake8 linting on diff wrt common ancestor with upstream/master
     - env: RUN_FLAKE8="true" SKIP_TESTS="true"
            DISTRIB="conda" PYTHON_VERSION="3.5" INSTALL_MKL="true"
            NUMPY_VERSION="1.13" SCIPY_VERSION="0.19"
            CYTHON_VERSION="0.26"
       if: type != cron
+      apt:
+        packages:
+          - libblas-dev
+          - liblapack-dev
     # This environment tests scikit-learn against numpy and scipy master
     # installed from their CI wheels in a virtualenv with the Python
     # interpreter provided by travis.
     -  python: 3.6
        env: DISTRIB="scipy-dev-wheels"
        if: type = cron
+       apt:
+         packages:
+           - libblas-dev
+           - liblapack-dev
 
 # Workaround for suitesparse and control
 before_install:

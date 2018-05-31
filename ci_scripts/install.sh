@@ -115,6 +115,7 @@ fi
 if [[ "$SKIP_TESTS" == "true" && "$CHECK_PYTEST_SOFT_DEPENDENCY" != "true" ]]; then
     echo "No need to build operalib"
 else
+    pip install -r requirements.txt
     python setup.py develop
     ccache --show-stats
     # Useful for debugging how ccache is used

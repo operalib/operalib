@@ -33,6 +33,7 @@ matrix:
             - python-tk
             - libatlas3-base
             - libatlas-dev
+            - gfortran
             - libblas-dev
             - liblapack-dev
     # Python 3.4 build
@@ -43,6 +44,7 @@ matrix:
       addons:
         apt:
           packages:
+            - gfortran
             - libblas-dev
             - liblapack-dev
     # This environment tests the newest supported Anaconda release (5.0.0)
@@ -56,6 +58,7 @@ matrix:
       addons:
         apt:
           packages:
+            - gfortran
             - libblas-dev
             - liblapack-dev
     # flake8 linting on diff wrt common ancestor with upstream/master
@@ -66,6 +69,7 @@ matrix:
       if: type != cron
       apt:
         packages:
+          - gfortran
           - libblas-dev
           - liblapack-dev
     # This environment tests scikit-learn against numpy and scipy master
@@ -76,6 +80,7 @@ matrix:
        if: type = cron
        apt:
          packages:
+           - gfortran
            - libblas-dev
            - liblapack-dev
 

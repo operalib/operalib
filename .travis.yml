@@ -29,11 +29,12 @@ matrix:
       addons:
         apt:
           packages:
-            # these only required by the DISTRIB="ubuntu" builds:
             - python-scipy
             - python-tk
             - libatlas3-base
             - libatlas-dev
+            - libblas-dev
+            - liblapack-dev
     # Python 3.4 build
     - env: DISTRIB="conda" PYTHON_VERSION="3.4" INSTALL_MKL="false"
            NUMPY_VERSION="1.10" SCIPY_VERSION="0.16" CYTHON_VERSION="0.25"

@@ -115,20 +115,6 @@ fi
 if [[ "$SKIP_TESTS" == "true" && "$CHECK_PYTEST_SOFT_DEPENDENCY" != "true" ]]; then
     echo "No need to build operalib"
 else
-    # Build scikit-learn in the install.sh script to collapse the verbose
-    # build output in the travis output when it succeeds.
-    python --version
-    python -c "import numpy; print('numpy %s' % numpy.__version__)"
-    python -c "import scipy; print('scipy %s' % scipy.__version__)"
-    python -c "import sklearn; print('scikit-learn %s' % sklearn.__version__)"
-    python -c "import cvxopt; print('scikit-learn %s' % cvxopt.__version__)"
-    python -c "\
-try:
-    import pandas
-    print('pandas %s' % pandas.__version__)
-except ImportError:
-    pass
-"
     python setup.py develop
     ccache --show-stats
     # Useful for debugging how ccache is used

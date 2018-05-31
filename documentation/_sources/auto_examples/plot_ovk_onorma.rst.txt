@@ -22,13 +22,13 @@ kernels.
  Out::
 
     Fitting Independent Gaussian.
-        training time: 29.352 s
+        training time: 30.243 s
         MSE: 0.112
     Fitting Independent DotProduct, mu=0.
-        training time: 17.142 s
+        training time: 16.137 s
         MSE: 0.110
     Fitting Joint DotProductKernel, mu=0.2.
-        training time: 16.692 s
+        training time: 10.255 s
         MSE: 0.100
 
 
@@ -112,7 +112,7 @@ kernels.
     plt.legend()
     plt.show()
 
-**Total running time of the script:** ( 1 minutes  3.296 seconds)
+**Total running time of the script:** ( 0 minutes  56.694 seconds)
 
 
 

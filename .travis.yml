@@ -65,7 +65,8 @@ matrix:
     - env: RUN_FLAKE8="true" SKIP_TESTS="true"
            DISTRIB="conda" PYTHON_VERSION="3.5" INSTALL_MKL="true"
            NUMPY_VERSION="1.13" SCIPY_VERSION="0.19"
-           CYTHON_VERSION="0.26"
+           CYTHON_VERSION="0.26" COVERAGE=true
+           CHECK_PYTEST_SOFT_DEPENDENCY="true" TEST_DOCSTRINGS="true"
       if: type != cron
       apt:
         packages:

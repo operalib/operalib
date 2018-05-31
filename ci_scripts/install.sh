@@ -54,10 +54,10 @@ if [[ "$DISTRIB" == "conda" ]]; then
     conda update --yes conda
     popd
 
-    TO_INSTALL="python=$PYTHON_VERSION pip \
+    TO_INSTALL="python=$PYTHON_VERSION \
                 numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION \
                 cython=$CYTHON_VERSION scikit-learn \
-                pytest"
+                pytest pip setuptools"
 
     if [[ "$INSTALL_MKL" == "true" ]]; then
         TO_INSTALL="$TO_INSTALL mkl"

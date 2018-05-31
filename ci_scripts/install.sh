@@ -54,9 +54,10 @@ if [[ "$DISTRIB" == "conda" ]]; then
     conda update --yes conda
     popd
 
-    TO_INSTALL="python=$PYTHON_VERSION pip pytest pytest-cov \
+    TO_INSTALL="python=$PYTHON_VERSION pip \
                 numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION \
-                cython=$CYTHON_VERSION scikit-learn"
+                cython=$CYTHON_VERSION scikit-learn \
+                pytest"
 
     if [[ "$INSTALL_MKL" == "true" ]]; then
         TO_INSTALL="$TO_INSTALL mkl"
@@ -78,7 +79,6 @@ if [[ "$DISTRIB" == "conda" ]]; then
 
     conda create -n testenv --yes $TO_INSTALL
     source activate testenv
-    pip install cvxopt
 
 elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # At the time of writing numpy 1.9.1 is included in the travis
@@ -89,8 +89,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # and scipy
     virtualenv --system-site-packages testvenv
     source testvenv/bin/activate
-    pip install -U pip
-    pip install -U nose pytest pytest-cov numpy sklearn cvxopt flake8
+    pip install -U pip setuptools nose pytest
 
 elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     # Set up our own virtualenv environment to avoid travis' numpy.
@@ -98,17 +97,15 @@ elif [[ "$DISTRIB" == "scipy-dev-wheels" ]]; then
     # matrix.
     virtualenv --python=python ~/testvenv
     source ~/testvenv/bin/activate
-    pip install --upgrade pip setuptools
+    pip install -U pip setuptools nose pytest
 
     echo "Installing numpy and scipy master wheels"
     dev_url=https://7933911d6844c6c53a7d-47bd50c35cd79bd838daf386af554a83.ssl.cf2.rackcdn.com
-    pip install --pre --upgrade --timeout=60 -f $dev_url numpy scipy cvxopt \
-        cython pytest-cov sklearn nose flake8
-    pip install pytest pytest-cov
+    pip install --pre --upgrade --timeout=60 -f $dev_url numpy scipy cython
 fi
 
 if [[ "$COVERAGE" == "true" ]]; then
-    pip install coverage codecov
+    pip install pytest-cov coverage codecov
 fi
 
 if [[ "$TEST_DOCSTRINGS" == "true" ]]; then

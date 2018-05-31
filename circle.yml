@@ -38,6 +38,7 @@ dependencies:
   # The pipefail is requested to propagate exit code
   override:
     - python setup.py clean
+    - pip install -r requirements.txt
     - python setup.py develop
     - set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt
 test:

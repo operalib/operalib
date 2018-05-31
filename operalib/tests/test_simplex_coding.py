@@ -38,5 +38,5 @@ def test_simplexcoding():
                       [1., 0., 0.]])
     got = scode.fit_transform(inp)
     assert_array_equal(scode.binarizer_.classes_, ['0', 'eggs', 'ham', 'spam'])
-    assert_array_almost_equal(expected, got, decimal=1e-2)
+    assert_array_almost_equal(expected, got, decimal=2)
     assert_array_equal(scode.inverse_transform(got), inp)

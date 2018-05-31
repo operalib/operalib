@@ -50,10 +50,9 @@ The package is available on PyPi, and the installation should be as simple as::
 
   pip install operalib
 
-This package uses distutils, which is the default way of installing
-python modules. To install in your home directory, use::
+To install from the sources in your home directory, use::
 
-  python setup.py install --user
+  pip install .
 
 To install for all users on Unix/Linux::
 

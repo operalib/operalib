@@ -68,22 +68,24 @@ matrix:
            CYTHON_VERSION="0.26" COVERAGE=true
            CHECK_PYTEST_SOFT_DEPENDENCY="true" TEST_DOCSTRINGS="true"
       if: type != cron
-      apt:
-        packages:
-          - gfortran
-          - libblas-dev
-          - liblapack-dev
+      addons:
+        apt:
+          packages:
+            - gfortran
+            - libblas-dev
+            - liblapack-dev
     # This environment tests scikit-learn against numpy and scipy master
     # installed from their CI wheels in a virtualenv with the Python
     # interpreter provided by travis.
     -  python: 3.6
        env: DISTRIB="scipy-dev-wheels"
        if: type = cron
-       apt:
-         packages:
-           - gfortran
-           - libblas-dev
-           - liblapack-dev
+       addons:
+         apt:
+           packages:
+             - gfortran
+             - libblas-dev
+             - liblapack-dev
 
 # Workaround for suitesparse and control
 before_install:

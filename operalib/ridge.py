@@ -78,7 +78,7 @@ class _SemisupLinop:
 
 
 class OVKDecomposableRidge(BaseEstimator, RegressorMixin):
-    """Operator-Valued kernel ridge regression.
+    r"""Operator-Valued kernel ridge regression.
 
     Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
     (linear least squares with l2-norm regularization) with the (OV)kernel
@@ -312,7 +312,7 @@ class OVKDecomposableRidge(BaseEstimator, RegressorMixin):
 
 
 class OVKRidge(BaseEstimator, RegressorMixin):
-    """Operator-Valued kernel ridge regression.
+    r"""Operator-Valued kernel ridge regression.
 
     Operator-Valued kernel ridge regression (OVKRR) combines ridge regression
     (linear least squares with l2-norm regularization) with the (OV)kernel

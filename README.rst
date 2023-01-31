@@ -57,7 +57,7 @@ To install from the sources in your home directory, use::
 To install for all users on Unix/Linux::
 
   python setup.py build
-  sudo python setup.py install
+  python setup.py install
 
 .. For more detailed installation instructions,
 .. see the web page http://scikit-learn.org/stable/install.html
